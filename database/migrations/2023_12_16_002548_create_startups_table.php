@@ -13,11 +13,15 @@ return new class extends Migration {
             $table->text('description'); // Project Description
             $table->text('additional_information')->nullable(); // Additional Information
             $table->date('start_date'); // Start Date
-            $table->date('end_date')->nullable(); // End Date
-            $table->integer('success_rate')->nullable(); // Success Rate
-            $table->decimal('base_price', 10)->nullable(); // Base Price column
+//            $table->date('end_date')->nullable(); // End Date
+//            $table->integer('success_rate')->nullable(); // Success Rate
+//            $table->decimal('base_price', 10)->nullable(); // Base Price column
             $table->boolean('has_mvp')->default(false); // MVP indicator
             $table->string('status')->nullable();
+
+            $table->foreignId('owner_id')->constrained('users')
+                ->onUpdate('CASCADE')
+                ->onDelete('CASCADE');
 
             $table->timestamps();
         });
