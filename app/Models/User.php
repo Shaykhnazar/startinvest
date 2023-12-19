@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Orchid\Filters\Types\Like;
 use Orchid\Filters\Types\Where;
 use Orchid\Filters\Types\WhereDateStartEnd;
@@ -67,4 +68,14 @@ class User extends Authenticatable
         'updated_at',
         'created_at',
     ];
+
+    /**
+     * Get all the socials for the User
+     *
+     * @return HasMany
+     */
+    public function socials(): HasMany
+    {
+        return $this->hasMany(Social::class);
+    }
 }

@@ -10,9 +10,11 @@
         "inertiajs/inertia-laravel": "^0.6.8",
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.2",
+        "laravel/socialite": "^5.11",
         "laravel/tinker": "^2.8",
         "orchid/crud": "^4.1",
         "orchid/platform": "^14.16",
+        "socialiteproviders/google": "^4.1",
         "tightenco/ziggy": "^1.0"
     },
     "require-dev": {

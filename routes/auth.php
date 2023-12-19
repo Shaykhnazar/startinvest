@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\Auth\SocialiteController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 
@@ -57,3 +58,8 @@ Route::middleware('auth')->group(function () {
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
                 ->name('logout');
 });
+
+Route::get('auth/{provider}/redirect', [SocialiteController::class, 'redirectToProvider'])
+    ->where('provider', 'google|github|facebook|twitter|linkedin|apple')->name('provider.login');
+Route::get('auth/{provider}/callback', [SocialiteController::class, 'handleProviderCallback'])
+    ->where('provider', 'google|github|facebook|twitter|linkedin|apple')->name('provider.callback');
