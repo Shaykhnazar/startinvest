@@ -60,6 +60,6 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('auth/{provider}/redirect', [SocialiteController::class, 'redirectToProvider'])
-    ->where('provider', 'google|github|facebook|twitter|linkedin|apple')->name('provider.login');
+    ->where('provider', 'google|github|facebook|twitter|linkedin|apple')->name('provider.redirect');
 Route::get('auth/{provider}/callback', [SocialiteController::class, 'handleProviderCallback'])
     ->where('provider', 'google|github|facebook|twitter|linkedin|apple')->name('provider.callback');

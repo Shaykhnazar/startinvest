@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Social;
 use App\Models\User;
 use Hash;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
 use Str;
@@ -17,47 +18,49 @@ class SocialiteController extends Controller
         return Socialite::driver($provider)->redirect();
     }
 
-    public function handleProviderCallback($provider)
+    public function handleProviderCallback(Request $request, $provider)
     {
-        try {
-            $socialUser = Socialite::driver($provider)->user();
+        $socialUser = Socialite::driver($provider)->user();
 
-            // check if already exists
-            $user = User::where('email', $socialUser->getEmail())->first();
-            $name = $socialUser->getNickname() ?? $socialUser->getName();
-            //if it doesn't exist
-            if (!$user) {
-                // create user
-                $user = User::create([
-                    'name' => $name,
-                    'email' => $socialUser->getEmail(),
-                    'password' => Hash::make(Str::random(7)),
-                ]);
-                // create socials for user
-                $user->socials()->create([
-                    'provider_id' => $socialUser->getId(),
-                    'provider' => $provider,
-                    'provider_token' => $socialUser->token,
-                    'provider_refresh_token' => $socialUser->refreshToken
-                ]);
-            }
-            // if user does exist
-            $socials = Social::where('provider', $provider)
-                ->where('user_id', $user->id)->first();
-            //check if user doesn't have socials
-            if (!$socials) {
-                // add socials to user
-                $user->socials()->create([
-                    'provider_id' => $socialUser->getId(),
-                    'provider' => $provider,
-                    'provider_token' => $socialUser->token,
-                    'provider_refresh_token' => $socialUser->refreshToken
-                ]);
-            }
-        } catch (\Throwable $th) {
-            return redirect(route('login'));
-        }
+        $user = $this->findOrCreateUser($socialUser, $provider);
+
         Auth::login($user);
-        return redirect()->route('dashboard'); // Redirect to the desired page after authentication
+
+        return redirect()->route('dashboard');
+    }
+
+    private function findOrCreateUser($socialUser, $provider)
+    {
+        $user = User::where('email', $socialUser->getEmail())->first();
+
+        $name = $socialUser->getNickname() ?? $socialUser->getName();
+
+        if (!$user) {
+            $user = User::create([
+                'name' => $name,
+                'email' => $socialUser->getEmail(),
+                'password' => Hash::make(Str::random(7)),
+            ]);
+        }
+
+        $this->attachSocialsToUser($user, $socialUser, $provider);
+
+        return $user;
+    }
+
+    private function attachSocialsToUser($user, $socialUser, $provider)
+    {
+        $socials = Social::where('provider', $provider)
+            ->where('user_id', $user->id)
+            ->first();
+
+        if (!$socials) {
+            $user->socials()->create([
+                'provider_id' => $socialUser->getId(),
+                'provider' => $provider,
+                'provider_token' => $socialUser->token,
+                'provider_refresh_token' => $socialUser->refreshToken,
+            ]);
+        }
     }
 }
