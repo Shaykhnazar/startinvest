@@ -1,6 +1,6 @@
 <template>
   <div class="flex items-center justify-center mt-5">
-    <PrimaryButton class="bg-black-opacity mr-10" :disabled="form.processing" @click="providerRedirect('github')" type="button">
+    <PrimaryButton class="bg-black opacity mr-10" :disabled="form.processing" @click="providerRedirect('github')" type="button">
       <svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="github-square"
            class="w-5 h-5 svg-inline--fa fa-github-square fa-w-10 fill-current mr-2" role="img"
            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
@@ -10,7 +10,7 @@
       GitHub
     </PrimaryButton>
 
-    <PrimaryButton class="bg-black-opacity" :disabled="form.processing" @click="providerRedirect('google')" type="button">
+    <PrimaryButton class="bg-red-600 opacity" :disabled="form.processing" @click="providerRedirect('google')" type="button">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 488 512" class="w-5 h-5 fill-current mr-2">
         <!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
         <path
