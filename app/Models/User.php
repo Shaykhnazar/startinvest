@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Orchid\Filters\Types\Like;
 use Orchid\Filters\Types\Where;
 use Orchid\Filters\Types\WhereDateStartEnd;
@@ -77,5 +78,10 @@ class User extends Authenticatable
     public function socials(): HasMany
     {
         return $this->hasMany(Social::class);
+    }
+
+    public function investor(): HasOne
+    {
+        return $this->hasOne(Investor::class, 'user_id');
     }
 }

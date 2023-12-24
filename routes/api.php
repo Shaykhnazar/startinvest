@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\IdeaController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +15,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+//Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//    return $request->user();
+//});
+Route::group(['prefix' => 'v1'], function () {
+    Route::group(['prefix' => 'ideas', 'middleware' => ['auth', 'web']], function () {
+//        Route::apiResource('/', IdeaController::class)->except('index', 'show');
+        Route::post('/add', [IdeaController::class, 'store'])->name('ideas.add');
+        Route::put('/edit/{idea}', [IdeaController::class, 'update'])->name('ideas.edit');
+        Route::delete('/delete/{idea}', [IdeaController::class, 'destroy'])->name('ideas.delete');
+        Route::put('/vote/{idea}', [IdeaController::class, 'vote'])->name('ideas.vote');
+    });
 });

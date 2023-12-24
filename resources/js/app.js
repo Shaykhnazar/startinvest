@@ -7,6 +7,7 @@ import { createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
+import IconSvg from '@/components/svg-icons/icon.vue'
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
@@ -18,7 +19,9 @@ createInertiaApp({
             for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
                 app.component(key, component)
             }
-        return app.use(plugin)
+      app.component('IconSvg', IconSvg)
+
+      return app.use(plugin)
             .use(ZiggyVue, Ziggy)
             .mount(el);
     },

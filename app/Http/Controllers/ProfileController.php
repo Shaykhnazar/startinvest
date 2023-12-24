@@ -13,6 +13,11 @@ use Inertia\Response;
 
 class ProfileController extends Controller
 {
+    public function dashboard()
+    {
+        return Inertia::render('Dashboard');
+    }
+
     /**
      * Display the user's profile form.
      */
