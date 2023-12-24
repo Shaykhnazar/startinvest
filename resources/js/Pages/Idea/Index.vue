@@ -83,7 +83,7 @@
           <!-- Icon Actions -->
           <el-row justify="center" align="middle">
             <el-col :span="2">
-              <el-badge :hidden="idea.upvotes == 0" :value="idea.upvotes" class="item">
+              <el-badge :hidden="idea.upvotes == 0" :value="idea.upvotes" class="item" type="success">
                 <el-icon size="20" class="icon-pointer mt-0.5 mr-2" @click="toggleVote(idea, 'up')">
                   <icon-svg name="like-solid" v-if="idea.has_user_upvoted ?? false" />
                   <icon-svg name="like-regular" v-else />
