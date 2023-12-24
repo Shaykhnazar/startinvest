@@ -84,13 +84,13 @@
           <el-row justify="center" align="middle">
             <el-col :span="2">
               <el-badge :hidden="idea.upvotes == 0" :value="idea.upvotes" class="item" type="success">
-                <el-icon size="20" class="icon-pointer mt-0.5 mr-2" @click="toggleVote(idea, 'up')">
+                <el-icon size="20" class="icon-pointer mt-0.5 mr-2" @click="voteUp(idea)">
                   <icon-svg name="like-solid" v-if="idea.has_user_upvoted ?? false" />
                   <icon-svg name="like-regular" v-else />
                 </el-icon>
               </el-badge>
               <el-badge :hidden="idea.downvotes == 0" :value="idea.downvotes" class="item">
-                <el-icon size="20" class="icon-pointer mt-0.5 ml-2 mr-2" @click="toggleVote(idea, 'down')">
+                <el-icon size="20" class="icon-pointer mt-0.5 ml-2 mr-2" @click="voteDown(idea)">
                   <icon-svg name="dislike-solid" v-if="idea.has_user_downvoted ?? false" />
                   <icon-svg name="dislike-regular" v-else />
                 </el-icon>
@@ -290,15 +290,24 @@ const resetForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return
   formEl.resetFields()
 }
-function toggleVote(idea, type) {
-  if (!isGuest.value) {
-    api.ideas.vote(idea.id, {
-      type: type,
-      user_id: authUser.value.id,
-    }).then((response) => {
-      updateIdeaData(response);
-    });
+
+function voteUp(idea) {
+  if (!isGuest.value && !idea.has_user_upvoted) {
+    voteSubmit(idea, 'up')
   }
+}
+function voteDown(idea) {
+  if (!isGuest.value && !idea.has_user_downvoted) {
+    voteSubmit(idea, 'down')
+  }
+}
+function voteSubmit(idea, type) {
+  api.ideas.vote(idea.id, {
+    type: type,
+    user_id: authUser.value.id,
+  }).then((response) => {
+    updateIdeaData(response);
+  });
 }
 
 const updateIdeaData = (response, remove = false) => {

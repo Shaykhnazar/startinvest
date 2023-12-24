@@ -13,7 +13,7 @@ return new class extends Migration {
             $table->foreignId('user_id')->constrained('users')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
-            $table->string('type', 10);
+            $table->string('type', 10)->index();
             $table->timestamps();
         });
     }
