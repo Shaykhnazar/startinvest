@@ -10,7 +10,9 @@ class IdeaController extends Controller
     public function index()
     {
         return inertia('Idea/Index', [
-            'ideas' => IdeaResource::collection(Idea::with('author')->get()),
+            'ideas' => IdeaResource::collection(Idea::with('author')
+                ->orderBy('created_at', 'desc')
+                ->paginate(10)),
         ]);
     }
 

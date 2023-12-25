@@ -8,6 +8,14 @@ defineProps({
     type: Number,
     default: 200
   },
+  showAfter: {
+    type: Number,
+    default: 200
+  },
+  hideAfter: {
+    type: Number,
+    default: 200
+  },
   trigger: {
     type: String,
     default: 'hover'
@@ -20,7 +28,8 @@ defineProps({
     :width="width"
     :placement="placement"
     :trigger="trigger"
-    :show-after="200"
+    :show-after="showAfter"
+    :hide-after="hideAfter"
     popper-style="box-shadow: rgb(14 18 22 / 35%) 0px 10px 38px -10px, rgb(14 18 22 / 20%) 0px 10px 20px -15px; border-radius: 10px"
   >
     <template #reference>

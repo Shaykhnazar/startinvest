@@ -9,14 +9,15 @@ const activeIndex = ref('home')
 const handleSelect = (key: string, keyPath: string[]) => {
   console.log(key, keyPath)
   activeIndex.value = key
+  router.visit(key)
 }
 
 const onClickMenuItem = (el, url) => {
-  router.visit(url, {
-    // onFinish: () => {
-    //   activeIndex.value = el.index
-    // }
-  })
+  // router.visit(url, {
+  //   // onFinish: () => {
+  //   //   activeIndex.value = el.index
+  //   // }
+  // })
 }
 
 // router.on('navigate', (event) => {
@@ -37,7 +38,7 @@ defineProps({
 const menuItems = [
   {
     name: 'Ideas',
-    url: route('ideas'),
+    url: route('ideas.index'),
     index: '/ideas'
   },
   {
@@ -78,7 +79,7 @@ const menuItems = [
         :ellipsis="false"
         @select="handleSelect"
       >
-        <el-menu-item index="home" @click="event => onClickMenuItem(event, route('home'))">
+        <el-menu-item index="home">
           <img
             style="width: 30px"
             src="/vendor/orchid/favicon.svg"
@@ -91,13 +92,12 @@ const menuItems = [
           :key="menuItem.index"
           :index="menuItem.index"
           :disabled="menuItem.disabled"
-          @click="event => onClickMenuItem(event, menuItem.url)"
         >
           {{ menuItem.name }}
         </el-menu-item>
 
         <div class="flex-grow"/>
-        <el-menu-item index="chat" @click="event => onClickMenuItem(event, route('chat'))" disabled>
+        <el-menu-item index="chat" disabled>
           <el-icon>
             <ChatRound/>
           </el-icon>

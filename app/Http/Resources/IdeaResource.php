@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Enums\VoteTypeEnum;
+use Carbon\CarbonInterface;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -23,8 +24,8 @@ class IdeaResource extends JsonResource
                 'has_user_downvoted' => $request->user() ? $this->hasUserVoted($request->user()->id, VoteTypeEnum::DOWN) : false,
             ]),
             'comments' => CommentResource::collection($this->comments),
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'created_at' => $this->created_at->diffForHumans(syntax: CarbonInterface::DIFF_ABSOLUTE, short: true),
+            'updated_at' => $this->updated_at->diffForHumans(syntax: CarbonInterface::DIFF_ABSOLUTE, short: true),
         ];
     }
 }
