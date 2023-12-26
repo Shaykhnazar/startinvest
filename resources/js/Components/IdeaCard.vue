@@ -9,7 +9,7 @@ defineProps({
   idea: Object,
   submitting: Boolean
 })
-defineEmits(['showEditModalHandler', 'deleteIdeaHandler', 'voteUpHandler', 'voteDownHandler'])
+defineEmits(['showEditModalHandler', 'deleteIdeaHandler', 'voteUpHandler', 'voteDownHandler', 'favoriteIdeaHandler', 'sendIdeaHandler'])
 
 const { isAuthorOfIdea, circleUrl } = useAuthUser()
 const {cancelEvent, ideaShow} = useIdea()
@@ -19,8 +19,8 @@ const {cancelEvent, ideaShow} = useIdea()
 
 <template>
   <!-- IDEA HEADER -->
-  <el-row justify="center" align="middle" :gutter="12">
-    <el-col :xs="8" :sm="8" :md="8" :lg="8" :xl="8">
+  <el-row justify="center" align="middle" :gutter="12" class="idea-header">
+    <el-col :xs="6" :sm="6" :md="6" :lg="6" :xl="6" class="idea-flex-start-col">
       <Popover>
         <template #reference>
           <el-avatar :size="20" :src="circleUrl" class="mr-2 icon-pointer"/>
@@ -38,7 +38,7 @@ const {cancelEvent, ideaShow} = useIdea()
         </Popover>
       </el-text>
     </el-col>
-    <el-col :xs="4" :sm="4" :md="4" :lg="4" :xl="4" :push="2">
+    <el-col :xs="6" :sm="6" :md="6" :lg="6" :xl="6" class="idea-flex-end-col">
       <el-text size="small">
         {{ idea.created_at }}
       </el-text>
@@ -72,13 +72,13 @@ const {cancelEvent, ideaShow} = useIdea()
   <el-row justify="center" align="middle" :gutter="12" class="pb-4">
     <el-col :xs="12" :sm="12" :md="12" :lg="12" :xl="12" class="idea-title">
       <el-text  @click="ideaShow(idea)">
-        {{ idea.title }}
+        {{ idea.title + '...' }}
       </el-text>
     </el-col>
   </el-row>
-  <!-- Icon Actions -->
+  <!-- Actions -->
   <el-row justify="center" align="middle" :gutter="12">
-    <el-col :xs="8" :sm="8" :md="8" :lg="8" :xl="8">
+    <el-col :xs="6" :sm="6" :md="6" :lg="6" :xl="6" class="idea-flex-start-col">
       <el-badge :hidden="idea.upvotes === 0" :value="idea.upvotes" class="item" type="success">
         <Tooltip :content="idea.has_user_upvoted ? 'Liked' : 'Like'" placement="top">
           <el-icon size="20" class="icon-pointer mt-0.5 mr-2" @click="$emit('voteUpHandler', idea)">
@@ -96,27 +96,29 @@ const {cancelEvent, ideaShow} = useIdea()
         </Tooltip>
       </el-badge>
     </el-col>
-    <el-col :xs="4" :sm="4" :md="4" :lg="4" :xl="4" :push="1">
+<!--TODO: Add comment implementation    -->
+    <el-col :xs="6" :sm="6" :md="6" :lg="6" :xl="6" class="idea-flex-end-col">
       <Tooltip content="Comment" placement="top">
         <el-icon size="20" class="icon-pointer mr-2">
           <Comment/>
         </el-icon>
       </Tooltip>
-      <Tooltip content="Send" placement="top">
-        <el-icon size="20" class="icon-pointer mr-2">
-          <Promotion/>
-        </el-icon>
-      </Tooltip>
-      <Tooltip content="Save" placement="top">
-        <el-icon size="20" class="icon-pointer">
-          <icon-svg name="save-regular"/>
+<!--      <Tooltip content="Send" placement="top">-->
+<!--        <el-icon size="20" class="icon-pointer mr-2" @click="$emit('sendIdeaHandler', idea)">-->
+<!--          <Promotion/>-->
+<!--        </el-icon>-->
+<!--      </Tooltip>-->
+      <Tooltip :content="idea.has_user_favorited ? 'Saved' : 'Save'" placement="top">
+        <el-icon size="20" class="icon-pointer" @click="$emit('favoriteIdeaHandler', idea)">
+          <icon-svg name="save-solid" v-if="idea.has_user_favorited ?? false" />
+          <icon-svg name="save-regular" v-else/>
         </el-icon>
       </Tooltip>
     </el-col>
   </el-row>
-  <el-row justify="center" align="middle" :gutter="12"  class="default-row">
-    <el-col :xs="12" :sm="12" :md="12" :lg="12" :xl="12">
-      <el-divider />
+  <el-row justify="center" align="top" :gutter="12"  class="default-row">
+    <el-col :xs="12" :sm="12" :md="12" :lg="12" :xl="12" >
+      <el-divider border-style="dashed"/>
     </el-col>
   </el-row>
 </template>
@@ -139,5 +141,27 @@ const {cancelEvent, ideaShow} = useIdea()
 }
 .default-row {
   max-height: 30px;
+  //flex-direction: column;
+  //display: flex;
+  //justify-content: center;
+  //align-items: flex-start;
+}
+
+.idea-flex-start-col {
+  flex-direction: row;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.idea-flex-end-col {
+  flex-direction: row;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.idea-header {
+  margin-bottom: 10px;
 }
 </style>

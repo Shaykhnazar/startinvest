@@ -31,6 +31,11 @@ class Idea extends Model
         return $this->morphMany(Vote::class, 'voteable');
     }
 
+    public function favorites(): MorphMany
+    {
+        return $this->morphMany(Favorite::class, 'favoriteable');
+    }
+
     protected function getUpvotesAttribute(): int
     {
         return $this->votes()->where('type', 'up')->count();
@@ -69,5 +74,27 @@ class Idea extends Model
             'user_id' => $userId,
             'type' => $type->name,
         ]);
+    }
+
+    public function toggleFavorite($userId): void
+    {
+        if ($this->hasUserFavorited($userId)) {
+            // Remove the favorite record
+            $this->favorites()
+                ->where('user_id', $userId)
+                ->delete();
+        } else {
+            // Add a new favorite record
+            $this->favorites()->create([
+                'user_id' => $userId,
+            ]);
+        }
+    }
+
+    public function hasUserFavorited($userId): bool
+    {
+        return $this->favorites()
+            ->where('user_id', $userId)
+            ->exists();
     }
 }

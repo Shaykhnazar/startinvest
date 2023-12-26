@@ -86,7 +86,7 @@ const menuItems = [
             alt="Element logo"
           />
         </el-menu-item>
-
+<!--TODO: Fix menu indexes-->
         <el-menu-item
           v-for="menuItem in menuItems"
           :key="menuItem.index"
@@ -104,7 +104,7 @@ const menuItems = [
           Chat
         </el-menu-item>
         <template v-if="$page.props.canLogin">
-          <el-menu-item index="7">
+          <el-menu-item :index="$page.props.auth.user ? '/dashboard' : '/login'">
             <Link
               v-if="$page.props.auth.user"
               :href="route('dashboard')"
@@ -112,9 +112,8 @@ const menuItems = [
             </Link>
             <template v-else>
               <Link
-                v-if="$page.props.canRegister"
-                :href="route('register')"
-              >Sign Up
+                :href="route('login')"
+              >Login
               </Link
               >
             </template>

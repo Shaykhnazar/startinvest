@@ -20,8 +20,11 @@
             @delete-idea-handler="deleteIdea"
             @vote-up-handler="voteUp"
             @vote-down-handler="voteDown"
+            @favorite-idea-handler="favoriteIdeaHandler"
+            @send-idea-handler="sendIdeaHandler"
           ></IdeaCard>
         </template>
+<!--TODO: Implement pagination with infinite scroll        -->
       </el-main>
     </el-container>
 
@@ -129,24 +132,57 @@ const ideaSubmit = async (formEl, ideaData) => {
   });
 };
 const deleteIdea = (id) => {
+  submitting.value = true
   api.ideas.delete(id).then((response) => {
     updateIdeaList(response.data.idea, true)
     info('Idea deleted successfully')
+  }).finally(() => {
+    submitting.value = false
   })
 }
 
 function voteUp(idea) {
-  if (!isGuest.value && !idea.has_user_upvoted) {
+  if (votePreCheck() && !idea.has_user_upvoted && !submitting.value) {
     voteSubmit(idea, 'up')
   }
 }
 function voteDown(idea) {
-  if (!isGuest.value && !idea.has_user_downvoted) {
+  if (votePreCheck() && !idea.has_user_downvoted && !submitting.value) {
     voteSubmit(idea, 'down')
   }
 }
 
+function favoriteIdeaHandler(idea) {
+  if (isGuest.value) {
+    info('Please login to save ideas')
+  }
+  else if (!submitting.value) {
+    submitting.value = true
+    api.ideas.favorite(idea.id).then((response) => {
+      updateIdeaList(response.data.idea)
+      if (!idea.has_user_favorited) {
+        success('Idea saved successfully')
+      }
+    }).finally(() => {
+      submitting.value = false
+    })
+  }
+}
+
+function sendIdeaHandler(idea) {
+  // TODO: send idea need to be implemented
+}
+
+function votePreCheck() {
+  if (isGuest.value) {
+    info('Please login to vote')
+    return false
+  }
+  return true
+}
+
 function voteSubmit(idea, type) {
+  submitting.value = true
   api.ideas.vote(idea.id, {
     type: type,
     user_id: authUser.value.id,
@@ -154,6 +190,8 @@ function voteSubmit(idea, type) {
     updateIdeaList(response.data.idea)
 
     info('Voted successfully')
+  }).finally(() => {
+    submitting.value = false
   });
 }
 

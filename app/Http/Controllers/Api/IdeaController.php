@@ -57,6 +57,13 @@ class IdeaController extends Controller
         return response()->json(['idea' => new IdeaResource($idea)]);
     }
 
+    public function favorite(Request $request, Idea $idea)
+    {
+        $idea->toggleFavorite($request->user()->id);
+
+        return response()->json(['idea' => new IdeaResource($idea)]);
+    }
+
 
 //    public function addCommentToIdea(Request $request, Idea $idea)
 //    {
