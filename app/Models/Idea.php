@@ -23,7 +23,8 @@ class Idea extends Model
 
     public function comments(): MorphMany
     {
-        return $this->morphMany(Comment::class, 'commentable');
+        return $this->morphMany(Comment::class, 'commentable')
+            ->orderBy('created_at', 'desc');
     }
 
     public function votes(): MorphMany
@@ -34,6 +35,11 @@ class Idea extends Model
     public function favorites(): MorphMany
     {
         return $this->morphMany(Favorite::class, 'favoriteable');
+    }
+
+    public function parent(): BelongsTo
+    {
+        return $this->belongsTo(Idea::class, 'parent_id');
     }
 
     protected function getUpvotesAttribute(): int
@@ -96,5 +102,14 @@ class Idea extends Model
         return $this->favorites()
             ->where('user_id', $userId)
             ->exists();
+    }
+
+    public function addComment($inputs): void
+    {
+        $this->comments()->create([
+            'user_id' => $inputs['user_id'],
+            'body' => $inputs['body'],
+            'parent_id' => $inputs['parent_id'] ?? null,
+        ]);
     }
 }

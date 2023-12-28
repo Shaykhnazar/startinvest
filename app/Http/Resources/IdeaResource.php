@@ -2,8 +2,8 @@
 
 namespace App\Http\Resources;
 
+use App\Actions\DateFormatForHumans;
 use App\Enums\VoteTypeEnum;
-use Carbon\CarbonInterface;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -12,6 +12,7 @@ class IdeaResource extends JsonResource
 {
     public function toArray(Request $request): array
     {
+//        TODO: Remove has_user_upvoted, has_user_downvoted and has_user_favorited from here and refactor it
         return [
             'id' => $this->id,
             'title' => $this->title,
@@ -25,8 +26,9 @@ class IdeaResource extends JsonResource
                 'has_user_favorited' => $request->user() && $this->hasUserFavorited($request->user()->id),
             ]),
             'comments' => CommentResource::collection($this->comments),
-            'created_at' => $this->created_at->diffForHumans(syntax: CarbonInterface::DIFF_ABSOLUTE, short: true),
-            'updated_at' => $this->updated_at->diffForHumans(syntax: CarbonInterface::DIFF_ABSOLUTE, short: true),
+            'comments_count' => $this->comments_count,
+            'created_at' => DateFormatForHumans::run($this->created_at),
+            'updated_at' => DateFormatForHumans::run($this->updated_at),
         ];
     }
 }

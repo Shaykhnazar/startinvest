@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Enums\VoteTypeEnum;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CommentRequest;
 use App\Http\Requests\IdeaStoreRequest;
 use App\Http\Requests\IdeaUpdateRequest;
 use App\Http\Resources\IdeaResource;
@@ -57,22 +58,17 @@ class IdeaController extends Controller
         return response()->json(['idea' => new IdeaResource($idea)]);
     }
 
+    public function comment(CommentRequest $request, Idea $idea)
+    {
+        $idea->addComment($request->validated());
+
+        return response()->json(['idea' => new IdeaResource($idea->loadCount('comments'))]);
+    }
+
     public function favorite(Request $request, Idea $idea)
     {
         $idea->toggleFavorite($request->user()->id);
 
         return response()->json(['idea' => new IdeaResource($idea)]);
     }
-
-
-//    public function addCommentToIdea(Request $request, Idea $idea)
-//    {
-//        $comment = new Comment([
-//            'body' => $request->input('body'),
-//        ]);
-//
-//        $idea->comments()->save($comment);
-//
-//        return redirect()->back();
-//    }
 }

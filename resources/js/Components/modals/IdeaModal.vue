@@ -1,5 +1,5 @@
 <template>
-  <el-dialog v-model="visible" :title="title" @close="handleClose">
+  <el-dialog v-model="visible" :title="title" @close="handleClose" style="border-radius: 5px;">
     <el-form
         ref="formRefComputed"
         :model="ideaForm"

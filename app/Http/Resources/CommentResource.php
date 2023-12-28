@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Actions\DateFormatForHumans;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -13,10 +14,12 @@ class CommentResource extends JsonResource
         return [
             'id' => $this->id,
             'body' => $this->body,
-            'commentable_id' => $this->commentable_id,
-            'commentable_type' => $this->commentable_type,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'author' => new UserResource($this->author),
+            $this->mergeWhen($this->replies, [
+                'replies' => CommentResource::collection($this->replies),
+            ]),
+            'created_at' => DateFormatForHumans::run($this->created_at),
+            'updated_at' => DateFormatForHumans::run($this->updated_at),
         ];
     }
 }

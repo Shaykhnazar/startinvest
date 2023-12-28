@@ -46,23 +46,23 @@ const menuItems = [
     url: route('startups'),
     index: '/startups'
   },
-  {
-    name: 'Investors',
-    url: route('investors'),
-    index: '/investors',
-    disabled: true
-  },
+  // {
+  //   name: 'Investors',
+  //   url: route('investors'),
+  //   index: '/investors',
+  //   disabled: true
+  // },
   // {
   //   name: 'Blog',
   //   url: route('blog'),
   //   index: 'blog',
   //   disabled: true
   // },
-  {
-    name: 'About Us',
-    url: route('about-us'),
-    index: '/about-us'
-  }
+  // {
+  //   name: 'About Us',
+  //   url: route('about-us'),
+  //   index: '/about-us'
+  // }
 ]
 
 </script>
@@ -97,12 +97,12 @@ const menuItems = [
         </el-menu-item>
 
         <div class="flex-grow"/>
-        <el-menu-item index="chat" disabled>
-          <el-icon>
-            <ChatRound/>
-          </el-icon>
-          Chat
-        </el-menu-item>
+<!--        <el-menu-item index="chat" disabled>-->
+<!--          <el-icon>-->
+<!--            <ChatRound/>-->
+<!--          </el-icon>-->
+<!--          Chat-->
+<!--        </el-menu-item>-->
         <template v-if="$page.props.canLogin">
           <el-menu-item :index="$page.props.auth.user ? '/dashboard' : '/login'">
             <Link

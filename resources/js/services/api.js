@@ -7,6 +7,7 @@ export default {
         edit: (id, data) => api().put(`ideas/edit/${id}`, data),
         delete: (id) => api().delete(`ideas/delete/${id}`),
         vote: (id, data) => api().put(`ideas/vote/${id}`, data),
+        comment: (id, data) => api().post(`ideas/comment/${id}`, data),
         favorite: (id, data) => api().put(`ideas/favorite/${id}`, data),
     }
 }

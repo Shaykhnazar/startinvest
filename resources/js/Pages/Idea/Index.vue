@@ -3,6 +3,7 @@
     <template #header>
       <Head title="Ideas"/>
     </template>
+    <el-backtop :right="50" :bottom="50" />
 
     <el-container>
       <el-main>
@@ -12,19 +13,21 @@
         />
 
         <!-- IDEA LIST -->
-        <template v-for="idea in ideasDynamic.data" :key="idea.id">
+        <template v-for="idea in items" :key="idea.id">
           <IdeaCard
             :idea="idea"
             :submitting="submitting"
             @show-edit-modal-handler="showIdeaEditModal"
+            @show-comment-modal-handler="showIdeaCommentModal"
             @delete-idea-handler="deleteIdea"
             @vote-up-handler="voteUp"
             @vote-down-handler="voteDown"
             @favorite-idea-handler="favoriteIdeaHandler"
             @send-idea-handler="sendIdeaHandler"
-          ></IdeaCard>
+          />
         </template>
-<!--TODO: Implement pagination with infinite scroll        -->
+
+        <div ref="landmark"></div>
       </el-main>
     </el-container>
 
@@ -48,11 +51,19 @@
       @submit="ideaSubmit"
       @reset="resetForm"
     />
+    <IdeaCommentModal
+      v-if="ideaCommentModalVisible"
+      :idea-comment-form="ideaCommentForm"
+      :submitting="submitting"
+      submit-button-text="Post"
+      @close="showIdeaCommentModal(false)"
+      @submit="commentIdeaHandler"
+    />
   </App>
 </template>
 
 <script setup>
-import {reactive, ref} from 'vue';
+import { ref } from 'vue';
 
 import App from '@/Layouts/App.vue'
 import { Head } from '@inertiajs/vue3';
@@ -63,33 +74,36 @@ import { useIdea } from '@/Composables/useIdea.ts'
 import { useAuthUser } from '@/Composables/useAuthUser.ts'
 import { useElMessage } from '@/Composables/helpers.js'
 import api from '@/services/api'
+import IdeaCommentModal from '@/Components/modals/IdeaCommentModal.vue'
+import { useInfiniteScroll } from '@/Composables/useInfiniteScroll.js'
 
 const props = defineProps({
   ideas: {
     type: Object,
   }
 })
-const ideasDynamic = reactive(props.ideas)
+const landmark = ref(null)
 
-const { ideaForm, resetForm,  showIdeaModal, showIdeaEditModal, ideaModalVisible, ideaEditModalVisible } = useIdea()
+const { ideaForm, ideaCommentForm, resetForm,  showIdeaModal, showIdeaEditModal, showIdeaCommentModal, ideaModalVisible, ideaEditModalVisible, ideaCommentModalVisible } = useIdea()
 const {info, success} = useElMessage();
-const {authUser, isGuest} = useAuthUser();
+const { authUser, isGuest } = useAuthUser();
+const { items } = useInfiniteScroll('ideas', landmark)
 
 const submitting = ref(false)
 
 const updateIdeaList = (updatedIdea, remove = false) => {
-  // Assuming the backend returns updated idea data with upvotes, downvotes, and userVote
-  const index = ideasDynamic.data.findIndex((item) => item.id === updatedIdea.id);
+  // Assuming the backend returns updated idea data with upvotes, downvotes
+  const index = items.value.findIndex((item) => item.id === updatedIdea.id);
 
   if (index !== -1 && !remove) {
     // Update the idea in the local state
-    ideasDynamic.data[index] = updatedIdea;
+    items.value[index] = updatedIdea;
   } else if (!remove) {
     // Add the idea to the local state
-    ideasDynamic.data.unshift(updatedIdea);
+    items.value.unshift(updatedIdea);
   } else {
     // Remove the idea from the local state
-    ideasDynamic.data.splice(index, 1);
+    items.value.splice(index, 1);
   }
 }
 
@@ -166,6 +180,32 @@ function favoriteIdeaHandler(idea) {
     }).finally(() => {
       submitting.value = false
     })
+  }
+}
+
+async function commentIdeaHandler(formEl, ideaCommentFormData) {
+  if (isGuest.value) {
+    info('Please login to comment')
+  }
+  else if (!submitting.value) {
+    if (!formEl) return;
+    await formEl.validate((valid, fields) => {
+      if (valid) {
+        submitting.value = true
+        api.ideas.comment(ideaCommentFormData.idea.id, {
+          body: ideaCommentFormData.body,
+          user_id: authUser.value.id,
+          parent_id: ideaCommentFormData.parent_id ?? null,
+        }).then((response) => {
+          updateIdeaList(response.data.idea)
+          // showIdeaCommentModal(false)
+        }).finally(() => {
+          submitting.value = false
+        })
+      } else {
+        console.log('error submit!', fields);
+      }
+    });
   }
 }
 

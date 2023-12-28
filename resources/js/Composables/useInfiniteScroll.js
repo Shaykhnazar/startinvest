@@ -1,0 +1,39 @@
+import { router, usePage } from '@inertiajs/vue3'
+import { ref, computed} from 'vue';
+import { useIntersect } from '@/Composables/useIntersect.js'
+
+
+export function useInfiniteScroll(propName, landmark = null) {
+
+  const value = () => usePage().props[propName];
+  const items = ref(value().data)
+  const initialUrl = usePage().url;
+  const canLoadMoreItems = computed(() => value().links.next !== null);
+
+  const loadMoreItems = () => {
+    if (!canLoadMoreItems.value) {
+      return;
+    }
+
+    router.get(value().links.next, {}, {
+      preserveScroll: true,
+      preserveState: true,
+      onSuccess: () => {
+        window.history.replaceState({}, '', initialUrl);
+        items.value = [...items.value, ...value().data];
+      }
+    })
+  }
+
+  if (landmark !== null) {
+    useIntersect(landmark, loadMoreItems, {
+      rootMargin: '0px 0px 150px 0px'
+    })
+  }
+
+  return {
+    items,
+    loadMoreItems,
+    canLoadMoreItems
+  }
+}

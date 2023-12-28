@@ -22,6 +22,7 @@ Route::group(['prefix' => 'v1'], function () {
         Route::put('/edit/{idea}', [IdeaController::class, 'update'])->name('ideas.edit');
         Route::delete('/delete/{idea}', [IdeaController::class, 'destroy'])->name('ideas.delete');
         Route::put('/vote/{idea}', [IdeaController::class, 'vote'])->name('ideas.vote');
+        Route::post('/comment/{idea}', [IdeaController::class, 'comment'])->name('ideas.comment');
         Route::put('/favorite/{idea}', [IdeaController::class, 'favorite'])->name('ideas.favorite');
     });
 });

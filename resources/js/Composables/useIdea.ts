@@ -4,17 +4,22 @@ import {router} from "@inertiajs/vue3";
 
 export function useIdea() {
   // DATA
-  interface RuleForm {
+  interface RuleIdeaForm {
     id: number|null
     title: string
     description: string
   }
-  const ideaForm = reactive<RuleForm>({
+  const ideaForm = reactive<RuleIdeaForm>({
     id: null,
     title: '',
     description: '',
   });
-  const rules = reactive<FormRules<RuleForm>>({
+  const ideaCommentForm = reactive({
+    body: '',
+    parent_id: null,
+    idea: null
+  });
+  const rules = reactive<FormRules<RuleIdeaForm>>({
     title: [
       {required: true, message: 'Please input title', trigger: 'blur'},
       {min: 3, max: 255, message: 'Length should be 3 to 255', trigger: 'blur'},
@@ -26,6 +31,7 @@ export function useIdea() {
 
   const ideaModalVisible = ref(false);
   const ideaEditModalVisible = ref(false);
+  const ideaCommentModalVisible = ref(false);
 
   // METHODS
   const showIdeaModal = (value = true) => {
@@ -45,9 +51,14 @@ export function useIdea() {
     // Show the modal
     ideaEditModalVisible.value = value;
   }
-
-  const ideaShowAction = (idea: { id: any; }) => {
-    router.get(route('ideas.show', idea.id))
+  const showIdeaCommentModal = (value = true, idea = null, parentCommentId = null) => {
+    // Populate the edit form with the details of the selected idea
+    // console.log(idea)
+    ideaCommentForm.idea = idea ?? null
+    ideaCommentForm.parent_id = parentCommentId ?? null
+    ideaCommentForm.body = ''
+    // Show the modal
+    ideaCommentModalVisible.value = value
   }
 
   const cancelEvent = () => {
@@ -60,12 +71,14 @@ export function useIdea() {
 
   return {
     ideaForm,
+    ideaCommentForm,
     rules,
     ideaModalVisible,
     ideaEditModalVisible,
-    ideaShow: ideaShowAction,
+    ideaCommentModalVisible,
     showIdeaModal,
     showIdeaEditModal,
+    showIdeaCommentModal,
     cancelEvent,
     resetForm
   }
