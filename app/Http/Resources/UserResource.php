@@ -14,7 +14,10 @@ class UserResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
-            'avatar' => $this->avatar ?? ''
+            'avatar' => $this->avatar ?? '',
+            'votes' => VoteResource::collection($this->whenLoaded('votes')),
+            'favorites' => FavoriteResource::collection($this->whenLoaded('favorites')),
+            'comments' => CommentResource::collection($this->whenLoaded('comments')),
         ];
     }
 }

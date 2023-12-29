@@ -84,4 +84,19 @@ class User extends Authenticatable
     {
         return $this->hasOne(Investor::class, 'user_id');
     }
+
+    public function votes(): HasMany
+    {
+        return $this->hasMany(Vote::class, 'user_id');
+    }
+
+    public function favorites(): HasMany
+    {
+        return $this->hasMany(Favorite::class, 'user_id');
+    }
+
+    public function comments(): HasMany
+    {
+        return $this->hasMany(Comment::class, 'user_id');
+    }
 }

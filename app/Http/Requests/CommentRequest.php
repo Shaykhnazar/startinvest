@@ -10,7 +10,6 @@ class CommentRequest extends FormRequest
     {
         return [
             'body' => ['required', 'string', 'max:1024'],
-            'user_id' => ['required', 'integer'],
             'parent_id' => ['nullable', 'integer', 'exists:comments,id'],
         ];
     }

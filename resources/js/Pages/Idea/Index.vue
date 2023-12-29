@@ -63,19 +63,20 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 
 import App from '@/Layouts/App.vue'
-import { Head } from '@inertiajs/vue3';
+import { Head, usePage } from '@inertiajs/vue3';
 import IdeaModal from "@/Components/modals/IdeaModal.vue";
 import IdeaCard from '@/Components/IdeaCard.vue'
 import PostNewIdeaSection from '@/Components/PostNewIdeaSection.vue'
 import { useIdea } from '@/Composables/useIdea.ts'
-import { useAuthUser } from '@/Composables/useAuthUser.ts'
+import { useUserStore } from '@/stores/UserStore.js'
 import { useElMessage } from '@/Composables/helpers.js'
 import api from '@/services/api'
 import IdeaCommentModal from '@/Components/modals/IdeaCommentModal.vue'
 import { useInfiniteScroll } from '@/Composables/useInfiniteScroll.js'
+import { VOTE_TYPES } from '@/services/const.js'
 
 const props = defineProps({
   ideas: {
@@ -86,8 +87,8 @@ const landmark = ref(null)
 
 const { ideaForm, ideaCommentForm, resetForm,  showIdeaModal, showIdeaEditModal, showIdeaCommentModal, ideaModalVisible, ideaEditModalVisible, ideaCommentModalVisible } = useIdea()
 const {info, success} = useElMessage();
-const { authUser, isGuest } = useAuthUser();
 const { items } = useInfiniteScroll('ideas', landmark)
+const userStore = useUserStore()
 
 const submitting = ref(false)
 
@@ -112,39 +113,45 @@ const ideaSubmit = async (formEl, ideaData) => {
   await formEl.validate((valid, fields) => {
     if (valid) {
       submitting.value = true
-      console.log('submit!');
+      // console.log('submit!');
 
       if (ideaData.id !== null) {
-        // Send the edited idea data to the backend
-        api.ideas.edit(ideaData.id, {
-          title: ideaData.title,
-          description: ideaData.description,
-        }).then((response) => {
-          updateIdeaList(response.data.idea)
-          showIdeaEditModal(false)
-          success('Idea edited successfully')
-        }).finally(() => {
-          submitting.value = false
-        });
+        ideaEdit(ideaData)
       } else {
-        api.ideas.add({
-          title: ideaData.title,
-          description: ideaData.description,
-          author_id: authUser.value.id,
-        }).then((response) => {
-          updateIdeaList(response.data.idea)
-          showIdeaModal(false)
-          success('Idea added successfully')
-        }).finally(() => {
-          submitting.value = false
-        })
+        ideaAdd(ideaData)
       }
-
     } else {
-      console.log('error submit!', fields);
+      // console.log('error submit!', fields);
     }
   });
 };
+
+const ideaEdit = (ideaData) => {
+  api.ideas.edit(ideaData.id, {
+    title: ideaData.title,
+    description: ideaData.description,
+  }).then((response) => {
+    updateIdeaList(response.data.idea)
+    showIdeaEditModal(false)
+    success('Idea edited successfully')
+  }).finally(() => {
+    submitting.value = false
+  });
+}
+
+const ideaAdd = (ideaData) => {
+  api.ideas.add({
+    title: ideaData.title,
+    description: ideaData.description,
+  }).then((response) => {
+    updateIdeaList(response.data.idea)
+    showIdeaModal(false)
+    success('Idea added successfully')
+  }).finally(() => {
+    submitting.value = false
+  })
+}
+
 const deleteIdea = (id) => {
   submitting.value = true
   api.ideas.delete(id).then((response) => {
@@ -156,26 +163,29 @@ const deleteIdea = (id) => {
 }
 
 function voteUp(idea) {
-  if (votePreCheck() && !idea.has_user_upvoted && !submitting.value) {
-    voteSubmit(idea, 'up')
+  if (votePreCheck() && !userStore.hasUpvotedIdea(idea) && !submitting.value) {
+    voteSubmit(idea, VOTE_TYPES.UP)
   }
 }
 function voteDown(idea) {
-  if (votePreCheck() && !idea.has_user_downvoted && !submitting.value) {
-    voteSubmit(idea, 'down')
+  if (votePreCheck() && !userStore.hasDownvotedIdea(idea) && !submitting.value) {
+    voteSubmit(idea, VOTE_TYPES.DOWN)
   }
 }
 
-function favoriteIdeaHandler(idea) {
-  if (isGuest.value) {
+async function favoriteIdeaHandler(idea) {
+  if (userStore.isGuest) {
     info('Please login to save ideas')
   }
   else if (!submitting.value) {
     submitting.value = true
-    api.ideas.favorite(idea.id).then((response) => {
+    await api.ideas.favorite(idea.id).then((response) => {
       updateIdeaList(response.data.idea)
-      if (!idea.has_user_favorited) {
+      userStore.updateUserFavorites(response.data.user_favorites)
+      if (userStore.hasFavoritedIdea(idea)) {
         success('Idea saved successfully')
+      } else {
+        info('Idea removed from your favorites')
       }
     }).finally(() => {
       submitting.value = false
@@ -184,7 +194,7 @@ function favoriteIdeaHandler(idea) {
 }
 
 async function commentIdeaHandler(formEl, ideaCommentFormData) {
-  if (isGuest.value) {
+  if (userStore.isGuest) {
     info('Please login to comment')
   }
   else if (!submitting.value) {
@@ -194,11 +204,10 @@ async function commentIdeaHandler(formEl, ideaCommentFormData) {
         submitting.value = true
         api.ideas.comment(ideaCommentFormData.idea.id, {
           body: ideaCommentFormData.body,
-          user_id: authUser.value.id,
           parent_id: ideaCommentFormData.parent_id ?? null,
         }).then((response) => {
           updateIdeaList(response.data.idea)
-          // showIdeaCommentModal(false)
+          userStore.updateUserComments(response.data.user_comments)
         }).finally(() => {
           submitting.value = false
         })
@@ -214,21 +223,20 @@ function sendIdeaHandler(idea) {
 }
 
 function votePreCheck() {
-  if (isGuest.value) {
+  if (userStore.isGuest) {
     info('Please login to vote')
     return false
   }
   return true
 }
 
-function voteSubmit(idea, type) {
+async function voteSubmit(idea, type) {
   submitting.value = true
-  api.ideas.vote(idea.id, {
+  await api.ideas.vote(idea.id, {
     type: type,
-    user_id: authUser.value.id,
   }).then((response) => {
     updateIdeaList(response.data.idea)
-
+    userStore.updateUserVotes(response.data.user_votes)
     info('Voted successfully')
   }).finally(() => {
     submitting.value = false

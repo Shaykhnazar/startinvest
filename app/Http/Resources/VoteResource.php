@@ -12,10 +12,9 @@ class VoteResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'type' => $this->type,
+            'type' => $this->type->name,
             'user_id' => $this->user_id,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'voteable_id' => $this->voteable_id,
         ];
     }
 }

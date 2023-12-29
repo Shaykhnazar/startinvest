@@ -15,9 +15,6 @@ class CommentResource extends JsonResource
             'id' => $this->id,
             'body' => $this->body,
             'author' => new UserResource($this->author),
-            $this->mergeWhen($this->replies, [
-                'replies' => CommentResource::collection($this->replies),
-            ]),
             'created_at' => DateFormatForHumans::run($this->created_at),
             'updated_at' => DateFormatForHumans::run($this->updated_at),
         ];

@@ -4,8 +4,9 @@ import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
-import { Head, Link, useForm } from '@inertiajs/vue3';
+import { Head, Link, useForm, usePage } from '@inertiajs/vue3';
 import AuthProviderButtons from '@/Components/AuthProviderButtons.vue'
+import {useUserStore} from '@/stores/UserStore.js'
 
 const form = useForm({
   name: '',
@@ -14,9 +15,14 @@ const form = useForm({
   password_confirmation: '',
 });
 
+const userStore = useUserStore();
+
 const submit = () => {
   form.post(route('register'), {
-    onFinish: () => form.reset('password', 'password_confirmation'),
+    onFinish: () => {
+      form.reset('password', 'password_confirmation')
+      userStore.setAuthUser(usePage().props.auth.user.data)
+    },
   });
 };
 

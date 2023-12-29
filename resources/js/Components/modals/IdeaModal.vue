@@ -7,7 +7,7 @@
         status-icon
     >
       <el-form-item label="Title" prop="title" required>
-        <el-input v-model="ideaForm.title" autocomplete="off" placeholder="Idea short title"/>
+        <el-input v-model="ideaForm.title" autocomplete="off" placeholder="Idea short title" clearable />
       </el-form-item>
       <el-form-item label="Description (optional)" prop="description">
         <el-input
@@ -15,6 +15,7 @@
             :rows="2"
             type="textarea"
             placeholder="Describe your idea"
+            clearable
         />
       </el-form-item>
     </el-form>

@@ -2,35 +2,41 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Enums\VoteTypeEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CommentRequest;
 use App\Http\Requests\IdeaStoreRequest;
 use App\Http\Requests\IdeaUpdateRequest;
-use App\Http\Resources\IdeaResource;
+use App\Http\Requests\VoteRequest;
+use App\Http\Resources\CommentResource;
+use App\Http\Resources\FavoriteResource;
+use App\Http\Resources\VoteResource;
 use App\Models\Idea;
+use App\Services\IdeaService;
+use App\Services\UserService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class IdeaController extends Controller
 {
+
+    public function __construct(protected IdeaService $ideaService) {}
+
     public function store(IdeaStoreRequest $request): JsonResponse
     {
+        $idea = Idea::create([
+            ...$request->validated(),
+            'author_id' => auth()->user()->id,
+        ]);
         return response()->json([
-            'idea' => new IdeaResource(
-                Idea::create([
-                    ...$request->validated()
-                ])
-            ),
+            'idea' => $this->ideaService->getIdeaResource($idea),
         ]);
     }
 
     public function update(IdeaUpdateRequest $request, Idea $idea)
     {
         $idea->update($request->validated());
-
         return response()->json([
-            'idea' => IdeaResource::make($idea),
+            'idea' => $this->ideaService->getIdeaResource($idea),
         ]);
     }
 
@@ -42,33 +48,33 @@ class IdeaController extends Controller
         ]);
     }
 
-    public function vote(Request $request, Idea $idea): JsonResponse
+    public function vote(VoteRequest $request, Idea $idea): JsonResponse
     {
-        $type = $request->get('type') === 'up' ? VoteTypeEnum::UP : VoteTypeEnum::DOWN; // 'up' or 'down'
-        $userId = $request->get('user_id');
+        $this->ideaService->vote($idea, $request->validated());
 
-        // Check if the user has already voted in the opposite direction
-        if ($idea->hasUserVoted($userId, $type === VoteTypeEnum::UP ? VoteTypeEnum::DOWN : VoteTypeEnum::UP)) {
-            // Undo the previous vote
-            $idea->undoVote($userId);
-        }
-        // Record the new vote
-        $idea->vote($userId, $type);
-
-        return response()->json(['idea' => new IdeaResource($idea)]);
+        return response()->json([
+            'idea' => $this->ideaService->getIdeaResource($idea),
+            'user_votes' => VoteResource::collection(UserService::getAuthUser(['votes'])->votes),
+        ]);
     }
 
     public function comment(CommentRequest $request, Idea $idea)
     {
-        $idea->addComment($request->validated());
+        $this->ideaService->addComment($idea, $request->validated());
 
-        return response()->json(['idea' => new IdeaResource($idea->loadCount('comments'))]);
+        return response()->json([
+            'idea' => $this->ideaService->getIdeaResource($idea),
+            'user_comments' => CommentResource::collection(UserService::getAuthUser(['comments'])->comments),
+        ]);
     }
 
     public function favorite(Request $request, Idea $idea)
     {
-        $idea->toggleFavorite($request->user()->id);
+        $this->ideaService->toggleFavorite($idea);
 
-        return response()->json(['idea' => new IdeaResource($idea)]);
+        return response()->json([
+            'idea' => $this->ideaService->getIdeaResource($idea),
+            'user_favorites' => FavoriteResource::collection(UserService::getAuthUser(['favorites'])->favorites),
+        ]);
     }
 }

@@ -5,8 +5,9 @@ import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
-import { Head, Link, useForm } from '@inertiajs/vue3';
+import { Head, Link, useForm, usePage } from '@inertiajs/vue3';
 import AuthProviderButtons from '@/Components/AuthProviderButtons.vue';
+import { useUserStore } from '@/stores/UserStore.js'
 
 defineProps({
   canResetPassword: {
@@ -23,9 +24,15 @@ const form = useForm({
   remember: false,
 });
 
+const userStore = useUserStore();
+
 const submit = () => {
   form.post(route('login'), {
-    onFinish: () => form.reset('password'),
+    onFinish: () => {
+      form.reset('password')
+      console.log(usePage().props.auth.user.data)
+      userStore.setAuthUser(usePage().props.auth.user.data)
+    },
   });
 };
 

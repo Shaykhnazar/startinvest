@@ -3,10 +3,10 @@
 namespace App\Models;
 
 use App\Enums\VoteTypeEnum;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Support\Facades\Cache;
 use Orchid\Attachment\Attachable;
 use Orchid\Filters\Filterable;
 use Orchid\Screen\AsSource;
@@ -44,72 +44,20 @@ class Idea extends Model
 
     protected function getUpvotesAttribute(): int
     {
-        return $this->votes()->where('type', 'up')->count();
+        return Cache::remember('idea_' . $this->id . '_upvotes', now()->addDays(7), function () {
+            return $this->votes()->where('type', VoteTypeEnum::UP->name)->count();
+        });
     }
 
     protected function getDownvotesAttribute(): int
     {
-        return $this->votes()->where('type', 'down')->count();
+        return Cache::remember('idea_' . $this->id . '_downvotes', now()->addDays(7), function () {
+            return $this->votes()->where('type', VoteTypeEnum::DOWN->name)->count();
+        });
     }
 
     public function author(): BelongsTo
     {
         return $this->belongsTo(User::class);
-    }
-
-    public function hasUserVoted(int $userId, VoteTypeEnum $type): bool
-    {
-        return $this->votes()
-            ->where('user_id', $userId)
-            ->where('type', $type->name)
-            ->exists();
-    }
-
-    public function undoVote(int $userId): void
-    {
-        $this->votes()->where('user_id', $userId)->delete();
-    }
-
-    public function vote(int $userId, VoteTypeEnum $type): void
-    {
-        // Undo any previous votes by the same user
-        $this->undoVote($userId);
-
-        // Record the new vote
-        $this->votes()->create([
-            'user_id' => $userId,
-            'type' => $type->name,
-        ]);
-    }
-
-    public function toggleFavorite($userId): void
-    {
-        if ($this->hasUserFavorited($userId)) {
-            // Remove the favorite record
-            $this->favorites()
-                ->where('user_id', $userId)
-                ->delete();
-        } else {
-            // Add a new favorite record
-            $this->favorites()->create([
-                'user_id' => $userId,
-            ]);
-        }
-    }
-
-    public function hasUserFavorited($userId): bool
-    {
-        return $this->favorites()
-            ->where('user_id', $userId)
-            ->exists();
-    }
-
-    public function addComment($inputs): void
-    {
-        $this->comments()->create([
-            'user_id' => $inputs['user_id'],
-            'body' => $inputs['body'],
-            'parent_id' => $inputs['parent_id'] ?? null,
-        ]);
     }
 }

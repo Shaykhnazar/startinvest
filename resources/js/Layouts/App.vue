@@ -1,12 +1,13 @@
-<script lang="ts" setup>
+<script setup>
 
-import {Link, router} from '@inertiajs/vue3'
+import { Link, router, usePage } from '@inertiajs/vue3'
 import { ChatRound } from '@element-plus/icons-vue'
-import {computed, ref} from 'vue'
+import {computed, onMounted, ref} from 'vue'
+import { useUserStore } from '@/stores/UserStore.js'
 
 const activeIndex = ref('home')
 // const activeIndexComputed = computed(() => activeIndex.value)
-const handleSelect = (key: string, keyPath: string[]) => {
+const handleSelect = (key, keyPath) => {
   console.log(key, keyPath)
   activeIndex.value = key
   router.visit(key)
@@ -64,7 +65,11 @@ const menuItems = [
   //   index: '/about-us'
   // }
 ]
+const userStore = useUserStore();
 
+onMounted(() => {
+  userStore.setAuthUser(usePage().props.auth.user.data)
+})
 </script>
 
 <template>

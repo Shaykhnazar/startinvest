@@ -1,8 +1,8 @@
 <script setup>
 import Popover from '@/Components/Popover.vue'
-import {useAuthUser } from '@/Composables/useAuthUser.ts'
+import { useUserStore } from '@/stores/UserStore.js'
 
-const {circleUrl} = useAuthUser()
+const userStore = useUserStore()
 
 defineProps({
   comment: Object,
@@ -17,7 +17,7 @@ defineEmits(['deleteCommentHandler'])
     <el-col :xs="12" :sm="12" :md="12" :lg="12" :xl="12" class="flex-start-col">
       <Popover>
         <template #reference>
-          <el-avatar :size="20" :src="circleUrl" class="mr-2 icon-pointer"/>
+          <el-avatar :size="20" :src="userStore.avatar" class="mr-2 icon-pointer"/>
         </template>
         <p>{{ comment.author.name }}</p>
       </Popover>

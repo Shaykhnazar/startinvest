@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class Vote extends Model
 {
-    protected $fillable = ['user_id', 'voteable_id', 'voteable_type', 'type'];
+    protected $fillable = ['user_id', 'type'];
 
     protected $casts = [
         'type' => VoteTypeEnum::class,

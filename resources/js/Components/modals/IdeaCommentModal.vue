@@ -21,14 +21,14 @@
           <el-col :xs="2" :sm="2" :md="2" :lg="2" :xl="2" class="flex-start-col">
             <Popover>
               <template #reference>
-                <el-avatar :size="20" :src="circleUrl" class="mr-2 icon-pointer"/>
+                <el-avatar :size="20" :src="avatar" class="mr-2 icon-pointer"/>
               </template>
               <p>{{ ideaCommentForm.idea.author?.name }}</p>
             </Popover>
           </el-col>
           <el-col :xs="16" :sm="16" :md="16" :lg="16" :xl="16" class="idea-flex-center-col">
             <el-form-item prop="body" required :rules="bodyRules">
-              <el-input v-model="ideaCommentForm.body" autocomplete="off" placeholder="Add a comment..."/>
+              <el-input v-model="ideaCommentForm.body" autocomplete="off" placeholder="Add a comment..." clearable />
             </el-form-item>
           </el-col>
           <el-col :xs="6" :sm="6" :md="6" :lg="6" :xl="6" class="flex-end-col">
@@ -47,10 +47,12 @@
 import {reactive, ref} from 'vue';
 import type { FormInstance } from 'element-plus'
 import IdeaCommentCard from '@/Components/IdeaCommentCard.vue';
-import { useAuthUser } from '@/Composables/useAuthUser.ts'
+import { useUserStore } from '@/stores/UserStore.js'
+import { storeToRefs } from 'pinia'
 import Popover from "@/Components/Popover.vue";
 
-const { isGuest, circleUrl } = useAuthUser();
+const userStore = useUserStore()
+const { isGuest, avatar } = storeToRefs(userStore);
 
 const visible = ref(true);
 const ideaCommentFormRef = ref<FormInstance>();

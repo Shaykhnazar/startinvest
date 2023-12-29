@@ -11,7 +11,6 @@ class IdeaStoreRequest extends FormRequest
         return [
             'title' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
-            'author_id' => ['required', 'exists:users,id'],
         ];
     }
 

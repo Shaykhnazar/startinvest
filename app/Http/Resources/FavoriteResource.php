@@ -13,9 +13,7 @@ class FavoriteResource extends JsonResource
         return [
             'id' => $this->id,
             'user_id' => $this->user_id,
-            'idea_id' => $this->idea_id,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'favoriteable_id' => $this->favoriteable_id,
         ];
     }
 }

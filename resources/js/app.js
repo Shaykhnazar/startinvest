@@ -4,12 +4,17 @@ import 'element-plus/dist/index.css'
 
 import { createApp, h } from 'vue';
 import { createInertiaApp } from '@inertiajs/vue3';
+import { createPinia } from 'pinia'
+import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
+
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import IconSvg from '@/components/svg-icons/icon.vue'
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
+const pinia = createPinia()
+pinia.use(piniaPluginPersistedstate)
 
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
@@ -22,6 +27,7 @@ createInertiaApp({
       app.component('IconSvg', IconSvg)
 
       return app.use(plugin)
+            .use(pinia)
             .use(ZiggyVue, Ziggy)
             .mount(el);
     },

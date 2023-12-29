@@ -2,7 +2,7 @@
 import { Comment, More, Promotion } from '@element-plus/icons-vue'
 import Popover from '@/Components/Popover.vue'
 import Tooltip from '@/Components/Tooltip.vue'
-import { useAuthUser } from '@/Composables/useAuthUser.ts'
+import { useUserStore } from '@/stores/UserStore.js'
 import { useIdea } from '@/Composables/useIdea.ts'
 import { ref } from 'vue'
 
@@ -20,9 +20,8 @@ defineEmits([
   'showCommentModalHandler'
 ])
 
-
-const { isAuthorOfIdea, circleUrl } = useAuthUser()
-const {cancelEvent} = useIdea()
+const userStore = useUserStore()
+const { cancelEvent } = useIdea()
 
 const showIdeaDescByCollapse = ref(false)
 const toggleDescription = () => {
@@ -36,7 +35,7 @@ const toggleDescription = () => {
     <el-col :xs="6" :sm="6" :md="6" :lg="6" :xl="6" class="flex-start-col">
       <Popover>
         <template #reference>
-          <el-avatar :size="20" :src="circleUrl" class="mr-2 icon-pointer"/>
+          <el-avatar :size="20" :src="userStore.avatar" class="mr-2 icon-pointer"/>
         </template>
         <p>{{ idea.author?.name }}</p>
       </Popover>
@@ -60,7 +59,7 @@ const toggleDescription = () => {
           <el-icon size="20" class="icon-pointer ml-1"><More/></el-icon>
         </template>
         <ul>
-          <template v-if="isAuthorOfIdea(idea)">
+          <template v-if="userStore.isAuthorOfIdea(idea)">
             <li class="icon-pointer" @click="$emit('showEditModalHandler', true, idea)">Edit</li><hr/>
             <el-popconfirm
               confirm-button-text="Yes"
@@ -102,24 +101,24 @@ const toggleDescription = () => {
   <el-row justify="center" align="middle" :gutter="12" class="mt-5">
     <el-col :xs="6" :sm="6" :md="6" :lg="6" :xl="6" class="flex-start-col">
       <el-badge :hidden="idea.upvotes === 0" :value="idea.upvotes" class="item" type="success">
-        <Tooltip :content="idea.has_user_upvoted ? 'Liked' : 'Like'" placement="top">
+        <Tooltip :content="userStore.hasUpvotedIdea(idea) ? 'Liked' : 'Like'" placement="top">
           <el-icon size="20" class="icon-pointer mt-0.5 mr-2" @click="$emit('voteUpHandler', idea)">
-            <icon-svg name="like-solid" v-if="idea.has_user_upvoted ?? false" />
+            <icon-svg name="like-solid" v-if="userStore.hasUpvotedIdea(idea)"/>
             <icon-svg name="like-regular" v-else />
           </el-icon>
         </Tooltip>
       </el-badge>
       <el-badge :hidden="idea.downvotes === 0" :value="idea.downvotes" class="item">
-        <Tooltip :content="idea.has_user_downvoted ? 'Disliked' : 'Dislike'" placement="top">
+        <Tooltip :content="userStore.hasDownvotedIdea(idea) ? 'Disliked' : 'Dislike'" placement="top">
           <el-icon size="20" class="icon-pointer mt-0.5 ml-2 mr-2" @click="$emit('voteDownHandler', idea)">
-            <icon-svg name="dislike-solid" v-if="idea.has_user_downvoted ?? false" />
+            <icon-svg name="dislike-solid" v-if="userStore.hasDownvotedIdea(idea)"/>
             <icon-svg name="dislike-regular" v-else />
           </el-icon>
         </Tooltip>
       </el-badge>
     </el-col>
     <el-col :xs="6" :sm="6" :md="6" :lg="6" :xl="6" class="flex-end-col">
-      <el-badge :hidden="idea.comments_count == null || idea.comments_count === 0" :value="idea.comments_count" class="item" type="info">
+      <el-badge :hidden="!idea.comments_count || idea.comments_count === 0" :value="idea.comments_count" class="item" type="info">
         <Tooltip content="Comment" placement="top">
           <el-icon size="20" class="icon-pointer mt-0.5 mr-2" @click="$emit('showCommentModalHandler', true, idea)">
             <Comment/>
@@ -131,9 +130,9 @@ const toggleDescription = () => {
 <!--          <Promotion/>-->
 <!--        </el-icon>-->
 <!--      </Tooltip>-->
-        <Tooltip :content="idea.has_user_favorited ? 'Saved' : 'Save'" placement="top">
+        <Tooltip :content="userStore.hasFavoritedIdea(idea) ? 'Saved' : 'Save'" placement="top">
           <el-icon size="20" class="icon-pointer mt-0.5 ml-2" @click="$emit('favoriteIdeaHandler', idea)">
-            <icon-svg name="save-solid" v-if="idea.has_user_favorited ?? false" />
+            <icon-svg name="save-solid" v-if="userStore.hasFavoritedIdea(idea)" />
             <icon-svg name="save-regular" v-else/>
           </el-icon>
         </Tooltip>
