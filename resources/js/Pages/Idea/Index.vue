@@ -126,8 +126,8 @@ const ideaSubmit = async (formEl, ideaData) => {
   });
 };
 
-const ideaEdit = (ideaData) => {
-  api.ideas.edit(ideaData.id, {
+const ideaEdit = async (ideaData) => {
+  await api.ideas.edit(ideaData.id, {
     title: ideaData.title,
     description: ideaData.description,
   }).then((response) => {
@@ -139,8 +139,8 @@ const ideaEdit = (ideaData) => {
   });
 }
 
-const ideaAdd = (ideaData) => {
-  api.ideas.add({
+const ideaAdd = async (ideaData) => {
+  await api.ideas.add({
     title: ideaData.title,
     description: ideaData.description,
   }).then((response) => {
@@ -152,9 +152,9 @@ const ideaAdd = (ideaData) => {
   })
 }
 
-const deleteIdea = (id) => {
+const deleteIdea = async (id) => {
   submitting.value = true
-  api.ideas.delete(id).then((response) => {
+  await api.ideas.delete(id).then((response) => {
     updateIdeaList(response.data.idea, true)
     info('Idea deleted successfully')
   }).finally(() => {
@@ -162,14 +162,14 @@ const deleteIdea = (id) => {
   })
 }
 
-function voteUp(idea) {
+async function voteUp(idea) {
   if (votePreCheck() && !userStore.hasUpvotedIdea(idea) && !submitting.value) {
-    voteSubmit(idea, VOTE_TYPES.UP)
+    await voteSubmit(idea, VOTE_TYPES.UP)
   }
 }
-function voteDown(idea) {
+async function voteDown(idea) {
   if (votePreCheck() && !userStore.hasDownvotedIdea(idea) && !submitting.value) {
-    voteSubmit(idea, VOTE_TYPES.DOWN)
+    await voteSubmit(idea, VOTE_TYPES.DOWN)
   }
 }
 
@@ -199,10 +199,10 @@ async function commentIdeaHandler(formEl, ideaCommentFormData) {
   }
   else if (!submitting.value) {
     if (!formEl) return;
-    await formEl.validate((valid, fields) => {
+    await formEl.validate(async (valid, fields) => {
       if (valid) {
         submitting.value = true
-        api.ideas.comment(ideaCommentFormData.idea.id, {
+        await api.ideas.comment(ideaCommentFormData.idea.id, {
           body: ideaCommentFormData.body,
           parent_id: ideaCommentFormData.parent_id ?? null,
         }).then((response) => {

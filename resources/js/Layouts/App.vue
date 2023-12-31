@@ -4,28 +4,15 @@ import { Link, router, usePage } from '@inertiajs/vue3'
 import { ChatRound } from '@element-plus/icons-vue'
 import {computed, onMounted, ref} from 'vue'
 import { useUserStore } from '@/stores/UserStore.js'
+import { useNavActiveTab } from '@/stores/useNavActiveTab.js'
 
-const activeIndex = ref('home')
-// const activeIndexComputed = computed(() => activeIndex.value)
+const activeTabStore = useNavActiveTab()
+
 const handleSelect = (key, keyPath) => {
   console.log(key, keyPath)
-  activeIndex.value = key
-  router.visit(key)
+  activeTabStore.setActiveTab(key)
+  router.visit(route(key))
 }
-
-const onClickMenuItem = (el, url) => {
-  // router.visit(url, {
-  //   // onFinish: () => {
-  //   //   activeIndex.value = el.index
-  //   // }
-  // })
-}
-
-// router.on('navigate', (event) => {
-//   // console.log(`Navigated to ${event.detail.page.url}`)
-//   activeIndex.value = event.detail.page.url
-// })
-
 
 defineProps({
   canLogin: {
@@ -39,36 +26,31 @@ defineProps({
 const menuItems = [
   {
     name: 'Ideas',
-    url: route('ideas.index'),
-    index: '/ideas'
+    url: 'ideas',
   },
   {
     name: 'StartUps',
-    url: route('startups'),
-    index: '/startups'
+    url: 'startups',
   },
   // {
   //   name: 'Investors',
   //   url: route('investors'),
-  //   index: '/investors',
   //   disabled: true
   // },
   // {
   //   name: 'Blog',
   //   url: route('blog'),
-  //   index: 'blog',
   //   disabled: true
   // },
   // {
   //   name: 'About Us',
   //   url: route('about-us'),
-  //   index: '/about-us'
   // }
 ]
 const userStore = useUserStore();
 
 onMounted(() => {
-  userStore.setAuthUser(usePage().props.auth.user.data)
+  usePage().props.auth.user && userStore.setAuthUser(usePage().props.auth.user.data)
 })
 </script>
 
@@ -78,7 +60,7 @@ onMounted(() => {
   <el-container>
     <el-header>
       <el-menu
-        :default-active="activeIndex"
+        :default-active="activeTabStore.getActiveTab"
         class="el-menu-demo"
         mode="horizontal"
         :ellipsis="false"
@@ -91,11 +73,9 @@ onMounted(() => {
             alt="Element logo"
           />
         </el-menu-item>
-<!--TODO: Fix menu indexes-->
         <el-menu-item
           v-for="menuItem in menuItems"
-          :key="menuItem.index"
-          :index="menuItem.index"
+          :index="menuItem.url"
           :disabled="menuItem.disabled"
         >
           {{ menuItem.name }}
@@ -109,7 +89,7 @@ onMounted(() => {
 <!--          Chat-->
 <!--        </el-menu-item>-->
         <template v-if="$page.props.canLogin">
-          <el-menu-item :index="$page.props.auth.user ? '/dashboard' : '/login'">
+          <el-menu-item :index="$page.props.auth.user ? 'dashboard' : 'login'">
             <Link
               v-if="$page.props.auth.user"
               :href="route('dashboard')"

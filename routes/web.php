@@ -26,7 +26,7 @@ Route::get('/dashboard', [ProfileController::class, 'dashboard'])
     ->name('dashboard');
 
 Route::group(['prefix' => 'ideas'], function () {
-    Route::get('/', [IdeaController::class, 'index'])->name('ideas.index');
+    Route::get('/', [IdeaController::class, 'index'])->name('ideas');
     Route::get('/{idea}', [IdeaController::class, 'show'])->name('ideas.show');
 });
 

@@ -28,5 +28,7 @@ export const useUserStore = defineStore("UserStore", {
     hasUpvotedIdea: (state) => (idea) => state.authUser?.votes.some(vote => vote.voteable_id === idea.id && vote.type === VOTE_TYPES.UP),
     hasDownvotedIdea: (state) => (idea) => state.authUser?.votes.some(vote => vote.voteable_id === idea.id && vote.type === VOTE_TYPES.DOWN),
   },
-  persist: true
+  persist: {
+    storage: sessionStorage,
+  },
 })
