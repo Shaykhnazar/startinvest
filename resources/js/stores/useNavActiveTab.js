@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 
 export const useNavActiveTab = defineStore("NavActiveTabStore", {
   state: () => ({
-    activeTab: 'home',
+    activeTab: route().current(),
   }),
   actions: {
     setActiveTab(tab) {

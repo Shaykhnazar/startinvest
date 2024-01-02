@@ -30,8 +30,7 @@ const submit = () => {
   form.post(route('login'), {
     onFinish: () => {
       form.reset('password')
-      console.log(usePage().props.auth.user.data)
-      userStore.setAuthUser(usePage().props.auth.user.data)
+      usePage().props.auth.user && userStore.setAuthUser(usePage().props.auth.user.data)
     },
   });
 };

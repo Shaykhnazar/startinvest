@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Cache;
 
 class IdeaService
 {
-    public function getIdeaResource(Idea $idea, $with = ['author', 'votes', 'comments'], array $withCount = ['comments']): IdeaResource
+    public function getIdeaResource(Idea $idea, $with = ['author', 'votes', 'comments', 'favorites'], array $withCount = ['comments']): IdeaResource
     {
         return new IdeaResource($idea->load($with)->loadCount($withCount));
     }

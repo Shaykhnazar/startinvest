@@ -6,8 +6,13 @@ import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import { Link } from '@inertiajs/vue3';
+import { useUserStore } from '@/stores/UserStore.js'
 
 const showingNavigationDropdown = ref(false);
+
+const logoutHandle = () => {
+  useUserStore().$reset()
+}
 </script>
 
 <template>
@@ -32,6 +37,9 @@ const showingNavigationDropdown = ref(false);
                 <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
                   Dashboard
                 </NavLink>
+<!--                <NavLink :href="route('ideas.list')" :active="route().current('ideas.list')">-->
+<!--                  My Ideas-->
+<!--                </NavLink>-->
               </div>
             </div>
 
@@ -65,7 +73,7 @@ const showingNavigationDropdown = ref(false);
 
                   <template #content>
                     <DropdownLink :href="route('profile.edit')"> Profile</DropdownLink>
-                    <DropdownLink :href="route('logout')" method="post" as="button">
+                    <DropdownLink :href="route('logout')" method="post" as="button" @click="logoutHandle">
                       Log Out
                     </DropdownLink>
                   </template>

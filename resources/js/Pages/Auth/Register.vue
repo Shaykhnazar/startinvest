@@ -21,7 +21,7 @@ const submit = () => {
   form.post(route('register'), {
     onFinish: () => {
       form.reset('password', 'password_confirmation')
-      userStore.setAuthUser(usePage().props.auth.user.data)
+      usePage().props.auth.user && userStore.setAuthUser(usePage().props.auth.user.data)
     },
   });
 };
