@@ -30,7 +30,7 @@ export default defineConfig({
   ],
     resolve: {
         alias: {
-          '@': '/resources/js'
+          '@/': `${new URL('resources/js', import.meta.url).pathname}/`,
         }
     },
 });
