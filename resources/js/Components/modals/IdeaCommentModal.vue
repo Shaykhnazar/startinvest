@@ -2,6 +2,7 @@
   <el-dialog v-model="visible" title="Idea Comments" @close="handleClose" style="border-radius: 5px;">
 
     <!-- IDEA COMMENT LIST -->
+    <div class="idea-comment-container">
       <IdeaCommentCard
         v-for="comment in ideaComments"
         :key="comment.id"
@@ -9,6 +10,7 @@
         :submitting="submitting"
         @delete-comment-handler="deleteComment"
       />
+    </div>
 
     <template #footer v-if="!isGuest">
       <!-- IDEA COMMENT FORM -->
@@ -44,7 +46,7 @@
   </el-dialog>
 </template>
 <script lang="ts" setup>
-import {reactive, ref} from 'vue';
+import {reactive, ref, watch} from 'vue';
 import type { FormInstance } from 'element-plus'
 import IdeaCommentCard from '@/Components/IdeaCommentCard.vue';
 import { useUserStore } from '@/stores/UserStore.js'
@@ -82,6 +84,11 @@ const ideaComments = reactive(props.ideaCommentForm.idea.comments || [])
 const deleteComment = () => {
   emit('delete-comment-handler')
 }
+
+// Watch for changes in the ideaCommentForm prop and update ideaComments
+watch(() => props.ideaCommentForm.idea.comments, (newComments) => {
+  ideaComments.splice(0, ideaComments.length, ...newComments);
+});
 </script>
 <style scoped>
 .flex-start-col {
@@ -102,5 +109,10 @@ const deleteComment = () => {
   //display: flex;
   justify-content: flex-end;
   align-items: center;
+}
+
+.idea-comment-container {
+  max-height: 300px; /* Set the maximum height you desire */
+  overflow-y: auto;
 }
 </style>

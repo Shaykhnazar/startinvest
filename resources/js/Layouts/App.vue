@@ -92,7 +92,7 @@ onMounted(() => {
           <el-menu-item :index="$page.props.auth.user ? 'dashboard' : 'login'">
             <Link
               v-if="$page.props.auth.user"
-              :href="route('dashboard')"
+              :href="route('profile.dashboard')"
             >Dashboard
             </Link>
             <template v-else>
