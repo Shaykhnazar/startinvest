@@ -1,0 +1,1 @@
+import{_ as a}from"./AuthenticatedLayout-28fde368.js";import{o as t,f as r,a as e,u as o,F as s,Z as n}from"./app-2315477b.js";import"./ApplicationLogo-b493c468.js";import"./UserStore-0603bc16.js";const u={__name:"Index",setup(m){return(_,c)=>(t(),r(s,null,[e(o(n),{title:"My Ideas"}),e(a)],64))}};export{u as default};

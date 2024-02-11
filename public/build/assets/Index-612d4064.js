@@ -1,0 +1,1 @@
+import{_ as t}from"./App-a5f41739.js";import{o as e,c as a,w as r,a as o,u as s,Z as _}from"./app-2315477b.js";import"./useNavActiveTab-919294e8.js";import"./UserStore-0603bc16.js";const l={__name:"Index",setup(c){return(n,p)=>(e(),a(t,null,{header:r(()=>[o(s(_),{title:"Startups"})]),_:1}))}};export{l as default};
