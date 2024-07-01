@@ -3,8 +3,8 @@
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\IdeaController;
 use App\Http\Controllers\InvestorController;
-use App\Http\Controllers\Profile\IdeaController as ProfileIdeaController;
-use App\Http\Controllers\Profile\StartupController as ProfileStartupController;
+use App\Http\Controllers\Profile\ProfileIdeaController;
+use App\Http\Controllers\Profile\ProfileStartupController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StartupController;
 use Illuminate\Support\Facades\Route;
@@ -22,27 +22,32 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/about-us', [HomeController::class, 'aboutUs'])->name('about-us');
-
-Route::group(['middleware' => ['auth', 'verified'], 'prefix' => 'profile', 'as' => 'profile.'], function () {
-    Route::get('/dashboard', [ProfileController::class, 'dashboard'])->name('dashboard');
-    Route::get('/ideas', [ProfileIdeaController::class, 'index'])->name('ideas');
-    Route::get('/startups', [ProfileStartupController::class, 'index'])->name('startups');
-});
-
-
-
-Route::group(['prefix' => 'ideas'], function () {
-    Route::get('/', [IdeaController::class, 'index'])->name('ideas');
-    Route::get('/{idea}', [IdeaController::class, 'show'])->name('ideas.show');
-});
-
-Route::get('/startups', [StartupController::class, 'index'])->name('startups');
 Route::get('/investors', [InvestorController::class, 'index'])->name('investors');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+// Authenticated and Verified Routes
+Route::middleware(['auth', 'verified'])->prefix('dashboard')->name('dashboard.')->group(function () {
+    Route::get('/', [ProfileController::class, 'dashboard'])->name('index');
+    Route::get('/ideas', [ProfileIdeaController::class, 'index'])->name('ideas');
+    Route::get('/startups', [ProfileStartupController::class, 'index'])->name('startups');
+    Route::get('/startups/add', [ProfileStartupController::class, 'add'])->name('startups.add');
+});
+
+// Idea Routes
+Route::prefix('ideas')->name('ideas.')->group(function () {
+    Route::get('/', [IdeaController::class, 'index'])->name('index');
+    Route::get('/{idea}', [IdeaController::class, 'show'])->name('show');
+});
+
+// Startup Routes
+Route::prefix('startups')->name('startups.')->group(function () {
+    Route::get('/', [StartupController::class, 'index'])->name('index');
+});
+
+// Profile Routes requiring Authentication
+Route::middleware('auth')->prefix('profile')->name('profile.')->group(function () {
+    Route::get('/', [ProfileController::class, 'edit'])->name('edit');
+    Route::patch('/', [ProfileController::class, 'update'])->name('update');
+    Route::delete('/', [ProfileController::class, 'destroy'])->name('destroy');
 });
 
 require __DIR__.'/auth.php';

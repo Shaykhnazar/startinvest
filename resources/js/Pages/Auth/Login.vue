@@ -5,7 +5,7 @@ import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
-import { Head, Link, useForm, usePage } from '@inertiajs/vue3';
+import { Head, Link, router, useForm, usePage } from '@inertiajs/vue3';
 import AuthProviderButtons from '@/Components/AuthProviderButtons.vue';
 import { useUserStore } from '@/stores/UserStore.js'
 
@@ -35,6 +35,9 @@ const submit = () => {
   });
 };
 
+const registerRedirect = () => {
+  router.get(route('register'))
+}
 </script>
 
 <template>
@@ -81,39 +84,44 @@ const submit = () => {
         <InputError class="mt-2" :message="form.errors.password"/>
       </div>
 
-      <div class="block mt-4">
+      <div class="flex items-center justify-between mt-5 mb-5">
         <label class="flex items-center">
           <Checkbox name="remember" v-model:checked="form.remember"/>
           <span class="ms-2 text-sm text-gray-600 dark:text-gray-400">Remember me</span>
         </label>
-      </div>
 
-      <div class="flex items-center justify-end mt-4 mb-4">
-        <Link
-          :href="route('register')"
-          class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800 mr-10"
-        >
-          Sign Up
-        </Link>
-
-        <Link
-          v-if="canResetPassword"
-          :href="route('password.request')"
-          class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800"
-        >
+        <Link v-if="canResetPassword" :href="route('password.request')" class="text-sm text-gray-600 dark:text-blue-400 hover:text-blue-900 dark:hover:text-blue-500 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-blue-800">
           Forgot your password?
         </Link>
+      </div>
 
-        <PrimaryButton class="ms-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+      <div class="flex items-center justify-center mt-5 mb-5">
+        <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
           Log in
         </PrimaryButton>
       </div>
-      <hr>
-      <div class="mt-4">
-        <span class="text-md font-semibold flex items-center justify-center">Sign in with:</span>
+
+
+      <div style="position: relative; text-align: center; margin-top: 20px; margin-bottom: 20px;">
+        <hr style="border: 1px solid #ccc;">
+        <span style="position: absolute; top: -10px; left: 50%; transform: translateX(-50%); background-color: #fff; padding: 0 10px;">
+          Sign in with:
+        </span>
       </div>
 
       <AuthProviderButtons :form="form"/>
+
+      <div style="position: relative; text-align: center; margin-top: 20px; margin-bottom: 20px;">
+        <hr style="border: 1px solid #ccc;">
+        <span style="position: absolute; top: -10px; left: 50%; transform: translateX(-50%); background-color: #fff; padding: 0 10px;">
+          Don't have an account?
+        </span>
+      </div>
+      <div class="flex items-center justify-center">
+        <PrimaryButton @click="registerRedirect" type="button">
+          Sign Up
+        </PrimaryButton>
+      </div>
     </form>
   </GuestLayout>
 </template>

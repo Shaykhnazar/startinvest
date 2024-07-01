@@ -17,7 +17,7 @@ const logoutHandle = () => {
 
 <template>
   <div>
-    <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
+    <div class="min-h-screen bg-gray-100 white">
       <nav class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
         <!-- Primary Navigation Menu -->
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -34,13 +34,13 @@ const logoutHandle = () => {
 
               <!-- Navigation Links -->
               <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                <NavLink :href="route('profile.dashboard')" :active="route().current('profile.dashboard')">
+                <NavLink :href="route('dashboard.index')" :active="route().current('dashboard.index')">
                   Dashboard
                 </NavLink>
-                <NavLink :href="route('profile.ideas')" :active="route().current('profile.ideas')">
+                <NavLink :href="route('dashboard.ideas')" :active="route().current('dashboard.ideas')">
                   My Ideas
                 </NavLink>
-                <NavLink :href="route('profile.startups')" :active="route().current('profile.startups')">
+                <NavLink :href="route('dashboard.startups')" :active="route().current('dashboard.startups')">
                   My Startups
                 </NavLink>
               </div>
@@ -93,9 +93,9 @@ const logoutHandle = () => {
                 <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                   <path
                     :class="{
-                                            hidden: showingNavigationDropdown,
-                                            'inline-flex': !showingNavigationDropdown,
-                                        }"
+                        hidden: showingNavigationDropdown,
+                        'inline-flex': !showingNavigationDropdown,
+                    }"
                     stroke-linecap="round"
                     stroke-linejoin="round"
                     stroke-width="2"
@@ -103,9 +103,9 @@ const logoutHandle = () => {
                   />
                   <path
                     :class="{
-                                            hidden: !showingNavigationDropdown,
-                                            'inline-flex': showingNavigationDropdown,
-                                        }"
+                        hidden: !showingNavigationDropdown,
+                        'inline-flex': showingNavigationDropdown,
+                    }"
                     stroke-linecap="round"
                     stroke-linejoin="round"
                     stroke-width="2"
@@ -123,7 +123,7 @@ const logoutHandle = () => {
           class="sm:hidden"
         >
           <div class="pt-2 pb-3 space-y-1">
-            <ResponsiveNavLink :href="route('profile.dashboard')" :active="route().current('profile.dashboard')">
+            <ResponsiveNavLink :href="route('dashboard.index')" :active="route().current('dashboard.index')">
               Dashboard
             </ResponsiveNavLink>
           </div>

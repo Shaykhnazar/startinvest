@@ -1,1 +1,0 @@
-import{_ as t}from"./App-a5f41739.js";import{o as e,c as a,w as o,a as r,u as s,Z as _}from"./app-2315477b.js";import"./useNavActiveTab-919294e8.js";import"./UserStore-0603bc16.js";const l={__name:"AboutUs",setup(c){return(m,n)=>(e(),a(t,null,{header:o(()=>[r(s(_),{title:"About"})]),_:1}))}};export{l as default};

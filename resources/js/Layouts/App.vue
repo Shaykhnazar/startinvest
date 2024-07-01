@@ -26,26 +26,26 @@ defineProps({
 const menuItems = [
   {
     name: 'Ideas',
-    url: 'ideas',
+    url: 'ideas.index',
   },
   {
     name: 'StartUps',
-    url: 'startups',
+    url: 'startups.index',
   },
-  // {
-  //   name: 'Investors',
-  //   url: route('investors'),
-  //   disabled: true
-  // },
+  {
+    name: 'Investors',
+    url: 'investors',
+    disabled: true
+  },
   // {
   //   name: 'Blog',
   //   url: route('blog'),
   //   disabled: true
   // },
-  // {
-  //   name: 'About Us',
-  //   url: route('about-us'),
-  // }
+  {
+    name: 'About Us',
+    url: 'about-us',
+  }
 ]
 const userStore = useUserStore();
 
@@ -92,7 +92,7 @@ onMounted(() => {
           <el-menu-item :index="$page.props.auth.user ? 'dashboard' : 'login'">
             <Link
               v-if="$page.props.auth.user"
-              :href="route('profile.dashboard')"
+              :href="route('dashboard.index')"
             >Dashboard
             </Link>
             <template v-else>
