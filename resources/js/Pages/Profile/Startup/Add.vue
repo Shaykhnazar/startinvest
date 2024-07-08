@@ -77,23 +77,23 @@ const validateOneFieldExecute = (fieldName = '') => {
   <Head title="Add a new Startup"/>
 
   <AuthenticatedLayout>
-    <div style="padding-top: 20px;">
+    <div style="margin: 20px 20px;">
       <dashboard-page-header :has-extra-slot="true">
         <template #content>
-          <span class="text-large font-600 mr-3">Startup </span>
+          <span class="text-large font-600 mr-3">Add a new Startup 🚀</span>
         </template>
         <template #extra>
           <el-button type="primary" @click="submitForm" round :disabled="!form.title" class="ml-2 mr-10">
-            Add
+            Submit
           </el-button>
         </template>
       </dashboard-page-header>
-      <el-container style="padding-top: 20px;">
-        <el-row :gutter="24">
-          <el-col :span="20" :offset="4">
+      <div style="padding: 20px 20px">
+        <el-row :gutter="20">
+          <el-col :span="12" :offset="6">
             <el-form ref="startupFormRef"
-             status-icon
-             :rules="rules"
+                     status-icon
+                     :rules="rules"
             >
               <el-form-item label="Title" prop="title">
                 <el-input v-model="form.title" />
@@ -123,7 +123,7 @@ const validateOneFieldExecute = (fieldName = '') => {
             </el-form>
           </el-col>
         </el-row>
-      </el-container>
+      </div>
     </div>
   </AuthenticatedLayout>
 </template>

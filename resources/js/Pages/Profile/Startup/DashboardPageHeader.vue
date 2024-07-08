@@ -1,5 +1,5 @@
 <template>
-  <el-page-header>
+  <el-page-header @back="onBack">
     <template #content>
       <div class="flex items-center">
         <slot name="content" />
@@ -13,5 +13,12 @@
   </el-page-header>
 </template>
 <script setup>
+import { router, usePage } from '@inertiajs/vue3'
 const props = defineProps(['hasExtraSlot'])
+
+const page = usePage()
+
+const onBack = () => {
+  window.history.back()
+}
 </script>
