@@ -15,3 +15,24 @@ export function useElMessage() {
     info: (msg) => messageByType(msg, 'info'),
   }
 }
+
+export function useFormatFriendlyDate() {
+
+  const formatFriendlyDate = (isoDateString) => {
+    if (!isoDateString) {
+      return 'Invalid Date';
+    }
+
+    const date = new Date(isoDateString);
+    if (isNaN(date.getTime())) {
+      return 'Invalid Date';
+    }
+
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return new Intl.DateTimeFormat('en-US', options).format(date);
+  }
+
+  return {
+    formatFriendlyDate
+  }
+}

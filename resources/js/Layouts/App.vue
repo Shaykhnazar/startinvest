@@ -89,7 +89,7 @@ onMounted(() => {
 <!--          Chat-->
 <!--        </el-menu-item>-->
         <template v-if="$page.props.canLogin">
-          <el-menu-item :index="$page.props.auth.user ? 'dashboard' : 'login'">
+          <el-menu-item :index="$page.props.auth.user ? 'dashboard.index' : 'login'">
             <Link
               v-if="$page.props.auth.user"
               :href="route('dashboard.index')"

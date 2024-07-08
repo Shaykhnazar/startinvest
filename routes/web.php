@@ -30,6 +30,10 @@ Route::middleware(['auth', 'verified'])->prefix('dashboard')->name('dashboard.')
     Route::get('/ideas', [ProfileIdeaController::class, 'index'])->name('ideas');
     Route::get('/startups', [ProfileStartupController::class, 'index'])->name('startups');
     Route::get('/startups/add', [ProfileStartupController::class, 'add'])->name('startups.add');
+    Route::post('/startups/add', [ProfileStartupController::class, 'store'])->name('startups.store');
+    Route::get('/startups/{startup}', [ProfileStartupController::class, 'show'])->name('startups.show');
+    Route::get('/startups/edit/{startup}', [ProfileStartupController::class, 'edit'])->name('startups.edit');
+    Route::put('/startups/edit/{startup}', [ProfileStartupController::class, 'update'])->name('startups.update');
 });
 
 // Idea Routes

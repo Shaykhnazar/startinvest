@@ -13,14 +13,17 @@ class StartupResource extends JsonResource
         return [
             'id' => $this->id,
             'title' => $this->title,
-            'description' => $this->description,
             'additional_information' => $this->additional_information,
             'start_date' => $this->start_date,
             'has_mvp' => $this->has_mvp,
+            'type' => $this->type,
             'status' => $this->status,
             'owner_id' => $this->owner_id,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            $this->mergeWhen($request->with_content, [
+                'description' => $this->description,
+            ]),
         ];
     }
 }

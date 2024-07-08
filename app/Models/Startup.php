@@ -24,6 +24,7 @@ class Startup extends Model
         'base_price',
         'has_mvp',
         'status',
+        'type',
     ];
 
     protected $casts = [

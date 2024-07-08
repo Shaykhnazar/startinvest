@@ -30,7 +30,8 @@ class ProfileStartupRequest extends FormRequest
             'success_rate' => 'nullable|numeric|min:0|max:100',
             'base_price' => 'nullable|numeric',
             'has_mvp' => 'required|boolean',
-            'status' => 'required|string|in:on start,progressing,team building,release,testing,on production'
+            'status' => 'required|string|in:on start,progressing,team building,release,testing,on production',
+            'type' => 'required|string|in:public,private,archive',
         ];
     }
 }

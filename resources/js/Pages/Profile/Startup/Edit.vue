@@ -1,21 +1,27 @@
 <script setup>
 
-import { Head, useForm } from '@inertiajs/vue3'
-import { ref } from 'vue'
+import { Head, useForm, usePage } from '@inertiajs/vue3'
+import { ref, onMounted } from 'vue'
 import TextEditor from '@/Components/tiptap/TextEditor.vue'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
 import DashboardPageHeader from '@/Pages/Profile/Startup/DashboardPageHeader.vue'
+import { useElMessage, useFormatFriendlyDate } from '@/Composables/helpers'
+
+const { formatFriendlyDate } = useFormatFriendlyDate()
+const { success, error } = useElMessage()
+
+const page = usePage()
+const startup = page.props.startup.data
 
 const form = useForm({
-  title: '',
-  description: '',
-  additional_information: '',
-  start_date: '',
-  type: 'private',
-  status: 'on start',
-  has_mvp: false,
+  title: startup.title,
+  description: startup.description,
+  additional_information: startup.additional_information,
+  start_date: startup.start_date,
+  type: startup.type,
+  status: startup.status,
+  has_mvp: startup.has_mvp,
 })
-
 
 const validateTitleField = (rule, value, callback) => {
   if (value === '') {
@@ -39,12 +45,11 @@ const rules = {
 }
 
 const locked = ref(false)
-const editorRef = ref(null) // Add a ref for the text editor
-const startupFormRef = ref(null) // Add a ref for the form
+const editorRef = ref(null)
 
 // Option values
-const typeOptions = ['private', 'public', 'archive'];
-const statusOptions = ['on start', 'progressing', 'team building', 'release', 'testing', 'on production'];
+const typeOptions = ['private', 'public', 'archive']
+const statusOptions = ['on start', 'progressing', 'team building', 'release', 'testing', 'on production']
 
 const submitForm = () => {
   // Handle form submission logic
@@ -53,7 +58,9 @@ const submitForm = () => {
   form.transform((data) => ({
     ...data,
     description: editorRef.value.getContentAsHTML(),
-  })).post('/dashboard/startups/add')
+  })).put(route('dashboard.startups.update', { id: startup.id }))
+
+  success('Startup updated successfully!')
 }
 
 const contentChanged = () => {
@@ -63,48 +70,43 @@ const contentChanged = () => {
   } else {
     form.description = editorRef.value.getContent()
   }
-  // validateOneFieldExecute('description')
 }
 
-// Validation
-// const validateOneFieldExecute = (fieldName = '') => {
-//   if (startupFormRef.value) {
-//     startupFormRef.value.validateField(fieldName)
-//   }
-// }
 
 
 </script>
 
 <template>
-  <Head title="Add a new Startup"/>
+  <Head :title="'Edit ' + startup.title"/>
 
   <AuthenticatedLayout>
     <div style="margin: 20px 20px;">
       <dashboard-page-header :has-extra-slot="true">
         <template #content>
-          <span class="text-large font-600 mr-3">Add a new Startup 🚀</span>
+          <span class="text-large font-600 mr-3">Edit Startup 🚀</span>
         </template>
       </dashboard-page-header>
       <div style="padding: 20px 20px">
         <el-row :gutter="20">
           <el-col :span="18" :offset="3">
-            <el-form ref="startupFormRef"
-               status-icon
-               :rules="rules"
-               @submit.prevent
+            <el-form
+              ref="startupFormRef"
+              status-icon
+              :model="form"
+              :rules="rules"
+              @submit.prevent
             >
               <el-form-item label="Title" prop="title">
-                <el-input v-model="form.title" />
+                <el-input v-model="form.title"/>
               </el-form-item>
               <el-form-item label="Description" prop="description" :class="!locked ? 'required-field' : ''">
-                <text-editor ref="editorRef" :content="form.description" :editable="!locked" @onChange="contentChanged" />
+                <text-editor ref="editorRef" :content="form.description" :editable="!locked" @onChange="contentChanged"/>
               </el-form-item>
               <el-form-item label="Additional Information" prop="additional_information">
-                <el-input v-model="form.additional_information" />
+                <el-input v-model="form.additional_information"/>
               </el-form-item>
               <el-form-item label="Start Date" prop="start_date">
-                <el-date-picker v-model="form.start_date" />
+                <el-date-picker v-model="form.start_date"/>
               </el-form-item>
               <el-form-item label="Type">
                 <el-select v-model="form.type">
@@ -121,7 +123,7 @@ const contentChanged = () => {
               </el-form-item>
               <el-form-item>
                 <el-button type="primary" @click="submitForm" round :disabled="!form.title" class="ml-2 mr-10">
-                  Add
+                  Update
                 </el-button>
               </el-form-item>
             </el-form>
