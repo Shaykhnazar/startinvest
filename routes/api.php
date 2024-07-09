@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(['prefix' => 'v1'], function () {
     Route::group(['prefix' => 'ideas', 'as' => 'ideas.', 'middleware' => ['auth', 'web']], function () {
         Route::post('/add', [IdeaController::class, 'store'])->name('add');
+        Route::get('/{idea}', [IdeaController::class, 'show'])->name('show');
         Route::put('/edit/{idea}', [IdeaController::class, 'update'])->name('edit');
         Route::delete('/delete/{idea}', [IdeaController::class, 'destroy'])->name('delete');
         Route::put('/vote/{idea}', [IdeaController::class, 'vote'])->name('vote');

@@ -1,10 +1,11 @@
 <script setup>
-import { Comment, More, Promotion } from '@element-plus/icons-vue'
+import { Comment, More } from '@element-plus/icons-vue'
 import Popover from '@/Components/Popover.vue'
 import Tooltip from '@/Components/Tooltip.vue'
 import { useUserStore } from '@/stores/UserStore.js'
 import { useIdea } from '@/Composables/useIdea.ts'
 import { ref } from 'vue'
+import api from '@/services/api.js'
 
 defineProps({
   idea: Object,
@@ -24,7 +25,21 @@ const userStore = useUserStore()
 const { cancelEvent } = useIdea()
 
 const showIdeaDescByCollapse = ref(false)
-const toggleDescription = () => {
+const isLoadingDescription = ref(false)
+const ideaDescription = ref('')
+
+const toggleDescription = async (idea) => {
+  if (!showIdeaDescByCollapse.value && !ideaDescription.value) {
+    isLoadingDescription.value = true
+    try {
+      const response = await api.ideas.show(idea.id)
+      ideaDescription.value = response.data.description
+    } catch (error) {
+      console.error('Failed to fetch idea description:', error)
+    } finally {
+      isLoadingDescription.value = false
+    }
+  }
   showIdeaDescByCollapse.value = !showIdeaDescByCollapse.value
 }
 </script>
@@ -82,17 +97,16 @@ const toggleDescription = () => {
   </el-row>
   <!-- Title -->
   <el-row justify="center" align="middle" :gutter="12" class="flex-col">
-    <el-col :xs="12" :sm="12" :md="12" :lg="12" :xl="12" class="idea-title" @click="toggleDescription">
+    <el-col :xs="12" :sm="12" :md="12" :lg="12" :xl="12" class="idea-title" @click="toggleDescription(idea)">
       <el-text>
-        {{ idea.title }}
+        {{ idea.title }} <span >...</span>
       </el-text>
     </el-col>
     <el-col :xs="12" :sm="12" :md="12" :lg="12" :xl="12">
       <el-collapse-transition>
-        <div v-show="showIdeaDescByCollapse && !!idea.description" class="idea-desc">
-          <el-text>
-            {{ idea.description }}
-          </el-text>
+        <div v-show="showIdeaDescByCollapse" class="idea-desc">
+          <el-text v-if="isLoadingDescription">Loading...</el-text>
+          <el-text v-else>{{ ideaDescription }}</el-text>
         </div>
       </el-collapse-transition>
     </el-col>

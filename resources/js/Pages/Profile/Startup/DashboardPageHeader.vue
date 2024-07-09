@@ -1,19 +1,18 @@
 <template>
   <el-page-header @back="onBack">
-    <template #content>
-      <div class="flex items-center">
+    <div class="header-container">
+      <div class="header-content">
         <slot name="content" />
       </div>
-    </template>
-    <template #extra v-if="hasExtraSlot">
-      <div class="flex items-center">
+      <div class="header-extra" v-if="hasExtraSlot">
         <slot name="extra" />
       </div>
-    </template>
+    </div>
   </el-page-header>
 </template>
+
 <script setup>
-import { router, usePage } from '@inertiajs/vue3'
+import { usePage } from '@inertiajs/vue3'
 const props = defineProps(['hasExtraSlot'])
 
 const page = usePage()
@@ -22,3 +21,21 @@ const onBack = () => {
   window.history.back()
 }
 </script>
+
+<style scoped>
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.header-content {
+  flex: 1;
+}
+
+.header-extra {
+  display: flex;
+  align-items: center;
+}
+</style>

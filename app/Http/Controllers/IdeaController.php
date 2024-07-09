@@ -13,9 +13,6 @@ class IdeaController extends Controller
         return inertia('Idea/Index', [
             'ideas' => IdeaResource::collection(
                 Idea::with([
-                    'comments' => function ($query) {
-                        $query->latest()->take(10); // Fetch the latest 10 comments
-                    },
                     'votes',
                     'favorites'
                 ])->withCount(['comments', 'votes', 'favorites'])

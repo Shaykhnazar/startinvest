@@ -31,9 +31,13 @@ Route::middleware(['auth', 'verified'])->prefix('dashboard')->name('dashboard.')
     Route::get('/startups', [ProfileStartupController::class, 'index'])->name('startups');
     Route::get('/startups/add', [ProfileStartupController::class, 'add'])->name('startups.add');
     Route::post('/startups/add', [ProfileStartupController::class, 'store'])->name('startups.store');
-    Route::get('/startups/{startup}', [ProfileStartupController::class, 'show'])->name('startups.show');
-    Route::get('/startups/edit/{startup}', [ProfileStartupController::class, 'edit'])->name('startups.edit');
-    Route::put('/startups/edit/{startup}', [ProfileStartupController::class, 'update'])->name('startups.update');
+    Route::get('/startups/{startup}', [ProfileStartupController::class, 'show'])->name('startups.show')->withTrashed();
+    Route::get('/startups/edit/{startup}', [ProfileStartupController::class, 'edit'])->name('startups.edit')->withTrashed();
+    Route::put('/startups/edit/{startup}', [ProfileStartupController::class, 'update'])->name('startups.update')->withTrashed();
+    Route::delete('/startups/{startup}', [ProfileStartupController::class, 'delete'])->name('startups.delete')->withTrashed();
+    Route::put('/startups/set-type/{startup}', [ProfileStartupController::class, 'setType'])->name('startups.setType')->withTrashed();
+    Route::delete('/startups/archive/{startup}', [ProfileStartupController::class, 'archive'])->name('startups.archive')->withTrashed();
+    Route::put('/startups/restore/{startup}', [ProfileStartupController::class, 'restore'])->name('startups.restore')->withTrashed();
 });
 
 // Idea Routes

@@ -1,7 +1,7 @@
 <script setup>
 
 import { Head, useForm, usePage } from '@inertiajs/vue3'
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 import TextEditor from '@/Components/tiptap/TextEditor.vue'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
 import DashboardPageHeader from '@/Pages/Profile/Startup/DashboardPageHeader.vue'
@@ -48,7 +48,7 @@ const locked = ref(false)
 const editorRef = ref(null)
 
 // Option values
-const typeOptions = ['private', 'public', 'archive']
+const typeOptions = ['private', 'public']
 const statusOptions = ['on start', 'progressing', 'team building', 'release', 'testing', 'on production']
 
 const submitForm = () => {

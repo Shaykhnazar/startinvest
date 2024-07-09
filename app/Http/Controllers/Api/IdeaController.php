@@ -27,22 +27,25 @@ class IdeaController extends Controller
             ...$request->validated(),
             'author_id' => auth()->user()->id,
         ]);
+
         return response()->json([
             'idea' => $this->ideaService->getIdeaResource($idea),
         ]);
     }
 
-    public function update(IdeaUpdateRequest $request, Idea $idea)
+    public function update(IdeaUpdateRequest $request, Idea $idea): JsonResponse
     {
         $idea->update($request->validated());
+
         return response()->json([
             'idea' => $this->ideaService->getIdeaResource($idea),
         ]);
     }
 
-    public function destroy(Idea $idea)
+    public function destroy(Idea $idea): JsonResponse
     {
         $idea->delete();
+
         return response()->json([
             'idea' => ['id' => $idea->id],
         ]);
@@ -58,7 +61,7 @@ class IdeaController extends Controller
         ]);
     }
 
-    public function comment(CommentRequest $request, Idea $idea)
+    public function comment(CommentRequest $request, Idea $idea): JsonResponse
     {
         $this->ideaService->addComment($idea, $request->validated());
 
@@ -68,13 +71,21 @@ class IdeaController extends Controller
         ]);
     }
 
-    public function favorite(Request $request, Idea $idea)
+    public function favorite(Request $request, Idea $idea): JsonResponse
     {
         $this->ideaService->toggleFavorite($idea);
 
         return response()->json([
             'idea' => $this->ideaService->getIdeaResource($idea),
             'user_favorites' => FavoriteResource::collection(UserService::getAuthUser(['favorites'])->favorites),
+        ]);
+    }
+
+
+    public function show(Request $request, Idea $idea): JsonResponse
+    {
+        return response()->json([
+            'description' => $idea->description,
         ]);
     }
 }

@@ -21,6 +21,7 @@ class StartupResource extends JsonResource
             'owner_id' => $this->owner_id,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            'trashed' => $this->trashed(),
             $this->mergeWhen($request->with_content, [
                 'description' => $this->description,
             ]),

@@ -4,6 +4,7 @@ import _ from 'lodash'
 export default {
     ideas: {
         add: (data) => api().post('ideas/add', data),
+        show: (id, data) => api().get(`ideas/${id}`, data),
         edit: (id, data) => api().put(`ideas/edit/${id}`, data),
         delete: (id) => api().delete(`ideas/delete/${id}`),
         vote: (id, data) => api().put(`ideas/vote/${id}`, data),

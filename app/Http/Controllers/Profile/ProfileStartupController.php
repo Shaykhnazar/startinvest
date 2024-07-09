@@ -4,14 +4,16 @@ namespace App\Http\Controllers\Profile;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProfileStartupRequest;
+use App\Http\Requests\ProfileStartupSetTypeRequest;
 use App\Http\Resources\StartupResource;
 use App\Models\Startup;
+use Illuminate\Http\Request;
 
 class ProfileStartupController extends Controller
 {
     public function index()
     {
-        $startups = Startup::where('owner_id', auth()->user()->id)->paginate(10);
+        $startups = Startup::query()->where('owner_id', auth()->user()->id)->withTrashed()->paginate(10);
 
         return inertia('Profile/Startup/Index',  [
             'startups' => StartupResource::collection($startups),
@@ -63,8 +65,36 @@ class ProfileStartupController extends Controller
             'has_mvp' => $data['has_mvp'],
         ]);
 
-        // Optionally, you can return a response or redirect
         return redirect()->route('dashboard.startups')->with('success', 'Startup updated successfully!');
+    }
+
+    public function delete(Request $request, Startup $startup)
+    {
+        $startup->forceDelete();
+
+        return redirect()->route('dashboard.startups')->with('success', 'Startup deleted successfully!');
+    }
+
+    public function setType(ProfileStartupSetTypeRequest $request, Startup $startup)
+    {
+        $startup->type = $request->validated('type');
+        $startup->save();
+
+        return redirect()->route('dashboard.startups')->with('success', 'Startup type set successfully!');
+    }
+
+    public function archive(Request $request, Startup $startup)
+    {
+        $startup->delete();
+
+        return redirect()->route('dashboard.startups')->with('success', 'Startup archived successfully!');
+    }
+
+    public function restore(Request $request, Startup $startup)
+    {
+        $startup->restore();
+
+        return redirect()->route('dashboard.startups')->with('success', 'Startup restored successfully!');
     }
 
 }

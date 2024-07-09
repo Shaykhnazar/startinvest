@@ -43,7 +43,7 @@ const editorRef = ref(null) // Add a ref for the text editor
 const startupFormRef = ref(null) // Add a ref for the form
 
 // Option values
-const typeOptions = ['private', 'public', 'archive'];
+const typeOptions = ['private', 'public'];
 const statusOptions = ['on start', 'progressing', 'team building', 'release', 'testing', 'on production'];
 
 const submitForm = () => {
@@ -121,7 +121,7 @@ const contentChanged = () => {
               </el-form-item>
               <el-form-item>
                 <el-button type="primary" @click="submitForm" round :disabled="!form.title" class="ml-2 mr-10">
-                  Add
+                  ➕Add
                 </el-button>
               </el-form-item>
             </el-form>

@@ -4,13 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Orchid\Attachment\Attachable;
 use Orchid\Filters\Filterable;
 use Orchid\Screen\AsSource;
 
 class Startup extends Model
 {
-    use AsSource, Filterable, Attachable;
+    use AsSource, Filterable, Attachable, SoftDeletes;
 
     protected $fillable = [
         'title',
