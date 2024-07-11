@@ -53,14 +53,17 @@ const statusOptions = ['on start', 'progressing', 'team building', 'release', 't
 
 const submitForm = () => {
   // Handle form submission logic
-  console.log(form)
+  // console.log(form)
 
   form.transform((data) => ({
     ...data,
     description: editorRef.value.getContentAsHTML(),
-  })).put(route('dashboard.startups.update', { id: startup.id }))
+  })).put(route('dashboard.startups.update', { id: startup.id }), {
+    onSuccess: () => {
+      success('Startup updated successfully!')
+    }
+  })
 
-  success('Startup updated successfully!')
 }
 
 const contentChanged = () => {
@@ -71,8 +74,6 @@ const contentChanged = () => {
     form.description = editorRef.value.getContent()
   }
 }
-
-
 
 </script>
 

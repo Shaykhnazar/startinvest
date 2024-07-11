@@ -143,7 +143,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-import { nextTick, ref, toRef, watch } from 'vue'
+import { nextTick, ref, toRef, watch, onMounted } from 'vue'
 
 import { useEditor, EditorContent } from '@tiptap/vue-3'
 import StarterKit from '@tiptap/starter-kit'
@@ -249,12 +249,23 @@ export default {
 
     //watch=========================================================//
 
-    watch(content, (newValue) => {
-      setContent(newValue)
+    watch(props.content, (newValue) => {
+      // console.log('watch content and setContent')
+      if (editor.value) {
+        setContent(newValue)
+      }
     })
 
     watch(editable, (newValue) => {
       editor.value.setOptions({ editable: newValue })
+    })
+
+    onMounted(() => {
+      nextTick(() => {
+        if (content.value) {
+          setContent(content.value)
+        }
+      })
     })
 
     //watch=========================================================//

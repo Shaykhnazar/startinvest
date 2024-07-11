@@ -32,6 +32,7 @@ class Startup extends Model
         'start_date' => 'date',
         'end_date' => 'date',
         'has_mvp' => 'boolean',
+        'description' => 'array'
     ];
 
     public function comments(): MorphMany

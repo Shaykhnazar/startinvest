@@ -48,11 +48,11 @@ const cancelEvent = () => {
       <dashboard-page-header :has-extra-slot="true">
         <template #content>
           <span class="text-large font-600 mr-3">{{ startup.title }} 🚀</span>
-          <span class="ml-1"><el-tag type="warning" round v-show="startup.trashed">⛔Archived</el-tag></span>
+          <span class="ml-1"><el-tag type="warning" round v-if="startup.trashed">⛔Archived</el-tag></span>
         </template>
         <template #extra>
           <el-row :gutter="12">
-            <el-col :xs="24" :sm="12" :md="6" :lg="6" :xl="6" v-show="!startup.trashed">
+            <el-col :xs="24" :sm="12" :md="6" :lg="6" :xl="6" v-if="!startup.trashed">
               <el-button
                 :type="startup.type === 'public' ? 'primary' : 'success'"
                 @click="setType(startup.id, startup.type === 'public' ? 'private' : 'public')"
@@ -62,7 +62,7 @@ const cancelEvent = () => {
                 {{ startup.type === 'public' ? '🔒 Make Private' : '📢 Publish' }}
               </el-button>
             </el-col>
-            <el-col :xs="24" :sm="12" :md="6" :lg="6" :xl="6">
+            <el-col :xs="24" :sm="12" :md="6" :lg="6" :xl="6" :span="startup.trashed ? 12 : 0">
               <el-button
                 type="info"
                 v-if="!startup.trashed"
@@ -82,7 +82,7 @@ const cancelEvent = () => {
                 🔄 Restore
               </el-button>
             </el-col>
-            <el-col :xs="24" :sm="12" :md="6" :lg="6" :xl="6">
+            <el-col :xs="24" :sm="12" :md="6" :lg="6" :xl="6" :span="startup.trashed ? 12 : 0">
               <el-popconfirm
                 confirm-button-text="Yes"
                 cancel-button-text="No"
@@ -98,7 +98,7 @@ const cancelEvent = () => {
                 </template>
               </el-popconfirm>
             </el-col>
-            <el-col :xs="24" :sm="12" :md="6" :lg="6" :xl="6" v-show="!startup.trashed">
+            <el-col :xs="24" :sm="12" :md="6" :lg="6" :xl="6" v-if="!startup.trashed">
               <el-button type="warning" @click="editStartup(startup.id)" round class="ml-2">
                 ✏️Edit
               </el-button>

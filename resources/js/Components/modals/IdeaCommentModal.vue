@@ -18,6 +18,7 @@
         ref="ideaCommentFormRef"
         :model="ideaCommentForm"
         status-icon
+        @submit.prevent
       >
         <el-row justify="center" align="middle" :gutter="12">
           <el-col :xs="2" :sm="2" :md="2" :lg="2" :xl="2" class="flex-start-col">
@@ -75,20 +76,27 @@ const props = defineProps({
   submitting: Boolean
 })
 
-const ideaCommentForm = ref(props.ideaCommentForm)
+const ideaCommentForm = reactive(props.ideaCommentForm)
 const bodyRules = ref([
   {required: true, message: 'Please input comment', trigger: 'blur'},
   {min: 3, max: 255, message: 'Length should be 3 to 255', trigger: 'blur'},
 ])
-const ideaComments = reactive(props.ideaCommentForm.idea.comments || [])
+const ideaComments = ref(props.ideaCommentForm.idea.comments || [])
 const deleteComment = () => {
   emit('delete-comment-handler')
 }
 
 // Watch for changes in the ideaCommentForm prop and update ideaComments
 watch(() => props.ideaCommentForm.idea.comments, (newComments) => {
-  ideaComments.splice(0, ideaComments.length, ...newComments);
-});
+    // ideaComments.splice(0); // Clear the array
+    console.log(newComments)
+    // ideaComments.push(...ideaUpdated); // Re-add new comments
+  },
+  {
+    deep: true,
+    immediate: true,
+  }
+);
 </script>
 <style scoped>
 .flex-start-col {

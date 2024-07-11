@@ -5,6 +5,7 @@
         :model="ideaForm"
         :rules="rules"
         status-icon
+        @submit.prevent
     >
       <el-form-item label="Title" prop="title" required>
         <el-input v-model="ideaForm.title" autocomplete="off" placeholder="Idea short title" clearable />
