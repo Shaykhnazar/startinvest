@@ -5,6 +5,7 @@ import { ChatRound } from '@element-plus/icons-vue'
 import {computed, onMounted, ref} from 'vue'
 import { useUserStore } from '@/stores/UserStore.js'
 import { useNavActiveTab } from '@/stores/useNavActiveTab.js'
+import ApplicationLogo from '@/Components/ApplicationLogo.vue'
 
 const activeTabStore = useNavActiveTab()
 
@@ -67,10 +68,8 @@ onMounted(() => {
         @select="handleSelect"
       >
         <el-menu-item index="home">
-          <img
-            style="width: 30px"
-            src="/vendor/orchid/favicon.svg"
-            alt="Element logo"
+          <ApplicationLogo
+            class="h-40 w-auto pt-5"
           />
         </el-menu-item>
         <el-menu-item
@@ -116,7 +115,7 @@ onMounted(() => {
           :offset="0"
           class="text-center"
         >
-          <div class="text-lg font-bold">StartInvest © {{ new Date().getFullYear() }}</div>
+          <div class="text-lg font-bold"> © {{ new Date().getFullYear() }} StartInvest | All rights reserved.</div>
         </el-col>
       </el-row>
     </el-footer>
