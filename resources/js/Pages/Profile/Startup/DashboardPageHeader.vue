@@ -1,13 +1,15 @@
 <template>
   <el-page-header @back="onBack">
-    <div class="header-container">
-      <div class="header-content">
+    <template #content>
+      <div class="flex items-center">
         <slot name="content" />
       </div>
-      <div class="header-extra" v-if="hasExtraSlot">
+    </template>
+    <template #extra v-if="hasExtraSlot">
+      <div class="flex items-center">
         <slot name="extra" />
       </div>
-    </div>
+    </template>
   </el-page-header>
 </template>
 
