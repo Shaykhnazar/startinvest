@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\IdeaController;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\Profile\ProfileStartupController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -30,4 +31,7 @@ Route::group(['prefix' => 'v1'], function () {
     Route::group(['prefix' => 'startups', 'as' => 'startups.', 'middleware' => ['auth', 'web']], function () {
         Route::post('/store', [ProfileStartupController::class, 'store'])->name('store');
     });
+    // CHAT
+    Route::get('/messages/{friend}', [ChatController::class, 'messages'])->middleware(['auth', 'web'])->name('chat.messages');
+    Route::post('/messages/{friend}', [ChatController::class, 'send'])->middleware(['auth', 'web'])->name('chat.send');
 });

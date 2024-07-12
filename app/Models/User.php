@@ -50,11 +50,11 @@ class User extends Authenticatable
      * @var array
      */
     protected $allowedFilters = [
-           'id'         => Where::class,
-           'name'       => Like::class,
-           'email'      => Like::class,
-           'updated_at' => WhereDateStartEnd::class,
-           'created_at' => WhereDateStartEnd::class,
+       'id'         => Where::class,
+       'name'       => Like::class,
+       'email'      => Like::class,
+       'updated_at' => WhereDateStartEnd::class,
+       'created_at' => WhereDateStartEnd::class,
     ];
 
     /**
@@ -98,6 +98,16 @@ class User extends Authenticatable
     public function comments(): HasMany
     {
         return $this->hasMany(Comment::class, 'user_id');
+    }
+
+    public function sentMessages()
+    {
+        return $this->hasMany(ChatMessage::class, 'sender_id');
+    }
+
+    public function receivedMessages()
+    {
+        return $this->hasMany(ChatMessage::class, 'receiver_id');
     }
 
     public function getAuthPasswordName()

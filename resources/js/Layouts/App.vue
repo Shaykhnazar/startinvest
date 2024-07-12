@@ -81,12 +81,12 @@ onMounted(() => {
         </el-menu-item>
 
         <div class="flex-grow"/>
-<!--        <el-menu-item index="chat" disabled>-->
-<!--          <el-icon>-->
-<!--            <ChatRound/>-->
-<!--          </el-icon>-->
-<!--          Chat-->
-<!--        </el-menu-item>-->
+        <el-menu-item index="chat">
+          <el-icon>
+            <ChatRound/>
+          </el-icon>
+          Chat
+        </el-menu-item>
         <template v-if="$page.props.canLogin">
           <el-menu-item :index="$page.props.auth.user ? 'dashboard.index' : 'login'">
             <Link

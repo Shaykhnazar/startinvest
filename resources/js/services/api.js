@@ -10,7 +10,11 @@ export default {
         vote: (id, data) => api().put(`ideas/vote/${id}`, data),
         comment: (id, data) => api().post(`ideas/comment/${id}`, data),
         favorite: (id, data) => api().put(`ideas/favorite/${id}`, data),
-    }
+    },
+    messages: {
+        getMessages: (friendId) => api().get(`messages/${friendId}`),
+        sendMessage: (friendId, data) => api().post(`messages/${friendId}`, data),
+    },
 }
 
 function api() {
