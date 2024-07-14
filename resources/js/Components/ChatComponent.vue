@@ -105,7 +105,7 @@ onMounted(async () => {
 
   Echo.private(`chat.${props.currentUser.id}`)
     .listen('MessageSent', (response) => {
-      messages.value.push(response.message);
+      messages.value.push(response.data.message);
     })
     .listenForWhisper('typing', (response) => {
       isFriendTyping.value = response.userID === props.friend.id;
