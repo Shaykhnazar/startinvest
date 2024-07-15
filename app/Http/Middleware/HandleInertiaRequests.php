@@ -46,6 +46,7 @@ class HandleInertiaRequests extends Middleware
             ],
             'canLogin' => Route::has('login'),
             'canRegister' => Route::has('register'),
+            'isTestMode' => config('app.test_mode'),
         ];
     }
 }

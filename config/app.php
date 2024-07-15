@@ -185,4 +185,13 @@ return [
         // 'Example' => App\Facades\Example::class,
     ])->toArray(),
 
+
+    /*
+     *
+     *
+     *
+     *
+     */
+    'test_mode' => env('APP_TEST_MODE', false),
+
 ];

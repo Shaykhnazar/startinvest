@@ -2,11 +2,15 @@
 
 import { Link, router, usePage } from '@inertiajs/vue3'
 import { ChatRound } from '@element-plus/icons-vue'
-import {computed, onMounted, ref} from 'vue'
+import {computed, onMounted, defineComponent, ref} from 'vue'
 import { useUserStore } from '@/stores/UserStore.js'
 import { useNavActiveTab } from '@/stores/useNavActiveTab.js'
 import ApplicationLogo from '@/Components/ApplicationLogo.vue'
+import AnnouncementBanner from '@/Components/AnnouncementBanner.vue'
 
+defineComponent({
+  AnnouncementBanner
+})
 const activeTabStore = useNavActiveTab()
 
 const handleSelect = (key, keyPath) => {
@@ -22,6 +26,10 @@ defineProps({
   canRegister: {
     type: Boolean,
   },
+  isTestMode: {
+    type: Boolean,
+    default: false
+  }
 });
 
 const menuItems = [
@@ -49,13 +57,16 @@ const menuItems = [
   }
 ]
 const userStore = useUserStore();
+const pageProps = usePage().props
 
 onMounted(() => {
-  usePage().props.auth.user && userStore.setAuthUser(usePage().props.auth.user.data)
+  pageProps.auth.user && userStore.setAuthUser(pageProps.auth.user.data)
 })
 </script>
 
 <template>
+  <announcement-banner :is-test-mode="pageProps.isTestMode" />
+
   <slot name="header" />
 
   <el-container>
