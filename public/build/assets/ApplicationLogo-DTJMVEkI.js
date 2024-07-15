@@ -1,0 +1,1 @@
+import{_ as o,o as e,f as t}from"./app-B131xkWy.js";const c={},s={style:{width:"100px"},src:"/images/logo.svg",alt:"Element logo"};function n(r,_){return e(),t("img",s)}const i=o(c,[["render",n]]);export{i as A};

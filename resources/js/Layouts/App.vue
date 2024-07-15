@@ -69,7 +69,7 @@ onMounted(() => {
 
   <slot name="header" />
 
-  <el-container>
+  <el-container class="main-container">
     <el-header>
       <el-menu
         :default-active="activeTabStore.getActiveTab"
@@ -119,7 +119,7 @@ onMounted(() => {
     <el-main>
       <slot />
     </el-main>
-    <el-footer>
+    <el-footer class="footer">
       <el-row>
         <el-col
           :span="24"
@@ -134,5 +134,15 @@ onMounted(() => {
 </template>
 
 <style scoped>
+.main-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Ensures the container takes at least the full viewport height */
+}
 
+.footer {
+  margin-top: auto; /* Pushes the footer to the bottom of the container */
+  background-color: #f5f5f5; /* Example background color for the footer */
+  padding: 20px 0; /* Example padding for the footer */
+}
 </style>
