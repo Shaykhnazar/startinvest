@@ -1,12 +1,12 @@
 <script setup>
-import Checkbox from '@/Components/Checkbox.vue';
+import Checkbox from '@/components/Checkbox.vue';
 import GuestLayout from '@/Layouts/GuestLayout.vue';
-import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
-import TextInput from '@/Components/TextInput.vue';
+import InputError from '@/components/InputError.vue';
+import InputLabel from '@/components/InputLabel.vue';
+import PrimaryButton from '@/components/PrimaryButton.vue';
+import TextInput from '@/components/TextInput.vue';
 import { Head, Link, router, useForm, usePage } from '@inertiajs/vue3';
-import AuthProviderButtons from '@/Components/AuthProviderButtons.vue';
+import AuthProviderButtons from '@/components/AuthProviderButtons.vue';
 import { useUserStore } from '@/stores/UserStore.js'
 
 defineProps({
@@ -114,7 +114,7 @@ const registerRedirect = () => {
       <div style="position: relative; text-align: center; margin-top: 20px; margin-bottom: 20px;">
         <hr style="border: 1px solid #ccc;">
         <span style="position: absolute; top: -10px; left: 50%; transform: translateX(-50%); background-color: #fff; padding: 0 10px;">
-          Don't have an account?
+          or
         </span>
       </div>
       <div class="flex items-center justify-center">

@@ -67,14 +67,14 @@ import { ref, onMounted } from 'vue';
 
 import App from '@/Layouts/App.vue'
 import { Head, usePage } from '@inertiajs/vue3';
-import IdeaModal from "@/Components/modals/IdeaModal.vue";
-import IdeaCard from '@/Components/IdeaCard.vue'
-import PostNewIdeaSection from '@/Components/PostNewIdeaSection.vue'
+import IdeaModal from "@/components/modals/IdeaModal.vue";
+import IdeaCard from '@/components/IdeaCard.vue'
+import PostNewIdeaSection from '@/components/PostNewIdeaSection.vue'
 import { useIdea } from '@/Composables/useIdea.ts'
 import { useUserStore } from '@/stores/UserStore.js'
 import { useElMessage } from '@/Composables/helpers.js'
 import api from '@/services/api'
-import IdeaCommentModal from '@/Components/modals/IdeaCommentModal.vue'
+import IdeaCommentModal from '@/components/modals/IdeaCommentModal.vue'
 import { useInfiniteScroll } from '@/Composables/useInfiniteScroll.js'
 import { VOTE_TYPES } from '@/services/const.js'
 

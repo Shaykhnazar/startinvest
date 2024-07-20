@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\StartupTypeEnum;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -38,5 +40,15 @@ class Startup extends Model
     public function comments(): MorphMany
     {
         return $this->morphMany(Comment::class, 'commentable');
+    }
+
+    public function scopePublic(Builder $builder): Builder
+    {
+        return $builder->where('type', StartupTypeEnum::PUBLIC);
+    }
+
+    public function scopePrivate(Builder $builder): Builder
+    {
+        return $builder->where('type', StartupTypeEnum::PRIVATE);
     }
 }

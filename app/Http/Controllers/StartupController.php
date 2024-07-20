@@ -9,8 +9,13 @@ class StartupController extends Controller
 {
     public function index()
     {
+        $startups = Startup::query()
+            ->latest()
+            ->public()
+            ->paginate(10);
+
         return inertia('Startup/Index', [
-            'startups' => StartupResource::collection(Startup::all()),
+            'startups' => StartupResource::collection($startups),
         ]);
     }
 }

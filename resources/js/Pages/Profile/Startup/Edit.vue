@@ -2,7 +2,7 @@
 
 import { Head, useForm, usePage } from '@inertiajs/vue3'
 import { ref } from 'vue'
-import TextEditor from '@/Components/tiptap/TextEditor.vue'
+import TextEditor from '@/components/tiptap/TextEditor.vue'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
 import DashboardPageHeader from '@/Pages/Profile/Startup/DashboardPageHeader.vue'
 import { useElMessage, useFormatFriendlyDate } from '@/Composables/helpers'

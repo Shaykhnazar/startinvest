@@ -5,8 +5,8 @@ import { ChatRound } from '@element-plus/icons-vue'
 import {computed, onMounted, defineComponent, ref} from 'vue'
 import { useUserStore } from '@/stores/UserStore.js'
 import { useNavActiveTab } from '@/stores/useNavActiveTab.js'
-import ApplicationLogo from '@/Components/ApplicationLogo.vue'
-import AnnouncementBanner from '@/Components/AnnouncementBanner.vue'
+import ApplicationLogo from '@/components/ApplicationLogo.vue'
+import AnnouncementBanner from '@/components/AnnouncementBanner.vue'
 
 defineComponent({
   AnnouncementBanner

@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Actions\DateFormatForHumans;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -19,8 +20,8 @@ class StartupResource extends JsonResource
             'type' => $this->type,
             'status' => $this->status,
             'owner_id' => $this->owner_id,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'created_at' => DateFormatForHumans::run($this->created_at),
+            'updated_at' => DateFormatForHumans::run($this->updated_at),
             'trashed' => $this->trashed(),
             $this->mergeWhen($request->with_content, [
                 'description' => $this->description,
