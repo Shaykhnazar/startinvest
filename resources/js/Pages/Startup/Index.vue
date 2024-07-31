@@ -47,7 +47,7 @@
 import { ref, computed, watch } from 'vue';
 import { Head } from '@inertiajs/vue3';
 import App from '@/Layouts/App.vue';
-import StartupCard from '@/components/StartupCard.vue';
+import StartupCard from '@/Components/StartupCard.vue';
 import { useUserStore } from '@/stores/UserStore.js';
 import { useElMessage } from '@/Composables/helpers.js';
 import { useInfiniteScroll } from '@/Composables/useInfiniteScroll.js';

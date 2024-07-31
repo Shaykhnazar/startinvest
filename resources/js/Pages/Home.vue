@@ -13,45 +13,45 @@ import App from '@/Layouts/App.vue';
       <Head title="Home page"/>
     </template>
 
-    <p class="text-center demonstration"></p>
-    <el-carousel
-      height="400px"
-      direction="vertical"
-      type="card"
-      :autoplay="false"
-    >
-      <el-carousel-item v-for="item in 4" :key="item">
-        <h3 text="2xl" justify="center">{{ item }}</h3>
-      </el-carousel-item>
-    </el-carousel>
-    <br/>
-    <el-row>
-      <ElementColumnCard text-title="Idea">
-        <template #icon>
-          <Opportunity/>
-        </template>
-      </ElementColumnCard>
-      <ElementColumnCard text-title="Team">
-        <template #icon>
-          <User/>
-        </template>
-      </ElementColumnCard>
-      <ElementColumnCard text-title="StartUp">
-        <template #icon>
-          <Flag/>
-        </template>
-      </ElementColumnCard>
-      <ElementColumnCard text-title="Financing">
-        <template #icon>
-          <Money/>
-        </template>
-      </ElementColumnCard>
-      <ElementColumnCard text-title="Success" :has-right-arrow-icon="false">
-        <template #icon>
-          <SuccessFilled/>
-        </template>
-      </ElementColumnCard>
-    </el-row>
+<!--    <p class="text-center demonstration"></p>-->
+<!--    <el-carousel-->
+<!--      height="400px"-->
+<!--      direction="vertical"-->
+<!--      type="card"-->
+<!--      :autoplay="false"-->
+<!--    >-->
+<!--      <el-carousel-item v-for="item in 4" :key="item">-->
+<!--        <h3 text="2xl" justify="center">{{ item }}</h3>-->
+<!--      </el-carousel-item>-->
+<!--    </el-carousel>-->
+<!--    <br/>-->
+<!--    <el-row>-->
+<!--      <ElementColumnCard text-title="Idea">-->
+<!--        <template #icon>-->
+<!--          <Opportunity/>-->
+<!--        </template>-->
+<!--      </ElementColumnCard>-->
+<!--      <ElementColumnCard text-title="Team">-->
+<!--        <template #icon>-->
+<!--          <User/>-->
+<!--        </template>-->
+<!--      </ElementColumnCard>-->
+<!--      <ElementColumnCard text-title="StartUp">-->
+<!--        <template #icon>-->
+<!--          <Flag/>-->
+<!--        </template>-->
+<!--      </ElementColumnCard>-->
+<!--      <ElementColumnCard text-title="Financing">-->
+<!--        <template #icon>-->
+<!--          <Money/>-->
+<!--        </template>-->
+<!--      </ElementColumnCard>-->
+<!--      <ElementColumnCard text-title="Success" :has-right-arrow-icon="false">-->
+<!--        <template #icon>-->
+<!--          <SuccessFilled/>-->
+<!--        </template>-->
+<!--      </ElementColumnCard>-->
+<!--    </el-row>-->
   </App>
 </template>
 

@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import ChatComponent from '@/components/ChatComponent.vue';
+import ChatComponent from '@/Components/ChatComponent.vue';
 import { Head } from '@inertiajs/vue3'
 import App from '@/Layouts/App.vue'
 
