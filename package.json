@@ -23,6 +23,7 @@
         "lodash": "^4.17.21",
         "pinia": "^2.1.7",
         "pinia-plugin-persistedstate": "^3.2.1",
+        "preline": "^2.4.1",
         "vite-svg-loader": "^5.1.0",
         "vue": "^3.4.31"
     },
