@@ -1,7 +1,7 @@
 <template>
   <App>
     <template #header>
-      <Head title="Ideas"/>
+      <Head title="G'oyalar"/>
     </template>
     <el-backtop :right="50" :bottom="50" />
 

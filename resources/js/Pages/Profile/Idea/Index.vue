@@ -185,7 +185,7 @@ async function voteSubmit(idea, type) {
 </script>
 
 <template>
-  <Head title="My Ideas"/>
+  <Head title="G'oyalarim"/>
 
   <AuthenticatedLayout>
     <el-backtop :right="50" :bottom="50" />

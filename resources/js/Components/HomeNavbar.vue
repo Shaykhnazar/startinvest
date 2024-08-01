@@ -18,11 +18,11 @@ defineProps({
 
 const menuItems = [
   {
-    name: 'Ideas',
+    name: 'G\'oyalar',
     route: 'ideas.index',
   },
   {
-    name: 'StartUps',
+    name: 'Startuplar',
     route: 'startups.index',
   },
   // {
@@ -36,7 +36,7 @@ const menuItems = [
   //   disabled: true
   // },
   {
-    name: 'About Us',
+    name: 'Biz haqimizda',
     route: 'about-us',
   }
 ]
@@ -48,52 +48,6 @@ const visitTo = (url) => {
 </script>
 
 <template>
-
-  <!--      <el-menu-->
-  <!--        :default-active="activeTabStore.getActiveTab"-->
-  <!--        class="el-menu-demo"-->
-  <!--        mode="horizontal"-->
-  <!--        :ellipsis="false"-->
-  <!--        @select="handleSelect"-->
-  <!--      >-->
-  <!--        <el-menu-item index="home">-->
-  <!--          <ApplicationLogo-->
-  <!--            class="h-40 w-auto pt-5"-->
-  <!--          />-->
-  <!--        </el-menu-item>-->
-  <!--        <el-menu-item-->
-  <!--          v-for="menuItem in menuItems"-->
-  <!--          :index="menuItem.url"-->
-  <!--          :disabled="menuItem.disabled"-->
-  <!--        >-->
-  <!--          {{ menuItem.name }}-->
-  <!--        </el-menu-item>-->
-
-  <!--        <div class="flex-grow"/>-->
-  <!--        <el-menu-item index="chat">-->
-  <!--          <el-icon>-->
-  <!--            <ChatRound/>-->
-  <!--          </el-icon>-->
-  <!--          Chat-->
-  <!--        </el-menu-item>-->
-<!--          <template v-if="$page.props.canLogin">-->
-<!--            <el-menu-item :index="$page.props.auth.user ? 'dashboard.index' : 'login'">-->
-<!--              <Link-->
-<!--                v-if="$page.props.auth.user"-->
-<!--                :href="route('dashboard.index')"-->
-<!--              >Dashboard-->
-<!--              </Link>-->
-<!--              <template v-else>-->
-<!--                <Link-->
-<!--                  :href="route('login')"-->
-<!--                >Login-->
-<!--                </Link-->
-<!--                >-->
-<!--              </template>-->
-<!--            </el-menu-item>-->
-<!--          </template>-->
-  <!--      </el-menu>-->
-
   <!-- ========== HEADER ========== -->
     <nav class="relative max-w-7xl w-full flex flex-wrap md:grid md:grid-cols-12 basis-full items-center px-4 md:px-6 md:px-8 mx-auto">
       <div class="md:col-span-3">
@@ -110,10 +64,10 @@ const visitTo = (url) => {
       <div class="flex items-center gap-x-1 md:gap-x-2 ms-auto py-1 md:ps-6 md:order-3 md:col-span-3">
         <template v-if="$page.props.canLogin">
           <button v-if="!$page.props.auth.user" type="button" @click="visitTo(route('login'))" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-xl border border-transparent bg-lime-400 text-black hover:bg-lime-500 focus:outline-none focus:bg-lime-500 transition disabled:opacity-50 disabled:pointer-events-none">
-            Sign in
+            Tizimga kirish
           </button>
           <button v-else type="button" @click="visitTo(route('dashboard.index'))" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-xl border border-transparent bg-lime-400 text-black hover:bg-lime-500 focus:outline-none focus:bg-lime-500 transition disabled:opacity-50 disabled:pointer-events-none">
-            Dashboard
+            Kabinet
           </button>
         </template>
 

@@ -26,7 +26,7 @@ const { formatFriendlyDate } = useFormatFriendlyDate()
 </script>
 
 <template>
-  <Head title="My Startups"/>
+  <Head title="Loyihalarim"/>
 
   <AuthenticatedLayout>
     <div class="common-layout">

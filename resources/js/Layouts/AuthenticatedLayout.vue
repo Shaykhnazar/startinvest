@@ -35,13 +35,13 @@ const logoutHandle = () => {
               <!-- Navigation Links -->
               <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                 <NavLink :href="route('dashboard.index')" :active="route().current('dashboard.index')">
-                  Dashboard
+                  Kabinet
                 </NavLink>
                 <NavLink :href="route('dashboard.ideas')" :active="route().current('dashboard.ideas')">
-                  My Ideas
+                  G'oyalarim
                 </NavLink>
                 <NavLink :href="route('dashboard.startups')" :active="route().current('dashboard.startups')">
-                  My Startups
+                  Loyihalarim
                 </NavLink>
               </div>
             </div>
@@ -124,7 +124,7 @@ const logoutHandle = () => {
         >
           <div class="pt-2 pb-3 space-y-1">
             <ResponsiveNavLink :href="route('dashboard.index')" :active="route().current('dashboard.index')">
-              Dashboard
+              Kabinet
             </ResponsiveNavLink>
           </div>
 
