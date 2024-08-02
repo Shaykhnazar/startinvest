@@ -1,6 +1,6 @@
 <script setup>
 import ApplicationLogo from '@/Components/ApplicationLogo.vue'
-
+import {Link} from '@inertiajs/vue3'
 </script>
 <template>
   <div
@@ -8,7 +8,9 @@ import ApplicationLogo from '@/Components/ApplicationLogo.vue'
     <!-- Header -->
     <div class="flex justify-between items-center">
       <!-- Logo -->
-      <ApplicationLogo/>
+      <Link :href="route('home')" class="flex-none rounded-md text-xl inline-block font-semibold focus:outline-none focus:opacity-80" aria-label="Logo">
+        <ApplicationLogo/>
+      </Link>
       <!-- End Logo -->
 
       <!-- Language Select -->

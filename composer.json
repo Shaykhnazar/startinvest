@@ -14,6 +14,7 @@
         "laravel/sanctum": "^4.0",
         "laravel/socialite": "^5.11",
         "laravel/tinker": "^2.8",
+        "league/flysystem-aws-s3-v3": "^3.0",
         "orchid/crud": "^4.1",
         "orchid/platform": "^14.16",
         "socialiteproviders/google": "^4.1",

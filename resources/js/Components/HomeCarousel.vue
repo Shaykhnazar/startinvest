@@ -1,5 +1,38 @@
 <script setup>
+import {Link} from '@inertiajs/vue3'
+import { onMounted} from 'vue'
 
+const ASSETS_URL = import.meta.env.VITE_ASSETS_URL
+
+onMounted(() => {
+  // console.log(ASSETS_URL)
+})
+
+const carouselItems = () => {
+  return [
+    {
+      id: 1,
+      image_url: `${ASSETS_URL}/images/carousel_1.jpg`,
+      title: 'G\'oya',
+      short: 'G\'oyalaringiz bilan o\'rtoqlashing!',
+      route: 'ideas.index'
+    },
+    {
+      id: 2,
+      image_url: `${ASSETS_URL}/images/carousel_2.jpg`,
+      title: 'Startup',
+      short: 'Keyingi jamoa a\'zolaringizni toping va mahoratingizni oshiring!',
+      route: 'startups.index'
+    },
+    {
+      id: 3,
+      image_url: `${ASSETS_URL}/images/carousel_3.jpg`,
+      title: 'Investitsiya',
+      short: 'Eng yaxshi deb hisoblagan startap loyihani izlab toping va uni moliyalashtiring!',
+      route: 'startups.index'
+    },
+  ]
+}
 </script>
 
 <template>
@@ -10,52 +43,53 @@
     }' class="relative">
       <div class="hs-carousel relative overflow-hidden w-full h-[30rem] md:h-[calc(100vh-106px)]  bg-gray-100 rounded-2xl dark:bg-neutral-800">
         <div class="hs-carousel-body absolute top-0 bottom-0 start-0 flex flex-nowrap transition-transform duration-700 opacity-0">
-          <!-- Item -->
-          <div class="hs-carousel-slide">
-            <div class="h-[30rem] md:h-[calc(100vh-106px)]  flex flex-col bg-[url('https://images.unsplash.com/photo-1615615228002-890bb61cac6e?q=80&w=1920&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')] bg-cover bg-center bg-no-repeat">
-              <div class="mt-auto w-2/3 md:max-w-lg ps-5 pb-5 md:ps-10 md:pb-10">
-                <span class="block text-white">Nike React</span>
-                <span class="block text-white text-xl md:text-3xl">Rewriting sport's playbook for billions of athletes</span>
-                <div class="mt-5">
-                  <a class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-xl bg-white border border-transparent text-black hover:bg-gray-100 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none" href="#">
-                    Read Case Studies
-                  </a>
+          <template v-for="item in carouselItems" :key="item.id">
+            <!-- Item -->
+            <div class="hs-carousel-slide">
+              <div :class="`h-[30rem] md:h-[calc(100vh-106px)] flex flex-col bg-[url(${item.image_url})] bg-cover bg-center bg-no-repeat`">
+                <div class="mt-auto w-2/3 md:max-w-lg ps-5 pb-5 md:ps-10 md:pb-10">
+                  <span class="block text-white">{{ item.title }}</span>
+                  <span class="block text-white text-xl md:text-3xl">{{ item.short }}</span>
+                  <div class="mt-5">
+                    <Link :href="route(item.route)" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-xl bg-white border border-transparent text-black hover:bg-gray-100 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none" href="#">
+                      Read Mores
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+            <!-- End Item -->
+          </template>
+          <!-- Item -->
+<!--          <div class="hs-carousel-slide">-->
+<!--            <div class="h-[30rem] md:h-[calc(100vh-106px)]  flex flex-col bg-[url('https://images.unsplash.com/photo-1612287230202-1ff1d85d1bdf?q=80&w=1920&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')] bg-cover bg-center bg-no-repeat">-->
+<!--              <div class="mt-auto w-2/3 md:max-w-lg ps-5 pb-5 md:ps-10 md:pb-10">-->
+<!--                <span class="block text-white">CoolApps</span>-->
+<!--                <span class="block text-white text-xl md:text-3xl">From mobile apps to gaming consoles</span>-->
+<!--                <div class="mt-5">-->
+<!--                  <a class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-xl bg-white border border-transparent text-black hover:bg-gray-100 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none" href="#">-->
+<!--                    Read Case Studies-->
+<!--                  </a>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
           <!-- End Item -->
 
           <!-- Item -->
-          <div class="hs-carousel-slide">
-            <div class="h-[30rem] md:h-[calc(100vh-106px)]  flex flex-col bg-[url('https://images.unsplash.com/photo-1612287230202-1ff1d85d1bdf?q=80&w=1920&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')] bg-cover bg-center bg-no-repeat">
-              <div class="mt-auto w-2/3 md:max-w-lg ps-5 pb-5 md:ps-10 md:pb-10">
-                <span class="block text-white">CoolApps</span>
-                <span class="block text-white text-xl md:text-3xl">From mobile apps to gaming consoles</span>
-                <div class="mt-5">
-                  <a class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-xl bg-white border border-transparent text-black hover:bg-gray-100 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none" href="#">
-                    Read Case Studies
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- End Item -->
-
-          <!-- Item -->
-          <div class="hs-carousel-slide">
-            <div class="h-[30rem] md:h-[calc(100vh-106px)]  flex flex-col bg-[url('https://images.unsplash.com/photo-1629666451094-8908989cae90?q=80&w=1920&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')] bg-cover bg-center bg-no-repeat">
-              <div class="mt-auto w-2/3 md:max-w-lg ps-5 pb-5 md:ps-10 md:pb-10">
-                <span class="block text-white">Grumpy</span>
-                <span class="block text-white text-xl md:text-3xl">Bringing Art to everything</span>
-                <div class="mt-5">
-                  <a class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-xl bg-white border border-transparent text-black hover:bg-gray-100 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none" href="#">
-                    Read Case Studies
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
+<!--          <div class="hs-carousel-slide">-->
+<!--            <div class="h-[30rem] md:h-[calc(100vh-106px)]  flex flex-col bg-[url('https://images.unsplash.com/photo-1629666451094-8908989cae90?q=80&w=1920&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')] bg-cover bg-center bg-no-repeat">-->
+<!--              <div class="mt-auto w-2/3 md:max-w-lg ps-5 pb-5 md:ps-10 md:pb-10">-->
+<!--                <span class="block text-white">Grumpy</span>-->
+<!--                <span class="block text-white text-xl md:text-3xl">Bringing Art to everything</span>-->
+<!--                <div class="mt-5">-->
+<!--                  <a class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-xl bg-white border border-transparent text-black hover:bg-gray-100 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none" href="#">-->
+<!--                    Read Case Studies-->
+<!--                  </a>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
           <!-- End Item -->
         </div>
       </div>
