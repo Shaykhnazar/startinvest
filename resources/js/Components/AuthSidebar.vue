@@ -46,7 +46,7 @@ import {Link} from '@inertiajs/vue3'
     <!-- Body -->
     <div>
           <span class="text-2xl font-medium text-gray-800 dark:text-white">
-            Startapingizni boshqarishning eng oddiy usuli
+            Startupingizni boshqarishning eng oddiy usuli
           </span>
 
       <!--        <img class="dark:hidden" src="#" alt="Charts Mockups">-->

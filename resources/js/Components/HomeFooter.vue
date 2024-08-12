@@ -41,17 +41,17 @@ import ApplicationLogo from '@/Components/ApplicationLogo.vue'
 <!--      </div>-->
       <!-- End Col -->
 
-<!--      <div>-->
-<!--        <h4 class="text-xs font-semibold text-gray-900 uppercase dark:text-neutral-100">Resources</h4>-->
+      <div>
+        <h4 class="text-xs font-semibold text-gray-900 uppercase dark:text-neutral-100">Aloqa</h4>
 
-<!--        <div class="mt-3 grid space-y-3 text-sm">-->
-<!--          <p><a class="inline-flex gap-x-2 text-gray-600 hover:text-gray-800 focus:outline-none focus:text-gray-800 dark:text-neutral-400 dark:hover:text-neutral-200 dark:focus:text-neutral-200" href="#">Community</a></p>-->
-<!--          <p><a class="inline-flex gap-x-2 text-gray-600 hover:text-gray-800 focus:outline-none focus:text-gray-800 dark:text-neutral-400 dark:hover:text-neutral-200 dark:focus:text-neutral-200" href="#">Help & Support</a></p>-->
+        <div class="mt-3 grid space-y-3 text-sm">
+          <p><a class="inline-flex gap-x-2 text-gray-600 hover:text-gray-800 focus:outline-none focus:text-gray-800 dark:text-neutral-400 dark:hover:text-neutral-200 dark:focus:text-neutral-200" href="#">Chat</a></p>
+          <p><a class="inline-flex gap-x-2 text-gray-600 hover:text-gray-800 focus:outline-none focus:text-gray-800 dark:text-neutral-400 dark:hover:text-neutral-200 dark:focus:text-neutral-200" href="#">Yordam va qoʻllab-quvvatlash</a></p>
 <!--          <p><a class="inline-flex gap-x-2 text-gray-600 hover:text-gray-800 focus:outline-none focus:text-gray-800 dark:text-neutral-400 dark:hover:text-neutral-200 dark:focus:text-neutral-200" href="#">eBook</a></p>-->
 <!--          <p><a class="inline-flex gap-x-2 text-gray-600 hover:text-gray-800 focus:outline-none focus:text-gray-800 dark:text-neutral-400 dark:hover:text-neutral-200 dark:focus:text-neutral-200" href="#">What's New</a></p>-->
 <!--          <p><a class="inline-flex gap-x-2 text-gray-600 hover:text-gray-800 focus:outline-none focus:text-gray-800 dark:text-neutral-400 dark:hover:text-neutral-200 dark:focus:text-neutral-200" href="#">Status</a></p>-->
-<!--        </div>-->
-<!--      </div>-->
+        </div>
+      </div>
       <!-- End Col -->
 
 <!--      <div>-->

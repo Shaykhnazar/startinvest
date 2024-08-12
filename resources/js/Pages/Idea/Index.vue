@@ -3,7 +3,7 @@
     <template #header>
       <Head title="G'oyalar"/>
     </template>
-    <el-backtop :right="50" :bottom="50" />
+    <el-backtop :right="50" :bottom="50" :visibility-height="300" />
 
     <el-container>
       <el-main>
@@ -35,8 +35,8 @@
       v-if="ideaModalVisible"
       :idea-form="ideaForm"
       :submitting="submitting"
-      title="New Idea"
-      submit-button-text="Post"
+      title="Yangi g'oya"
+      submit-button-text="Yuborish"
       @close="showIdeaModal(false)"
       @submit="ideaSubmit"
       @reset="resetForm"
@@ -45,8 +45,8 @@
       v-if="ideaEditModalVisible"
       :idea-form="ideaForm"
       :submitting="submitting"
-      title="Edit Idea"
-      submit-button-text="Save"
+      title="G'oyani tahrirlash"
+      submit-button-text="Saqlash"
       @close="showIdeaEditModal(false)"
       @submit="ideaSubmit"
       @reset="resetForm"
@@ -55,7 +55,7 @@
       v-if="ideaCommentModalVisible"
       :idea-comment-form="ideaCommentForm"
       :submitting="submitting"
-      submit-button-text="Post"
+      submit-button-text="Yuborish"
       @close="showIdeaCommentModal(false)"
       @submit="commentIdeaHandler"
     />
@@ -85,8 +85,8 @@ const props = defineProps({
 })
 const landmark = ref(null)
 
-const { ideaForm, ideaCommentForm, resetForm,  showIdeaModal, showIdeaEditModal, showIdeaCommentModal, ideaModalVisible, ideaEditModalVisible, ideaCommentModalVisible } = useIdea()
-const {info, success} = useElMessage();
+const { ideaForm, ideaCommentForm, resetForm, showIdeaModal, showIdeaEditModal, showIdeaCommentModal, ideaModalVisible, ideaEditModalVisible, ideaCommentModalVisible } = useIdea()
+const { info, success } = useElMessage()
 const { items } = useInfiniteScroll('ideas', landmark)
 const userStore = useUserStore()
 
@@ -113,15 +113,12 @@ const ideaSubmit = async (formEl, ideaData) => {
   await formEl.validate((valid, fields) => {
     if (valid) {
       submitting.value = true
-      // console.log('submit!');
 
       if (ideaData.id !== null) {
         ideaEdit(ideaData)
       } else {
         ideaAdd(ideaData)
       }
-    } else {
-      // console.log('error submit!', fields);
     }
   });
 };
@@ -133,7 +130,7 @@ const ideaEdit = async (ideaData) => {
   }).then((response) => {
     updateIdeaList(response.data.idea)
     showIdeaEditModal(false)
-    success('Idea edited successfully')
+    success('G\'oya muvaffaqiyatli tahrirlandi')
   }).finally(() => {
     submitting.value = false
   });
@@ -146,7 +143,8 @@ const ideaAdd = async (ideaData) => {
   }).then((response) => {
     updateIdeaList(response.data.idea)
     showIdeaModal(false)
-    success('Idea added successfully')
+    success('G\'oya muvaffaqiyatli qo\'shildi'
+  )
   }).finally(() => {
     submitting.value = false
   })
@@ -156,7 +154,8 @@ const deleteIdea = async (id) => {
   submitting.value = true
   await api.ideas.delete(id).then((response) => {
     updateIdeaList(response.data.idea, true)
-    info('Idea deleted successfully')
+    info('G\'oya muvaffaqiyatli o\'chirildi'
+  )
   }).finally(() => {
     submitting.value = false
   })
@@ -167,6 +166,7 @@ async function voteUp(idea) {
     await voteSubmit(idea, VOTE_TYPES.UP)
   }
 }
+
 async function voteDown(idea) {
   if (votePreCheck() && !userStore.hasDownvotedIdea(idea) && !submitting.value) {
     await voteSubmit(idea, VOTE_TYPES.DOWN)
@@ -175,17 +175,17 @@ async function voteDown(idea) {
 
 async function favoriteIdeaHandler(idea) {
   if (userStore.isGuest) {
-    info('Please login to save ideas')
-  }
-  else if (!submitting.value) {
+    info('Iltimos, g\'oyalarni saqlash uchun tizimga kiring')
+  } else if (!submitting.value) {
     submitting.value = true
     await api.ideas.favorite(idea.id).then((response) => {
       updateIdeaList(response.data.idea)
       userStore.updateUserFavorites(response.data.user_favorites)
       if (userStore.hasFavoritedIdea(idea)) {
-        success('Idea saved successfully')
+        success('G\'oya muvaffaqiyatli saqlandi')
       } else {
-        info('Idea removed from your favorites')
+        info('G\'oya sizning sevimlilar ro\'yxatingizdan o\'chirildi'
+      )
       }
     }).finally(() => {
       submitting.value = false
@@ -195,9 +195,8 @@ async function favoriteIdeaHandler(idea) {
 
 async function commentIdeaHandler(formEl, ideaCommentFormData) {
   if (userStore.isGuest) {
-    info('Please login to comment')
-  }
-  else if (!submitting.value) {
+    info('Iltimos, sharh qoldirish uchun tizimga kiring')
+  } else if (!submitting.value) {
     if (!formEl) return;
     await formEl.validate(async (valid, fields) => {
       if (valid) {
@@ -211,8 +210,6 @@ async function commentIdeaHandler(formEl, ideaCommentFormData) {
         }).finally(() => {
           submitting.value = false
         })
-      } else {
-        console.log('error submit!', fields);
       }
     });
   }
@@ -224,7 +221,7 @@ function sendIdeaHandler(idea) {
 
 function votePreCheck() {
   if (userStore.isGuest) {
-    info('Please login to vote')
+    info('Iltimos, ovoz berish uchun tizimga kiring')
     return false
   }
   return true
@@ -237,13 +234,12 @@ async function voteSubmit(idea, type) {
   }).then((response) => {
     updateIdeaList(response.data.idea)
     userStore.updateUserVotes(response.data.user_votes)
-    info('Voted successfully')
+    info('Ovoz berildi')
   }).finally(() => {
     submitting.value = false
   });
 }
-
-
 </script>
+
 <style lang="scss" scoped>
 </style>

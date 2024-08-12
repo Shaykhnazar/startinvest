@@ -3,6 +3,8 @@
 namespace App\Http\Resources;
 
 use App\Actions\DateFormatForHumans;
+use App\Enums\StartupStatusEnum;
+use App\Enums\StartupTypeEnum;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -17,12 +19,18 @@ class StartupResource extends JsonResource
             'additional_information' => $this->additional_information,
             'start_date' => $this->start_date,
             'has_mvp' => $this->has_mvp,
-            'type' => $this->type,
-            'status' => $this->status,
-            'owner_id' => $this->owner_id,
+            'owner' => UserResource::make($this->owner),
             'created_at' => DateFormatForHumans::run($this->created_at),
             'updated_at' => DateFormatForHumans::run($this->updated_at),
             'trashed' => $this->trashed(),
+            'industries' => IndustryResource::collection($this->industries),
+            $this->mergeWhen($request->routeIs('dashboard.startups.add', 'dashboard.startups.edit'), [
+                'type' => StartupTypeEnum::from($this->type),
+                'status' => StartupStatusEnum::from($this->status),
+            ], default: [
+                'type' => StartupTypeEnum::from($this->type)->label(),
+                'status' => StartupStatusEnum::from($this->status)->label(),
+            ]),
             $this->mergeWhen($request->with_content, [
                 'description' => $this->description,
             ]),

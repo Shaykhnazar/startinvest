@@ -35,7 +35,7 @@ const toggleDescription = async (idea) => {
       const response = await api.ideas.show(idea.id)
       ideaDescription.value = response.data.description
     } catch (error) {
-      console.error('Failed to fetch idea description:', error)
+      console.error('G\'oyaning tavsifini olishda xatolik:', error)
     } finally {
       isLoadingDescription.value = false
     }
@@ -75,22 +75,22 @@ const toggleDescription = async (idea) => {
         </template>
         <ul>
           <template v-if="userStore.isAuthorOfIdea(idea)">
-            <li class="icon-pointer" @click="$emit('showEditModalHandler', true, idea)">Edit</li><hr/>
+            <li class="icon-pointer" @click="$emit('showEditModalHandler', true, idea)">Tahrirlash</li><hr/>
             <el-popconfirm
-              confirm-button-text="Yes"
-              cancel-button-text="No"
+              confirm-button-text="Ha"
+              cancel-button-text="Yo'q"
               icon-color="#626AEF"
-              title="Are you sure to delete this?"
+              title="O'chirishni tasdiqlaysizmi?"
               @confirm="$emit('deleteIdeaHandler', idea.id)"
               @cancel="cancelEvent"
             >
               <template #reference>
-                <li class="icon-pointer" style="color: #ff1100" >Delete</li>
+                <li class="icon-pointer" style="color: #ff1100">O'chirish</li>
               </template>
             </el-popconfirm>
             <hr/>
           </template>
-          <li class="icon-pointer" style="color: #e72121">Report</li>
+          <li class="icon-pointer" style="color: #e72121">Shikoyat qilish</li>
         </ul>
       </Popover>
     </el-col>
@@ -99,13 +99,13 @@ const toggleDescription = async (idea) => {
   <el-row justify="center" align="middle" :gutter="12" class="flex-col">
     <el-col :xs="12" :sm="12" :md="12" :lg="12" :xl="12" class="idea-title" @click="toggleDescription(idea)">
       <el-text>
-        {{ idea.title }} <span >...</span>
+        {{ idea.title }} <span>...</span>
       </el-text>
     </el-col>
     <el-col :xs="12" :sm="12" :md="12" :lg="12" :xl="12">
       <el-collapse-transition>
         <div v-show="showIdeaDescByCollapse" class="idea-desc">
-          <el-text v-if="isLoadingDescription">Loading...</el-text>
+          <el-text v-if="isLoadingDescription">Yuklanmoqda...</el-text>
           <el-text v-else>{{ ideaDescription }}</el-text>
         </div>
       </el-collapse-transition>
@@ -115,7 +115,7 @@ const toggleDescription = async (idea) => {
   <el-row justify="center" align="middle" :gutter="12" class="mt-5">
     <el-col :xs="6" :sm="6" :md="6" :lg="6" :xl="6" class="flex-start-col">
       <el-badge :hidden="idea.upvotes === 0" :value="idea.upvotes" class="item" type="success">
-        <Tooltip :content="userStore.hasUpvotedIdea(idea) ? 'Liked' : 'Like'" placement="top">
+        <Tooltip :content="userStore.hasUpvotedIdea(idea) ? '👍' : '👍'" placement="top">
           <el-icon size="20" class="icon-pointer mt-0.5 mr-2" @click="$emit('voteUpHandler', idea)">
             <icon-svg name="like-solid" v-if="userStore.hasUpvotedIdea(idea)"/>
             <icon-svg name="like-regular" v-else />
@@ -123,7 +123,7 @@ const toggleDescription = async (idea) => {
         </Tooltip>
       </el-badge>
       <el-badge :hidden="idea.downvotes === 0" :value="idea.downvotes" class="item">
-        <Tooltip :content="userStore.hasDownvotedIdea(idea) ? 'Disliked' : 'Dislike'" placement="top">
+        <Tooltip :content="userStore.hasDownvotedIdea(idea) ? '👎' : '👎'" placement="top">
           <el-icon size="20" class="icon-pointer mt-0.5 ml-2 mr-2" @click="$emit('voteDownHandler', idea)">
             <icon-svg name="dislike-solid" v-if="userStore.hasDownvotedIdea(idea)"/>
             <icon-svg name="dislike-regular" v-else />
@@ -133,27 +133,27 @@ const toggleDescription = async (idea) => {
     </el-col>
     <el-col :xs="6" :sm="6" :md="6" :lg="6" :xl="6" class="flex-end-col">
       <el-badge :hidden="!idea.comments_count || idea.comments_count === 0" :value="idea.comments_count" class="item" type="info">
-        <Tooltip content="Comment" placement="top">
+        <Tooltip content="Izoh" placement="top">
           <el-icon size="20" class="icon-pointer mt-0.5 mr-2" @click="$emit('showCommentModalHandler', true, idea)">
             <Comment/>
           </el-icon>
         </Tooltip>
       </el-badge>
-<!--      <Tooltip content="Send" placement="top">-->
-<!--        <el-icon size="20" class="icon-pointer mr-2" @click="$emit('sendIdeaHandler', idea)">-->
-<!--          <Promotion/>-->
-<!--        </el-icon>-->
-<!--      </Tooltip>-->
-        <Tooltip :content="userStore.hasFavoritedIdea(idea) ? 'Saved' : 'Save'" placement="top">
-          <el-icon size="20" class="icon-pointer mt-0.5 ml-2" @click="$emit('favoriteIdeaHandler', idea)">
-            <icon-svg name="save-solid" v-if="userStore.hasFavoritedIdea(idea)" />
-            <icon-svg name="save-regular" v-else/>
-          </el-icon>
-        </Tooltip>
+      <!--      <Tooltip content="Yuborish" placement="top">-->
+      <!--        <el-icon size="20" class="icon-pointer mr-2" @click="$emit('sendIdeaHandler', idea)">-->
+      <!--          <Promotion/>-->
+      <!--        </el-icon>-->
+      <!--      </Tooltip>-->
+      <Tooltip :content="userStore.hasFavoritedIdea(idea) ? 'Saqlangan' : 'Saqlash'" placement="top">
+        <el-icon size="20" class="icon-pointer mt-0.5 ml-2" @click="$emit('favoriteIdeaHandler', idea)">
+          <icon-svg name="save-solid" v-if="userStore.hasFavoritedIdea(idea)" />
+          <icon-svg name="save-regular" v-else/>
+        </el-icon>
+      </Tooltip>
     </el-col>
   </el-row>
-  <el-row justify="center" align="top" :gutter="12"  class="default-row">
-    <el-col :xs="12" :sm="12" :md="12" :lg="12" :xl="12" >
+  <el-row justify="center" align="top" :gutter="12" class="default-row">
+    <el-col :xs="12" :sm="12" :md="12" :lg="12" :xl="12">
       <el-divider/>
     </el-col>
   </el-row>
@@ -213,6 +213,5 @@ const toggleDescription = async (idea) => {
   justify-content: flex-end;
   align-items: center;
 }
-
 
 </style>

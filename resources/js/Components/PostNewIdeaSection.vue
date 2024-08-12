@@ -5,10 +5,10 @@
         <el-avatar :size="20" :src="userStore.avatar"/>
       </el-col>
       <el-col :xs="7" :sm="7" :md="8" :lg="8" :xl="8" @click="$emit('showModal')" class="idea-flex-center-col new-idea-text">
-        New Idea...
+        Yangi G'oya...
       </el-col>
       <el-col :xs="3" :sm="3" :md="2" :lg="2" :xl="2" class="flex-end-col">
-        <el-button type="primary" @click="$emit('showModal')" round disabled>Post</el-button>
+        <el-button type="primary" @click="$emit('showModal')" round disabled>Ulashish</el-button>
       </el-col>
     </el-row>
     <el-row justify="center" align="middle" :gutter="12" class="default-row">

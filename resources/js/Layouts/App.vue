@@ -20,19 +20,23 @@ onMounted(() => {
 
   <slot name="header" />
 
-  <el-container>
+  <el-container class="main-container">
     <el-header class="flex flex-wrap md:justify-start md:flex-nowrap z-50 w-full">
       <home-navbar/>
     </el-header>
     <el-main>
       <slot />
     </el-main>
-    <el-footer>
+    <el-footer class="mt-auto py-5">
       <home-footer/>
     </el-footer>
   </el-container>
 </template>
 
 <style scoped>
-
+.main-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Ensures the container takes at least the full viewport height */
+}
 </style>

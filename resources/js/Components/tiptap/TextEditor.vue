@@ -249,7 +249,7 @@ export default {
 
     //watch=========================================================//
 
-    watch(props.content, (newValue) => {
+    watch(content, (newValue) => {
       // console.log('watch content and setContent')
       if (editor.value) {
         setContent(newValue)

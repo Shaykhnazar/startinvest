@@ -2,7 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\StartupStatusEnum;
+use App\Enums\StartupTypeEnum;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class ProfileStartupRequest extends FormRequest
 {
@@ -27,11 +30,11 @@ class ProfileStartupRequest extends FormRequest
             'additional_information' => 'nullable|string',
             'start_date' => 'nullable|date',
             'end_date' => 'nullable|date',
-            'success_rate' => 'nullable|numeric|min:0|max:100',
-            'base_price' => 'nullable|numeric',
             'has_mvp' => 'required|boolean',
-            'status' => 'required|string|in:on start,progressing,team building,release,testing,on production',
-            'type' => 'required|string|in:public,private,archive',
+            'status' => ['required', 'string', Rule::enum(StartupStatusEnum::class)],
+            'type' => ['required', 'string', Rule::enum(StartupTypeEnum::class)],
+            'industry_ids' => 'required|array',
+            'industry_ids.*' => 'exists:industries,id',
         ];
     }
 }

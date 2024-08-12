@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\StartupTypeEnum;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Orchid\Attachment\Attachable;
@@ -37,9 +38,24 @@ class Startup extends Model
         'description' => 'array'
     ];
 
+    public function owner()
+    {
+        return $this->belongsTo(User::class, 'owner_id');
+    }
+
     public function comments(): MorphMany
     {
         return $this->morphMany(Comment::class, 'commentable');
+    }
+
+    public function industries(): BelongsToMany
+    {
+        return $this->belongsToMany(Industry::class, 'startup_industry');
+    }
+
+    public function contributors(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'startup_contributor');
     }
 
     public function scopePublic(Builder $builder): Builder

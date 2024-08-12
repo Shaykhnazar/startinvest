@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\Api\IdeaController;
 use App\Http\Controllers\ChatController;
-use App\Http\Controllers\Profile\ProfileStartupController;
+use App\Http\Controllers\Profile\CabinetStartupController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -29,7 +29,7 @@ Route::group(['prefix' => 'v1'], function () {
         Route::put('/favorite/{idea}', [IdeaController::class, 'favorite'])->name('favorite');
     });
     Route::group(['prefix' => 'startups', 'as' => 'startups.', 'middleware' => ['auth', 'web']], function () {
-        Route::post('/store', [ProfileStartupController::class, 'store'])->name('store');
+        Route::post('/store', [CabinetStartupController::class, 'store'])->name('store');
     });
     // CHAT
     Route::get('/messages/{friend}', [ChatController::class, 'messages'])->middleware(['auth', 'web'])->name('chat.messages');

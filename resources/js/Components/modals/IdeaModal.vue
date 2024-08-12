@@ -1,28 +1,28 @@
 <template>
   <el-dialog v-model="visible" :title="title" @close="handleClose" style="border-radius: 5px;">
     <el-form
-        ref="formRefComputed"
-        :model="ideaForm"
-        :rules="rules"
-        status-icon
-        @submit.prevent
+      ref="formRefComputed"
+      :model="ideaForm"
+      :rules="rules"
+      status-icon
+      @submit.prevent
     >
-      <el-form-item label="Title" prop="title" required>
-        <el-input v-model="ideaForm.title" autocomplete="off" placeholder="Idea short title" clearable />
+      <el-form-item label="Sarlavha" prop="title" required>
+        <el-input v-model="ideaForm.title" autocomplete="off" placeholder="G'oyaning qisqa sarlavhasi" clearable />
       </el-form-item>
-      <el-form-item label="Description (optional)" prop="description">
+      <el-form-item label="Batafsil (ixtiyoriy)" prop="description">
         <el-input
-            v-model="ideaForm.description"
-            :rows="2"
-            type="textarea"
-            placeholder="Describe your idea"
-            clearable
+          v-model="ideaForm.description"
+          :rows="2"
+          type="textarea"
+          placeholder="G'oyangizni tasvirlang"
+          clearable
         />
       </el-form-item>
     </el-form>
     <template #footer>
       <span class="dialog-footer">
-        <el-button @click="$emit('reset', formRefComputed)" round>Reset</el-button>
+        <el-button @click="$emit('reset', formRefComputed)" round>Qayta tiklash</el-button>
         <el-button type="primary" @click="$emit('submit', formRefComputed, ideaForm)" round :disabled="!ideaForm.title || submitting">
           {{ submitButtonText }}
         </el-button>

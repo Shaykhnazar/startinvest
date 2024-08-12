@@ -1,5 +1,5 @@
 <template>
-  <component :is="icon" :class="svgClass" aria-hidden="true" class="fill-current" />
+  <component :is="icon" :class="{'fill-current': useClassFillCurrent, svgClass}" aria-hidden="true"/>
 </template>
 
 <script setup>
@@ -14,6 +14,7 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  useClassFillCurrent: false,
 })
 
 const svgClass = computed(() => {

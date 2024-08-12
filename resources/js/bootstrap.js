@@ -38,3 +38,7 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
  */
 
 import './echo';
+
+import './utils/hs-textarea-autoheight.js';
+import './utils/hs-apexcharts-helpers.js';
+import './utils/hs-copy-clipboard-helper.js';
