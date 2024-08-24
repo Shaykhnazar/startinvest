@@ -118,7 +118,7 @@ const contentChanged = () => {
                   </el-option>
                 </el-select>
               </el-form-item>
-              <el-form-item label="Sanoatlar" required>
+              <el-form-item label="Sanoat tarmoqlari" required>
                 <el-select v-model="form.industry_ids" multiple>
                   <el-option v-for="industry in industries" :key="industry.id" :value="industry.id" :label="industry.title">{{ industry.title }}</el-option>
                 </el-select>

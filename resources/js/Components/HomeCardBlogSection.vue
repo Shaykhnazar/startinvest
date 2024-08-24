@@ -3,7 +3,7 @@
     <!-- Grid -->
     <div class="grid lg:grid-cols-2 lg:gap-y-16 gap-10">
       <!-- Card -->
-      <Link class="group block rounded-xl overflow-hidden focus:outline-none" :href="route('ideas.index')">
+      <a class="group block rounded-xl overflow-hidden focus:outline-none" :href="route('ideas.index')">
         <div class="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-5">
           <div class="shrink-0 relative rounded-xl overflow-hidden w-full sm:w-56 h-44">
             <img
@@ -28,11 +28,11 @@
             </p>
           </div>
         </div>
-      </Link>
+      </a>
       <!-- End Card -->
 
       <!-- Card -->
-      <Link class="group block rounded-xl overflow-hidden focus:outline-none" :href="route('startups.index')">
+      <a class="group block rounded-xl overflow-hidden focus:outline-none" :href="route('startups.index')">
         <div class="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-5">
           <div class="shrink-0 relative rounded-xl overflow-hidden w-full sm:w-56 h-44">
             <img
@@ -57,11 +57,11 @@
             </p>
           </div>
         </div>
-      </Link>
+      </a>
       <!-- End Card -->
 
       <!-- Card -->
-      <Link class="group block rounded-xl overflow-hidden focus:outline-none" :href="route('startups.index')">
+      <a class="group block rounded-xl overflow-hidden focus:outline-none" :href="route('startups.index')">
         <div class="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-5">
           <div class="shrink-0 relative rounded-xl overflow-hidden w-full sm:w-56 h-44">
             <img
@@ -86,11 +86,11 @@
             </p>
           </div>
         </div>
-      </Link>
+      </a>
       <!-- End Card -->
 
       <!-- Card -->
-      <Link class="group block rounded-xl overflow-hidden focus:outline-none" :href="route('about-us')">
+      <a class="group block rounded-xl overflow-hidden focus:outline-none" :href="route('about-us')">
         <div class="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-5">
           <div class="shrink-0 relative rounded-xl overflow-hidden w-full sm:w-56 h-44">
             <img
@@ -115,7 +115,7 @@
             </p>
           </div>
         </div>
-      </Link>
+      </a>
       <!-- End Card -->
     </div>
     <!-- End Grid -->

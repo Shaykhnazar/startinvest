@@ -7,9 +7,9 @@
       <h1 class="text-xl font-semibold leading-tight text-gray-800">My Chats</h1>
       <ul>
         <li v-for="friend in friends" :key="friend.id">
-          <Link :href="`/chat/${friend.id}`" class="text-blue-500 hover:underline">
+          <a :href="`/chat/${friend.id}`" class="text-blue-500 hover:underline">
             {{ friend.name }}
-          </Link>
+          </a>
         </li>
       </ul>
     </div>

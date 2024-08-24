@@ -93,9 +93,9 @@ const heroText = 'Startup loyihaga asos soling, jamoa yig\'ing va StartInvest bi
                   Parol
                 </label>
 
-                <Link v-if="canResetPassword" :href="route('password.request')" class="inline-flex items-center gap-x-1.5 text-xs text-gray-600 hover:text-gray-700 decoration-2 hover:underline focus:outline-none focus:underline dark:text-neutral-500 dark:hover:text-neutral-600">
+                <a v-if="canResetPassword" :href="route('password.request')" class="inline-flex items-center gap-x-1.5 text-xs text-gray-600 hover:text-gray-700 decoration-2 hover:underline focus:outline-none focus:underline dark:text-neutral-500 dark:hover:text-neutral-600">
                   Men parolimni unutdim
-                </Link>
+                </a>
               </div>
 
               <div class="relative">
@@ -138,10 +138,10 @@ const heroText = 'Startup loyihaga asos soling, jamoa yig\'ing va StartInvest bi
 
         <p class="text-sm text-gray-500 dark:text-neutral-500">
           Hali akkauntingiz yo'qmi?
-          <Link :href="route('register')" class="inline-flex items-center gap-x-1 text-sm text-blue-600 decoration-2 hover:underline font-medium focus:outline-none focus:underline dark:text-blue-500">
+          <a :href="route('register')" class="inline-flex items-center gap-x-1 text-sm text-blue-600 decoration-2 hover:underline font-medium focus:outline-none focus:underline dark:text-blue-500">
             Ro'yxatdan o'tish
             <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-          </Link>
+          </a>
         </p>
       </div>
     </div>

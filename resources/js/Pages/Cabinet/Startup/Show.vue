@@ -15,23 +15,39 @@ onMounted(() => {
 
 
 const editStartup = (id) => {
-  router.visit(route('dashboard.startups.edit', { id }), { data: { with_content: true }})
+  router.visit(route('dashboard.startups.edit', { id }), { data: { with_content: true },
+    onFinish: visit => {
+      window.location.reload()
+    },
+  })
 }
 
 const setType = (id, type) => {
-  router.visit(route('dashboard.startups.setType', { id }), {method: 'put', data: { type: type }})
+  router.visit(route('dashboard.startups.setType', { id }), {method: 'put', data: { type: type },     onFinish: visit => {
+      window.location.reload()
+    },
+  })
 }
 
 const deleteStartup = (id) => {
-  router.visit(route('dashboard.startups.delete', { id }), {method: 'delete'})
+  router.visit(route('dashboard.startups.delete', { id }), {method: 'delete',     onFinish: visit => {
+      window.location.reload()
+    },
+  })
 }
 
 const archiveStartup = (id) => {
-  router.visit(route('dashboard.startups.archive', { id }), { method: 'delete' })
+  router.visit(route('dashboard.startups.archive', { id }), { method: 'delete',     onFinish: visit => {
+      window.location.reload()
+    },
+  })
 }
 
 const restoreStartup = (id) => {
-  router.visit(route('dashboard.startups.restore', { id }), { method: 'put' })
+  router.visit(route('dashboard.startups.restore', { id }), { method: 'put',     onFinish: visit => {
+      window.location.reload()
+    },
+  })
 }
 
 const cancelEvent = () => {
@@ -119,7 +135,7 @@ const cancelEvent = () => {
               <p class="text item">📝 Eslatma: {{ startup.additional_information }}</p><br/>
               <p class="text item">📅 Boshlanish Sanasi: {{ formatFriendlyDate(startup.start_date) }}</p><br/>
               <p class="text item">📢 Turi: <el-tag type="primary">{{ startup.type }}</el-tag></p><br/>
-              <p class="text item">🔍 Sanoatlar:
+              <p class="text item">🔍 Sanoat tarmoqlari:
                 <el-tag v-for="industry in startup.industries" :key="industry.id" type="success" class="ml-1">
                   {{ industry.title }}
                 </el-tag>

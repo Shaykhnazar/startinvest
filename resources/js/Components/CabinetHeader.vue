@@ -2,14 +2,14 @@
 
 import DropdownLink from '@/Components/DropdownLink.vue';
 import { useUserStore } from '@/stores/UserStore.js'
-import { usePage } from '@inertiajs/vue3'
+import { router, usePage } from '@inertiajs/vue3'
 import { ref } from 'vue'
 
-const page = usePage()
 const user = ref(useUserStore().authUser)
 
 const logoutHandle = () => {
   useUserStore().$reset()
+  router.post(route('logout'))
 }
 </script>
 
@@ -649,16 +649,16 @@ const logoutHandle = () => {
           <!-- End Notifications Dropdown -->
 
           <!-- Activity Button Icon -->
-          <div class="hs-tooltip [--placement:bottom] inline-block">
-            <button type="button" class="hs-tooltip-toggle size-[38px] inline-flex justify-center items-center gap-x-2 rounded-full border border-transparent text-gray-500 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700" data-hs-overlay="#hs-pro-dnam">
-              <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
-              </svg>
-            </button>
-            <span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 inline-block absolute invisible z-20 py-1.5 px-2.5 bg-gray-900 text-xs text-white rounded-lg dark:bg-neutral-700" role="tooltip">
-              Activity
-            </span>
-          </div>
+<!--          <div class="hs-tooltip [&#45;&#45;placement:bottom] inline-block">-->
+<!--            <button type="button" class="hs-tooltip-toggle size-[38px] inline-flex justify-center items-center gap-x-2 rounded-full border border-transparent text-gray-500 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700" data-hs-overlay="#hs-pro-dnam">-->
+<!--              <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">-->
+<!--                <path d="M22 12h-4l-3 9L9 3l-3 9H2" />-->
+<!--              </svg>-->
+<!--            </button>-->
+<!--            <span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 inline-block absolute invisible z-20 py-1.5 px-2.5 bg-gray-900 text-xs text-white rounded-lg dark:bg-neutral-700" role="tooltip">-->
+<!--              Activity-->
+<!--            </span>-->
+<!--          </div>-->
           <!-- End Activity Button Icon -->
         </div>
 
@@ -1051,7 +1051,7 @@ const logoutHandle = () => {
             <!-- Account Dropdown -->
             <div class="hs-dropdown-menu hs-dropdown-open:opacity-100 w-60 transition-[opacity,margin] duration opacity-0 hidden z-20 bg-white rounded-xl shadow-[0_10px_40px_10px_rgba(0,0,0,0.08)] dark:shadow-[0_10px_40px_10px_rgba(0,0,0,0.2)] dark:bg-neutral-900" role="menu" aria-orientation="vertical" aria-labelledby="hs-dnad">
               <div class="p-1 border-b border-gray-200 dark:border-neutral-800">
-                <a class="py-2 px-3 flex items-center gap-x-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800" href="../../pro/dashboard/user-profile-my-profile.html">
+                <a class="py-2 px-3 flex items-center gap-x-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800" href="#">
                   <img class="shrink-0 size-8 rounded-full" src="https://images.unsplash.com/photo-1659482633369-9fe69af50bfb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=3&w=320&h=320&q=80" alt="Avatar">
 
                   <div class="grow">
@@ -1084,13 +1084,13 @@ const logoutHandle = () => {
                     <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
                     <circle cx="12" cy="7" r="4" />
                   </svg>
-                  My account
+                  Akkauntim
                 </DropdownLink>
               </div>
               <div class="px-4 py-3.5 border-y border-gray-200 dark:border-neutral-800">
                 <!-- Switch/Toggle -->
                 <div class="flex justify-between items-center">
-                  <label for="@@darkmodeID" class="text-sm text-gray-800 dark:text-neutral-300">Dark mode</label>
+                  <label for="@@darkmodeID" class="text-sm text-gray-800 dark:text-neutral-300">Qorong'i rejim</label>
                   <div class="relative inline-block">
                     <input data-hs-theme-switch type="checkbox" id="@@darkmodeID" class="relative w-11 h-6 p-px bg-gray-100 border-transparent text-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:ring-blue-600 disabled:opacity-50 disabled:pointer-events-none checked:bg-none checked:text-blue-600 checked:border-blue-600 focus:checked:border-blue-600 dark:bg-neutral-800 dark:border-neutral-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-neutral-900
 
@@ -1111,9 +1111,9 @@ const logoutHandle = () => {
 <!--                <a class="flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800" href="#">-->
 <!--                  Manage team-->
 <!--                </a>-->
-                <DropdownLink :href="route('logout')" method="post" as="button" @click="logoutHandle">
+                <button type="button" @click="logoutHandle" class="flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800">
                   Chiqish
-                </DropdownLink>
+                </button>
               </div>
 <!--              <div class="p-1 border-t border-gray-200 dark:border-neutral-800">-->
 <!--                <button type="button" class="flex mt-0.5 gap-x-3 py-2 px-3 w-full rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800" data-hs-overlay="#hs-pro-dasadam">-->

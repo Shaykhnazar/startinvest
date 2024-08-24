@@ -9,11 +9,8 @@ import { Link } from '@inertiajs/vue3'
 defineProps({
   startup: Object,
 });
-// defineEmits([
-//   'voteUpHandler',
-//   'voteDownHandler',
-//   'favoriteStartupHandler'
-// ]);
+
+
 
 // const userStore = useUserStore();
 // const showStartupDescByCollapse = ref(false);
@@ -41,15 +38,15 @@ defineProps({
     <div class="grid lg:grid-cols-12 gap-y-2 lg:gap-y-0 gap-x-4">
       <div class="lg:col-span-3">
         <p>
-          <Link href="#" class="inline-flex items-center gap-x-1 text-gray-800 decoration-2 hover:underline font-semibold hover:text-blue-600 focus:outline-none focus:underline focus:text-blue-600 dark:text-neutral-200 dark:hover:text-blue-500 dark:focus:outline-none dark:focus:text-blue-500">
+          <a href="#" class="inline-flex items-center gap-x-1 text-gray-800 decoration-2 hover:underline font-semibold hover:text-blue-600 focus:outline-none focus:underline focus:text-blue-600 dark:text-neutral-200 dark:hover:text-blue-500 dark:focus:outline-none dark:focus:text-blue-500">
             Tanishish
-          </Link>
+          </a>
         </p>
 
         <!-- Badge Group -->
         <div class="mt-1 lg:mt-2 -mx-0.5 sm:-mx-1">
           <template v-for="industry in startup.industries" :key="industry.id">
-            <span class="m-0.5 sm:m-1 p-1.5 sm:p-2 inline-block bg-gray-100 text-gray-800 text-xs rounded-md dark:bg-neutral-700 dark:text-neutral-200">{{ industry.title }}</span>
+            <span class="m-0.5 sm:m-1 p-1.5 sm:p-2 inline-block bg-gray-100 text-gray-800 text-xs rounded-md dark:bg-neutral-700 dark:text-neutral-200">#{{ industry.title }}</span>
           </template>
         </div>
         <!-- End Badge Group -->
@@ -85,7 +82,7 @@ defineProps({
         <!-- Button Group -->
         <div class="flex lg:flex-col justify-end items-center gap-2 border-t border-gray-200 lg:border-t-0 pt-3 lg:pt-0 dark:border-neutral-700">
           <div class="lg:order-2 lg:ms-auto">
-            <button type="button" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700" data-hs-overlay="#hs-pro-dtlam">
+            <button type="button" @click="sendJoinRequest" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700" data-hs-overlay="#hs-pro-dtlam">
               Jamoaga qo'shilish
             </button>
           </div>

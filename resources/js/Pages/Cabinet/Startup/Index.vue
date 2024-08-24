@@ -14,11 +14,19 @@ onMounted(() => {
 })
 
 const addNew = () => {
-  router.visit(route('dashboard.startups.add'))
+  router.visit(route('dashboard.startups.add'), {
+    onFinish: visit => {
+      window.location.reload()
+    },
+  })
 }
 
 const viewStartup = (id) => {
-  router.visit(route('dashboard.startups.show', { id }), {data: { with_content: true }});
+  router.visit(route('dashboard.startups.show', { id }), {
+    onFinish: visit => {
+      window.location.reload()
+    },
+  });
 }
 
 const { formatFriendlyDate } = useFormatFriendlyDate()
@@ -56,7 +64,7 @@ const { formatFriendlyDate } = useFormatFriendlyDate()
                     <p class="text item">📢 Turi:
                       <el-tag type="primary">{{ startup.type }}</el-tag>
                     </p><br/>
-                    <p class="text item">🔍 Sanoatlar:
+                    <p class="text item">🔍 Sanoat tarmoqlari:
                       <el-tag v-for="industry in startup.industries" :key="industry.id" type="success" class="ml-1">
                         {{ industry.title }}
                       </el-tag>

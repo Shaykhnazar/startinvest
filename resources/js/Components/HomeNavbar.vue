@@ -42,7 +42,8 @@ const menuItems = [
 ]
 
 const visitTo = (url) => {
-  return router.visit(url)
+  // return router.visit(url)
+  return window.location.href = url
 }
 
 </script>
@@ -52,11 +53,11 @@ const visitTo = (url) => {
     <nav class="relative max-w-7xl w-full flex flex-wrap md:grid md:grid-cols-12 basis-full items-center px-4 md:px-6 md:px-8 mx-auto">
       <div class="md:col-span-3">
         <!-- Logo -->
-        <Link :href="route('home')"
+        <a :href="route('home')"
           class="flex-none rounded-xl text-xl inline-block font-semibold focus:outline-none focus:opacity-80"
         >
-          <ApplicationLogo/>
-        </Link>
+          <ApplicationLogo custom-class="-mb-5"/>
+        </a>
         <!-- End Logo -->
       </div>
 
@@ -86,14 +87,14 @@ const visitTo = (url) => {
           <div
             v-for="menuItem in menuItems"
           >
-            <Link :class="{
+            <a :class="{
               'relative inline-block text-black focus:outline-none before:absolute before:bottom-0.5 before:start-0 before:-z-[1] before:w-full before:h-1 before:bg-lime-400 dark:text-white': route().current() === menuItem.route,
               'inline-block text-black hover:text-gray-600 focus:outline-none focus:text-gray-600 dark:text-white dark:hover:text-neutral-300 dark:focus:text-neutral-300': route().current() !== menuItem.route
             }"
               :href="route(menuItem.route)" aria-current="page"
             >
               {{ menuItem.name }}
-            </Link>
+            </a>
           </div>
         </div>
       </div>
