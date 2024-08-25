@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Orchid\Filters\Types\Like;
@@ -108,6 +109,16 @@ class User extends Authenticatable
     public function receivedMessages()
     {
         return $this->hasMany(ChatMessage::class, 'receiver_id');
+    }
+
+    public function joinRequests(): HasMany
+    {
+        return $this->hasMany(StartupJoinRequest::class, 'user_id');
+    }
+
+    public function contributedStartups(): BelongsToMany
+    {
+        return $this->belongsToMany(Startup::class, 'startup_contributor', 'contributor_id', 'startup_id');
     }
 
     public function getAuthPasswordName()

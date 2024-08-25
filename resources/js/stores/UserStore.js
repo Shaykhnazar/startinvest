@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { VOTE_TYPES } from '@/services/const.js'
+import { JOIN_REQUEST_STATUSES, VOTE_TYPES } from '@/services/const.js'
 
 export const useUserStore = defineStore("UserStore", {
   state: () => ({
@@ -17,7 +17,13 @@ export const useUserStore = defineStore("UserStore", {
     },
     updateUserComments(newComments) {
       this.authUser.comments = newComments
-    }
+    },
+    updateUserJoinRequests(newJoinRequests) {
+      this.authUser.joinRequests = newJoinRequests
+    },
+    updateContributors(newContributors) {
+      this.authUser.contributors = newContributors
+    },
   },
   getters: {
     isGuest: (state) => state.authUser === null,
@@ -27,6 +33,18 @@ export const useUserStore = defineStore("UserStore", {
     hasVotedIdea: (state) => (idea) => state.authUser?.votes.some(vote => vote.voteable_id === idea.id),
     hasUpvotedIdea: (state) => (idea) => state.authUser?.votes.some(vote => vote.voteable_id === idea.id && vote.type === VOTE_TYPES.UP),
     hasDownvotedIdea: (state) => (idea) => state.authUser?.votes.some(vote => vote.voteable_id === idea.id && vote.type === VOTE_TYPES.DOWN),
+    hasPendingJoinRequest: (state) => (startupId) => {
+      return state.authUser?.joinRequests.some(request => request.startup_id === startupId && request.status === JOIN_REQUEST_STATUSES.PENDING)
+    },
+    hasAcceptedJoinRequest: (state) => (startupId) => {
+      return state.authUser?.joinRequests.some(request => request.startup_id === startupId && request.status === JOIN_REQUEST_STATUSES.ACCEPTED)
+    },
+    hasRejectedJoinRequest: (state) => (startupId) => {
+      return state.authUser?.joinRequests.some(request => request.startup_id === startupId && request.status === JOIN_REQUEST_STATUSES.REJECTED)
+    },
+    getJoinRequest: (state) => (startupId) => {
+      return state.authUser?.joinRequests.find(request => request.startup_id === startupId) ?? null;
+    }
   },
   persist: {
     storage: sessionStorage,

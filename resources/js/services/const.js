@@ -2,3 +2,11 @@ export const VOTE_TYPES = {
   UP: 'UP',
   DOWN: 'DOWN',
 }
+
+export const JOIN_REQUEST_STATUSES = {
+  PENDING: 'PENDING',
+  CANCELED: 'CANCELED',
+  ACCEPTED: 'ACCEPTED',
+  REJECTED: 'REJECTED',
+  LEAVED: 'LEAVED',
+};

@@ -4,6 +4,12 @@ import CabinetLayout from '@/Layouts/CabinetLayout.vue'
 import DashboardPageHeader from '@/Pages/Cabinet/Startup/DashboardPageHeader.vue'
 import { useFormatFriendlyDate } from '@/Composables/helpers'
 import { onMounted } from 'vue'
+import { JOIN_REQUEST_STATUSES } from '@/services/const.js'
+import api from '@/services/api.js'
+import { useElMessage } from '@/Composables/helpers.js'
+
+const { info, success } = useElMessage();
+
 
 const page = usePage()
 const startup = page.props.startup.data
@@ -49,6 +55,59 @@ const restoreStartup = (id) => {
     },
   })
 }
+const showConfirmationDialog = (callback, confirmText) => {
+  // console.log('Opening confirmation dialog...');
+  if (window.confirm(confirmText)) {
+    callback();
+  }
+}
+
+const handleManageStartup = (startupId, contributorId, fromStatus = null, toStatus = null, handleRequest = true) => {
+  if (handleRequest) {
+    // Cancel the pending request
+    showConfirmationDialog(() => handleJoinRequest(startupId, fromStatus, toStatus), `Do you want to change the status of request to: ${toStatus}?`);
+  } else {
+    // Prompt user to send a join request
+    showConfirmationDialog(() => removeContributorHandle(startupId, contributorId), `Do you want to detach this contributor from the current startup?`);
+  }
+}
+
+// Handle join requests
+const handleJoinRequest = async (requestId, fromStatus, toStatus) => {
+  try {
+    await api.startups.handleJoinRequest(startup.id, {
+      requestId: requestId,
+      fromStatus: fromStatus,
+      toStatus: toStatus
+    })
+    success('Join request handled successfully')
+    window.location.reload() // Refresh the page after successful handling
+  } catch (error) {
+    console.error('Error handling join request:', error)
+    info('Failed to handle join request')
+  }
+}
+
+// remove contributors
+const removeContributorHandle = async (startupId, contributorId) => {
+  try {
+    await api.startups.removeContributor(startupId, {
+      contributorId: contributorId,
+    })
+    success('Join request handled successfully')
+    window.location.reload() // Refresh the page after successful handling
+  } catch (error) {
+    console.error('Error handling join request:', error)
+    info('Failed to handle join request')
+  }
+}
+
+const goToChat = (userId) => {
+  const url = route('chat.cabinet', { friend: userId });
+  const windowFeatures = "width=600,height=400,scrollbars=yes,resizable=yes";
+  window.open(url, '_blank', windowFeatures);
+};
+
 
 const cancelEvent = () => {
   console.log('cancel!')
@@ -154,12 +213,92 @@ const cancelEvent = () => {
           </el-col>
         </el-row>
       </div>
-    </div>
+      <div style="padding: 20px 20px">
+        <el-row :gutter="20">
+          <el-col :span="24">
+            <el-card>
+              <template #header>
+                <div class="card-header">
+                  <span>Jamoaga qo'shilish so'rovlari</span>
+                </div>
+              </template>
+              <!-- Join Requests Section -->
+              <div>
+                <el-table :data="startup.joinRequests" stripe>
+                  <el-table-column prop="user.name" label="Foydalanuvchi" />
+                  <el-table-column prop="status" label="So'rov holati" />
+                  <el-table-column prop="decision_at" label="Oxirgi o'zgartirish vaqtidan keyin" />
+                  <el-table-column label="Amallar">
+                    <template #default="scope">
+                      <el-button
+                        type="success"
+                        @click="handleManageStartup(scope.row.id, null, scope.row.status, JOIN_REQUEST_STATUSES.ACCEPTED)"
+                        v-if="scope.row.status !== JOIN_REQUEST_STATUSES.ACCEPTED"
+                        round
+                      >Qabul qilish ✅</el-button>
+                      <el-button
+                        type="danger"
+                        @click="handleManageStartup(scope.row.id, null, scope.row.status, JOIN_REQUEST_STATUSES.REJECTED)"
+                        v-if="scope.row.status !== JOIN_REQUEST_STATUSES.REJECTED"
+                        round
+                      >Rad etish ⛔</el-button>
+                      <!-- Chat with User Button -->
+                      <el-button
+                        type="primary"
+                        @click="goToChat(scope.row.user_id)"
+                        round
+                      >Chat 💬</el-button>
+                    </template>
+                  </el-table-column>
+                </el-table>
+              </div>
+              <!-- End Join Requests Section -->
+<!--              <template #footer></template>-->
+            </el-card>
+          </el-col>
+        </el-row>
+      </div>
+      <div style="padding: 20px 20px">
+        <el-row :gutter="20">
+          <el-col :span="24">
+            <el-card>
+              <template #header>
+                <div class="card-header">
+                  <span>Ishtirokchilar</span>
+                </div>
+              </template>
+              <!-- Contributors Section -->
+              <div>
+                <el-table :data="startup.contributors" stripe>
+                  <el-table-column prop="name" label="Foydalanuvchi" />
+                  <el-table-column prop="email" label="E-Pochta" />
+<!--                  <el-table-column prop="decision_at" label="After the last change time" />-->
+                  <el-table-column label="Amallar">
+                    <template #default="scope">
+                      <el-button
+                        type="danger"
+                        @click="handleManageStartup(startup.id, scope.row.id, null, null, false)"
+                        round
+                      >Chetlatish ❌</el-button>
+                      <!-- Chat with User Button -->
+                      <el-button
+                        type="primary"
+                        @click="goToChat(scope.row.id)"
+                        round
+                      >Chat 💬</el-button>
+                    </template>
+                  </el-table-column>
+                </el-table>
+              </div>
+              <!-- End Contributors Section -->
+<!--              <template #footer></template>-->
+            </el-card>
+          </el-col>
+        </el-row>
+      </div>
+      </div>
   </CabinetLayout>
 </template>
 
 <style scoped>
-.common-layout {
-  padding: 50px;
-}
 </style>

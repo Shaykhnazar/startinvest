@@ -57,79 +57,79 @@
           </div>
           <!-- End Col -->
 
-          <div class="flex lg:justify-end items-center flex-wrap gap-x-1">
-            <!-- Industriya -->
-            <div class="relative">
-              <select  data-hs-select='{
-                "placeholder": "Turkumini tanlang",
-                "hasSearch": true,
-                "searchPlaceholder": "Turkumini tanlang",
-                "searchClasses": "block w-full text-sm border-gray-200 rounded-lg focus:border-blue-500 focus:ring-blue-500 dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder:text-neutral-400 py-2 px-3",
-                "searchWrapperClasses": "bg-white p-2 -mx-1 sticky top-0 dark:bg-neutral-900",
-                "toggleTag": "<button type=\"button\" aria-expanded=\"false\"><span data-icon></span><span class=\"text-gray-800 dark:text-neutral-200\" data-title></span></button>",
-                "toggleClasses": "hs-select-disabled:pointer-events-none hs-select-disabled:opacity-50 relative py-2 ps-3 pe-9 flex gap-x-2 text-nowrap w-full cursor-pointer bg-white border border-gray-200 rounded-lg text-start text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-neutral-600",
-                "dropdownClasses": "max-h-64 p-1 pt-0 space-y-0.5 z-50 w-full overflow-hidden overflow-y-auto bg-white rounded-xl shadow-[0_10px_40px_10px_rgba(0,0,0,0.08)] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500 dark:bg-neutral-900",
-                "optionClasses": "hs-selected:bg-gray-100 dark:hs-selected:bg-neutral-800 py-2 px-4 w-full text-sm text-gray-800 cursor-pointer hover:bg-gray-100 rounded-lg focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800",
-                "optionTemplate": "<div><div class=\"flex items-center\"><div class=\"me-2\" data-icon></div><div class=\"text-gray-800 dark:text-neutral-200\" data-title></div></div></div>",
-                "viewport": "#@@viewportID"
-              }' class="hidden">
-                <option value="">Tanlang</option>
+<!--          <div class="flex lg:justify-end items-center flex-wrap gap-x-1">-->
+<!--            &lt;!&ndash; Industriya &ndash;&gt;-->
+<!--            <div class="relative">-->
+<!--              <select  data-hs-select='{-->
+<!--                "placeholder": "Turkumini tanlang",-->
+<!--                "hasSearch": true,-->
+<!--                "searchPlaceholder": "Turkumini tanlang",-->
+<!--                "searchClasses": "block w-full text-sm border-gray-200 rounded-lg focus:border-blue-500 focus:ring-blue-500 dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder:text-neutral-400 py-2 px-3",-->
+<!--                "searchWrapperClasses": "bg-white p-2 -mx-1 sticky top-0 dark:bg-neutral-900",-->
+<!--                "toggleTag": "<button type=\"button\" aria-expanded=\"false\"><span data-icon></span><span class=\"text-gray-800 dark:text-neutral-200\" data-title></span></button>",-->
+<!--                "toggleClasses": "hs-select-disabled:pointer-events-none hs-select-disabled:opacity-50 relative py-2 ps-3 pe-9 flex gap-x-2 text-nowrap w-full cursor-pointer bg-white border border-gray-200 rounded-lg text-start text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-neutral-600",-->
+<!--                "dropdownClasses": "max-h-64 p-1 pt-0 space-y-0.5 z-50 w-full overflow-hidden overflow-y-auto bg-white rounded-xl shadow-[0_10px_40px_10px_rgba(0,0,0,0.08)] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500 dark:bg-neutral-900",-->
+<!--                "optionClasses": "hs-selected:bg-gray-100 dark:hs-selected:bg-neutral-800 py-2 px-4 w-full text-sm text-gray-800 cursor-pointer hover:bg-gray-100 rounded-lg focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800",-->
+<!--                "optionTemplate": "<div><div class=\"flex items-center\"><div class=\"me-2\" data-icon></div><div class=\"text-gray-800 dark:text-neutral-200\" data-title></div></div></div>",-->
+<!--                "viewport": "#@@viewportID"-->
+<!--              }' class="hidden">-->
+<!--                <option value="">Tanlang</option>-->
 
-                <option v-for="industry in industries" :key="industry.id" :value="industry.id" :label="industry.title">
-                  {{ industry.title }}
-                </option>
-              </select>
+<!--                <option v-for="industry in industries" :key="industry.id" :value="industry.id" :label="industry.title">-->
+<!--                  {{ industry.title }}-->
+<!--                </option>-->
+<!--              </select>-->
 
-              <div class="absolute top-1/2 end-2.5 -translate-y-1/2">
-                <svg class="shrink-0 size-3.5 text-gray-500 dark:text-neutral-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg>
-              </div>
-            </div>
-            <!-- End Select -->
+<!--              <div class="absolute top-1/2 end-2.5 -translate-y-1/2">-->
+<!--                <svg class="shrink-0 size-3.5 text-gray-500 dark:text-neutral-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></svg>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--            &lt;!&ndash; End Select &ndash;&gt;-->
 
-            <!-- Status -->
-            <div class="relative inline-block">
-              <select id="hs-pro-select-with-icons" data-hs-select='{
-                "placeholder": "Holati",
-                "toggleTag": "<button type=\"button\" aria-expanded=\"false\"></button>",
-                "toggleClasses": "hs-select-disabled:pointer-events-none hs-select-disabled:opacity-50 relative p-2 pe-8 inline-flex shrink-0 justify-center items-center gap-x-1.5 border border-transparent text-sm text-gray-500 rounded-lg hover:bg-gray-100 hover:text-gray-800 focus:outline-none focus:bg-gray-100 before:absolute before:inset-0 before:z-[1] dark:text-neutral-400 dark:xl:bg-neutral-800 dark:hover:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:bg-neutral-700",
+<!--            &lt;!&ndash; Status &ndash;&gt;-->
+<!--            <div class="relative inline-block">-->
+<!--              <select id="hs-pro-select-with-icons" data-hs-select='{-->
+<!--                "placeholder": "Holati",-->
+<!--                "toggleTag": "<button type=\"button\" aria-expanded=\"false\"></button>",-->
+<!--                "toggleClasses": "hs-select-disabled:pointer-events-none hs-select-disabled:opacity-50 relative p-2 pe-8 inline-flex shrink-0 justify-center items-center gap-x-1.5 border border-transparent text-sm text-gray-500 rounded-lg hover:bg-gray-100 hover:text-gray-800 focus:outline-none focus:bg-gray-100 before:absolute before:inset-0 before:z-[1] dark:text-neutral-400 dark:xl:bg-neutral-800 dark:hover:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:bg-neutral-700",-->
 
-                "dropdownClasses": "end-0 mt-2 p-1 space-y-0.5 z-50 w-40 bg-white rounded-xl shadow-[0_10px_40px_10px_rgba(0,0,0,0.08)] dark:bg-neutral-900",
-                "optionClasses": "hs-selected:bg-gray-100 dark:hs-selected:bg-neutral-800 flex gap-x-3 py-1.5 px-2 text-[13px] text-gray-800 hover:bg-gray-100 rounded-lg focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800",
-                "optionTemplate": "<div class=\"flex items-center w-full\"><div class=\"me-2 sm:me-3\" data-icon></div><span data-title></span><span class=\"hidden hs-selected:block ms-auto\"><svg class=\"shrink-0 size-3.5 text-gray-800 dark:text-neutral-200\" xmlns=\"http:.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polyline points=\"20 6 9 17 4 12\"/></svg></span></div>"
-              }' class="hidden">
-                <option value="">Tanlang</option>
-                <option v-for="(status, index) in statusOptions" :key="index" :value="status.value" :label="status.label">
-                  {{ status.label }}
-                </option>
-              </select>
+<!--                "dropdownClasses": "end-0 mt-2 p-1 space-y-0.5 z-50 w-40 bg-white rounded-xl shadow-[0_10px_40px_10px_rgba(0,0,0,0.08)] dark:bg-neutral-900",-->
+<!--                "optionClasses": "hs-selected:bg-gray-100 dark:hs-selected:bg-neutral-800 flex gap-x-3 py-1.5 px-2 text-[13px] text-gray-800 hover:bg-gray-100 rounded-lg focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800",-->
+<!--                "optionTemplate": "<div class=\"flex items-center w-full\"><div class=\"me-2 sm:me-3\" data-icon></div><span data-title></span><span class=\"hidden hs-selected:block ms-auto\"><svg class=\"shrink-0 size-3.5 text-gray-800 dark:text-neutral-200\" xmlns=\"http:.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polyline points=\"20 6 9 17 4 12\"/></svg></span></div>"-->
+<!--              }' class="hidden">-->
+<!--                <option value="">Tanlang</option>-->
+<!--                <option v-for="(status, index) in statusOptions" :key="index" :value="status.value" :label="status.label">-->
+<!--                  {{ status.label }}-->
+<!--                </option>-->
+<!--              </select>-->
 
-              <div class="absolute top-1/2 end-2.5 -translate-y-1/2">
-                <svg class="shrink-0 size-4 text-gray-400 dark:text-neutral-600" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-              </div>
-            </div>
-            <!-- End Select -->
+<!--              <div class="absolute top-1/2 end-2.5 -translate-y-1/2">-->
+<!--                <svg class="shrink-0 size-4 text-gray-400 dark:text-neutral-600" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--            &lt;!&ndash; End Select &ndash;&gt;-->
 
-            <!-- Sort -->
-            <div class="relative inline-flex items-center">
-              <span class="me-1 text-sm text-gray-800 dark:text-neutral-200">Saralash:</span>
-              <select id="hs-pro-select-sort" data-hs-select='{
-                "placeholder": "Saralash",
-                "toggleTag": "<button type=\"button\" aria-expanded=\"false\"></button>",
-                "toggleClasses": "hs-select-disabled:pointer-events-none hs-select-disabled:opacity-50 relative p-2 pe-8 inline-flex shrink-0 justify-center items-center gap-x-1.5 border border-transparent text-sm text-gray-500 rounded-lg hover:bg-gray-100 hover:text-gray-800 focus:outline-none focus:bg-gray-100 before:absolute before:inset-0 before:z-[1] dark:text-neutral-400 dark:xl:bg-neutral-800 dark:hover:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:bg-neutral-700",
-                "dropdownClasses": "end-0 mt-2 p-1 space-y-0.5 z-50 w-32 bg-white rounded-xl shadow-[0_10px_40px_10px_rgba(0,0,0,0.08)] dark:bg-neutral-900",
-                "optionClasses": "hs-selected:bg-gray-100 dark:hs-selected:bg-neutral-800 flex gap-x-3 py-1.5 px-2 text-[13px] text-gray-800 hover:bg-gray-100 rounded-lg focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800",
-                "optionTemplate": "<div class=\"flex justify-between items-center w-full\"><span data-title></span><span class=\"hidden hs-selected:block\"><svg class=\"shrink-0 size-3.5 text-gray-800 dark:text-neutral-200\" xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" fill=\"currentColor\" viewBox=\"0 0 16 16\"><path d=\"M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z\"/></svg></span></div>"
-              }' class="hidden">
-                <option value="">Tanlash</option>
-                <option selected>Yangilari birinchi</option>
-              </select>
+<!--            &lt;!&ndash; Sort &ndash;&gt;-->
+<!--            <div class="relative inline-flex items-center">-->
+<!--              <span class="me-1 text-sm text-gray-800 dark:text-neutral-200">Saralash:</span>-->
+<!--              <select id="hs-pro-select-sort" data-hs-select='{-->
+<!--                "placeholder": "Saralash",-->
+<!--                "toggleTag": "<button type=\"button\" aria-expanded=\"false\"></button>",-->
+<!--                "toggleClasses": "hs-select-disabled:pointer-events-none hs-select-disabled:opacity-50 relative p-2 pe-8 inline-flex shrink-0 justify-center items-center gap-x-1.5 border border-transparent text-sm text-gray-500 rounded-lg hover:bg-gray-100 hover:text-gray-800 focus:outline-none focus:bg-gray-100 before:absolute before:inset-0 before:z-[1] dark:text-neutral-400 dark:xl:bg-neutral-800 dark:hover:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:bg-neutral-700",-->
+<!--                "dropdownClasses": "end-0 mt-2 p-1 space-y-0.5 z-50 w-32 bg-white rounded-xl shadow-[0_10px_40px_10px_rgba(0,0,0,0.08)] dark:bg-neutral-900",-->
+<!--                "optionClasses": "hs-selected:bg-gray-100 dark:hs-selected:bg-neutral-800 flex gap-x-3 py-1.5 px-2 text-[13px] text-gray-800 hover:bg-gray-100 rounded-lg focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800",-->
+<!--                "optionTemplate": "<div class=\"flex justify-between items-center w-full\"><span data-title></span><span class=\"hidden hs-selected:block\"><svg class=\"shrink-0 size-3.5 text-gray-800 dark:text-neutral-200\" xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" fill=\"currentColor\" viewBox=\"0 0 16 16\"><path d=\"M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z\"/></svg></span></div>"-->
+<!--              }' class="hidden">-->
+<!--                <option value="">Tanlash</option>-->
+<!--                <option selected>Yangilari birinchi</option>-->
+<!--              </select>-->
 
-              <div class="absolute top-1/2 end-2.5 -translate-y-1/2">
-                <svg class="shrink-0 size-4 text-gray-400 dark:text-neutral-600" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-              </div>
-            </div>
-            <!-- End Select -->
-          </div>
+<!--              <div class="absolute top-1/2 end-2.5 -translate-y-1/2">-->
+<!--                <svg class="shrink-0 size-4 text-gray-400 dark:text-neutral-600" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--            &lt;!&ndash; End Select &ndash;&gt;-->
+<!--          </div>-->
           <!-- End Col -->
         </div>
         <!-- End Filter Group -->

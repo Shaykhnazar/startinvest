@@ -57,7 +57,7 @@ class CabinetStartupController extends Controller
     public function show(Startup $startup)
     {
         return inertia('Cabinet/Startup/Show', [
-            'startup' => new StartupResource($startup->load('industries')),
+            'startup' => new StartupResource($startup->load('industries', 'joinRequests', 'contributors')),
             'startupTypes' => StartupTypeEnum::options(),
             'startupStatuses' => StartupStatusEnum::options(),
         ]);

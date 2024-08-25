@@ -24,6 +24,8 @@ class StartupResource extends JsonResource
             'updated_at' => DateFormatForHumans::run($this->updated_at),
             'trashed' => $this->trashed(),
             'industries' => IndustryResource::collection($this->industries),
+            'joinRequests' => StartupJoinRequestResource::collection($this->joinRequests->load('user')),
+            'contributors' => UserResource::collection($this->contributors),
             $this->mergeWhen($request->routeIs('dashboard.startups.add', 'dashboard.startups.edit'), [
                 'type' => StartupTypeEnum::from($this->type),
                 'status' => StartupStatusEnum::from($this->status),

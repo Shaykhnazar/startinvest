@@ -6,6 +6,7 @@ use App\Enums\StartupTypeEnum;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Orchid\Attachment\Attachable;
@@ -55,7 +56,12 @@ class Startup extends Model
 
     public function contributors(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'startup_contributor');
+        return $this->belongsToMany(User::class, 'startup_contributor', 'startup_id', 'contributor_id');
+    }
+
+    public function joinRequests(): HasMany
+    {
+        return $this->hasMany(StartupJoinRequest::class, 'startup_id');
     }
 
     public function scopePublic(Builder $builder): Builder

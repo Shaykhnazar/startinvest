@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\Api\IdeaController;
+use App\Http\Controllers\Api\StartupJoinRequestController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\Profile\CabinetStartupController;
+use App\Http\Controllers\StartupContributorController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -30,6 +32,12 @@ Route::group(['prefix' => 'v1'], function () {
     });
     Route::group(['prefix' => 'startups', 'as' => 'startups.', 'middleware' => ['auth', 'web']], function () {
         Route::post('/store', [CabinetStartupController::class, 'store'])->name('store');
+        // Manage join requests to startup
+        Route::post('/{startup}/join-request', [StartupJoinRequestController::class, 'sendRequest'])->name('send-join-request');
+        Route::patch('{startup}/update-request', [StartupJoinRequestController::class, 'updateRequest'])->name('join-requests.handle');
+        Route::get('/{startup}/join-requests', [StartupJoinRequestController::class, 'listRequests'])->name('join-requests');
+        // Manage contributors
+        Route::patch('{startup}/remove-contributor', [StartupContributorController::class, 'remove'])->name('remove-contributor');
     });
     // CHAT
     Route::get('/messages/{friend}', [ChatController::class, 'messages'])->middleware(['auth', 'web'])->name('chat.messages');

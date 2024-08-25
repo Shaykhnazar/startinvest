@@ -15,6 +15,11 @@ export default {
     getMessages: (friendId) => api().get(`messages/${friendId}`),
     sendMessage: (friendId, data) => api().post(`messages/${friendId}`, data),
   },
+  startups: {
+    sendJoinRequest: (startupId) => api().post(`startups/${startupId}/join-request`),
+    handleJoinRequest: (startupId, data) => api().patch(`startups/${startupId}/update-request`, data),
+    removeContributor: (startupId, data) => api().patch(`startups/${startupId}/remove-contributor`, data),
+  },
 }
 
 function api() {

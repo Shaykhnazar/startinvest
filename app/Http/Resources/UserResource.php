@@ -18,6 +18,8 @@ class UserResource extends JsonResource
             'votes' => VoteResource::collection($this->whenLoaded('votes')),
             'favorites' => FavoriteResource::collection($this->whenLoaded('favorites')),
             'comments' => CommentResource::collection($this->whenLoaded('comments')),
+            'joinRequests' => StartupJoinRequestResource::collection($this->whenLoaded('joinRequests')),
+            'contributedStartups' => StartupResource::collection($this->whenLoaded('contributedStartups')),
         ];
     }
 }

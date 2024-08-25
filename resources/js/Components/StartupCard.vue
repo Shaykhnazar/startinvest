@@ -1,36 +1,135 @@
 <script setup>
-import { More } from '@element-plus/icons-vue';
-import Popover from '@/Components/Popover.vue';
 import { useUserStore } from '@/stores/UserStore.js';
-import { ref } from 'vue';
 import api from '@/services/api.js';
-import { Link } from '@inertiajs/vue3'
+import { useElMessage } from '@/Composables/helpers.js'
+import { usePage } from '@inertiajs/vue3'
+import { JOIN_REQUEST_STATUSES } from '@/services/const.js'
+import { computed } from 'vue'
 
-defineProps({
+const { success, info, warning } = useElMessage()
+const userStore = useUserStore()
+
+const props = defineProps({
   startup: Object,
 });
 
+const showConfirmationDialog = (callback, confirmText) => {
+  // console.log('Opening confirmation dialog...');
+  if (window.confirm(confirmText)) {
+    callback();
+  }
+}
 
+const handleJoinRequest = (startupId) => {
+  if (joinPreCheck()) {
+    if (userStore.hasPendingJoinRequest(startupId)) {
+      // Cancel the pending request
+      showConfirmationDialog(() => cancelJoining(startupId), 'So\'rovni bekor qilmoqchimisiz?');
+    } else if (userStore.hasAcceptedJoinRequest(startupId)) {
+      // Leave the team
+      showConfirmationDialog(() => leaveTeam(startupId), 'Jamoani tark etmoqchimisiz?');
+    } else if (userStore.hasRejectedJoinRequest(startupId)) {
+      // Prompt user to send a join request
+      showConfirmationDialog(() => resendJoinRequest(startupId), 'Jamoaga qo\'shilish uchun qayta so\'rov yuborishni xohlaysizmi?');
+    } else {
+      // Prompt user to send a join request
+      showConfirmationDialog(() => sendJoinRequest(startupId), 'Jamoaga qo\'shilish uchun so\'rov yuborishni xohlaysizmi?');
+    }
+  }
+}
 
-// const userStore = useUserStore();
-// const showStartupDescByCollapse = ref(false);
-// const isLoadingDescription = ref(false);
-// const startupDescription = ref('');
+const sendJoinRequest = async (startupId) => {
+  try {
+    await api.startups.sendJoinRequest(startupId)
+    success('Jamoaga qo\'shilish so\'rovi muvaffaqiyatli yuborildi!')
+    refreshJoinRequests();
+    refreshContributors();
+  } catch (error) {
+    console.error('Jamoaga qo\'shilish so\'rovini yuborishda xato:', error)
+    info('Jamoaga qo\'shilish so\'rovini yuborishda xatolik')
+  }
+}
 
-// const toggleDescription = async (startup) => {
-//   if (!showStartupDescByCollapse.value && !startupDescription.value) {
-//     isLoadingDescription.value = true;
-//     try {
-//       const response = await api.startups.show(startup.id);
-//       startupDescription.value = response.data.description;
-//     } catch (error) {
-//       console.error('Failed to fetch startup description:', error);
-//     } finally {
-//       isLoadingDescription.value = false;
-//     }
-//   }
-//   showStartupDescByCollapse.value = !showStartupDescByCollapse.value;
-// };
+const cancelJoining = async (startupId) => {
+  try {
+    const request = userStore.getJoinRequest(startupId);
+    await api.startups.handleJoinRequest(startupId, {
+      requestId: request?.id,
+      fromStatus: request?.status,
+      toStatus: JOIN_REQUEST_STATUSES.CANCELED
+    });
+    warning('Jamoaga qo\'shilish so\'rovi bekor qilindi!');
+    refreshJoinRequests();
+    refreshContributors();
+  } catch (error) {
+    console.error('Error cancel joining:', error);
+  }
+}
+
+const leaveTeam = async (startupId) => {
+  try {
+    const request = userStore.getJoinRequest(startupId);
+    await api.startups.handleJoinRequest(startupId, {
+      requestId: request?.id,
+      fromStatus: request?.status,
+      toStatus: JOIN_REQUEST_STATUSES.LEAVED
+    });
+    success('Jamoani tark etish so\'rovi jo\'natildi!');
+    refreshJoinRequests();
+    refreshContributors()
+  } catch (error) {
+    console.error('Error leaving team:', error);
+  }
+}
+
+const resendJoinRequest = async (startupId) => {
+  try {
+    const request = userStore.getJoinRequest(startupId);
+    await api.startups.handleJoinRequest(startupId, {
+      requestId: request?.id,
+      fromStatus: request?.status,
+      toStatus: JOIN_REQUEST_STATUSES.PENDING
+    });
+    success('Jamoaga qo\'shilish uchun qaytadan so\'rov yuborildi!');
+    refreshJoinRequests();
+    refreshContributors()
+  } catch (error) {
+    console.error('Error leaving team:', error);
+  }
+}
+
+const refreshJoinRequests = () => {
+  userStore.updateUserJoinRequests(usePage().props.auth.user.data.joinRequests)
+}
+const refreshContributors = () => {
+  userStore.updateContributors(usePage().props.auth.user.data.contributors)
+}
+
+const buttonText = computed(() => {
+  const hasPendingRequest = userStore.hasPendingJoinRequest(props.startup.id)
+  const hasAcceptedRequest = userStore.hasAcceptedJoinRequest(props.startup.id)
+  const hasRejectedRequest = userStore.hasRejectedJoinRequest(props.startup.id)
+
+  if (userStore.isGuest) {
+    return 'Jamoaga qo\'shilish';
+  } else if (hasPendingRequest) {
+    return 'Jamoaga qo\'shilish so\'rovi yuborilgan. Bekor qilish ❌';
+  } else if (hasAcceptedRequest) {
+    return 'Siz jamoa azosisiz! Jamoani tark etish ❌';
+  } else if (hasRejectedRequest)  {
+    return 'Jamoaga qo\'shilish so\'rovingiz rad etilgan ⛔';
+  } else {
+    return 'Jamoaga qo\'shilish ➕';
+  }
+})
+
+function joinPreCheck() {
+  if (userStore.isGuest) {
+    info('Iltimos, so\'rov yuborish uchun tizimga kiring')
+    return false
+  }
+  return true
+}
 </script>
 
 <template>
@@ -82,8 +181,8 @@ defineProps({
         <!-- Button Group -->
         <div class="flex lg:flex-col justify-end items-center gap-2 border-t border-gray-200 lg:border-t-0 pt-3 lg:pt-0 dark:border-neutral-700">
           <div class="lg:order-2 lg:ms-auto">
-            <button type="button" @click="sendJoinRequest" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700" data-hs-overlay="#hs-pro-dtlam">
-              Jamoaga qo'shilish
+            <button type="button" @click="handleJoinRequest(startup.id)" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700" data-hs-overlay="#hs-pro-dtlam">
+              {{ buttonText }}
             </button>
           </div>
 
