@@ -17,7 +17,10 @@ const env = loadEnv('all', process.cwd());
 export default defineConfig({
   plugins: [
     laravel({
-      input: 'resources/js/app.js',
+      input: [
+        'resources/js/app.js',
+        'node_modules/preline/dist/preline.js'  // Add Preline.js here
+      ],
       refresh: true,
     }),
     vue({
