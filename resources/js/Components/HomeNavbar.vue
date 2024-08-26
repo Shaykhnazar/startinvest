@@ -84,7 +84,7 @@ const visitTo = (url) => {
       <!-- End Button Group -->
 
       <!-- Collapse -->
-      <div id="hs-navbar-hcail" class="hs-collapse hidden overflow-hidden transition-all duration-300 basis-full grow md:block md:w-auto md:basis-auto md:order-2 md:col-span-6" aria-labelledby="hs-navbar-hcail-collapse">
+      <div id="hs-navbar-hcail" class="hs-collapse hidden overflow-hidden transition-all duration-300 basis-full grow md:block md:w-auto md:basis-auto md:order-2 md:col-span-6 bg-white dark:bg-gray-800 md:bg-transparent md:dark:bg-transparent" aria-labelledby="hs-navbar-hcail-collapse">
         <div class="flex flex-col gap-y-4 gap-x-0 mt-5 md:flex-row md:justify-center md:items-center md:gap-y-0 md:gap-x-7 md:mt-0">
           <div
             v-for="menuItem in menuItems"
