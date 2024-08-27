@@ -1,12 +1,12 @@
 <?php
 
-use App\Http\Controllers\CabinetController;
+use App\Http\Controllers\Cabinet\CabinetController;
+use App\Http\Controllers\Cabinet\CabinetIdeaController;
+use App\Http\Controllers\Cabinet\CabinetStartupController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\IdeaController;
 use App\Http\Controllers\InvestorController;
-use App\Http\Controllers\Profile\CabinetIdeaController;
-use App\Http\Controllers\Profile\CabinetStartupController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StartupController;
 use Illuminate\Support\Facades\Route;
@@ -35,18 +35,26 @@ Route::middleware(['auth', 'verified'])->prefix('dashboard')->name('dashboard.')
     Route::get('/startups', [CabinetStartupController::class, 'index'])->name('startups');
     Route::get('/startups/add', [CabinetStartupController::class, 'add'])->name('startups.add');
     Route::post('/startups/add', [CabinetStartupController::class, 'store'])->name('startups.store');
-    Route::get('/startups/{startup}', [CabinetStartupController::class, 'show'])->name('startups.show')->withTrashed();
-    Route::get('/startups/edit/{startup}', [CabinetStartupController::class, 'edit'])->name('startups.edit')->withTrashed();
-    Route::put('/startups/edit/{startup}', [CabinetStartupController::class, 'update'])->name('startups.update')->withTrashed();
-    Route::delete('/startups/{startup}', [CabinetStartupController::class, 'delete'])->name('startups.delete')->withTrashed();
-    Route::put('/startups/set-type/{startup}', [CabinetStartupController::class, 'setType'])->name('startups.setType')->withTrashed();
-    Route::delete('/startups/archive/{startup}', [CabinetStartupController::class, 'archive'])->name('startups.archive')->withTrashed();
-    Route::put('/startups/restore/{startup}', [CabinetStartupController::class, 'restore'])->name('startups.restore')->withTrashed();
+    Route::middleware('check.startup.owner')->group(function () {
+        Route::get('/startups/{startup}', [CabinetStartupController::class, 'show'])->name('startups.show')->withTrashed();
+        Route::get('/startups/edit/{startup}', [CabinetStartupController::class, 'edit'])->name('startups.edit')->withTrashed();
+        Route::put('/startups/edit/{startup}', [CabinetStartupController::class, 'update'])->name('startups.update')->withTrashed();
+        Route::delete('/startups/{startup}', [CabinetStartupController::class, 'delete'])->name('startups.delete')->withTrashed();
+        Route::put('/startups/set-type/{startup}', [CabinetStartupController::class, 'setType'])->name('startups.setType')->withTrashed();
+        Route::delete('/startups/archive/{startup}', [CabinetStartupController::class, 'archive'])->name('startups.archive')->withTrashed();
+        Route::put('/startups/restore/{startup}', [CabinetStartupController::class, 'restore'])->name('startups.restore')->withTrashed();
+    });
+
+    Route::get('/my-profile', [CabinetController::class, 'myProfile'])->name('my-profile');
+    Route::get('/startup-teams', [CabinetController::class, 'startupTeams'])->name('startup-teams');
 
     // Profile sections
-    Route::get('/public-profile', [CabinetController::class, 'publicProfile'])->name('public-profile');
-    Route::get('/private-profile', [CabinetController::class, 'privateProfile'])->name('private-profile');
-    Route::get('/teams', [CabinetController::class, 'teams'])->name('teams');
+    Route::middleware('me.or.role')->prefix('profile')->name('profile.')->group(function () {
+        Route::get('/{user}/edit', [ProfileController::class, 'edit'])->name('edit');
+        Route::patch('/{user}', [ProfileController::class, 'update'])->name('update');
+        Route::patch('/{user}/details', [ProfileController::class, 'updateDetails'])->name('update-details');
+        Route::delete('/{user}', [ProfileController::class, 'destroy'])->name('destroy');
+    });
 });
 
 // Idea Routes
@@ -58,15 +66,12 @@ Route::prefix('ideas')->name('ideas.')->group(function () {
 // Startup Routes
 Route::prefix('startups')->name('startups.')->group(function () {
     Route::get('/', [StartupController::class, 'index'])->name('index');
-    Route::get('/{startup}', [StartupController::class, 'show'])->name('show');
+    Route::get('/{startup}', [StartupController::class, 'show'])->name('show')->middleware('public.startup');
 });
 
 // Profile Routes requiring Authentication
-Route::middleware('auth')->prefix('profile')->name('profile.')->group(function () {
-    Route::get('/', [ProfileController::class, 'edit'])->name('edit');
-    Route::patch('/', [ProfileController::class, 'update'])->name('update');
-    Route::patch('/details', [ProfileController::class, 'updateDetails'])->name('update-details');
-    Route::delete('/', [ProfileController::class, 'destroy'])->name('destroy');
+Route::middleware('auth')->group(function () {
+    Route::get('/user/{user}', [ProfileController::class, 'publicProfile'])->name('user.profile');
 });
 
 require __DIR__.'/auth.php';

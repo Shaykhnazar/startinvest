@@ -2,7 +2,7 @@
 import { useUserStore } from '@/stores/UserStore.js';
 import api from '@/services/api.js';
 import { useElMessage } from '@/Composables/helpers.js'
-import { usePage } from '@inertiajs/vue3'
+import { usePage, Link } from '@inertiajs/vue3'
 import { JOIN_REQUEST_STATUSES } from '@/services/const.js'
 import { computed } from 'vue'
 
@@ -137,8 +137,8 @@ function joinPreCheck() {
     <div class="grid lg:grid-cols-12 gap-y-2 lg:gap-y-0 gap-x-4">
       <div class="lg:col-span-3">
         <p>
-          <Link href="#" class="inline-flex items-center gap-x-1 text-gray-800 decoration-2 hover:underline font-semibold hover:text-blue-600 focus:outline-none focus:underline focus:text-blue-600 dark:text-neutral-200 dark:hover:text-blue-500 dark:focus:outline-none dark:focus:text-blue-500">
-            Tanishish
+          <Link :href="route('startups.show', startup.id)" class="inline-flex items-center gap-x-1 text-gray-800 decoration-2 hover:underline font-semibold hover:text-blue-600 focus:outline-none focus:underline focus:text-blue-600 dark:text-neutral-200 dark:hover:text-blue-500 dark:focus:outline-none dark:focus:text-blue-500">
+            #Tanishish
           </Link>
         </p>
 

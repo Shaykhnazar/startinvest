@@ -25,18 +25,18 @@
         v-model="newMessage"
         @keydown="sendTypingEvent"
         @keyup.enter="sendMessage"
-        placeholder="Type a message..."
+        placeholder="Xabar yozing..."
         class="flex-1 px-2 py-1 border rounded-lg"
       />
       <button
         @click="sendMessage"
         class="px-4 py-1 ml-2 text-white bg-blue-500 rounded-lg"
       >
-        Send
+        Yuborish
       </button>
     </div>
     <small v-if="isFriendTyping" class="text-gray-700">
-      {{ friend.name }} is typing...
+      {{ friend.name }} yozmoqda...
     </small>
   </div>
 </template>

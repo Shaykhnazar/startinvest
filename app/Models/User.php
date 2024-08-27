@@ -131,9 +131,34 @@ class User extends Authenticatable
         return $this->hasMany(UserSocialProfile::class, 'user_id');
     }
 
+//    public function roles()
+//    {
+//        return $this->belongsToMany(Role::class, 'role_users');
+//    }
 
     public function getAuthPasswordName()
     {
         return 'password';
     }
+
+    public function scopeHasRole($query, $role)
+    {
+        if (!$role) {
+            return $query;
+        }
+
+        return $query->whereHas('roles', function ($query) use ($role) {
+            $query->where('roles.slug', $role)->orWhere('roles.id', $role);
+        });
+    }
+
+    public function checkRole($roles)
+    {
+        if (!$roles) {
+            return null;
+        }
+
+        return $this->roles->whereIn('slug', $roles)->first();
+    }
+
 }

@@ -18,7 +18,7 @@ const addNew = () => {
 }
 
 const viewStartup = (id) => {
-  router.visit(route('dashboard.startups.show', { id }), {data: { with_content: true }});
+  router.visit(route('dashboard.startups.show', { id }));
 }
 
 const { formatFriendlyDate } = useFormatFriendlyDate()
@@ -48,7 +48,7 @@ const { formatFriendlyDate } = useFormatFriendlyDate()
                     <template #header>
                       <div class="card-header">
                         <span>{{ startup.title }}</span>
-                        <span class="ml-1"><el-tag type="warning" round v-show="startup.trashed">⛔ Arxivlangan</el-tag></span>
+                        <span class="ml-1"><el-tag type="warning" round v-show="startup.trashed">🚧 Arxivlangan</el-tag></span>
                       </div>
                     </template>
                     <p class="text item">📝 Eslatma: {{ startup.additional_information }}</p><br/>

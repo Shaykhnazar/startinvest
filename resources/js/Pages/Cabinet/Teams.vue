@@ -3,13 +3,13 @@
 import CabinetLayout from '@/Layouts/CabinetLayout.vue'
 import { Head } from '@inertiajs/vue3'
 import CabinetProfileTeamModals from '@/Components/CabinetProfileTeamModals.vue'
-import CabinetProfileUserCardSection from '@/Components/icons/CabinetProfileUserCardSection.vue'
+import CabinetProfileUserCardSection from '@/Components/CabinetProfileUserCardSection.vue'
 </script>
 
 <template>
   <CabinetLayout>
     <template #header>
-      <Head title="Jamoalar"/>
+      <Head title="Startuplar"/>
     </template>
 
     <div class="max-w-6xl mx-auto">
@@ -947,7 +947,7 @@ import CabinetProfileUserCardSection from '@/Components/icons/CabinetProfileUser
 
                 <div class="max-w-sm mx-auto">
                   <p class="mt-2 font-medium text-gray-800 dark:text-neutral-200">
-                    No open teams
+                    No open startupTeams
                   </p>
                   <p class="mb-5 text-sm text-gray-500 dark:text-neutral-500">
                     Connect your mailbox or manually add your first person to get started.

@@ -1,7 +1,11 @@
 <script setup>
 import { Link } from '@inertiajs/vue3';
-
+import { ref } from 'vue'
 import ApplicationLogo from '@/Components/ApplicationLogo.vue'
+import { useUserStore } from '@/stores/UserStore.js'
+
+const user = ref(useUserStore().authUser)
+
 </script>
 
 <template>
@@ -115,13 +119,13 @@ import ApplicationLogo from '@/Components/ApplicationLogo.vue'
               <div id="user-profile-accordion-sub" class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300 hidden  " role="region" aria-labelledby="user-profile-accordion">
                 <ul class="hs-accordion-group ps-7 mt-1.5 space-y-1.5 relative before:absolute before:top-0 before:start-[18px] before:w-0.5 before:h-full before:bg-gray-100 dark:before:bg-neutral-700" data-hs-accordion-always-open>
                   <li>
-                    <Link :href="route('dashboard.public-profile')" :active="route().current('dashboard.public-profile')" class="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  ">
+                    <Link :href="route('dashboard.my-profile')" :active="route().current('dashboard.my-profile')" class="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  ">
                       Umumiy profil
                     </Link>
                   </li>
                   <li>
-                    <Link :href="route('dashboard.teams')" :active="route().current('dashboard.teams')" class="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  ">
-                      Jamoalar
+                    <Link :href="route('dashboard.startup-teams')" :active="route().current('dashboard.startup-teams')" class="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  ">
+                      Startuplar
                     </Link>
                   </li>
 <!--                  <li>-->
@@ -170,7 +174,7 @@ import ApplicationLogo from '@/Components/ApplicationLogo.vue'
               <div id="account-accordion-sub" class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300 hidden  " role="region" aria-labelledby="account-accordion">
                 <ul class="hs-accordion-group ps-7 mt-1.5 space-y-1.5 relative before:absolute before:top-0 before:start-[18px] before:w-0.5 before:h-full before:bg-gray-100 dark:before:bg-neutral-700" data-hs-accordion-always-open>
                   <li>
-                    <Link class="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  " :href="route('profile.edit')">
+                    <Link class="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  " :href="route('dashboard.profile.edit', user.id)">
                       Profil
                     </Link>
                   </li>
@@ -266,16 +270,16 @@ import ApplicationLogo from '@/Components/ApplicationLogo.vue'
             <!-- End Divider -->
 
             <!-- Link -->
-<!--            <li class="px-5">-->
-<!--              <a class="flex items-center gap-x-2 py-1.5 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100  dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700" href="../../pro/dashboard/chat.html">-->
-<!--                <span class="flex justify-center items-center size-6 bg-blue-600 text-white rounded-md dark:bg-blue-500">-->
-<!--                  <svg class="shrink-0 size-3" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">-->
-<!--                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />-->
-<!--                  </svg>-->
-<!--                </span>-->
-<!--                Chat-->
-<!--              </a>-->
-<!--            </li>-->
+            <li class="px-5">
+              <Link class="flex items-center gap-x-2 py-1.5 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100  dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700" :href="route('chat')">
+                <span class="flex justify-center items-center size-6 bg-blue-600 text-white rounded-md dark:bg-blue-500">
+                  <svg class="shrink-0 size-3" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                  </svg>
+                </span>
+                Chat
+              </Link>
+            </li>
             <!-- End Link -->
 
             <!-- Link -->

@@ -35,7 +35,7 @@ class StartupResource extends JsonResource
                 'status' => StartupStatusEnum::from($this->status)->label(),
                 'statusOriginal' => StartupStatusEnum::from($this->status),
             ]),
-            $this->mergeWhen($request->with_content, [
+            $this->mergeWhen($request->routeIs('startups.show', 'dashboard.startups.show', 'dashboard.startups.edit'), [
                 'description' => $this->description,
             ]),
         ];

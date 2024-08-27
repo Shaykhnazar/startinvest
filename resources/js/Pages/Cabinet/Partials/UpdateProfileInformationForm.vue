@@ -5,6 +5,7 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { Link, useForm, usePage } from '@inertiajs/vue3';
 import { useUserStore } from '@/stores/UserStore.js'
+import { ref } from 'vue';
 
 defineProps({
   mustVerifyEmail: {
@@ -14,12 +15,11 @@ defineProps({
     type: String,
   },
 });
-
-const userStore = useUserStore()
+const user = ref(useUserStore().authUser)
 
 const form = useForm({
-  name: userStore.authUser.name,
-  email: userStore.authUser.email,
+  name: user.value.name,
+  email: user.value.email,
 });
 </script>
 
@@ -28,7 +28,7 @@ const form = useForm({
       <h2 class="font-semibold text-gray-800 dark:text-neutral-200">
         Shaxsiy ma'lumotlar
       </h2>
-      <form @submit.prevent="form.patch(route('profile.update'))" class="mt-6 space-y-6">
+      <form @submit.prevent="form.patch(route('dashboard.profile.update', user.id))" class="mt-6 space-y-6">
 
       <!-- Grid -->
       <div class="grid sm:grid-cols-12 gap-y-1.5 sm:gap-y-0 sm:gap-x-5">

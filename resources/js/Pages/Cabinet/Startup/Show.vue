@@ -21,7 +21,7 @@ onMounted(() => {
 
 
 const editStartup = (id) => {
-  router.visit(route('dashboard.startups.edit', { id }), { data: { with_content: true }})
+  router.visit(route('dashboard.startups.edit', { id }))
 }
 
 const setType = (id, type) => {

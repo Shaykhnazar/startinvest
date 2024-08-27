@@ -89,7 +89,7 @@ return [
         'model_morph_key' => 'model_id',
 
         /*
-         * Change this if you want to use the teams feature and your related model's
+         * Change this if you want to use the startupTeams feature and your related model's
          * foreign key is other than `team_id`.
          */
 
@@ -112,7 +112,7 @@ return [
 
     /*
      * Teams Feature.
-     * When set to true the package implements teams using the 'team_foreign_key'.
+     * When set to true the package implements startupTeams using the 'team_foreign_key'.
      * If you want the migrations to register the 'team_foreign_key', you must
      * set this to true before doing the migration.
      * If you already did the migration then you must make a new migration to also
@@ -120,7 +120,7 @@ return [
      * (view the latest version of this package's migration file)
      */
 
-    'teams' => false,
+    'startupTeams' => false,
 
     /*
      * Passport Client Credentials Grant

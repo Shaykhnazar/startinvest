@@ -4,7 +4,7 @@ use App\Http\Controllers\Api\IdeaController;
 use App\Http\Controllers\Api\StartupContributorController;
 use App\Http\Controllers\Api\StartupJoinRequestController;
 use App\Http\Controllers\ChatController;
-use App\Http\Controllers\Profile\CabinetStartupController;
+use App\Http\Controllers\Cabinet\CabinetStartupController;
 use Illuminate\Support\Facades\Route;
 
 /*

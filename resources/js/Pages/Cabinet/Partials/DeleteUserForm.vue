@@ -5,8 +5,9 @@ import InputLabel from '@/Components/InputLabel.vue';
 import Modal from '@/Components/Modal.vue';
 import SecondaryButton from '@/Components/SecondaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
-import { useForm } from '@inertiajs/vue3';
+import { useForm, usePage } from '@inertiajs/vue3';
 import { nextTick, ref } from 'vue';
+import { useUserStore } from '@/stores/UserStore.js'
 
 const confirmingUserDeletion = ref(false);
 const passwordInput = ref(null);
@@ -14,6 +15,7 @@ const passwordInput = ref(null);
 const form = useForm({
   password: '',
 });
+const user = ref(useUserStore().authUser)
 
 const confirmUserDeletion = () => {
   confirmingUserDeletion.value = true;
@@ -22,7 +24,7 @@ const confirmUserDeletion = () => {
 };
 
 const deleteUser = () => {
-  form.delete(route('profile.destroy'), {
+  form.delete(route('dashboard.profile.destroy', user.value.id), {
     preserveScroll: true,
     onSuccess: () => closeModal(),
     onError: () => passwordInput.value.focus(),

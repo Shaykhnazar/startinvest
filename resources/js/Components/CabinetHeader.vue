@@ -2,7 +2,7 @@
 
 import DropdownLink from '@/Components/DropdownLink.vue';
 import { useUserStore } from '@/stores/UserStore.js'
-import { router, usePage } from '@inertiajs/vue3'
+import { router, Link } from '@inertiajs/vue3'
 import { ref } from 'vue'
 
 const user = ref(useUserStore().authUser)
@@ -1051,7 +1051,7 @@ const logoutHandle = () => {
             <!-- Account Dropdown -->
             <div class="hs-dropdown-menu hs-dropdown-open:opacity-100 w-60 transition-[opacity,margin] duration opacity-0 hidden z-20 bg-white rounded-xl shadow-[0_10px_40px_10px_rgba(0,0,0,0.08)] dark:shadow-[0_10px_40px_10px_rgba(0,0,0,0.2)] dark:bg-neutral-900" role="menu" aria-orientation="vertical" aria-labelledby="hs-dnad">
               <div class="p-1 border-b border-gray-200 dark:border-neutral-800">
-                <a class="py-2 px-3 flex items-center gap-x-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800" :href="route('dashboard.public-profile')">
+                <Link class="py-2 px-3 flex items-center gap-x-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800" :href="route('dashboard.my-profile')">
                   <img class="shrink-0 size-8 rounded-full" src="https://images.unsplash.com/photo-1659482633369-9fe69af50bfb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=3&w=320&h=320&q=80" alt="Avatar">
 
                   <div class="grow">
@@ -1062,7 +1062,7 @@ const logoutHandle = () => {
                       {{ user.email }}
                     </p>
                   </div>
-                </a>
+                </Link>
               </div>
               <div class="p-1">
 <!--                <a class="flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800" href="#">-->
@@ -1079,7 +1079,7 @@ const logoutHandle = () => {
 <!--                  </svg>-->
 <!--                  Settings-->
 <!--                </a>-->
-                <DropdownLink :href="route('profile.edit')">
+                <DropdownLink :href="route('dashboard.profile.edit', user.id)">
                   <svg class="shrink-0 mt-0.5 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
                     <circle cx="12" cy="7" r="4" />

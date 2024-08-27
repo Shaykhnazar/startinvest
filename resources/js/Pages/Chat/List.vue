@@ -1,18 +1,26 @@
 <template>
   <App>
     <template #header>
-      <Head title="Chat list"/>
+      <Head title="Suhbatlar"/>
     </template>
-    <div>
-      <h1 class="text-xl font-semibold leading-tight text-gray-800">My Chats</h1>
-      <ul>
-        <li v-for="friend in friends" :key="friend.id">
-          <Link :href="`/chat/${friend.id}`" class="text-blue-500 hover:underline">
-            {{ friend.name }}
-          </Link>
-        </li>
-      </ul>
-    </div>
+
+    <el-container>
+      <el-aside class="hidden md:block">
+        <div>
+          <h1 class="text-xl font-semibold leading-tight text-gray-800">Mening suhbatlarim</h1>
+          <ul>
+            <li v-for="friend in friends" :key="friend.id">
+              <Link :href="`/chat/${friend.id}`" class="text-blue-500 hover:underline">
+                {{ friend.name }}
+              </Link>
+            </li>
+          </ul>
+        </div>
+      </el-aside>
+      <el-main>
+        <slot/>
+      </el-main>
+    </el-container>
   </App>
 </template>
 

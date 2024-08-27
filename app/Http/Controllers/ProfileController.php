@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateDetailsRequest;
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Http\Resources\UserResource;
+use App\Models\User;
 use App\Models\UserDetail;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
@@ -51,7 +53,7 @@ class ProfileController extends Controller
 
         $user->save();
 
-        return Redirect::route('profile.edit');
+        return Redirect::route('dashboard.profile.edit', $user->id);
     }
 
     /**
@@ -79,7 +81,7 @@ class ProfileController extends Controller
         }
         $user->save();
 
-        return Redirect::route('profile.edit');
+        return Redirect::route('dashboard.profile.edit', $user->id);
     }
 
     /**
@@ -101,5 +103,12 @@ class ProfileController extends Controller
         $request->session()->regenerateToken();
 
         return Redirect::to('/');
+    }
+
+    public function publicProfile(Request $request, User $user): Response
+    {
+        return Inertia::render('UserPublicProfile', [
+            'user' => new UserResource($user)
+        ]);
     }
 }
