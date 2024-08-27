@@ -31,7 +31,9 @@ class StartupResource extends JsonResource
                 'status' => StartupStatusEnum::from($this->status),
             ], default: [
                 'type' => StartupTypeEnum::from($this->type)->label(),
+                'typeOriginal' => StartupTypeEnum::from($this->type),
                 'status' => StartupStatusEnum::from($this->status)->label(),
+                'statusOriginal' => StartupStatusEnum::from($this->status),
             ]),
             $this->mergeWhen($request->with_content, [
                 'description' => $this->description,

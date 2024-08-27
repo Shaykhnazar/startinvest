@@ -17,4 +17,19 @@ class CabinetController extends Controller
     {
         return Inertia::render('Cabinet/Dashboard');
     }
+
+    public function publicProfile()
+    {
+        return Inertia::render('Cabinet/PublicProfile');
+    }
+
+    public function privateProfile()
+    {
+        return Inertia::render('Cabinet/PrivateProfile');
+    }
+
+    public function teams()
+    {
+        return Inertia::render('Cabinet/Teams');
+    }
 }

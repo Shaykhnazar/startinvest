@@ -122,18 +122,18 @@ const cancelEvent = () => {
       <dashboard-page-header :has-extra-slot="true">
         <template #content>
           <span class="text-large font-600 mr-3">{{ startup.title }} 🚀</span>
-          <span class="ml-1"><el-tag type="warning" round v-if="startup.trashed">⛔ Arxivlangan</el-tag></span>
+          <span class="ml-1"><el-tag type="warning" round v-if="startup.trashed">🚧 Arxivlangan</el-tag></span>
         </template>
         <template #extra>
           <el-row :gutter="12">
             <el-col :xs="24" :sm="12" :md="startup.trashed ? 12 : 6" :lg="startup.trashed ? 12 : 6" :xl="6" v-if="!startup.trashed">
               <el-button
-                :type="startup.type === 'public' ? 'primary' : 'success'"
-                @click="setType(startup.id, startup.type === 'public' ? 'private' : 'public')"
+                :type="startup.typeOriginal === 'public' ? 'primary' : 'success'"
+                @click="setType(startup.id, startup.typeOriginal === 'public' ? 'private' : 'public')"
                 round
                 class="ml-2"
               >
-                {{ startup.type === 'public' ? '🔒 Maxfiy Qilish' : '📢 E\'lon Qilish' }}
+                {{ startup.typeOriginal === 'public' ? '🔒 Maxfiy Qilish' : '📢 E\'lon Qilish' }}
               </el-button>
             </el-col>
             <el-col :xs="24" :sm="12" :md="startup.trashed ? 12 : 6" :lg="startup.trashed ? 12 : 6" :xl="6" :span="startup.trashed ? 12 : 0">
@@ -187,7 +187,7 @@ const cancelEvent = () => {
               <template #header>
                 <div class="card-header">
                   <span>{{ startup.title }}</span>
-                  <span class="ml-1"><el-tag type="warning" round v-show="startup.trashed">⛔ Arxivlangan</el-tag></span>
+                  <span class="ml-1"><el-tag type="warning" round v-show="startup.trashed">🚧 Arxivlangan</el-tag></span>
                 </div>
               </template>
               <p class="text item">📖 Tavsif: <span v-html="startup.description"></span></p><br/>

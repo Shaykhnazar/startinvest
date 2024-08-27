@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 
 import { usePage } from '@inertiajs/vue3'
 import { onMounted } from 'vue'
@@ -6,11 +6,22 @@ import { useUserStore } from '@/stores/UserStore.js'
 import AnnouncementBanner from '@/Components/AnnouncementBanner.vue'
 import HomeNavbar from '@/Components/HomeNavbar.vue'
 import HomeFooter from '@/Components/HomeFooter.vue'
+import { type IStaticMethods } from "preline";
 
 const userStore = useUserStore();
 const pageProps = usePage().props
 
+declare global {
+  interface Window {
+    HSStaticMethods: IStaticMethods;
+  }
+}
+
 onMounted(() => {
+  setTimeout(() => {
+    window.HSStaticMethods.autoInit();
+  }, 100)
+
   pageProps.auth.user && userStore.setAuthUser(pageProps.auth.user.data)
 
   // Dynamically load the external script

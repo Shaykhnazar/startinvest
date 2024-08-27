@@ -1,19 +1,20 @@
-<script setup>
+<script setup lang="ts">
 import CabinetHeader from '@/Components/CabinetHeader.vue'
 import CabinetFooter from '@/Components/CabinetFooter.vue'
-
-import { ref, onMounted } from 'vue';
-import { useUserStore } from '@/stores/UserStore.js'
-import { Head } from '@inertiajs/vue3'
 import CabinetAside from '@/Components/CabinetAside.vue'
+import { onUpdated, onMounted } from 'vue';
 
-const showingNavigationDropdown = ref(false);
-
-const logoutHandle = () => {
-  useUserStore().$reset()
+import { type IStaticMethods } from "preline/preline";
+declare global {
+  interface Window {
+    HSStaticMethods: IStaticMethods;
+  }
 }
 
 onMounted(() => {
+  setTimeout(() => {
+    window.HSStaticMethods.autoInit();
+  }, 100)
 
   // Dynamically load the external script
   const script = document.createElement('script');

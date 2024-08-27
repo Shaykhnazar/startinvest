@@ -42,6 +42,11 @@ Route::middleware(['auth', 'verified'])->prefix('dashboard')->name('dashboard.')
     Route::put('/startups/set-type/{startup}', [CabinetStartupController::class, 'setType'])->name('startups.setType')->withTrashed();
     Route::delete('/startups/archive/{startup}', [CabinetStartupController::class, 'archive'])->name('startups.archive')->withTrashed();
     Route::put('/startups/restore/{startup}', [CabinetStartupController::class, 'restore'])->name('startups.restore')->withTrashed();
+
+    // Profile sections
+    Route::get('/public-profile', [CabinetController::class, 'publicProfile'])->name('public-profile');
+    Route::get('/private-profile', [CabinetController::class, 'privateProfile'])->name('private-profile');
+    Route::get('/teams', [CabinetController::class, 'teams'])->name('teams');
 });
 
 // Idea Routes
@@ -60,6 +65,7 @@ Route::prefix('startups')->name('startups.')->group(function () {
 Route::middleware('auth')->prefix('profile')->name('profile.')->group(function () {
     Route::get('/', [ProfileController::class, 'edit'])->name('edit');
     Route::patch('/', [ProfileController::class, 'update'])->name('update');
+    Route::patch('/details', [ProfileController::class, 'updateDetails'])->name('update-details');
     Route::delete('/', [ProfileController::class, 'destroy'])->name('destroy');
 });
 

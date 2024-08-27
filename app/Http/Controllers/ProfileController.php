@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProfileUpdateDetailsRequest;
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\UserDetail;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -19,9 +21,17 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): Response
     {
-        return Inertia::render('Cabinet/Edit', [
+        $user = $request->user();
+
+        // Load user details and social profiles
+        $userDetail = $user->details;
+        $socialProfiles = $user->socialProfiles;
+
+        return Inertia::render('Cabinet/ProfileEdit', [
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),
+            'userDetail' => $userDetail,
+            'socialProfiles' => $socialProfiles,
         ]);
     }
 
@@ -30,13 +40,44 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
+        $user = $request->user();
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+        // Update user basic information
+        $user->fill($request->validated());
+
+        if ($user->isDirty('email')) {
+            $user->email_verified_at = null;
         }
 
-        $request->user()->save();
+        $user->save();
+
+        return Redirect::route('profile.edit');
+    }
+
+    /**
+     * Update the user's profile information.
+     */
+    public function updateDetails(ProfileUpdateDetailsRequest $request): RedirectResponse
+    {
+        $user = $request->user();
+
+        // Update user detail
+        $userDetail = $user->details ?? new UserDetail(['user_id' => $user->id]);
+        $userDetail->fill($request->only([
+            'avatar', 'cover_photo', 'resume', 'bio', 'skills',
+            'experience', 'education', 'organization'
+        ]));
+        $userDetail->save();
+
+        // Update or create social profiles
+        $socialProfilesData = $request->input('social_profiles', []);
+        foreach ($socialProfilesData as $profileData) {
+            $socialProfile = $user->socialProfiles()->updateOrCreate(
+                ['social_profile_type' => $profileData['social_profile_type']],
+                ['url' => $profileData['url']]
+            );
+        }
+        $user->save();
 
         return Redirect::route('profile.edit');
     }

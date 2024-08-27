@@ -86,6 +86,11 @@ class User extends Authenticatable
         return $this->hasOne(Investor::class, 'user_id');
     }
 
+    public function details(): HasOne
+    {
+        return $this->hasOne(UserDetail::class, 'user_id');
+    }
+
     public function votes(): HasMany
     {
         return $this->hasMany(Vote::class, 'user_id');
@@ -120,6 +125,12 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Startup::class, 'startup_contributor', 'contributor_id', 'startup_id');
     }
+
+    public function socialProfiles(): HasMany
+    {
+        return $this->hasMany(UserSocialProfile::class, 'user_id');
+    }
+
 
     public function getAuthPasswordName()
     {
