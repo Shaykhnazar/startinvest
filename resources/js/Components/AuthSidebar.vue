@@ -8,9 +8,9 @@ import {Link} from '@inertiajs/vue3'
     <!-- Header -->
     <div class="flex justify-between items-center">
       <!-- Logo -->
-      <a :href="route('home')" class="flex-none rounded-md text-xl inline-block font-semibold focus:outline-none focus:opacity-80" aria-label="Logo">
+      <Link :href="route('home')" class="flex-none rounded-md text-xl inline-block font-semibold focus:outline-none focus:opacity-80" aria-label="Logo">
         <ApplicationLogo/>
-      </a>
+      </Link>
       <!-- End Logo -->
 
       <!-- Language Select -->

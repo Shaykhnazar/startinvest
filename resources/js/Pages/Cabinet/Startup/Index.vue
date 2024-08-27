@@ -14,19 +14,11 @@ onMounted(() => {
 })
 
 const addNew = () => {
-  router.visit(route('dashboard.startups.add'), {
-    onFinish: visit => {
-      window.location.reload()
-    },
-  })
+  router.visit(route('dashboard.startups.add'))
 }
 
 const viewStartup = (id) => {
-  router.visit(route('dashboard.startups.show', { id }), {
-    onFinish: visit => {
-      window.location.reload()
-    },
-  });
+  router.visit(route('dashboard.startups.show', { id }), {data: { with_content: true }});
 }
 
 const { formatFriendlyDate } = useFormatFriendlyDate()

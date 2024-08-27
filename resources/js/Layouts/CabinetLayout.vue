@@ -4,7 +4,7 @@ import CabinetFooter from '@/Components/CabinetFooter.vue'
 import CabinetAside from '@/Components/CabinetAside.vue'
 import { onUpdated, onMounted } from 'vue';
 
-import { type IStaticMethods } from "preline/preline";
+import { type IStaticMethods } from "preline";
 declare global {
   interface Window {
     HSStaticMethods: IStaticMethods;
@@ -17,16 +17,16 @@ onMounted(() => {
   }, 100)
 
   // Dynamically load the external script
-  const script = document.createElement('script');
-  script.src = '/vendor/preline/dist/index.js?v=1.0.0';
-  script.onload = () => {
-    console.log('Preline pro script loaded successfully.');
-    // If preline has specific initializations, you can trigger them here
-  };
-  script.onerror = () => {
-    console.error('Failed to load Preline pro script.');
-  };
-  document.body.appendChild(script);
+  // const script = document.createElement('script');
+  // script.src = '/vendor/preline/dist/index.js?v=1.0.0';
+  // script.onload = () => {
+  //   console.log('Preline pro script loaded successfully.');
+  //   // If preline has specific initializations, you can trigger them here
+  // };
+  // script.onerror = () => {
+  //   console.error('Failed to load Preline pro script.');
+  // };
+  // document.body.appendChild(script);
 
   // Apex Line Chart
   // (function () {

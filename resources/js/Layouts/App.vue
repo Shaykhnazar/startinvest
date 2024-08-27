@@ -25,16 +25,16 @@ onMounted(() => {
   pageProps.auth.user && userStore.setAuthUser(pageProps.auth.user.data)
 
   // Dynamically load the external script
-  const script = document.createElement('script');
-  script.src = '/vendor/preline/dist/index.js?v=1.0.0';
-  script.onload = () => {
-    console.log('Preline script loaded successfully.');
-    // If preline has specific initializations, you can trigger them here
-  };
-  script.onerror = () => {
-    console.error('Failed to load Preline script.');
-  };
-  document.body.appendChild(script);
+  // const script = document.createElement('script');
+  // script.src = '/vendor/preline/dist/index.js?v=1.0.0';
+  // script.onload = () => {
+  //   console.log('Preline script loaded successfully.');
+  //   // If preline has specific initializations, you can trigger them here
+  // };
+  // script.onerror = () => {
+  //   console.error('Failed to load Preline script.');
+  // };
+  // document.body.appendChild(script);
 })
 </script>
 

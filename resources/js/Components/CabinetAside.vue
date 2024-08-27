@@ -18,9 +18,9 @@ import ApplicationLogo from '@/Components/ApplicationLogo.vue'
     <div class="relative flex flex-col h-full max-h-full pt-3">
       <header class="h-[46px] px-8">
         <!-- Logo -->
-        <a :href="route('home')" class="flex-none rounded-md text-xl inline-block font-semibold focus:outline-none focus:opacity-80" aria-label="Homepage">
+        <Link :href="route('home')" class="flex-none rounded-md text-xl inline-block font-semibold focus:outline-none focus:opacity-80" aria-label="Homepage">
           <application-logo custom-class="-mt-5"/>
-        </a>
+        </Link>
         <!-- End Logo -->
       </header>
 
@@ -31,13 +31,13 @@ import ApplicationLogo from '@/Components/ApplicationLogo.vue'
           <ul class="flex flex-col gap-y-1">
             <!-- Link -->
             <li class="px-5">
-              <a :href="route('dashboard.index')" :active="route().current('dashboard.index')" class="flex gap-x-3 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700 bg-gray-100 dark:bg-neutral-700 ">
+              <Link :href="route('dashboard.index')" :active="route().current('dashboard.index')" class="flex gap-x-3 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700 bg-gray-100 dark:bg-neutral-700 ">
                 <svg class="shrink-0 mt-0.5 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
                   <polyline points="9 22 9 12 15 12 15 22" />
                 </svg>
                 Kabinet
-              </a>
+              </Link>
             </li>
             <!-- End Link -->
 
@@ -55,9 +55,9 @@ import ApplicationLogo from '@/Components/ApplicationLogo.vue'
               <div id="ideas-accordion-sub" class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300 hidden  " role="region" aria-labelledby="ideas-accordion">
                 <ul class="hs-accordion-group ps-7 mt-1.5 space-y-1.5 relative before:absolute before:top-0 before:start-[18px] before:w-0.5 before:h-full before:bg-gray-100 dark:before:bg-neutral-700" data-hs-accordion-always-open>
                   <li>
-                    <a :href="route('dashboard.ideas')" class="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700">
+                    <Link :href="route('dashboard.ideas')" class="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700">
                       Ko'rish
-                    </a>
+                    </Link>
                   </li>
 <!--                  <li>-->
 <!--                    <a class="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  " >-->
@@ -83,14 +83,14 @@ import ApplicationLogo from '@/Components/ApplicationLogo.vue'
               <div id="startups-accordion-sub" class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300 hidden  " role="region" aria-labelledby="startups-accordion">
                 <ul class="hs-accordion-group ps-7 mt-1.5 space-y-1.5 relative before:absolute before:top-0 before:start-[18px] before:w-0.5 before:h-full before:bg-gray-100 dark:before:bg-neutral-700" data-hs-accordion-always-open>
                   <li>
-                    <a :href="route('dashboard.startups')" :active="route().current('dashboard.startups')" class="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  ">
+                    <Link :href="route('dashboard.startups')" :active="route().current('dashboard.startups')" class="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  ">
                       Ko'rish
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a :href="route('dashboard.startups.add')" :active="route().current('dashboard.startups.add')" class="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  ">
+                    <Link :href="route('dashboard.startups.add')" :active="route().current('dashboard.startups.add')" class="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  ">
                       Yaratish
-                    </a>
+                    </Link>
                   </li>
                 </ul>
               </div>
@@ -115,14 +115,14 @@ import ApplicationLogo from '@/Components/ApplicationLogo.vue'
               <div id="user-profile-accordion-sub" class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300 hidden  " role="region" aria-labelledby="user-profile-accordion">
                 <ul class="hs-accordion-group ps-7 mt-1.5 space-y-1.5 relative before:absolute before:top-0 before:start-[18px] before:w-0.5 before:h-full before:bg-gray-100 dark:before:bg-neutral-700" data-hs-accordion-always-open>
                   <li>
-                    <a :href="route('dashboard.public-profile')" :active="route().current('dashboard.public-profile')" class="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  ">
+                    <Link :href="route('dashboard.public-profile')" :active="route().current('dashboard.public-profile')" class="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  ">
                       Umumiy profil
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a :href="route('dashboard.teams')" :active="route().current('dashboard.teams')" class="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  ">
+                    <Link :href="route('dashboard.teams')" :active="route().current('dashboard.teams')" class="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  ">
                       Jamoalar
-                    </a>
+                    </Link>
                   </li>
 <!--                  <li>-->
 <!--                    <a class="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  ">-->
@@ -170,14 +170,14 @@ import ApplicationLogo from '@/Components/ApplicationLogo.vue'
               <div id="account-accordion-sub" class="hs-accordion-content w-full overflow-hidden transition-[height] duration-300 hidden  " role="region" aria-labelledby="account-accordion">
                 <ul class="hs-accordion-group ps-7 mt-1.5 space-y-1.5 relative before:absolute before:top-0 before:start-[18px] before:w-0.5 before:h-full before:bg-gray-100 dark:before:bg-neutral-700" data-hs-accordion-always-open>
                   <li>
-                    <a class="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  " :href="route('profile.edit')">
+                    <Link class="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  " :href="route('profile.edit')">
                       Profil
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a class="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  " href="#">
+                    <Link class="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  " href="#">
                       Bildirishnomalar
-                    </a>
+                    </Link>
                   </li>
 <!--                  <li>-->
 <!--                    <a class="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  " href="../../pro/dashboard/account-integrations.html">-->

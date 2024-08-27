@@ -21,39 +21,23 @@ onMounted(() => {
 
 
 const editStartup = (id) => {
-  router.visit(route('dashboard.startups.edit', { id }), { data: { with_content: true },
-    onFinish: visit => {
-      window.location.reload()
-    },
-  })
+  router.visit(route('dashboard.startups.edit', { id }), { data: { with_content: true }})
 }
 
 const setType = (id, type) => {
-  router.visit(route('dashboard.startups.setType', { id }), {method: 'put', data: { type: type },     onFinish: visit => {
-      window.location.reload()
-    },
-  })
+  router.visit(route('dashboard.startups.setType', { id }), {method: 'put', data: { type: type }})
 }
 
 const deleteStartup = (id) => {
-  router.visit(route('dashboard.startups.delete', { id }), {method: 'delete',     onFinish: visit => {
-      window.location.reload()
-    },
-  })
+  router.visit(route('dashboard.startups.delete', { id }), {method: 'delete'})
 }
 
 const archiveStartup = (id) => {
-  router.visit(route('dashboard.startups.archive', { id }), { method: 'delete',     onFinish: visit => {
-      window.location.reload()
-    },
-  })
+  router.visit(route('dashboard.startups.archive', { id }), { method: 'delete' })
 }
 
 const restoreStartup = (id) => {
-  router.visit(route('dashboard.startups.restore', { id }), { method: 'put',     onFinish: visit => {
-      window.location.reload()
-    },
-  })
+  router.visit(route('dashboard.startups.restore', { id }), { method: 'put' })
 }
 const showConfirmationDialog = (callback, confirmText) => {
   // console.log('Opening confirmation dialog...');

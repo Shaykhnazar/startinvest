@@ -1,1 +1,0 @@
-import{o,f as a,n as e}from"./app-CrqW8ZGz.js";const n={__name:"ApplicationLogo",props:{customClass:""},setup(s){return(l,t)=>(o(),a("img",{style:{width:"100px"},src:"/images/logo.svg",class:e(s.customClass),alt:"Element logo"},null,2))}};export{n as _};
