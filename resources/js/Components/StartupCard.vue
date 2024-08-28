@@ -122,7 +122,7 @@ onMounted(() => {
         <!-- Badge Group -->
         <div class="mt-1 lg:mt-2 -mx-0.5 sm:-mx-1">
           <template v-for="industry in startup.industries" :key="industry.id">
-            <span class="m-0.5 sm:m-1 p-1.5 sm:p-2 inline-block bg-gray-100 text-gray-800 text-xs rounded-md dark:bg-neutral-700 dark:text-neutral-200">#{{ industry.title }}</span>
+            <span class="m-0.5 sm:m-1 p-1.5 sm:p-2 inline-block bg-gray-100 text-gray-800 text-xs rounded-md dark:bg-neutral-700 dark:text-neutral-200">{{ industry.title }}</span>
           </template>
         </div>
         <!-- End Badge Group -->
