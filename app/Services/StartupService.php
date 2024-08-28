@@ -46,46 +46,48 @@ class StartupService
      * @param string $toStatus
      * @param Startup $startup
      * @param StartupJoinRequest $joinRequest
-     * @return void
+     * @return bool
      */
-    public static function handleStatusTransition(string $fromStatus, string $toStatus, Startup $startup, StartupJoinRequest $joinRequest): void
+    public static function handleStatusTransition(string $fromStatus, string $toStatus, Startup $startup, StartupJoinRequest &$joinRequest): bool
     {
+        $joinRequestIsDeleted = false;
         // Define the actions based on status transitions
         $actions = [
             JoinRequestStatusEnum::PENDING->value => [
-                JoinRequestStatusEnum::ACCEPTED->value => 'attach',
-            ],
-            JoinRequestStatusEnum::ACCEPTED->value => [
-                JoinRequestStatusEnum::REJECTED->value => 'detach',
-            ],
-            JoinRequestStatusEnum::REJECTED->value => [
-                JoinRequestStatusEnum::ACCEPTED->value => 'attach',
-            ],
-            JoinRequestStatusEnum::CANCELED->value => [
-                JoinRequestStatusEnum::ACCEPTED->value => 'detach',
+                JoinRequestStatusEnum::CANCELED->value => ['deleteRequest'], // used when user canceled their own join request
+                JoinRequestStatusEnum::REJECTED->value => ['deleteRequest'],
+                JoinRequestStatusEnum::ACCEPTED->value => ['attach', 'deleteRequest'],
             ],
             JoinRequestStatusEnum::LEAVED->value => [
-                JoinRequestStatusEnum::ACCEPTED->value => 'detach',
+                JoinRequestStatusEnum::ACCEPTED->value => ['detach', 'deleteRequest'],
+                JoinRequestStatusEnum::REJECTED->value => ['deleteRequest'],
             ],
         ];
 
         // Check if the transition is valid
         if (isset($actions[$fromStatus][$toStatus])) {
-            $action = $actions[$fromStatus][$toStatus];
+            $actionsToPerform = $actions[$fromStatus][$toStatus];
 
-            // Perform the action based on the transition
-            if ($action === 'attach') {
-                self::attachToContributors($startup, $joinRequest);
-            } elseif ($action === 'detach') {
-                self::detachFromContributors($startup, $joinRequest);
+            // Perform the actions based on the transition
+            foreach ($actionsToPerform as $action) {
+                if ($action === 'attach') {
+                    self::attachToContributors($startup, $joinRequest);
+                } elseif ($action === 'detach') {
+                    self::detachFromContributors($startup, $joinRequest);
+                } elseif ($action === 'deleteRequest') {
+                    $joinRequest->delete();
+                    $joinRequestIsDeleted = true; // Return true if the join request was deleted
+                }
             }
 
             // Additional logic for CANCELED and LEAVED if necessary
-            if ($toStatus === JoinRequestStatusEnum::CANCELED || $toStatus === JoinRequestStatusEnum::LEAVED) {
+            if ($toStatus === JoinRequestStatusEnum::CANCELED->value || $toStatus === JoinRequestStatusEnum::LEAVED->value) {
                 // Implement any additional logic for CANCELED or LEAVED status
                 // e.g., log actions, notify users, etc.
             }
         }
+
+        return $joinRequestIsDeleted; // Return false if no special action like deletion was performed
     }
 
 }

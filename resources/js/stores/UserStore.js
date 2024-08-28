@@ -22,7 +22,7 @@ export const useUserStore = defineStore("UserStore", {
       this.authUser.joinRequests = newJoinRequests
     },
     updateContributors(newContributors) {
-      this.authUser.contributors = newContributors
+      this.authUser.contributedStartups = newContributors
     },
   },
   getters: {
@@ -36,14 +36,11 @@ export const useUserStore = defineStore("UserStore", {
     hasPendingJoinRequest: (state) => (startupId) => {
       return state.authUser?.joinRequests.some(request => request.startup_id === startupId && request.status === JOIN_REQUEST_STATUSES.PENDING)
     },
-    hasAcceptedJoinRequest: (state) => (startupId) => {
-      return state.authUser?.joinRequests.some(request => request.startup_id === startupId && request.status === JOIN_REQUEST_STATUSES.ACCEPTED)
-    },
-    hasRejectedJoinRequest: (state) => (startupId) => {
-      return state.authUser?.joinRequests.some(request => request.startup_id === startupId && request.status === JOIN_REQUEST_STATUSES.REJECTED)
-    },
     getJoinRequest: (state) => (startupId) => {
       return state.authUser?.joinRequests.find(request => request.startup_id === startupId) ?? null;
+    },
+    isContributor: (state) => (startupId) => {
+      return state.authUser?.contributedStartups.some(startup => startup.id === startupId);
     }
   },
   persist: {

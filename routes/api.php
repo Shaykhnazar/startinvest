@@ -32,8 +32,8 @@ Route::group(['prefix' => 'v1'], function () {
     Route::group(['prefix' => 'startups', 'as' => 'startups.', 'middleware' => ['auth', 'web']], function () {
         Route::post('/store', [CabinetStartupController::class, 'store'])->name('store');
         // Manage join requests to startup
-        Route::post('/{startup}/join-request', [StartupJoinRequestController::class, 'sendRequest'])->name('send-join-request');
-        Route::patch('{startup}/update-request', [StartupJoinRequestController::class, 'updateRequest'])->name('join-requests.handle');
+        Route::post('/{startup}/send-request', [StartupJoinRequestController::class, 'sendRequest'])->name('send-request');
+        Route::patch('{startup}/accept-request', [StartupJoinRequestController::class, 'acceptRequest'])->name('accept-requests');
         Route::get('/{startup}/join-requests', [StartupJoinRequestController::class, 'listRequests'])->name('join-requests');
         // Manage contributors
         Route::patch('{startup}/remove-contributor', [StartupContributorController::class, 'remove'])->name('remove-contributor');

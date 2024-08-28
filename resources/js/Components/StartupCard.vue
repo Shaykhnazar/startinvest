@@ -4,10 +4,12 @@ import api from '@/services/api.js';
 import { useElMessage } from '@/Composables/helpers.js'
 import { usePage, Link } from '@inertiajs/vue3'
 import { JOIN_REQUEST_STATUSES } from '@/services/const.js'
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 
 const { success, info, warning } = useElMessage()
 const userStore = useUserStore()
+
+const user = userStore.authUser
 
 const props = defineProps({
   startup: Object,
@@ -25,12 +27,9 @@ const handleJoinRequest = (startupId) => {
     if (userStore.hasPendingJoinRequest(startupId)) {
       // Cancel the pending request
       showConfirmationDialog(() => cancelJoining(startupId), 'So\'rovni bekor qilmoqchimisiz?');
-    } else if (userStore.hasAcceptedJoinRequest(startupId)) {
+    } else if (userStore.isContributor(startupId)) {
       // Leave the team
       showConfirmationDialog(() => leaveTeam(startupId), 'Jamoani tark etmoqchimisiz?');
-    } else if (userStore.hasRejectedJoinRequest(startupId)) {
-      // Prompt user to send a join request
-      showConfirmationDialog(() => resendJoinRequest(startupId), 'Jamoaga qo\'shilish uchun qayta so\'rov yuborishni xohlaysizmi?');
     } else {
       // Prompt user to send a join request
       showConfirmationDialog(() => sendJoinRequest(startupId), 'Jamoaga qo\'shilish uchun so\'rov yuborishni xohlaysizmi?');
@@ -40,17 +39,18 @@ const handleJoinRequest = (startupId) => {
 
 const sendJoinRequest = async (startupId) => {
   try {
-    await api.startups.sendJoinRequest(startupId)
+    await api.startups.sendRequest(startupId, {
+      status: JOIN_REQUEST_STATUSES.PENDING
+    })
     success('Jamoaga qo\'shilish so\'rovi muvaffaqiyatli yuborildi!')
     refreshJoinRequests();
-    refreshContributors();
   } catch (error) {
     console.error('Jamoaga qo\'shilish so\'rovini yuborishda xato:', error)
     info('Jamoaga qo\'shilish so\'rovini yuborishda xatolik')
   }
 }
 
-const cancelJoining = async (startupId) => {
+const cancelJoining = async (startupId, ) => {
   try {
     const request = userStore.getJoinRequest(startupId);
     await api.startups.handleJoinRequest(startupId, {
@@ -60,7 +60,6 @@ const cancelJoining = async (startupId) => {
     });
     warning('Jamoaga qo\'shilish so\'rovi bekor qilindi!');
     refreshJoinRequests();
-    refreshContributors();
   } catch (error) {
     console.error('Error cancel joining:', error);
   }
@@ -68,31 +67,11 @@ const cancelJoining = async (startupId) => {
 
 const leaveTeam = async (startupId) => {
   try {
-    const request = userStore.getJoinRequest(startupId);
-    await api.startups.handleJoinRequest(startupId, {
-      requestId: request?.id,
-      fromStatus: request?.status,
-      toStatus: JOIN_REQUEST_STATUSES.LEAVED
+    await api.startups.sendRequest(startupId, {
+      status: JOIN_REQUEST_STATUSES.LEAVED
     });
     success('Jamoani tark etish so\'rovi jo\'natildi!');
     refreshJoinRequests();
-    refreshContributors()
-  } catch (error) {
-    console.error('Error leaving team:', error);
-  }
-}
-
-const resendJoinRequest = async (startupId) => {
-  try {
-    const request = userStore.getJoinRequest(startupId);
-    await api.startups.handleJoinRequest(startupId, {
-      requestId: request?.id,
-      fromStatus: request?.status,
-      toStatus: JOIN_REQUEST_STATUSES.PENDING
-    });
-    success('Jamoaga qo\'shilish uchun qaytadan so\'rov yuborildi!');
-    refreshJoinRequests();
-    refreshContributors()
   } catch (error) {
     console.error('Error leaving team:', error);
   }
@@ -101,25 +80,19 @@ const resendJoinRequest = async (startupId) => {
 const refreshJoinRequests = () => {
   userStore.updateUserJoinRequests(usePage().props.auth.user.data.joinRequests)
 }
-const refreshContributors = () => {
-  userStore.updateContributors(usePage().props.auth.user.data.contributors)
-}
 
 const buttonText = computed(() => {
   const hasPendingRequest = userStore.hasPendingJoinRequest(props.startup.id)
-  const hasAcceptedRequest = userStore.hasAcceptedJoinRequest(props.startup.id)
-  const hasRejectedRequest = userStore.hasRejectedJoinRequest(props.startup.id)
+  const isContributor = userStore.isContributor(props.startup.id)
 
   if (userStore.isGuest) {
     return 'Jamoaga qo\'shilish';
   } else if (hasPendingRequest) {
-    return 'Jamoaga qo\'shilish so\'rovi yuborilgan. Bekor qilish ❌';
-  } else if (hasAcceptedRequest) {
-    return 'Siz jamoa azosisiz! Jamoani tark etish ❌';
-  } else if (hasRejectedRequest)  {
-    return 'Jamoaga qo\'shilish so\'rovingiz rad etilgan ⛔';
+    return 'Jamoaga qo\'shilish so\'rovini bekor qilish ❌';
+  } else if (isContributor) {
+    return 'Jamoani tark etish';
   } else {
-    return 'Jamoaga qo\'shilish ➕';
+    return 'Jamoaga qo\'shilish';
   }
 })
 
@@ -130,6 +103,10 @@ function joinPreCheck() {
   }
   return true
 }
+
+onMounted(() => {
+  // console.log(userStore.authUser)
+})
 </script>
 
 <template>
@@ -153,13 +130,13 @@ function joinPreCheck() {
       <!-- End Col -->
 
       <div class="lg:col-span-6">
-        <p class="mt-1 text-md text-gray-500 dark:text-neutral-500">
+        <p class="mt-1 text-md text-dark-500 dark:text-neutral-200">
           {{ startup.title }}
         </p>
 
         <!-- Avatar Group -->
         <div class="mt-2 flex items-center gap-x-3">
-          <h4 class="text-xs text-gray-500 dark:text-neutral-200">
+          <h4 class="text-xs text-gray-500 dark:text-neutral-400">
             Holati: <span class="lowercase">{{ startup.status }}</span>
           </h4>
 <!--          <h4 class="text-xs uppercase text-gray-500 dark:text-neutral-200">-->
@@ -180,7 +157,7 @@ function joinPreCheck() {
       <div class="lg:col-span-3">
         <!-- Button Group -->
         <div class="flex lg:flex-col justify-end items-center gap-2 border-t border-gray-200 lg:border-t-0 pt-3 lg:pt-0 dark:border-neutral-700">
-          <div class="lg:order-2 lg:ms-auto">
+          <div class="lg:order-2 lg:ms-auto" v-if="user.id !== startup.owner.id">
             <button type="button" @click="handleJoinRequest(startup.id)" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700" data-hs-overlay="#hs-pro-dtlam">
               {{ buttonText }}
             </button>

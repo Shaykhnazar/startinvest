@@ -16,8 +16,8 @@ export default {
     sendMessage: (friendId, data) => api().post(`messages/${friendId}`, data),
   },
   startups: {
-    sendJoinRequest: (startupId) => api().post(`startups/${startupId}/join-request`),
-    handleJoinRequest: (startupId, data) => api().patch(`startups/${startupId}/update-request`, data),
+    sendRequest: (startupId, data) => api().post(`startups/${startupId}/send-request`, data),
+    handleJoinRequest: (startupId, data) => api().patch(`startups/${startupId}/accept-request`, data),
     removeContributor: (startupId, data) => api().patch(`startups/${startupId}/remove-contributor`, data),
   },
 }

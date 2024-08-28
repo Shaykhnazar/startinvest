@@ -65,7 +65,6 @@ const handleJoinRequest = async (requestId, fromStatus, toStatus) => {
       toStatus: toStatus
     })
     success('Join request handled successfully')
-    window.location.reload() // Refresh the page after successful handling
   } catch (error) {
     console.error('Error handling join request:', error)
     info('Failed to handle join request')
@@ -79,7 +78,6 @@ const removeContributorHandle = async (startupId, contributorId) => {
       contributorId: contributorId,
     })
     success('Join request handled successfully')
-    window.location.reload() // Refresh the page after successful handling
   } catch (error) {
     console.error('Error handling join request:', error)
     info('Failed to handle join request')
