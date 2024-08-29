@@ -175,7 +175,7 @@ async function voteDown(idea) {
 
 async function favoriteIdeaHandler(idea) {
   if (userStore.isGuest) {
-    info('Iltimos, g\'oyalarni saqlash uchun tizimga kiring')
+    info('G\'oyalarni saqlash uchun tizimga kiring')
   } else if (!submitting.value) {
     submitting.value = true
     await api.ideas.favorite(idea.id).then((response) => {
@@ -195,21 +195,22 @@ async function favoriteIdeaHandler(idea) {
 
 async function commentIdeaHandler(formEl, ideaCommentFormData) {
   if (userStore.isGuest) {
-    info('Iltimos, sharh qoldirish uchun tizimga kiring')
+    info('Iltimos, sharh qoldirish uchun tizimga kiring');
   } else if (!submitting.value) {
     if (!formEl) return;
     await formEl.validate(async (valid, fields) => {
       if (valid) {
-        submitting.value = true
+        submitting.value = true;
         await api.ideas.comment(ideaCommentFormData.idea.id, {
           body: ideaCommentFormData.body,
           parent_id: ideaCommentFormData.parent_id ?? null,
         }).then((response) => {
-          updateIdeaList(response.data.idea)
-          userStore.updateUserComments(response.data.user_comments)
+          // Directly update the ideaComments array
+          updateIdeaList(response.data.idea);
+          userStore.updateUserComments(response.data.user_comments);
         }).finally(() => {
-          submitting.value = false
-        })
+          submitting.value = false;
+        });
       }
     });
   }
@@ -221,7 +222,7 @@ function sendIdeaHandler(idea) {
 
 function votePreCheck() {
   if (userStore.isGuest) {
-    info('Iltimos, ovoz berish uchun tizimga kiring')
+    info('Ovoz berish uchun tizimga kiring')
     return false
   }
   return true

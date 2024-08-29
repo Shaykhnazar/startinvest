@@ -8,7 +8,7 @@ import CabinetLayout from '@/Layouts/CabinetLayout.vue'
 const page = usePage()
 
 const typeOptions = ref(page.props.startupTypes)
-const statusOptions = ref(page.props.startupStatuses);
+const statusOptions = ref(page.props.startupStatuses.data);
 
 const form = useForm({
   title: '',
@@ -16,9 +16,9 @@ const form = useForm({
   additional_information: '',
   start_date: '',
   type: 'private',
-  status: 'on_start',
+  status_id: statusOptions[0],
   has_mvp: false,
-  industry_ids: [] // Array for multiple industries
+  industry_ids: []
 })
 
 const industries = ref(page.props.industries.data || []) // Get industries from props
@@ -107,8 +107,8 @@ const contentChanged = () => {
                 </el-select>
               </el-form-item>
               <el-form-item label="Holati">
-                <el-select v-model="form.status">
-                  <el-option v-for="(status, index) in statusOptions" :key="index" :value="status.value" :label="status.label">
+                <el-select v-model="form.status_id">
+                  <el-option v-for="(status, index) in statusOptions" :key="index" :value="status.id" :label="status.label">
                     {{ status.label }}
                   </el-option>
                 </el-select>

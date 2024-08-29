@@ -172,7 +172,7 @@ const goToChat = (userId) => {
           </label>
       </div>
       <div class="pb-3">
-        <a class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-blue-600 text-white shadow-sm hover:bg-blue-700  disabled:opacity-50 disabled:pointer-events-none focus:bg-blue-700 dark:bg-blue-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-blue-700 dark:focus:bg-blue-700" @click="goToChat(user.id)" href="#">
+        <a class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-blue-600 text-white shadow-sm hover:bg-blue-700  disabled:opacity-50 disabled:pointer-events-none focus:bg-blue-700 dark:bg-blue-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-blue-700 dark:focus:bg-blue-700" @click="goToChat(user?.id)" href="#">
           <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/><path d="M8 12h.01"/><path d="M12 12h.01"/><path d="M16 12h.01"/></svg>
           Aloqa
         </a>

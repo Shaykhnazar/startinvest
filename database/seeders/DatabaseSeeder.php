@@ -22,5 +22,6 @@ class DatabaseSeeder extends Seeder
         $this->call(CountrySeeder::class);
         $this->call(InvestmentStageSeeder::class);
         $this->call(IndustrySeeder::class);
+        $this->call(StartupStatusSeeder::class);
     }
 }

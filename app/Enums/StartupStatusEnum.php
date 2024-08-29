@@ -11,6 +11,18 @@ enum StartupStatusEnum: string
     case TESTING = 'testing';
     case ON_PRODUCTION = 'on_production';
 
+    public static function values(): array
+    {
+        return [
+            self::ON_START->value,
+            self::TEAM_BUILDING->value,
+            self::PROGRESSING->value,
+            self::RELEASE->value,
+            self::TESTING->value,
+            self::ON_PRODUCTION->value,
+        ];
+    }
+
     public function label(): string
     {
         return match($this) {

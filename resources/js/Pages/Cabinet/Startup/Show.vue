@@ -190,7 +190,7 @@ const cancelEvent = () => {
                   <el-tag type="info">Yo'q</el-tag>
                 </span>
               </p>
-              <template #footer>Holati: <el-tag type="primary" round>{{ startup.status }}</el-tag></template>
+              <template #footer>Holati: <el-tag type="primary" round>{{ startup.status.label }}</el-tag></template>
             </el-card>
           </el-col>
         </el-row>

@@ -19,6 +19,8 @@ class CabinetController extends Controller
 
     public function startupTeams()
     {
-        return Inertia::render('Cabinet/StartupTeams');
+        return Inertia::render('Cabinet/StartupTeams', [
+
+        ]);
     }
 }

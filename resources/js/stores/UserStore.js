@@ -41,7 +41,7 @@ export const useUserStore = defineStore("UserStore", {
     },
     isContributor: (state) => (startupId) => {
       return state.authUser?.contributedStartups.some(startup => startup.id === startupId);
-    }
+    },
   },
   persist: {
     storage: sessionStorage,

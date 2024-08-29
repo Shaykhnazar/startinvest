@@ -20,6 +20,7 @@ class StartupResource extends JsonResource
             'start_date' => $this->start_date,
             'has_mvp' => $this->has_mvp,
             'owner' => UserResource::make($this->owner),
+            'status' => StartupStatusResource::make($this->status),
             'created_at' => DateFormatForHumans::run($this->created_at),
             'updated_at' => DateFormatForHumans::run($this->updated_at),
             'trashed' => $this->trashed(),
@@ -28,12 +29,9 @@ class StartupResource extends JsonResource
             'contributors' => UserResource::collection($this->contributors),
             $this->mergeWhen($request->routeIs('dashboard.startups.add', 'dashboard.startups.edit'), [
                 'type' => StartupTypeEnum::from($this->type),
-                'status' => StartupStatusEnum::from($this->status),
             ], default: [
                 'type' => StartupTypeEnum::from($this->type)->label(),
                 'typeOriginal' => StartupTypeEnum::from($this->type),
-                'status' => StartupStatusEnum::from($this->status)->label(),
-                'statusOriginal' => StartupStatusEnum::from($this->status),
             ]),
             $this->mergeWhen($request->routeIs('startups.show', 'dashboard.startups.show', 'dashboard.startups.edit'), [
                 'description' => $this->description,

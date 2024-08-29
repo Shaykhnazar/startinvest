@@ -5,10 +5,11 @@ namespace App\Http\Controllers\Cabinet;
 use App\Enums\StartupStatusEnum;
 use App\Enums\StartupTypeEnum;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ProfileStartupRequest;
+use App\Http\Requests\CabinetStartupRequest;
 use App\Http\Requests\ProfileStartupSetTypeRequest;
 use App\Http\Resources\IndustryResource;
 use App\Http\Resources\StartupResource;
+use App\Http\Resources\StartupStatusResource;
 use App\Models\Startup;
 use App\Services\CacheService;
 use Illuminate\Http\Request;
@@ -25,9 +26,9 @@ class CabinetStartupController extends Controller
 
         return inertia('Cabinet/Startup/Index', [
             'startups' => StartupResource::collection($startups),
-            'industries' => IndustryResource::collection(CacheService::industryAll()),
-            'startupTypes' => StartupTypeEnum::options(),
-            'startupStatuses' => StartupStatusEnum::options(),
+            'industries' => fn () => IndustryResource::collection(CacheService::industryAll()),
+            'startupTypes' => fn () => StartupTypeEnum::options(),
+            'startupStatuses' => fn () => StartupStatusResource::collection(CacheService::startupStatusAll()),
         ]);
     }
 
@@ -35,12 +36,12 @@ class CabinetStartupController extends Controller
     {
         return inertia('Cabinet/Startup/Add', [
             'industries' => IndustryResource::collection(CacheService::industryAll()),
-            'startupTypes' => StartupTypeEnum::options(),
-            'startupStatuses' => StartupStatusEnum::options(),
+            'startupTypes' => fn () => StartupTypeEnum::options(),
+            'startupStatuses' => fn () => StartupStatusResource::collection(CacheService::startupStatusAll()),
         ]);
     }
 
-    public function store(ProfileStartupRequest $request)
+    public function store(CabinetStartupRequest $request)
     {
         $data = $request->validated();
         $data['owner_id'] = auth()->user()->id;
@@ -58,8 +59,6 @@ class CabinetStartupController extends Controller
     {
         return inertia('Cabinet/Startup/Show', [
             'startup' => new StartupResource($startup->load('industries', 'joinRequests', 'contributors')),
-            'startupTypes' => StartupTypeEnum::options(),
-            'startupStatuses' => StartupStatusEnum::options(),
         ]);
     }
 
@@ -67,14 +66,14 @@ class CabinetStartupController extends Controller
     {
         return inertia('Cabinet/Startup/Edit', [
             'startup' => new StartupResource($startup->load('industries')),
-            'industries' => IndustryResource::collection(CacheService::industryAll()),
+            'industries' => fn () => IndustryResource::collection(CacheService::industryAll()),
             'selectedIndustries' => $startup->industries->pluck('id'),
-            'startupTypes' => StartupTypeEnum::options(),
-            'startupStatuses' => StartupStatusEnum::options(),
+            'startupTypes' => fn () => StartupTypeEnum::options(),
+            'startupStatuses' => fn () => StartupStatusResource::collection(CacheService::startupStatusAll()),
         ]);
     }
 
-    public function update(ProfileStartupRequest $request, Startup $startup)
+    public function update(CabinetStartupRequest $request, Startup $startup)
     {
         $data = $request->validated();
 

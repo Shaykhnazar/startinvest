@@ -3,7 +3,7 @@
     <template #header>
       <Head title="Startups" />
     </template>
-    <el-backtop :right="50" :bottom="50" :visibility-height="300" />
+<!--    <el-backtop :right="50" :bottom="50" :visibility-height="300" />-->
 
     <el-container>
       <el-aside class="hidden md:block">
@@ -17,7 +17,13 @@
               <div class="absolute inset-y-0 start-0 flex items-center pointer-events-none z-20 ps-3.5">
                 <svg class="shrink-0 size-4 text-gray-500 dark:text-neutral-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
               </div>
-              <input type="text" class="py-2 px-3 ps-10 pe-8 block w-full bg-white xl:bg-gray-100 border-gray-200 xl:border-transparent rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 xl:dark:bg-neutral-700 dark:border-transparent dark:text-neutral-400 dark:placeholder:text-neutral-400 dark:focus:ring-neutral-600" placeholder="Startup nomi yoki kalit so'z bo'yicha qidiring">
+              <input
+                v-model="filters.search"
+                @input="applyFiltersWithDelay"
+                type="text"
+                class="py-2 px-3 ps-10 pe-8 block w-full bg-white xl:bg-gray-100 border-gray-200 xl:border-transparent rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 xl:dark:bg-neutral-700 dark:border-transparent dark:text-neutral-400 dark:placeholder:text-neutral-400 dark:focus:ring-neutral-600"
+                placeholder="Startup nomi yoki kalit so'z bo'yicha qidiring"
+              />
               <div class="hidden absolute inset-y-0 end-0 flex items-center pointer-events-none z-20 pe-1">
                 <button type="button" class="inline-flex shrink-0 justify-center items-center size-6 rounded-full text-gray-500 hover:text-blue-600 focus:outline-none focus:text-blue-600 dark:text-neutral-500 dark:hover:text-blue-500 dark:focus:text-blue-500" aria-label="Close">
                   <span class="sr-only">Close</span>
@@ -43,7 +49,10 @@
                 "dropdownClasses": "max-h-64 p-1 pt-0 space-y-0.5 z-50 w-full overflow-hidden overflow-y-auto bg-white rounded-xl shadow-[0_10px_40px_10px_rgba(0,0,0,0.08)] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500 dark:bg-neutral-900",
                 "optionClasses": "hs-selected:bg-gray-100 dark:hs-selected:bg-neutral-800 py-2 px-4 w-full text-sm text-gray-800 cursor-pointer hover:bg-gray-100 rounded-lg focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800",
                 "optionTemplate": "<div><div class=\"flex items-center\"><div class=\"me-2\" data-icon></div><div class=\"text-gray-800 dark:text-neutral-200\" data-title></div></div></div>"
-              }' class="hidden">
+              }'
+                class="hidden"
+                v-model="filters.industry_id"
+              >
                 <option value="">Tanlang</option>
 
                 <option v-for="industry in industries" :key="industry.id" :value="industry.id" :label="industry.title">
@@ -62,13 +71,16 @@
               <select id="hs-pro-select-with-icons" data-hs-select='{
                 "placeholder": "Holati",
                 "toggleTag": "<button type=\"button\" aria-expanded=\"false\"></button>",
-                "toggleClasses": "hs-select-disabled:pointer-events-none hs-select-disabled:opacity-50 relative p-2 pe-8 inline-flex shrink-0 justify-center items-center gap-x-1.5 border border-transparent text-sm text-gray-500 rounded-lg hover:bg-gray-100 hover:text-gray-800 focus:outline-none focus:bg-gray-100 before:absolute before:inset-0 before:z-[1] dark:text-neutral-400 dark:xl:bg-neutral-800 dark:hover:bg-neutral-700 dark:hover:text-neutral-200 dark:focus:bg-neutral-700",
+                "toggleClasses": "hs-select-disabled:pointer-events-none hs-select-disabled:opacity-50 relative py-1.5 px-2 inline-flex justify-center items-center text-start text-gray-800 text-sm hover:bg-gray-200 rounded-lg align-middle focus:outline-none focus:bg-gray-200 before:absolute before:inset-0 before:z-[1] dark:text-neutral-200 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800",
                 "dropdownClasses": "end-0 mt-2 p-1 space-y-0.5 z-50 w-40 bg-white rounded-xl shadow-[0_10px_40px_10px_rgba(0,0,0,0.08)] dark:bg-neutral-900",
                 "optionClasses": "hs-selected:bg-gray-100 dark:hs-selected:bg-neutral-800 flex gap-x-3 py-1.5 px-2 text-[13px] text-gray-800 hover:bg-gray-100 rounded-lg focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800",
                 "optionTemplate": "<div class=\"flex items-center w-full\"><div class=\"me-2 sm:me-3\" data-icon></div><span data-title></span><span class=\"hidden hs-selected:block ms-auto\"><svg class=\"shrink-0 size-3.5 text-gray-800 dark:text-neutral-200\" xmlns=\"http:.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polyline points=\"20 6 9 17 4 12\"/></svg></span></div>"
-              }' class="hidden">
+              }'
+                class="hidden"
+                v-model="filters.status_id"
+              >
                 <option value="">Tanlang</option>
-                <option v-for="(status, index) in statusOptions" :key="index" :value="status.value" :label="status.label">
+                <option v-for="(status, index) in statusOptions" :key="index" :value="status.id" :label="status.label">
                   {{ status.label }}
                 </option>
               </select>
@@ -90,7 +102,10 @@
                 "optionClasses": "hs-selected:bg-gray-100 dark:hs-selected:bg-neutral-800 py-2 px-3 w-full text-sm text-gray-800 cursor-pointer hover:bg-gray-100 rounded-lg focus:outline-none focus:bg-gray-100 dark:bg-neutral-900 dark:hover:bg-neutral-800 dark:text-neutral-200 dark:focus:bg-neutral-800",
                 "optionTemplate": "<div><div class=\"flex items-center\"><div class=\"me-2\" data-icon></div><div data-title></div></div><div class=\"text-sm text-gray-500 dark:text-neutral-500\" data-description></div></div>",
                 "viewport": "#hs-modal-status-body"
-               }' class="hidden">
+               }'
+                class="hidden"
+                v-model="filters.sort"
+              >
                 <option value="">Tanlash</option>
                 <option value="created_at-desc" selected data-hs-select-option='{
                     "icon": "<svg class=\"shrink-0 size-4\" xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m3 16 4 4 4-4\"/><path d=\"M7 20V4\"/><rect x=\"15\" y=\"4\" width=\"4\" height=\"6\" ry=\"2\"/><path d=\"M17 20v-6h-2\"/><path d=\"M15 20h4\"/></svg>"
@@ -111,6 +126,28 @@
               </div>
             </div>
             <!-- End Select -->
+
+            <div class="relative inline-flex justify-end mt-4">
+              <!-- Filter Button -->
+              <button
+                type="button"
+                @click="applyFilters"
+                class="inline-flex items-center px-4 py-2 mr-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-filter"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+                Filterlash
+              </button>
+
+              <!-- Clear Button -->
+              <button
+                type="button"
+                @click="clearFilters"
+                class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-gray-700 bg-gray-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                Tozalash
+              </button>
+            </div>
           </div>
           <!-- End Col -->
         </div>
@@ -118,37 +155,77 @@
 
         <!-- STARTUP LIST -->
         <div class="space-y-3">
-          <template v-for="startup in startups.data" :key="startup.id">
+          <template v-for="startup in items" :key="startup.id">
             <StartupCard
               :startup="startup"
             />
           </template>
         </div>
 
-        <div ref="landmark"></div>
+<!--        <div ref="landmark"></div>-->
+        <!-- Load More Button -->
+        <div class="flex justify-center mt-6">
+          <el-button
+            v-if="canLoadMoreItems"
+            @click="loadMoreItems"
+            :loading="loading"
+            type="primary"
+            class="py-2 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-500">
+            Ko'proq yuklash
+          </el-button>
+        </div>
       </el-main>
     </el-container>
   </App>
 </template>
 
 <script setup>
-import { Head, usePage } from '@inertiajs/vue3';
+import { Head, usePage, router } from '@inertiajs/vue3';
 import App from '@/Layouts/App.vue';
 import StartupCard from '@/Components/StartupCard.vue';
-import { ref } from 'vue'
+import { ref, reactive, watch } from 'vue';
+import { usePaginationLoadMore } from '@/Composables/usePaginationLoadMore.js'
+import _ from 'lodash'
 
-const page = usePage()
-const industries = ref(page.props.industries.data || []) // Get industries from props
-const statusOptions = ref(page.props.startupStatuses);
+// Data from the server
+const page = usePage();
+const industries = ref(page.props.industries.data || []);
+const statusOptions = ref(page.props.startupStatuses.data || []);
+const filters = reactive({ ...page.props.filters } || {});
 
-const props = defineProps({
-  startups: {
-    type: Object,
-    required: true
-  }
-});
+// Startup data and pagination logic
+const { items, loadMoreItems, canLoadMoreItems, loading, resetItems } = usePaginationLoadMore('startups');
 
+// Apply filters
+const applyFilters = () => {
+  // console.log(page.url)
 
+  router.get(page.url, { ...filters, page: 1 }, {
+    replace: true,
+    preserveScroll: true,
+    preserveState: true,
+    onSuccess: (page) => {
+      resetItems();
+    }
+  });
+}
+
+const applyFiltersWithDelay = _.debounce(applyFilters, 800);
+
+const clearFilters = () => {
+  filters.search = null;
+  filters.industry_id = null;
+  filters.status_id = null;
+  filters.sort = null;
+  filters.page = 1;
+  applyFilters(true);
+}
+
+// Watch for filter changes and reset items
+// watch(filters, () => {
+//   resetItems();
+//   applyFiltersWithDelay();
+// }, { deep: true });
 </script>
 
 <style lang="scss" scoped>

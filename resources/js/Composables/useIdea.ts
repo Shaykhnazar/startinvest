@@ -21,11 +21,11 @@ export function useIdea() {
   });
   const rules = reactive<FormRules<RuleIdeaForm>>({
     title: [
-      {required: true, message: 'Please input title', trigger: 'blur'},
-      {min: 3, max: 255, message: 'Length should be 3 to 255', trigger: 'blur'},
+      {required: true, message: 'Iltimos, sarlavhani kiriting', trigger: 'blur'},
+      {min: 3, max: 255, message: 'Uzunlik 3 dan 255 gacha bo\'lishi kerak', trigger: 'blur'},
     ],
     description: [
-      {required: false, message: 'Please input description', trigger: 'blur'},
+      {required: false, message: 'Iltimos, tavsifni kiriting', trigger: 'blur'},
     ],
   })
 

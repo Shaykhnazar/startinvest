@@ -88,9 +88,8 @@ const deleteComment = () => {
 
 // Watch for changes in the ideaCommentForm prop and update ideaComments
 watch(() => props.ideaCommentForm.idea.comments, (newComments) => {
-    // ideaComments.splice(0); // Clear the array
     console.log(newComments)
-    // ideaComments.push(...ideaUpdated); // Re-add new comments
+    ideaComments.value = newComments; // Update reactively
   },
   {
     deep: true,

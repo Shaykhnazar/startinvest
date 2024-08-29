@@ -28,7 +28,7 @@ class Startup extends Model
         'client_id',
         'base_price',
         'has_mvp',
-        'status',
+        'status_id',
         'type',
     ];
 
@@ -64,6 +64,11 @@ class Startup extends Model
         return $this->hasMany(StartupJoinRequest::class, 'startup_id');
     }
 
+    public function status()
+    {
+        return $this->belongsTo(StartupStatus::class, 'status_id');
+    }
+
     public function scopePublic(Builder $builder): Builder
     {
         return $builder->where('type', StartupTypeEnum::PUBLIC);
@@ -72,5 +77,50 @@ class Startup extends Model
     public function scopePrivate(Builder $builder): Builder
     {
         return $builder->where('type', StartupTypeEnum::PRIVATE);
+    }
+
+    public function scopeApplySearch(Builder $builder, $search): Builder
+    {
+        return $builder->when($search, function ($query) use ($search) {
+            $query->where('title', 'like', '%' . $search . '%');
+        });
+    }
+
+    public function scopeFilterByIndustry(Builder $builder, $industryId): Builder
+    {
+        return $builder->when($industryId, function ($query) use ($industryId) {
+            $query->whereHas('industries', function ($query) use ($industryId) {
+                $query->where('industries.id', $industryId);
+            });
+        });
+    }
+
+    public function scopeFilterByStatus(Builder $builder, $statusId): Builder
+    {
+        return $builder->when($statusId, function ($query) use ($statusId) {
+            $query->where('status_id', $statusId);
+        });
+    }
+
+    public function scopeSortBy(Builder $builder, $sort): Builder
+    {
+        return $builder->when($sort, function ($query) use ($sort) {
+            switch ($sort) {
+                case 'created_at-asc':
+                    $query->orderBy('created_at', 'asc');
+                    break;
+                case 'title-asc':
+                    $query->orderBy('title', 'asc');
+                    break;
+                case 'title-desc':
+                    $query->orderBy('title', 'desc');
+                    break;
+                default:
+                    $query->orderBy('created_at', 'desc');
+                    break;
+            }
+        }, function ($query) {
+            $query->orderBy('created_at', 'desc');
+        });
     }
 }

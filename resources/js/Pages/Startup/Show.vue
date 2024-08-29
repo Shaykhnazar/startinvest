@@ -50,7 +50,7 @@ const goToChat = (userId) => {
                 <p class="text-lg text-gray-800 dark:text-neutral-200" v-html="startup.description"></p>
 
                 <div class="space-y-3">
-                  <h4 class="text-2xl font-semibold dark:text-white">Holati: <el-tag type="primary" round>{{ startup.status }}</el-tag></h4>
+                  <h4 class="text-2xl font-semibold dark:text-white">Holati: <el-tag type="primary" round>{{ startup.status.label }}</el-tag></h4>
                   <p class="text-lg text-gray-800 dark:text-neutral-200"> MVP versiya mavjudmi?:
                     <span v-if="startup.has_mvp">
                       <el-tag type="success">Ha</el-tag>

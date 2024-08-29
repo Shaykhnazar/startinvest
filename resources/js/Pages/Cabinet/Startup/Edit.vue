@@ -11,7 +11,7 @@ const { success, error } = useElMessage()
 const page = usePage()
 
 const typeOptions = ref(page.props.startupTypes)
-const statusOptions = ref(page.props.startupStatuses);
+const statusOptions = ref(page.props.startupStatuses.data);
 const startup = page.props.startup.data
 
 const industries = ref(page.props.industries.data || []) // Get industries from props
@@ -24,7 +24,7 @@ const form = useForm({
   additional_information: startup.additional_information,
   start_date: startup.start_date,
   type: startup.type,
-  status: startup.status,
+  status_id: startup.status.id,
   has_mvp: startup.has_mvp,
   industry_ids: selectedIndustries.value // Set selected industries
 })
@@ -112,8 +112,8 @@ const contentChanged = () => {
                 </el-select>
               </el-form-item>
               <el-form-item label="Holati">
-                <el-select v-model="form.status">
-                  <el-option v-for="(status, index) in statusOptions" :key="index" :value="status.value" :label="status.label">
+                <el-select v-model="form.status_id">
+                  <el-option v-for="(status, index) in statusOptions" :key="index" :value="status.id" :label="status.label">
                     {{ status.label }}
                   </el-option>
                 </el-select>

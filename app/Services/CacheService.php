@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Industry;
+use App\Models\StartupStatus;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
@@ -16,6 +17,14 @@ class CacheService
     public static function industryAll(): Collection
     {
         return self::loadAll(new Industry());
+    }
+
+    /**
+     * Выгрузить из кэша все стартап-статусы.
+     */
+    public static function startupStatusAll(): Collection
+    {
+        return self::loadAll(new StartupStatus());
     }
 
     /**
