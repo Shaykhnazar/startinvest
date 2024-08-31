@@ -8,9 +8,9 @@
     <el-container>
       <el-aside class="hidden md:block">
       </el-aside>
-      <el-main>
+      <el-main style="padding-top: 0px">
         <!-- Filter Group -->
-        <div class="py-4 grid lg:grid-cols-2 gap-y-2 lg:gap-y-0 lg:gap-x-5 border-y border-gray-200 dark:border-neutral-700">
+        <div class="py-4 grid lg:grid-cols-2 gap-y-2 lg:gap-y-0 lg:gap-x-5">
           <div>
             <!-- Search Input -->
             <div class="relative">
@@ -21,10 +21,10 @@
                 v-model="filters.search"
                 @input="applyFiltersWithDelay"
                 type="text"
-                class="py-2 px-3 ps-10 pe-8 block w-full bg-white xl:bg-gray-100 border-gray-200 xl:border-transparent rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 xl:dark:bg-neutral-700 dark:border-transparent dark:text-neutral-400 dark:placeholder:text-neutral-400 dark:focus:ring-neutral-600"
+                class="py-2 px-3 ps-10 pe-8 block w-full bg-white border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-transparent dark:text-neutral-400 dark:placeholder:text-neutral-400 dark:focus:ring-neutral-600"
                 placeholder="Startup nomi yoki kalit so'z bo'yicha qidiring"
               />
-              <div class="hidden absolute inset-y-0 end-0 flex items-center pointer-events-none z-20 pe-1">
+              <div class="hidden absolute inset-y-0 end-0 items-center pointer-events-none z-20 pe-1">
                 <button type="button" class="inline-flex shrink-0 justify-center items-center size-6 rounded-full text-gray-500 hover:text-blue-600 focus:outline-none focus:text-blue-600 dark:text-neutral-500 dark:hover:text-blue-500 dark:focus:text-blue-500" aria-label="Close">
                   <span class="sr-only">Close</span>
                   <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
@@ -35,7 +35,7 @@
           </div>
           <!-- End Col -->
 
-          <div class="flex lg:justify-end items-center flex-wrap gap-x-1">
+          <div class="flex lg:justify-end items-center flex-wrap gap-y-2 gap-x-1">
             <!-- Industriya -->
             <div class="relative">
               <select data-hs-select='{
@@ -71,9 +71,9 @@
               <select id="hs-pro-select-with-icons" data-hs-select='{
                 "placeholder": "Holati",
                 "toggleTag": "<button type=\"button\" aria-expanded=\"false\"></button>",
-                "toggleClasses": "hs-select-disabled:pointer-events-none hs-select-disabled:opacity-50 relative py-1.5 px-2 inline-flex justify-center items-center text-start text-gray-800 text-sm hover:bg-gray-200 rounded-lg align-middle focus:outline-none focus:bg-gray-200 before:absolute before:inset-0 before:z-[1] dark:text-neutral-200 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800",
+                "toggleClasses": "hs-select-disabled:pointer-events-none hs-select-disabled:opacity-50 relative py-2 ps-3 pe-9 flex gap-x-2 text-nowrap w-full cursor-pointer bg-white border border-gray-200 rounded-lg text-start text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-200 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-neutral-600",
                 "dropdownClasses": "end-0 mt-2 p-1 space-y-0.5 z-50 w-40 bg-white rounded-xl shadow-[0_10px_40px_10px_rgba(0,0,0,0.08)] dark:bg-neutral-900",
-                "optionClasses": "hs-selected:bg-gray-100 dark:hs-selected:bg-neutral-800 flex gap-x-3 py-1.5 px-2 text-[13px] text-gray-800 hover:bg-gray-100 rounded-lg focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800",
+                "optionClasses": "hs-selected:bg-gray-100 dark:hs-selected:bg-neutral-800 flex gap-x-3 py-1.5 px-2 text-[13px] text-gray-800 hover:bg-gray-100 rounded-lg focus:outline-none focus:bg-gray-100 dark:text-neutral-200 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800",
                 "optionTemplate": "<div class=\"flex items-center w-full\"><div class=\"me-2 sm:me-3\" data-icon></div><span data-title></span><span class=\"hidden hs-selected:block ms-auto\"><svg class=\"shrink-0 size-3.5 text-gray-800 dark:text-neutral-200\" xmlns=\"http:.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polyline points=\"20 6 9 17 4 12\"/></svg></span></div>"
               }'
                 class="hidden"
@@ -92,12 +92,11 @@
             <!-- End Select -->
 
             <!-- Sort -->
-            <div class="relative inline-flex items-center">
-              <span class="me-1 text-sm text-gray-800 dark:text-neutral-200">Saralash:</span>
+            <div class="relative inline-flex items-center mr-1">
               <select id="hs-pro-select-sorting" data-hs-select='{
                 "placeholder": "Saralash",
                 "toggleTag": "<button type=\"button\" aria-expanded=\"false\"><span class=\"-ms-0.5 me-1.5\" data-icon></span><span class=\"text-gray-800 dark:text-neutral-200\" data-title></span></button>",
-                "toggleClasses": "hs-select-disabled:pointer-events-none hs-select-disabled:opacity-50 relative py-1.5 px-2 inline-flex justify-center items-center text-start text-gray-800 text-sm hover:bg-gray-200 rounded-lg align-middle focus:outline-none focus:bg-gray-200 before:absolute before:inset-0 before:z-[1] dark:text-neutral-200 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800",
+                "toggleClasses": "hs-select-disabled:pointer-events-none hs-select-disabled:opacity-50 relative py-2 ps-3 pe-9 flex gap-x-2 text-nowrap w-full cursor-pointer bg-white border border-gray-200 rounded-lg text-start text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-neutral-600",
                 "dropdownClasses": "mt-2 z-50 w-36 p-1 space-y-0.5 bg-white rounded-xl shadow-[0_10px_40px_10px_rgba(0,0,0,0.08)] dark:bg-neutral-900",
                 "optionClasses": "hs-selected:bg-gray-100 dark:hs-selected:bg-neutral-800 py-2 px-3 w-full text-sm text-gray-800 cursor-pointer hover:bg-gray-100 rounded-lg focus:outline-none focus:bg-gray-100 dark:bg-neutral-900 dark:hover:bg-neutral-800 dark:text-neutral-200 dark:focus:bg-neutral-800",
                 "optionTemplate": "<div><div class=\"flex items-center\"><div class=\"me-2\" data-icon></div><div data-title></div></div><div class=\"text-sm text-gray-500 dark:text-neutral-500\" data-description></div></div>",
@@ -127,12 +126,12 @@
             </div>
             <!-- End Select -->
 
-            <div class="relative inline-flex justify-end mt-4">
+            <div class="relative inline-flex justify-end">
               <!-- Filter Button -->
               <button
                 type="button"
                 @click="applyFilters"
-                class="inline-flex items-center px-4 py-2 mr-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-filter"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
                 Filtrlash
@@ -142,7 +141,7 @@
               <button
                 type="button"
                 @click="clearFilters"
-                class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-gray-700 bg-gray-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+                class="inline-flex items-center px-4 py-2 ml-2 border border-transparent text-sm font-medium rounded-md text-gray-700 bg-gray-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
                 Tozalash

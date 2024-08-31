@@ -43,14 +43,14 @@ onMounted(() => {
 
   <slot name="header" />
 
-  <el-container class="main-container">
-    <el-header class="flex flex-wrap md:justify-start md:flex-nowrap z-50 w-full">
+  <el-container class="main-container bg-[#F4F2EE] dark:bg-[#000000]">
+    <el-header class="flex flex-wrap md:justify-start md:flex-nowrap z-50 w-full bg-white dark:bg-[#262626]" style="padding-bottom: 5rem">
       <home-navbar/>
     </el-header>
     <el-main>
       <slot />
     </el-main>
-    <el-footer class="mt-auto py-5">
+    <el-footer>
       <home-footer/>
     </el-footer>
   </el-container>
@@ -61,5 +61,6 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   min-height: 100vh; /* Ensures the container takes at least the full viewport height */
+  padding-bottom: 0;
 }
 </style>

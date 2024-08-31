@@ -6,11 +6,14 @@
     <el-backtop :right="50" :bottom="50" :visibility-height="300" />
 
     <el-container>
+      <el-aside class="hidden md:block">
+      </el-aside>
       <el-main>
         <!-- NEW IDEA -->
         <PostNewIdeaSection
           @show-modal="showIdeaModal"
         />
+        <!-- End  NEW IDEA -->
 
         <!-- IDEA LIST -->
         <template v-for="idea in items" :key="idea.id">
@@ -24,11 +27,14 @@
             @vote-down-handler="voteDown"
             @favorite-idea-handler="favoriteIdeaHandler"
             @send-idea-handler="sendIdeaHandler"
+            class="mb-2"
           />
         </template>
 
         <div ref="landmark"></div>
       </el-main>
+      <el-aside class="hidden lg:block">
+      </el-aside>
     </el-container>
 
     <IdeaModal

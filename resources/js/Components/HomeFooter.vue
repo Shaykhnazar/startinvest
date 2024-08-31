@@ -8,7 +8,7 @@ import ApplicationLogo from '@/Components/ApplicationLogo.vue'
   <!-- ========== FOOTER ========== -->
   <footer class="mt-auto w-full max-w-[85rem] py-10 px-4 sm:px-6 lg:px-8 mx-auto">
     <!-- Grid -->
-    <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6 mb-10">
+    <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6 my-10">
       <div class="col-span-full hidden lg:col-span-1 lg:block">
         <Link :href="route('home')" class="flex-none font-semibold text-xl text-black focus:outline-none focus:opacity-80 dark:text-white" aria-label="Brand"><ApplicationLogo/></Link>
         <p class="mt-3 text-xs sm:text-sm text-gray-600 dark:text-neutral-400">© {{ new Date().getFullYear() }} StartInvest.uz</p>

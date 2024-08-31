@@ -43,8 +43,8 @@ import CabinetProfileMain from '@/Components/CabinetProfileMainSection.vue'
       <cabinet-profile-main/>
       <!-- End Projects -->
 
-      <cabinet-profile-event-modals/>
-      <cabinet-add-project-modal/>
+<!--      <cabinet-profile-event-modals/>-->
+<!--      <cabinet-add-project-modal/>-->
     </div>
   </div>
   </CabinetLayout>

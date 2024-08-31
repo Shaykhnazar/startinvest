@@ -208,6 +208,7 @@ async function voteSubmit(idea, type) {
             @vote-down-handler="voteDown"
             @favorite-idea-handler="favoriteIdeaHandler"
             @send-idea-handler="sendIdeaHandler"
+            class="mb-2"
           />
         </template>
 

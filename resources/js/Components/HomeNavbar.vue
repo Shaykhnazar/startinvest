@@ -50,7 +50,7 @@ const visitTo = (url) => {
 
 <template>
   <!-- ========== HEADER ========== -->
-    <nav class="relative max-w-7xl w-full flex flex-wrap md:grid md:grid-cols-12 basis-full items-center px-4 md:px-6 md:px-8 mx-auto">
+    <nav class="relative max-w-7xl w-full flex flex-wrap md:flex-nowrap md:grid md:grid-cols-12 basis-full items-center px-4 md:px-6 mx-auto">
       <div class="md:col-span-3">
         <!-- Logo -->
         <Link :href="route('home')"
