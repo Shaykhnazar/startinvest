@@ -49,10 +49,10 @@ const showConfirmationDialog = (callback, confirmText) => {
 const handleManageStartup = (startupId, contributorId, fromStatus = null, toStatus = null, handleRequest = true) => {
   if (handleRequest) {
     // Cancel the pending request
-    showConfirmationDialog(() => handleJoinRequest(startupId, fromStatus, toStatus), `Do you want to change the status of request to: ${toStatus}?`);
+    showConfirmationDialog(() => handleJoinRequest(startupId, fromStatus, toStatus), `So'rov holatini ${JOIN_REQUEST_STATUSES[toStatus].toShow} ga o'zgartirmoqchimisiz?`);
   } else {
     // Prompt user to send a join request
-    showConfirmationDialog(() => removeContributorHandle(startupId, contributorId), `Do you want to detach this contributor from the current startup?`);
+    showConfirmationDialog(() => removeContributorHandle(startupId, contributorId), `Ushbu ishtirokchini hozirgi startupdan chetlatmoqchimisiz?`);
   }
 }
 
@@ -64,10 +64,10 @@ const handleJoinRequest = async (requestId, fromStatus, toStatus) => {
       fromStatus: fromStatus,
       toStatus: toStatus
     })
-    success('Join request handled successfully')
+    success('So\'rov muvaffaqiyatli bajarildi')
   } catch (error) {
-    console.error('Error handling join request:', error)
-    info('Failed to handle join request')
+    console.error('Qo\'shilish so\'rovini bajarishda xato yuz berdi', error)
+    info('Qo\'shilish so\'rovini bajarishda xato yuz berdi')
   }
 }
 
@@ -77,10 +77,10 @@ const removeContributorHandle = async (startupId, contributorId) => {
     await api.startups.removeContributor(startupId, {
       contributorId: contributorId,
     })
-    success('Join request handled successfully')
+    success('So\'rov muvaffaqiyatli bajarildi')
   } catch (error) {
-    console.error('Error handling join request:', error)
-    info('Failed to handle join request')
+    console.error('Qo\'shilish so\'rovini bajarishda xato yuz berdi', error)
+    info('Qo\'shilish so\'rovini bajarishda xato yuz berdi')
   }
 }
 
@@ -93,6 +93,10 @@ const goToChat = (userId) => {
 
 const cancelEvent = () => {
   console.log('cancel!')
+}
+
+const formatJoinRequestStatus = (row) => {
+  return JOIN_REQUEST_STATUSES[row.status].toShow
 }
 </script>
 
@@ -208,20 +212,20 @@ const cancelEvent = () => {
               <div>
                 <el-table :data="startup.joinRequests" stripe>
                   <el-table-column prop="user.name" label="Foydalanuvchi" />
-                  <el-table-column prop="status" label="So'rov holati" />
+                  <el-table-column prop="status" label="So'rov holati" :formatter="formatJoinRequestStatus"/>
                   <el-table-column prop="decision_at" label="Oxirgi o'zgartirish vaqtidan keyin" />
                   <el-table-column label="Amallar">
                     <template #default="scope">
                       <el-button
                         type="success"
-                        @click="handleManageStartup(scope.row.id, null, scope.row.status, JOIN_REQUEST_STATUSES.ACCEPTED)"
-                        v-if="scope.row.status !== JOIN_REQUEST_STATUSES.ACCEPTED"
+                        @click="handleManageStartup(scope.row.id, null, scope.row.status, JOIN_REQUEST_STATUSES.ACCEPTED.value)"
+                        v-if="scope.row.status !== JOIN_REQUEST_STATUSES.ACCEPTED.value"
                         round
                       >Qabul qilish ✅</el-button>
                       <el-button
                         type="danger"
-                        @click="handleManageStartup(scope.row.id, null, scope.row.status, JOIN_REQUEST_STATUSES.REJECTED)"
-                        v-if="scope.row.status !== JOIN_REQUEST_STATUSES.REJECTED"
+                        @click="handleManageStartup(scope.row.id, null, scope.row.status, JOIN_REQUEST_STATUSES.REJECTED.value)"
+                        v-if="scope.row.status !== JOIN_REQUEST_STATUSES.REJECTED.value"
                         round
                       >Rad etish ⛔</el-button>
                       <!-- Chat with User Button -->

@@ -41,20 +41,20 @@ import {Head} from '@inertiajs/vue3';
         </p>
       </div>
 
-      <div>
-        <h2 class="text-xl font-semibold mb-2">ChatGPT qanday fikrda 😎:</h2>
-        <p class="text-gray-700 leading-relaxed">
-          Platformaning asosiy afzalliklari orasida:
-        </p>
-        <ul class="list-disc list-inside text-gray-700 leading-relaxed mb-4">
-          <li>G'oyalar va resurslarni samarali birlashtirish imkoniyati.</li>
-          <li>Innovatsion loyihalarni moliyalashtirish va ularni rivojlantirishda yordam berish.</li>
-          <li>Turli soha mutaxassislarini bir joyda to'plash orqali yangi hamkorlik va tarmoqlarni yaratish.</li>
-        </ul>
-        <p class="text-gray-700 leading-relaxed">
-          Bu kabi platforma ko'plab yosh tadbirkorlar va startupchilar uchun juda foydali bo'lishi mumkin, chunki u ularning g'oyalarini haqiqatga aylantirishda zarur bo'lgan resurslar va bilimlarga kirish imkonini beradi. Shuningdek, bu kabi platforma moliyaviy yordam va maslahatlar bilan ta'minlash orqali ularning loyihalarini yanada tezroq va samarali amalga oshirishlariga yordam beradi.
-        </p>
-      </div>
+<!--      <div>-->
+<!--        <h2 class="text-xl font-semibold mb-2">ChatGPT qanday fikrda 😎:</h2>-->
+<!--        <p class="text-gray-700 leading-relaxed">-->
+<!--          Platformaning asosiy afzalliklari orasida:-->
+<!--        </p>-->
+<!--        <ul class="list-disc list-inside text-gray-700 leading-relaxed mb-4">-->
+<!--          <li>G'oyalar va resurslarni samarali birlashtirish imkoniyati.</li>-->
+<!--          <li>Innovatsion loyihalarni moliyalashtirish va ularni rivojlantirishda yordam berish.</li>-->
+<!--          <li>Turli soha mutaxassislarini bir joyda to'plash orqali yangi hamkorlik va tarmoqlarni yaratish.</li>-->
+<!--        </ul>-->
+<!--        <p class="text-gray-700 leading-relaxed">-->
+<!--          Bu kabi platforma ko'plab yosh tadbirkorlar va startupchilar uchun juda foydali bo'lishi mumkin, chunki u ularning g'oyalarini haqiqatga aylantirishda zarur bo'lgan resurslar va bilimlarga kirish imkonini beradi. Shuningdek, bu kabi platforma moliyaviy yordam va maslahatlar bilan ta'minlash orqali ularning loyihalarini yanada tezroq va samarali amalga oshirishlariga yordam beradi.-->
+<!--        </p>-->
+<!--      </div>-->
     </div>
   </App>
 </template>

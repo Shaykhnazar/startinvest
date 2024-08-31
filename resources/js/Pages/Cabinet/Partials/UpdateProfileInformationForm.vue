@@ -5,7 +5,7 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { Link, useForm, usePage } from '@inertiajs/vue3';
 import { useUserStore } from '@/stores/UserStore.js'
-import { ref } from 'vue';
+import { computed } from 'vue';
 
 defineProps({
   mustVerifyEmail: {
@@ -15,7 +15,7 @@ defineProps({
     type: String,
   },
 });
-const user = ref(useUserStore().authUser)
+const user = computed(useUserStore().authUser)
 
 const form = useForm({
   name: user.value.name,

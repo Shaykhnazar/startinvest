@@ -21,7 +21,7 @@ export const useUserStore = defineStore("UserStore", {
     updateUserJoinRequests(newJoinRequests) {
       this.authUser.joinRequests = newJoinRequests
     },
-    updateContributors(newContributors) {
+    updateContributedStartups(newContributors) {
       this.authUser.contributedStartups = newContributors
     },
   },
@@ -34,13 +34,16 @@ export const useUserStore = defineStore("UserStore", {
     hasUpvotedIdea: (state) => (idea) => state.authUser?.votes.some(vote => vote.voteable_id === idea.id && vote.type === VOTE_TYPES.UP),
     hasDownvotedIdea: (state) => (idea) => state.authUser?.votes.some(vote => vote.voteable_id === idea.id && vote.type === VOTE_TYPES.DOWN),
     hasPendingJoinRequest: (state) => (startupId) => {
-      return state.authUser?.joinRequests.some(request => request.startup_id === startupId && request.status === JOIN_REQUEST_STATUSES.PENDING)
+      return state.authUser?.joinRequests.some(request => request.startup_id === startupId && request.status === JOIN_REQUEST_STATUSES.PENDING.value)
+    },
+    isContributor: (state) => (startupId) => {
+      return state.authUser?.contributedStartups.some(startup => startup.id === startupId);
     },
     getJoinRequest: (state) => (startupId) => {
       return state.authUser?.joinRequests.find(request => request.startup_id === startupId) ?? null;
     },
-    isContributor: (state) => (startupId) => {
-      return state.authUser?.contributedStartups.some(startup => startup.id === startupId);
+    getContributedStartups: (state) => () => {
+      return state.authUser?.contributedStartups ?? null;
     },
   },
   persist: {

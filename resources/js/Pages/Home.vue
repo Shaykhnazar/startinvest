@@ -9,7 +9,7 @@ import HomeCardBlogSection from '@/Components/HomeCardBlogSection.vue'
 <template>
   <App>
     <template #header>
-      <Head title="Home page"/>
+      <Head title="Asosiy sahifa"/>
     </template>
 
     <home-carousel/>

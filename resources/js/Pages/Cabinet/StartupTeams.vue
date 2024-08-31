@@ -1,18 +1,26 @@
 <script setup>
 
 import CabinetLayout from '@/Layouts/CabinetLayout.vue'
-import { Head } from '@inertiajs/vue3'
+import { Head, usePage } from '@inertiajs/vue3'
 import { ref, onMounted } from 'vue'
 import CabinetProfileTeamModals from '@/Components/CabinetProfileTeamModals.vue'
 import CabinetProfileUserCardSection from '@/Components/CabinetProfileUserCardSection.vue'
 import CabinetStartupTeamsGridSection from '@/Components/CabinetStartupTeamsGridSection.vue'
 import CabinetStartupTeamsListSection from '@/Components/CabinetStartupTeamsListSection.vue'
+import { useUserStore } from '@/stores/UserStore.js'
 
+const userStore = useUserStore();
+
+const startupTeams = usePage().props.startups.data
+const contributedStartups = usePage().props.contributedStartups.data
 // Create a reactive variable to track the display type
 const displayType = ref('list')
 
+
 // Retrieve the display type from localStorage on component mount
 onMounted(() => {
+  // console.log(startupTeams)
+  userStore.updateContributedStartups(contributedStartups)
   const storedDisplayType = localStorage.getItem('profile-startup-teams-display_type')
   if (storedDisplayType) {
     displayType.value = storedDisplayType
@@ -57,12 +65,13 @@ const setDisplayType = (type) => {
         <component
           :is="displayType === 'list' ? CabinetStartupTeamsListSection : CabinetStartupTeamsGridSection"
           @updateDisplayType="setDisplayType"
+          :startup-teams="startupTeams"
         />
         <!-- End Teams -->
       </div>
     </div>
 
-    <cabinet-profile-team-modals/>
+<!--    <cabinet-profile-team-modals/>-->
   </CabinetLayout>
 </template>
 

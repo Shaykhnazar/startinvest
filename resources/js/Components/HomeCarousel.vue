@@ -40,14 +40,18 @@ const carouselItems = ref([
   <div class="px-4 lg:px-6 lg:px-8 py-10">
     <div data-hs-carousel='{
       "loadingClasses": "opacity-0",
-      "isAutoplay": true
+      "isAutoplay": true,
+      "isInfiniteLoop": true
     }' class="relative">
       <div class="hs-carousel relative overflow-hidden w-full h-[30rem] md:h-[calc(100vh-106px)]  bg-gray-100 rounded-2xl dark:bg-neutral-800">
         <div class="hs-carousel-body absolute top-0 bottom-0 start-0 flex flex-nowrap transition-transform duration-700 opacity-0">
           <!-- Item -->
           <div class="hs-carousel-slide" v-for="(item, index) in carouselItems" :key="index">
             <div :style="{ backgroundImage: `url(${item.image_url})` }" class="h-[30rem] md:h-[calc(100vh-106px)] flex flex-col bg-cover bg-center bg-no-repeat">
-              <div class="mt-auto w-2/3 md:max-w-lg ps-5 pb-5 md:ps-10 md:pb-10">
+              <!-- Gradient overlay -->
+              <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/50 rounded-2xl"></div>
+              <!-- Text Content -->
+              <div class="relative mt-auto w-2/3 md:max-w-lg ps-5 pb-5 md:ps-10 md:pb-10 z-10">
                 <span class="block text-white">{{ item.title }}</span>
                 <span class="block text-white text-xl md:text-3xl">{{ item.short }}</span>
                 <div class="mt-5">
