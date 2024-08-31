@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Cabinet;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\StartupJoinRequestResource;
 use App\Http\Resources\StartupResource;
 use App\Models\Startup;
 use Illuminate\Http\Request;
@@ -27,15 +28,16 @@ class CabinetController extends Controller
             $query->where('user_id', $request->user()->id);
         })->get();
 
+        $request->user()->load('contributedStartups', 'joinRequests');
         // Get contributed startups
-        $contributedStartups = $request->user()->load('contributedStartups')->contributedStartups;
-
-        // Merge both collections
-        $mergedStartups = $startupTeams->merge($contributedStartups);
+        $contributedStartups = $request->user()->contributedStartups;
+        // Get join requests
+        $joinRequests = $request->user()->joinRequests;
 
         return Inertia::render('Cabinet/StartupTeams', [
-            'startups' => StartupResource::collection($mergedStartups),
+            'startups' => StartupResource::collection($startupTeams),
             'contributedStartups' => StartupResource::collection($contributedStartups),
+            'joinRequests' => StartupJoinRequestResource::collection($joinRequests),
         ]);
     }
 }

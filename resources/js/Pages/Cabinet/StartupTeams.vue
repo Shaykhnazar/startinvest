@@ -13,6 +13,7 @@ const userStore = useUserStore();
 
 const startupTeams = usePage().props.startups.data
 const contributedStartups = usePage().props.contributedStartups.data
+const joinRequests = usePage().props.joinRequests.data
 // Create a reactive variable to track the display type
 const displayType = ref('list')
 
@@ -21,6 +22,7 @@ const displayType = ref('list')
 onMounted(() => {
   // console.log(startupTeams)
   userStore.updateContributedStartups(contributedStartups)
+  userStore.updateUserJoinRequests(joinRequests)
   const storedDisplayType = localStorage.getItem('profile-startup-teams-display_type')
   if (storedDisplayType) {
     displayType.value = storedDisplayType
@@ -66,6 +68,8 @@ const setDisplayType = (type) => {
           :is="displayType === 'list' ? CabinetStartupTeamsListSection : CabinetStartupTeamsGridSection"
           @updateDisplayType="setDisplayType"
           :startup-teams="startupTeams"
+          :contributed-startups="contributedStartups"
+          :join-requests="joinRequests"
         />
         <!-- End Teams -->
       </div>

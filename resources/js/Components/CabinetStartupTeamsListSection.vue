@@ -1,10 +1,16 @@
 <script setup>
-import { defineEmits, ref, computed } from 'vue'
+import { defineEmits } from 'vue'
 import { router } from '@inertiajs/vue3'
 import StartupCard from '@/Components/StartupCard.vue'
 
 const props = defineProps({
   startupTeams: {
+    type: Array,
+  },
+  contributedStartups: {
+    type: Array,
+  },
+  joinRequests: {
     type: Array,
   }
 })
@@ -30,7 +36,7 @@ const switchToList = () => {
           Hammasi
         </button>
         <button type="button" class="hs-tab-active:bg-white hs-tab-active:shadow-sm hs-tab-active:focus:bg-gray-50 hs-tab-active:focus:text-gray-800 py-2 px-3 inline-flex justify-center items-center gap-x-2  text-sm font-medium text-gray-800 rounded-lg disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:text-gray-500 dark:text-neutral-200 dark:focus:text-neutral-500 dark:hs-tab-active:bg-neutral-700 dark:hs-tab-active:focus:bg-neutral-800 dark:hs-tab-active:focus:text-neutral-200  " id="hs-pro-tabs-dupt-item-archived" aria-selected="false" data-hs-tab="#hs-pro-tabs-dupt-archived" aria-controls="hs-pro-tabs-dupt-archived" role="tab">
-          Arxivdagilar
+          Arxiv
         </button>
       </nav>
       <!-- End Nav Tab -->
@@ -85,41 +91,46 @@ const switchToList = () => {
               :startup="startup"
             />
           </template>
+          <template v-for="startup in contributedStartups" :key="startup.id">
+            <StartupCard
+              :startup="startup"
+            />
+          </template>
         </div>
         <!-- End Card List Group -->
 
-        <div class="mt-5">
-          <!-- Footer -->
-          <div class="grid grid-cols-2 items-center gap-y-2 sm:gap-y-0 sm:gap-x-5">
-            <p class="text-sm text-gray-800 dark:text-neutral-200">
-              <span class="font-medium">8</span>
-              <span class="text-gray-500 dark:text-neutral-500"> mavjud</span>
-            </p>
+<!--        <div class="mt-5">-->
+<!--          &lt;!&ndash; Footer &ndash;&gt;-->
+<!--          <div class="grid grid-cols-2 items-center gap-y-2 sm:gap-y-0 sm:gap-x-5">-->
+<!--            <p class="text-sm text-gray-800 dark:text-neutral-200">-->
+<!--              <span class="font-medium">8</span>-->
+<!--              <span class="text-gray-500 dark:text-neutral-500"> mavjud</span>-->
+<!--            </p>-->
 
-            <!-- Pagination -->
-            <nav class="flex justify-end items-center gap-x-1" aria-label="Pagination">
-              <button type="button" class="min-h-[38px] min-w-[38px] py-2 px-2.5 inline-flex justify-center items-center gap-x-2 text-sm rounded-lg text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-white dark:hover:bg-white/10 dark:focus:bg-neutral-700" aria-label="Previous">
-                <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="m15 18-6-6 6-6" />
-                </svg>
-                <span class="sr-only">Oldingi</span>
-              </button>
-              <div class="flex items-center gap-x-1">
-                <span class="min-h-[38px] min-w-[38px] flex justify-center items-center bg-gray-100 text-gray-800 py-2 px-3 text-sm rounded-lg disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-700 dark:text-white" aria-current="page">1</span>
-                <span class="min-h-[38px] flex justify-center items-center text-gray-500 py-2 px-1.5 text-sm dark:text-neutral-500">of</span>
-                <span class="min-h-[38px] flex justify-center items-center text-gray-500 py-2 px-1.5 text-sm dark:text-neutral-500">3</span>
-              </div>
-              <button type="button" class="min-h-[38px] min-w-[38px] py-2 px-2.5 inline-flex justify-center items-center gap-x-2 text-sm rounded-lg text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-white dark:hover:bg-white/10 dark:focus:bg-neutral-700" aria-label="Next">
-                <span class="sr-only">Keyingi</span>
-                <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="m9 18 6-6-6-6" />
-                </svg>
-              </button>
-            </nav>
-            <!-- End Pagination -->
-          </div>
-          <!-- End Footer -->
-        </div>
+<!--            &lt;!&ndash; Pagination &ndash;&gt;-->
+<!--            <nav class="flex justify-end items-center gap-x-1" aria-label="Pagination">-->
+<!--              <button type="button" class="min-h-[38px] min-w-[38px] py-2 px-2.5 inline-flex justify-center items-center gap-x-2 text-sm rounded-lg text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-white dark:hover:bg-white/10 dark:focus:bg-neutral-700" aria-label="Previous">-->
+<!--                <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">-->
+<!--                  <path d="m15 18-6-6 6-6" />-->
+<!--                </svg>-->
+<!--                <span class="sr-only">Oldingi</span>-->
+<!--              </button>-->
+<!--              <div class="flex items-center gap-x-1">-->
+<!--                <span class="min-h-[38px] min-w-[38px] flex justify-center items-center bg-gray-100 text-gray-800 py-2 px-3 text-sm rounded-lg disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-700 dark:text-white" aria-current="page">1</span>-->
+<!--                <span class="min-h-[38px] flex justify-center items-center text-gray-500 py-2 px-1.5 text-sm dark:text-neutral-500">of</span>-->
+<!--                <span class="min-h-[38px] flex justify-center items-center text-gray-500 py-2 px-1.5 text-sm dark:text-neutral-500">3</span>-->
+<!--              </div>-->
+<!--              <button type="button" class="min-h-[38px] min-w-[38px] py-2 px-2.5 inline-flex justify-center items-center gap-x-2 text-sm rounded-lg text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-white dark:hover:bg-white/10 dark:focus:bg-neutral-700" aria-label="Next">-->
+<!--                <span class="sr-only">Keyingi</span>-->
+<!--                <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">-->
+<!--                  <path d="m9 18 6-6-6-6" />-->
+<!--                </svg>-->
+<!--              </button>-->
+<!--            </nav>-->
+<!--            &lt;!&ndash; End Pagination &ndash;&gt;-->
+<!--          </div>-->
+<!--          &lt;!&ndash; End Footer &ndash;&gt;-->
+<!--        </div>-->
       </div>
       <!-- End Tab Content -->
 
