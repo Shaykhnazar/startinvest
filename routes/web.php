@@ -50,7 +50,7 @@ Route::middleware(['auth', 'verified'])->prefix('dashboard')->name('dashboard.')
 
     // Profile sections
     Route::middleware('me.or.role')->prefix('profile')->name('profile.')->group(function () {
-        Route::get('/{user}/edit', [ProfileController::class, 'edit'])->name('edit');
+        Route::get('/{user?}/edit', [ProfileController::class, 'edit'])->name('edit');
         Route::patch('/{user}', [ProfileController::class, 'update'])->name('update');
         Route::patch('/{user}/details', [ProfileController::class, 'updateDetails'])->name('update-details');
         Route::delete('/{user}', [ProfileController::class, 'destroy'])->name('destroy');

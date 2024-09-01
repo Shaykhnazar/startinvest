@@ -3,9 +3,9 @@
 import DropdownLink from '@/Components/DropdownLink.vue';
 import { useUserStore } from '@/stores/UserStore.js'
 import { router, Link } from '@inertiajs/vue3'
-import { ref } from 'vue'
+import { reactive } from 'vue'
 
-const userStore = useUserStore()
+const user = reactive(useUserStore().authUser)
 
 const logoutHandle = () => {
   useUserStore().$reset()
@@ -1056,10 +1056,10 @@ const logoutHandle = () => {
 
                   <div class="grow">
                     <span class="text-sm font-semibold text-gray-800 dark:text-neutral-300">
-                      {{ userStore.authUser.name }}
+                      {{ user?.name }}
                     </span>
                     <p class="text-xs text-gray-500 dark:text-neutral-500">
-                      {{ userStore.authUser.email }}
+                      {{ user?.email }}
                     </p>
                   </div>
                 </Link>
@@ -1079,7 +1079,7 @@ const logoutHandle = () => {
 <!--                  </svg>-->
 <!--                  Settings-->
 <!--                </a>-->
-                <DropdownLink :href="route('dashboard.profile.edit', userStore.authUser?.id)">
+                <DropdownLink :href="route('dashboard.profile.edit', user?.id)">
                   <svg class="shrink-0 mt-0.5 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
                     <circle cx="12" cy="7" r="4" />

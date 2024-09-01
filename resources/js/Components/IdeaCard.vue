@@ -64,7 +64,7 @@ const toggleDescription = async (idea) => {
           </p>
         </Link>
 
-          <div class="flex justify-end">
+          <div class="flex justify-end" v-if="!userStore.isGuest">
             <!-- More Dropdown -->
             <div class="hs-dropdown [--placement:bottom-right] relative inline-flex">
               <button id="hs-pro-dupc1" type="button" class="size-7 inline-flex justify-center items-center gap-x-2 rounded-lg border border-transparent text-gray-500 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-200 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700" aria-haspopup="menu" aria-expanded="false" aria-label="Dropdown">
@@ -95,9 +95,10 @@ const toggleDescription = async (idea) => {
 <!--                    Archive-->
 <!--                  </button>-->
 
-                  <div class="my-1 border-t border-gray-200 dark:border-neutral-700"></div>
 
                   <template v-if="userStore.isAuthorOfIdea(idea)">
+                    <div class="my-1 border-t border-gray-200 dark:border-neutral-700"></div>
+
                     <button type="button" @click="$emit('showDeleteModalHandler', true, idea)" class="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-red-600 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-red-500 dark:hover:bg-neutral-800 dark:focus:bg-neutral-700" data-hs-overlay="#hs-pro-dtlam">
                       <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M3 6h18" />

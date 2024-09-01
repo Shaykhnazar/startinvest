@@ -1,5 +1,5 @@
 <template>
-  <el-dialog v-model="visible" title="G'oya Sharhlari" @close="handleClose" style="border-radius: 5px;">
+  <el-dialog v-model="visible" title="G'oya Izohlari" @close="handleClose" style="border-radius: 5px;">
 
     <!-- IDEA COMMENT LIST -->
     <div class="idea-comment-container">
@@ -31,7 +31,7 @@
           </el-col>
           <el-col :xs="16" :sm="16" :md="16" :lg="16" :xl="16" class="idea-flex-center-col">
             <el-form-item prop="body" required :rules="bodyRules">
-              <el-input v-model="ideaCommentForm.body" autocomplete="off" placeholder="Sharh qo'shing..." clearable />
+              <el-input v-model="ideaCommentForm.body" autocomplete="off" placeholder="Izoh yozish..." clearable />
             </el-form-item>
           </el-col>
           <el-col :xs="6" :sm="6" :md="6" :lg="6" :xl="6" class="flex-end-col">
@@ -53,6 +53,7 @@ import IdeaCommentCard from '@/Components/IdeaCommentCard.vue';
 import { useUserStore } from '@/stores/UserStore.js'
 import { storeToRefs } from 'pinia'
 import Popover from "@/Components/Popover.vue";
+import _ from 'lodash'
 
 const userStore = useUserStore()
 const { isGuest, avatar } = storeToRefs(userStore);
@@ -78,24 +79,14 @@ const props = defineProps({
 
 const ideaCommentForm = reactive(props.ideaCommentForm)
 const bodyRules = ref([
-  { required: true, message: 'Sharhni kiriting', trigger: 'blur' },
+  { required: true, message: 'Izohni kiriting', trigger: 'blur' },
   { min: 3, max: 255, message: 'Uzunligi 3 dan 255 gacha bo\'lishi kerak', trigger: 'blur' },
 ])
-const ideaComments = ref(props.ideaCommentForm.idea.comments || [])
+const ideaComments = reactive(props.ideaCommentForm.idea.comments || [])
+
 const deleteComment = () => {
   emit('delete-comment-handler')
 }
-
-// Watch for changes in the ideaCommentForm prop and update ideaComments
-watch(() => props.ideaCommentForm.idea.comments, (newComments) => {
-    console.log(newComments)
-    ideaComments.value = newComments; // Update reactively
-  },
-  {
-    deep: true,
-    immediate: true,
-  }
-);
 </script>
 <style scoped>
 .flex-start-col {

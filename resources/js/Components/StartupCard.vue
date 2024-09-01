@@ -1,10 +1,13 @@
 <script setup>
 import { Link } from '@inertiajs/vue3'
 import { useStartupTeamActions } from '@/Composables/useStartupTeamActions.js';
+import { useUserStore } from '@/stores/UserStore.js'
 
 const props = defineProps({
   startup: Object,
 });
+
+const userStore = useUserStore()
 
 const {
   handleJoinRequest,
@@ -62,7 +65,7 @@ const {
       <div class="lg:col-span-3">
         <!-- Button Group -->
         <div class="flex lg:flex-col justify-end items-center gap-2 border-t border-gray-200 lg:border-t-0 pt-3 lg:pt-0 dark:border-neutral-700">
-          <div class="lg:order-2 lg:ms-auto" v-if="user?.id !== startup.owner.id">
+          <div class="lg:order-2 lg:ms-auto" v-if="userStore.authUser?.id !== startup.owner.id">
             <button type="button" @click="handleJoinRequest(startup.id)" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700" data-hs-overlay="#hs-pro-dtlam">
               {{ buttonText }}
             </button>

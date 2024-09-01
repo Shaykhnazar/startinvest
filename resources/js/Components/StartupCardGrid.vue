@@ -1,10 +1,14 @@
 <script setup>
 import { Link } from '@inertiajs/vue3'
 import { useStartupTeamActions } from '@/Composables/useStartupTeamActions.js';
+import { reactive } from 'vue'
+import { useUserStore } from '@/stores/UserStore.js'
 
 const props = defineProps({
   startup: Object,
 });
+
+const user = reactive(useUserStore().authUser)
 
 const {
   handleJoinRequest,

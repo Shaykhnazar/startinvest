@@ -1,10 +1,10 @@
 <script setup>
 import { Link } from '@inertiajs/vue3';
-import { ref } from 'vue'
+import { reactive } from 'vue'
 import ApplicationLogo from '@/Components/ApplicationLogo.vue'
 import { useUserStore } from '@/stores/UserStore.js'
 
-const user = ref(useUserStore().authUser)
+const user = reactive(useUserStore().authUser)
 
 </script>
 

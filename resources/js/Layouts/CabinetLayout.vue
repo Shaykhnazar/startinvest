@@ -33,7 +33,7 @@ onMounted(() => {
   <CabinetAside/>
 
   <!-- ========== MAIN CONTENT ========== -->
-  <main id="content" class="lg:ps-[260px] pt-[59px] pb-[40px] sm:pb-[64px] ">
+  <main id="content" class="lg:ps-[260px] pt-[59px] pb-[40px] sm:pb-[64px] bg-[#F9FAFB] dark:bg-[#171717]">
     <slot/>
   </main>
   <!-- ========== END MAIN CONTENT ========== -->

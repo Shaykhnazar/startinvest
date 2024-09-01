@@ -1,7 +1,7 @@
 <script setup>
 
 import { useUserStore } from '@/stores/UserStore.js'
-import { ref } from 'vue'
+import { reactive } from 'vue'
 import { router } from '@inertiajs/vue3'
 
 defineProps({
@@ -10,7 +10,7 @@ defineProps({
     default: false
   },
 })
-const user = ref(useUserStore().authUser)
+const user = reactive(useUserStore().authUser)
 
 const visitTo = (url) => {
   return router.visit(url)
@@ -70,10 +70,10 @@ const visitTo = (url) => {
 
       <div class="mt-3 text-center">
         <h1 class="text-xl font-semibold text-gray-800 dark:text-neutral-200">
-          {{ user.name }}
+          {{ user?.name }}
         </h1>
         <p class="text-gray-500 dark:text-neutral-500">
-          {{ user.email }}
+          {{ user?.email }}
         </p>
       </div>
     </div>

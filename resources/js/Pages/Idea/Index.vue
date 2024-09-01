@@ -42,7 +42,7 @@
       :idea-form="ideaForm"
       :submitting="submitting"
       title="Yangi g'oya"
-      submit-button-text="Yuborish"
+      submit-button-text="Ulashish"
       @close="showIdeaModal(false)"
       @submit="ideaSubmit"
       @reset="resetForm"
@@ -61,7 +61,7 @@
       v-if="ideaCommentModalVisible"
       :idea-comment-form="ideaCommentForm"
       :submitting="submitting"
-      submit-button-text="Yuborish"
+      submit-button-text="Ulashish"
       @close="showIdeaCommentModal(false)"
       @submit="commentIdeaHandler"
     />
@@ -119,20 +119,18 @@ const userStore = useUserStore()
 const submitting = ref(false)
 
 const updateIdeaList = (updatedIdea, remove = false) => {
-  // Assuming the backend returns updated idea data with upvotes, downvotes
-  const index = items.value.findIndex((item) => item.id === updatedIdea.id);
+  const index = items.findIndex(item => item.id === updatedIdea.id);
 
   if (index !== -1 && !remove) {
-    // Update the idea in the local state
-    items.value[index] = updatedIdea;
+    // Use Vue.set or direct assignment for reactivity
+    items[index] = updatedIdea;
   } else if (!remove) {
-    // Add the idea to the local state
-    items.value.unshift(updatedIdea);
+    items.unshift(updatedIdea);
   } else {
-    // Remove the idea from the local state
-    items.value.splice(index, 1);
+    items.splice(index, 1);
   }
-}
+};
+
 
 const ideaSubmit = async (formEl, ideaData) => {
   if (!formEl) return;

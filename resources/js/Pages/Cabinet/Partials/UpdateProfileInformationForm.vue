@@ -18,8 +18,8 @@ defineProps({
 const user = computed(useUserStore().authUser)
 
 const form = useForm({
-  name: user.value.name,
-  email: user.value.email,
+  name: user.name,
+  email: user.email,
 });
 </script>
 

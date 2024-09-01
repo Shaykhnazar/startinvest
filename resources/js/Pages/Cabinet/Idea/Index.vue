@@ -13,6 +13,7 @@ import IdeaCommentModal from '@/Components/modals/IdeaCommentModal.vue'
 import { useInfiniteScroll } from '@/Composables/useInfiniteScroll.js'
 import { VOTE_TYPES } from '@/services/const.js'
 import CabinetLayout from '@/Layouts/CabinetLayout.vue'
+import IdeaDeleteModal from '@/Components/modals/IdeaDeleteModal.vue'
 
 const props = defineProps({
   ideas: {
@@ -21,7 +22,20 @@ const props = defineProps({
 })
 const landmark = ref(null)
 
-const { ideaForm, ideaCommentForm, resetForm,  showIdeaModal, showIdeaEditModal, showIdeaCommentModal, ideaModalVisible, ideaEditModalVisible, ideaCommentModalVisible } = useIdea()
+const {
+  ideaForm,
+  ideaCommentForm,
+  ideaDeleteModalProps,
+  resetForm,
+  showIdeaModal,
+  showIdeaEditModal,
+  showIdeaCommentModal,
+  showIdeaDeleteModal,
+  ideaModalVisible,
+  ideaEditModalVisible,
+  ideaCommentModalVisible,
+  ideaDeleteModalVisible
+} = useIdea()
 const {info, success} = useElMessage();
 const { items } = useInfiniteScroll('ideas', landmark)
 const userStore = useUserStore()
@@ -92,6 +106,7 @@ const deleteIdea = async (id) => {
   submitting.value = true
   await api.ideas.delete(id).then((response) => {
     updateIdeaList(response.data.idea, true)
+    showIdeaDeleteModal(false)
     info('Fikr muvaffaqiyatli oʻchirildi')
   }).finally(() => {
     submitting.value = false
@@ -111,7 +126,7 @@ async function voteDown(idea) {
 
 async function favoriteIdeaHandler(idea) {
   if (userStore.isGuest) {
-    info('Iltimos, fikrlarni saqlash uchun tizimga kiring')
+    info('G\'oyalarni saqlash uchun tizimga kiring')
   }
   else if (!submitting.value) {
     submitting.value = true
@@ -119,9 +134,9 @@ async function favoriteIdeaHandler(idea) {
       updateIdeaList(response.data.idea)
       userStore.updateUserFavorites(response.data.user_favorites)
       if (userStore.hasFavoritedIdea(idea)) {
-        success('Fikr muvaffaqiyatli saqlandi')
+        success('G\'oya muvaffaqiyatli saqlandi')
       } else {
-        info('Fikr sevimlilaringizdan olib tashlandi')
+        info('G\'oya sizning sevimlilar ro\'yxatingizdan o\'chirildi')
       }
     }).finally(() => {
       submitting.value = false
@@ -189,8 +204,8 @@ async function voteSubmit(idea, type) {
   <CabinetLayout>
     <el-backtop :right="50" :bottom="50" />
 
-    <el-container>
-      <el-main>
+    <el-container class="justify-center">
+      <el-main class="max-w-[50rem]">
         <!-- NEW IDEA -->
         <PostNewIdeaSection
           @show-modal="showIdeaModal"
@@ -203,7 +218,7 @@ async function voteSubmit(idea, type) {
             :submitting="submitting"
             @show-edit-modal-handler="showIdeaEditModal"
             @show-comment-modal-handler="showIdeaCommentModal"
-            @delete-idea-handler="deleteIdea"
+            @show-delete-modal-handler="showIdeaDeleteModal"
             @vote-up-handler="voteUp"
             @vote-down-handler="voteDown"
             @favorite-idea-handler="favoriteIdeaHandler"
@@ -243,6 +258,12 @@ async function voteSubmit(idea, type) {
       submit-button-text="Ulashish"
       @close="showIdeaCommentModal(false)"
       @submit="commentIdeaHandler"
+    />
+    <IdeaDeleteModal
+      :is-visible="ideaDeleteModalVisible"
+      :idea="ideaDeleteModalProps.idea"
+      @close="showIdeaDeleteModal(false)"
+      @delete-idea-handler="deleteIdea"
     />
   </CabinetLayout>
 </template>
