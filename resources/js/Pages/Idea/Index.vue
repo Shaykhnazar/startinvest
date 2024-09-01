@@ -5,10 +5,10 @@
     </template>
     <el-backtop :right="50" :bottom="50" :visibility-height="300" />
 
-    <el-container>
+    <el-container class="justify-center">
       <el-aside class="hidden md:block">
       </el-aside>
-      <el-main>
+      <el-main class="max-w-[50rem]">
         <!-- NEW IDEA -->
         <PostNewIdeaSection
           @show-modal="showIdeaModal"
@@ -22,7 +22,7 @@
             :submitting="submitting"
             @show-edit-modal-handler="showIdeaEditModal"
             @show-comment-modal-handler="showIdeaCommentModal"
-            @delete-idea-handler="deleteIdea"
+            @show-delete-modal-handler="showIdeaDeleteModal"
             @vote-up-handler="voteUp"
             @vote-down-handler="voteDown"
             @favorite-idea-handler="favoriteIdeaHandler"
@@ -66,6 +66,12 @@
       @submit="commentIdeaHandler"
     />
   </App>
+  <IdeaDeleteModal
+    :is-visible="ideaDeleteModalVisible"
+    :idea="ideaDeleteModalProps.idea"
+    @close="showIdeaDeleteModal(false)"
+    @delete-idea-handler="deleteIdea"
+  />
 </template>
 
 <script setup>
@@ -83,6 +89,7 @@ import api from '@/services/api'
 import IdeaCommentModal from '@/Components/modals/IdeaCommentModal.vue'
 import { useInfiniteScroll } from '@/Composables/useInfiniteScroll.js'
 import { VOTE_TYPES } from '@/services/const.js'
+import IdeaDeleteModal from '@/Components/modals/IdeaDeleteModal.vue'
 
 const props = defineProps({
   ideas: {
@@ -91,7 +98,20 @@ const props = defineProps({
 })
 const landmark = ref(null)
 
-const { ideaForm, ideaCommentForm, resetForm, showIdeaModal, showIdeaEditModal, showIdeaCommentModal, ideaModalVisible, ideaEditModalVisible, ideaCommentModalVisible } = useIdea()
+const {
+  ideaForm,
+  ideaCommentForm,
+  ideaDeleteModalProps,
+  resetForm,
+  showIdeaModal,
+  showIdeaEditModal,
+  showIdeaCommentModal,
+  showIdeaDeleteModal,
+  ideaModalVisible,
+  ideaEditModalVisible,
+  ideaCommentModalVisible,
+  ideaDeleteModalVisible
+} = useIdea()
 const { info, success } = useElMessage()
 const { items } = useInfiniteScroll('ideas', landmark)
 const userStore = useUserStore()
@@ -160,6 +180,7 @@ const deleteIdea = async (id) => {
   submitting.value = true
   await api.ideas.delete(id).then((response) => {
     updateIdeaList(response.data.idea, true)
+    showIdeaDeleteModal(false)
     info('G\'oya muvaffaqiyatli o\'chirildi'
   )
   }).finally(() => {

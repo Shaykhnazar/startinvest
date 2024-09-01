@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 import { usePage } from '@inertiajs/vue3'
 import { onMounted } from 'vue'
 import { useUserStore } from '@/stores/UserStore.js'

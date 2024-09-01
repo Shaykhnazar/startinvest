@@ -34,9 +34,4 @@ const icon = defineAsyncComponent(() => import(`../../icons/svg/${props.name}.sv
   fill: currentColor;
   overflow: hidden;
 }
-
-.table-btn {
-  vertical-align: 0;
-  margin: 4px 0px 0px 0px;
-}
 </style>

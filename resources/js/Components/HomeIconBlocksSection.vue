@@ -62,7 +62,7 @@ const cardItems = ref([
         <h2 class="font-bold text-2xl md:text-3xl text-gray-800 dark:text-neutral-200">
           Platformaning asosiy afzalliklari
         </h2>
-        <p class="mt-2 md:mt-4 text-gray-500 dark:text-neutral-500">
+        <p class="mt-2 md:mt-4 text-gray-400 dark:text-neutral-400">
           Bu kabi platforma ko'plab yosh tadbirkorlar va startupchilar uchun juda foydalidir, chunki u ularning g'oyalarini haqiqatga aylantirishda zarur bo'lgan resurslar va bilimlarni bir joyga jamlashga va undan foydalanish imkonini beradi.
           Shuningdek, ushbu platforma moliyaviy yordam va maslahatlar bilan ta'minlash orqali loyihalarni yanada tezroq va samarali amalga oshirishlariga yordam beradi.
         </p>

@@ -19,6 +19,9 @@ export function useIdea() {
     parent_id: null,
     idea: null
   });
+  const ideaDeleteModalProps = reactive({
+    idea: null
+  });
   const rules = reactive<FormRules<RuleIdeaForm>>({
     title: [
       {required: true, message: 'Iltimos, sarlavhani kiriting', trigger: 'blur'},
@@ -32,6 +35,7 @@ export function useIdea() {
   const ideaModalVisible = ref(false);
   const ideaEditModalVisible = ref(false);
   const ideaCommentModalVisible = ref(false);
+  const ideaDeleteModalVisible = ref(false);
 
   // METHODS
   const showIdeaModal = (value = true) => {
@@ -60,6 +64,12 @@ export function useIdea() {
     // Show the modal
     ideaCommentModalVisible.value = value
   }
+  const showIdeaDeleteModal = (value = true, idea = null) => {
+    // console.log(idea)
+    ideaDeleteModalProps.idea = idea ?? null
+    // Show the modal
+    ideaDeleteModalVisible.value = value
+  }
 
   const cancelEvent = () => {
     console.log('cancel!')
@@ -72,13 +82,16 @@ export function useIdea() {
   return {
     ideaForm,
     ideaCommentForm,
+    ideaDeleteModalProps,
     rules,
     ideaModalVisible,
     ideaEditModalVisible,
     ideaCommentModalVisible,
+    ideaDeleteModalVisible,
     showIdeaModal,
     showIdeaEditModal,
     showIdeaCommentModal,
+    showIdeaDeleteModal,
     cancelEvent,
     resetForm
   }
