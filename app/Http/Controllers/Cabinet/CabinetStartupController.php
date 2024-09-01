@@ -19,13 +19,20 @@ class CabinetStartupController extends Controller
 {
     public function index()
     {
-        $startups = Startup::with('industries')
+        $startupsCommonQuery = Startup::with('industries')
             ->where('owner_id', auth()->user()->id)
-            ->withTrashed()
+            ->latest();
+
+        $startups = (clone $startupsCommonQuery)
+            ->paginate(10);
+
+        $startupsArchived = (clone $startupsCommonQuery)
+            ->onlyTrashed()
             ->paginate(10);
 
         return inertia('Cabinet/Startup/Index', [
             'startups' => StartupResource::collection($startups),
+            'startupsArchived' => StartupResource::collection($startupsArchived),
             'industries' => fn () => IndustryResource::collection(CacheService::industryAll()),
             'startupTypes' => fn () => StartupTypeEnum::options(),
             'startupStatuses' => fn () => StartupStatusResource::collection(CacheService::startupStatusAll()),
@@ -36,8 +43,8 @@ class CabinetStartupController extends Controller
     {
         return inertia('Cabinet/Startup/Add', [
             'industries' => IndustryResource::collection(CacheService::industryAll()),
-            'startupTypes' => fn () => StartupTypeEnum::options(),
-            'startupStatuses' => fn () => StartupStatusResource::collection(CacheService::startupStatusAll()),
+            'startupTypes' => StartupTypeEnum::options(),
+            'startupStatuses' => StartupStatusResource::collection(CacheService::startupStatusAll()),
         ]);
     }
 
