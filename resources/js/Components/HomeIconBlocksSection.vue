@@ -62,7 +62,7 @@ const cardItems = ref([
         <h2 class="font-bold text-2xl md:text-3xl text-gray-800 dark:text-neutral-200">
           Platformaning asosiy afzalliklari
         </h2>
-        <p class="mt-2 md:mt-4 text-gray-400 dark:text-neutral-400">
+        <p class="mt-2 md:mt-4 text-gray-600 dark:text-neutral-400 dark:hover:text-neutral-200">
           Bu kabi platforma ko'plab yosh tadbirkorlar va startupchilar uchun juda foydalidir, chunki u ularning g'oyalarini haqiqatga aylantirishda zarur bo'lgan resurslar va bilimlarni bir joyga jamlashga va undan foydalanish imkonini beradi.
           Shuningdek, ushbu platforma moliyaviy yordam va maslahatlar bilan ta'minlash orqali loyihalarni yanada tezroq va samarali amalga oshirishlariga yordam beradi.
         </p>
@@ -86,7 +86,7 @@ const cardItems = ref([
               <h3 class="text-lg font-semibold text-gray-800 dark:text-white">
                 Innovatsion g'oyalar jamlangan
               </h3>
-              <p class="mt-1 text-gray-600 dark:text-neutral-400">
+              <p class="mt-1 text-gray-600 dark:text-neutral-400 dark:hover:text-neutral-200">
                 G'oyalar va resurslarni samarali birlashtirish imkoniyati.
               </p>
             </div>
@@ -106,7 +106,7 @@ const cardItems = ref([
               <h3 class="text-lg font-semibold text-gray-800 dark:text-white">
                 Oddiy va hamyonbop
               </h3>
-              <p class="mt-1 text-gray-600 dark:text-neutral-400">
+              <p class="mt-1 text-gray-600 dark:text-neutral-400 dark:hover:text-neutral-200">
                 Reklama qilish uchun ijtimoiy-tarmoqlardan va saytdan foydalanish imkoniyati
               </p>
             </div>
@@ -127,7 +127,7 @@ const cardItems = ref([
               <h3 class="text-lg font-semibold text-gray-800 dark:text-white">
                 Jamoa uchun mo'ljallangan
               </h3>
-              <p class="mt-1 text-gray-600 dark:text-neutral-400">
+              <p class="mt-1 text-gray-600 dark:text-neutral-400 dark:hover:text-neutral-200">
                 Loyihangizni platforma ichida boshqarish imkoniyati
               </p>
             </div>
@@ -147,7 +147,7 @@ const cardItems = ref([
               <h3 class="text-lg font-semibold text-gray-800 dark:text-white">
                 Hamjamiyat
               </h3>
-              <p class="mt-1 text-gray-600 dark:text-neutral-400">
+              <p class="mt-1 text-gray-600 dark:text-neutral-400 dark:hover:text-neutral-200">
                 Turli soha vakillari va biznes egalarining o'zaro hamkorlik qilishi uchun yaratilgan muhit
               </p>
             </div>

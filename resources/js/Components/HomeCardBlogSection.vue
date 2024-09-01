@@ -16,7 +16,7 @@
             <h3 class="text-xl font-semibold text-gray-800 group-hover:text-gray-600 dark:text-neutral-300 dark:group-hover:text-white">
               Go'yalarni amalga oshirishni kechiktirmang
             </h3>
-            <p class="mt-3 text-gray-600 dark:text-neutral-400">
+            <p class="mt-3 text-gray-600 dark:text-neutral-400 dark:hover:text-neutral-200">
               Unikal g'oya izlab toping yoki sizda shunday go'ya bor lekin uni amalga oshirishga xoxish yoki imkoniyat yo'q bo'lsa uni biz bilan bo'lishing
             </p>
             <p class="mt-4 inline-flex items-center gap-x-1 text-sm text-blue-600 decoration-2 group-hover:underline group-focus:underline font-medium dark:text-blue-500">
@@ -45,7 +45,7 @@
             <h3 class="text-xl font-semibold text-gray-800 group-hover:text-gray-600 dark:text-neutral-300 dark:group-hover:text-white">
               Startup loyihalarni birgalikda takomillashtiring
             </h3>
-            <p class="mt-3 text-gray-600 dark:text-neutral-400">
+            <p class="mt-3 text-gray-600 dark:text-neutral-400 dark:hover:text-neutral-200">
               Startup loyihangiz bor lekin uni qanday kengaytirib keyingi bosqichga olib chiqishni o'ylayabsizmi? Bizningcha buni amalga oshirishda yaxshi jamoa to'plashingiz zarur!
             </p>
             <p class="mt-4 inline-flex items-center gap-x-1 text-sm text-blue-600 decoration-2 group-hover:underline group-focus:underline font-medium dark:text-blue-500">
@@ -74,7 +74,7 @@
             <h3 class="text-xl font-semibold text-gray-800 group-hover:text-gray-600 dark:text-neutral-300 dark:group-hover:text-white">
               Startup loyihada ishtirok eting
             </h3>
-            <p class="mt-3 text-gray-600 dark:text-neutral-400">
+            <p class="mt-3 text-gray-600 dark:text-neutral-400 dark:hover:text-neutral-200">
               O'z ko'nikmala va tajribangizni turli xil startuplarda ishtirok etish orqali rivojlantirish imkoniyati sizda mavjud!
             </p>
             <p class="mt-4 inline-flex items-center gap-x-1 text-sm text-blue-600 decoration-2 group-hover:underline group-focus:underline font-medium dark:text-blue-500">
@@ -103,7 +103,7 @@
             <h3 class="text-xl font-semibold text-gray-800 group-hover:text-gray-600 dark:text-neutral-300 dark:group-hover:text-white">
               Investitsiya kiriting
             </h3>
-            <p class="mt-3 text-gray-600 dark:text-neutral-400">
+            <p class="mt-3 text-gray-600 dark:text-neutral-400 dark:hover:text-neutral-200">
               Agarda siz investor bo'lsangiz, u holda kelajagi porloq deb hisoblagan startupga investorlik qilish imkoniyatiga ega bo'lasiz!
             </p>
             <p class="mt-4 inline-flex items-center gap-x-1 text-sm text-blue-600 decoration-2 group-hover:underline group-focus:underline font-medium dark:text-blue-500">

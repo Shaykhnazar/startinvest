@@ -6,7 +6,7 @@
       <h3 class="text-sm font-bold text-stone-800 group-hover:text-green-600 group-focus:text-green-600 dark:text-neutral-200 dark:group-hover:text-green-500 dark:group-focus:text-green-500">
         {{ item.title }}
       </h3>
-      <p class="text-[13px] text-stone-200 dark:text-neutral-200">
+      <p class="text-[13px] text-gray-600 dark:text-neutral-400 dark:hover:text-neutral-200">
         {{ item.short }}
       </p>
     </div>
