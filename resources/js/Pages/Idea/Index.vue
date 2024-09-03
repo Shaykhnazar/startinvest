@@ -65,13 +65,14 @@
       @close="showIdeaCommentModal(false)"
       @submit="commentIdeaHandler"
     />
+    <IdeaDeleteModal
+      v-show="ideaDeleteModalVisible"
+      :is-visible="ideaDeleteModalVisible"
+      :idea="ideaDeleteModalProps.idea"
+      @close="showIdeaDeleteModal(false)"
+      @delete-idea-handler="deleteIdea"
+    />
   </App>
-  <IdeaDeleteModal
-    :is-visible="ideaDeleteModalVisible"
-    :idea="ideaDeleteModalProps.idea"
-    @close="showIdeaDeleteModal(false)"
-    @delete-idea-handler="deleteIdea"
-  />
 </template>
 
 <script setup>

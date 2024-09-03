@@ -30,7 +30,7 @@
 </template>
 <script lang="ts" setup>
 import { useIdea } from '@/Composables/useIdea.ts'
-import {  ref } from 'vue';
+import {  ref, reactive } from 'vue';
 import type { FormInstance } from 'element-plus'
 import TextEditor from "@/Components/tiptap/TextEditor.vue";
 
@@ -43,9 +43,9 @@ const formRefComputed = ref<FormInstance>();
 const contentChanged = () => {
   if (editorRef.value.getContent().content.length === 1 &&
     typeof editorRef.value.getContent().content[0].content === 'undefined') {
-    ideaForm.value.description = null
+    ideaForm.description = null
   } else {
-    ideaForm.value.description = editorRef.value.getContent()
+    ideaForm.description = editorRef.value.getContent()
   }
 }
 function beforeSubmit(ideaForm) {
@@ -72,5 +72,5 @@ const props = defineProps({
   submitting: Boolean
 })
 
-const ideaForm = ref(props.ideaForm)
+const ideaForm = reactive(props.ideaForm || {})
 </script>
