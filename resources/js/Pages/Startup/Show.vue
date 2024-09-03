@@ -126,7 +126,7 @@ const goToChat = (userId) => {
 <!--              &lt;!&ndash; Additional Sidebar Content &ndash;&gt;-->
 <!--              <div class="p-6 bg-gray-50 rounded-lg dark:bg-neutral-800">-->
 <!--                <h3 class="text-lg font-semibold dark:text-white">Bog'lanish</h3>-->
-<!--                <p class="text-sm text-gray-800 dark:text-neutral-200">Agar sizda ushbu startap haqida savollaringiz bo'lsa, loyiha asoschisi bilan chat orqali bog'laning.</p>-->
+<!--                <p class="text-sm text-gray-800 dark:text-neutral-200">Agar sizda ushbu startup haqida savollaringiz bo'lsa, loyiha asoschisi bilan chat orqali bog'laning.</p>-->
 <!--                <p class="mt-2">-->
 <!--                  <el-button-->
 <!--                    type="primary"-->

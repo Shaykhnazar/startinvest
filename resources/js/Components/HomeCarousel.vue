@@ -29,7 +29,7 @@ const carouselItems = ref([
     id: 3,
     image_url: `https://startinvestuz-190827817.imgix.net/carousel_3.jpg?q=80&w=1920&auto=format&fit=crop`,
     title: 'Investitsiya',
-    short: 'Eng yaxshi deb hisoblagan startap loyihani izlab toping va uni moliyalashtiring!',
+    short: 'Eng yaxshi deb hisoblagan startup loyihani izlab toping va uni moliyalashtiring!',
     route: 'startups.index'
   },
 ])

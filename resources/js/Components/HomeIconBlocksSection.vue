@@ -28,7 +28,7 @@ const cardItems = ref([
     id: 4,
     icon: 'lucide-banknote',
     title: 'Investitsiya',
-    short: 'Eng yaxshi deb hisoblagan startap loyihani izlab toping va uni moliyalashtiring',
+    short: 'Eng yaxshi deb hisoblagan startup loyihani izlab toping va uni moliyalashtiring',
     route: 'startups.index'
   },
   {
