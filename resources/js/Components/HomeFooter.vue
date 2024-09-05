@@ -28,18 +28,18 @@ import ApplicationLogo from '@/Components/ApplicationLogo.vue'
 <!--       End Col -->
 
 <!--      <div>-->
-<!--        <h4 class="text-xs font-semibold text-gray-900 uppercase dark:text-neutral-100">Company</h4>-->
+<!--        <h4 class="text-xs font-semibold text-gray-900 uppercase dark:text-neutral-100">Sahifalar</h4>-->
 
 <!--        <div class="mt-3 grid space-y-3 text-sm">-->
-<!--          <p><a class="inline-flex gap-x-2 text-gray-600 hover:text-gray-800 focus:outline-none focus:text-gray-800 dark:text-neutral-400 dark:hover:text-neutral-200 dark:focus:text-neutral-200" href="#">About us</a></p>-->
-<!--          <p><a class="inline-flex gap-x-2 text-gray-600 hover:text-gray-800 focus:outline-none focus:text-gray-800 dark:text-neutral-400 dark:hover:text-neutral-200 dark:focus:text-neutral-200" href="#">Blog</a></p>-->
+<!--          <p><Link class="inline-flex gap-x-2 text-gray-600 hover:text-gray-800 focus:outline-none focus:text-gray-800 dark:text-neutral-400 dark:hover:text-neutral-200 dark:focus:text-neutral-200" :href="route('login')">Kirish</Link></p>-->
+<!--          <p><Link class="inline-flex gap-x-2 text-gray-600 hover:text-gray-800 focus:outline-none focus:text-gray-800 dark:text-neutral-400 dark:hover:text-neutral-200 dark:focus:text-neutral-200" :href="route('register')">Ro'yxatdan o'tish</Link></p>-->
 <!--          <p><a class="inline-flex gap-x-2 text-gray-600 hover:text-gray-800 focus:outline-none focus:text-gray-800 dark:text-neutral-400 dark:hover:text-neutral-200 dark:focus:text-neutral-200" href="#">Careers</a> <span class="inline text-blue-600 dark:text-blue-500">— We're hiring</span></p>-->
 <!--          <p><a class="inline-flex gap-x-2 text-gray-600 hover:text-gray-800 focus:outline-none focus:text-gray-800 dark:text-neutral-400 dark:hover:text-neutral-200 dark:focus:text-neutral-200" href="#">Customers</a></p>-->
 <!--          <p><a class="inline-flex gap-x-2 text-gray-600 hover:text-gray-800 focus:outline-none focus:text-gray-800 dark:text-neutral-400 dark:hover:text-neutral-200 dark:focus:text-neutral-200" href="#">Newsroom</a></p>-->
 <!--          <p><a class="inline-flex gap-x-2 text-gray-600 hover:text-gray-800 focus:outline-none focus:text-gray-800 dark:text-neutral-400 dark:hover:text-neutral-200 dark:focus:text-neutral-200" href="#">Sitemap</a></p>-->
 <!--        </div>-->
 <!--      </div>-->
-      <!-- End Col -->
+<!--       End Col-->
 
       <div>
         <h4 class="text-xs font-semibold text-gray-900 uppercase dark:text-neutral-100">Aloqa</h4>
@@ -160,9 +160,9 @@ import ApplicationLogo from '@/Components/ApplicationLogo.vue'
           <!-- End Language Dropdown -->
 
           <div class="space-x-4 text-sm">
-            <a class="inline-flex gap-x-2 text-gray-600 hover:text-gray-800 focus:outline-none focus:text-gray-800 dark:text-neutral-400 dark:hover:text-neutral-200 dark:focus:text-neutral-200" href="#">Terms</a>
-            <a class="inline-flex gap-x-2 text-gray-600 hover:text-gray-800 focus:outline-none focus:text-gray-800 dark:text-neutral-400 dark:hover:text-neutral-200 dark:focus:text-neutral-200" href="#">Privacy</a>
-            <a class="inline-flex gap-x-2 text-gray-600 hover:text-gray-800 focus:outline-none focus:text-gray-800 dark:text-neutral-400 dark:hover:text-neutral-200 dark:focus:text-neutral-200" href="#">Status</a>
+            <a class="inline-flex gap-x-2 text-gray-600 hover:text-gray-800 focus:outline-none focus:text-gray-800 dark:text-neutral-400 dark:hover:text-neutral-200 dark:focus:text-neutral-200" href="#">Foydalanish qoidalari</a>
+            <a class="inline-flex gap-x-2 text-gray-600 hover:text-gray-800 focus:outline-none focus:text-gray-800 dark:text-neutral-400 dark:hover:text-neutral-200 dark:focus:text-neutral-200" href="#">Maxfiylik siyosati</a>
+            <a class="inline-flex gap-x-2 text-gray-600 hover:text-gray-800 focus:outline-none focus:text-gray-800 dark:text-neutral-400 dark:hover:text-neutral-200 dark:focus:text-neutral-200" href="#">Tizim holati</a>
           </div>
         </div>
 
@@ -171,7 +171,7 @@ import ApplicationLogo from '@/Components/ApplicationLogo.vue'
             <Link :href="route('home')" class="flex-none font-semibold text-xl text-black focus:outline-none focus:opacity-80 dark:text-white" aria-label="Brand">
               <ApplicationLogo/>
             </Link>
-            <p class="mt-1 text-xs sm:text-sm text-gray-600 dark:text-neutral-400">© {{ new Date().getFullYear() }} StartInvest.</p>
+            <p class="mt-1 text-xs sm:text-sm text-gray-600 dark:text-neutral-400">© {{ new Date().getFullYear() }} StartInvest.uz</p>
           </div>
 
           <!-- Social Brands -->

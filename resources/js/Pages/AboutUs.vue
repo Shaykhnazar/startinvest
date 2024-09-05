@@ -25,18 +25,17 @@ import { Head, Link } from '@inertiajs/vue3';
 
                 <h2 class="text-3xl font-bold lg:text-5xl dark:text-white">Startinvest.uz haqida</h2>
 
-                <div class="text-lg text-gray-800 dark:text-neutral-200">
-                  <p class="text-gray-700 leading-relaxed mb-4">
+                <div class="text-lg text-gray-700 dark:text-neutral-400 dark:hover:text-neutral-200">
+                  <p class="leading-relaxed mb-4">
                     🚀 Startinvest.uz - bu Startuplarni rivojlantirish, investitsiya jalb qilish uchun online platforma!<br>
-
                     <q>Sizda agarda go’ya yoki startup qurish va uni moliyalashtirish istagi bor bo’lsa ushbu platforma orqali uni amalga oshirishingiz mumkin!</q><br>
                     <q>Agarda siz investor bo'lsangiz, u holda bizning platformadagi kelajagi porloq deb hisoblangan startuplarga investorlik qilish imkoniyatiga ega bo'lasiz!</q>
                   </p>
 
                   <div class="mb-6">
                     <h2 class="text-xl font-semibold mb-2">Platformaning asosiy maqsadi va afzalliklari ❔:</h2>
-                    <div class="text-gray-700 leading-relaxed" style="text-indent: 20px">
-                      <ul class="list-disc list-inside text-gray-700 leading-relaxed mb-4">
+                    <div class="text-gray-700 dark:text-neutral-400 dark:hover:text-neutral-200 leading-relaxed" style="text-indent: 20px">
+                      <ul class="list-disc list-inside leading-relaxed mb-4">
                         <li>Agarda sizda MVP formatidagi startup loyihangiz bo’lsa uni moliyalashtirish uchun bizning platformadan foydalangan holda investitsiya jalb qilishingiz mumkin bo’ladi.</li>
                         <li>Bizning platformada investorlar sizning go’yangizni kuzatishi va agarda ularga maq’ul kelsa ularga investitsiya kiritishi mumkin.</li>
                         <li>Agarda sizda faqatgina go’ya yoki amaliyot o’tash istagi bo’lsa unda siz o’zingizni qiziqtirgan g’oya ustida jamoa to’plashingiz va uni MVP versiyada tayyorlab, platformada orqali e’lon qilish orqali loyihangizga investorlarni jalb qilishingiz mumkin.</li>
@@ -46,8 +45,8 @@ import { Head, Link } from '@inertiajs/vue3';
 
                   <div class="mb-6">
                     <h2 class="text-xl font-semibold mb-2">Plaftormadagi foydalanuvchi rollari 🕵️:</h2>
-                    <div class="text-gray-700 leading-relaxed">
-                      <ul class="list-disc list-inside text-gray-700 leading-relaxed mb-4">
+                    <div class="text-gray-700 dark:text-neutral-400 dark:hover:text-neutral-200 leading-relaxed">
+                      <ul class="list-disc list-inside leading-relaxed mb-4">
                         <li>Go’ya ulashuvchilar - shunchaki hayoliga kelgan go’yani ulashadigan foydalanuvchilar (sababi ular shu go’yani o’zlari amalga oshirishga imkoniyati va salohiyati bo’lmasligi lekin uni kimdir amalga oshirishini hohlovchi kimsalar)</li>
                         <li>Dasturchilar, loyiha menedjerlari(PM), jamoa yetakchilari(Team lead)…</li>
                         <li>Investorlar - kompaniya, tadbirkorlar, katta/o'rta/kichik biznes egalari</li>

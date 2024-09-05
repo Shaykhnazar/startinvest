@@ -15,6 +15,7 @@
         "@popperjs/core": "^2.11.8",
         "@preline/accordion": "^2.4.1",
         "@preline/carousel": "^2.4.1",
+        "@preline/dropdown": "^2.4.1",
         "@preline/select": "^2.4.1",
         "@preline/theme-switch": "^2.4.1",
         "@preline/tooltip": "^2.4.1",

@@ -63,8 +63,8 @@ const cardItems = ref([
           Platformaning asosiy afzalliklari
         </h2>
         <p class="mt-2 md:mt-4 text-gray-600 dark:text-neutral-400 dark:hover:text-neutral-200">
-          Bu kabi platforma ko'plab yosh tadbirkorlar va startupchilar uchun juda foydalidir, chunki u ularning g'oyalarini haqiqatga aylantirishda zarur bo'lgan resurslar va bilimlarni bir joyga jamlashga va undan foydalanish imkonini beradi.
-          Shuningdek, ushbu platforma moliyaviy yordam va maslahatlar bilan ta'minlash orqali loyihalarni yanada tezroq va samarali amalga oshirishlariga yordam beradi.
+          Bu kabi platforma ko'plab yosh tadbirkorlar va startupchilar uchun juda foydalidir, chunki u ularning g'oyalarini haqiqatga aylantirishda zarur bo'lgan resurslar va bilimlarni bir joyga jamlash va undan foydalanish imkonini beradi.
+          Shuningdek, ushbu platforma sizni barcha yordam va maslahatlar bilan ta'minlash orqali loyihalarni yanada tezroq va samarali amalga oshirishlariga yordam beradi.
         </p>
       </div>
       <!-- End Col -->

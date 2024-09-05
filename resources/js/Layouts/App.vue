@@ -5,7 +5,7 @@ import { useUserStore } from '@/stores/UserStore.js'
 import AnnouncementBanner from '@/Components/AnnouncementBanner.vue'
 import HomeNavbar from '@/Components/HomeNavbar.vue'
 import HomeFooter from '@/Components/HomeFooter.vue'
-import { type IStaticMethods } from "preline";
+import {HSDropdown, type IStaticMethods} from "preline";
 
 const userStore = useUserStore();
 const pageProps = usePage().props
@@ -21,7 +21,17 @@ onMounted(() => {
     window.HSStaticMethods.autoInit();
   }, 100)
 
+  // Set auth user
   pageProps.auth.user && userStore.setAuthUser(pageProps.auth.user.data)
+
+  // const dropdown = new HSDropdown(document.querySelector('#hs-navbar-hcail'));
+  // const openBtn = document.querySelector('#hs-navbar-hcail-collapse');
+  //
+  // openBtn.addEventListener('click', () => {
+  //   dropdown.close();
+  //   console.log('close')
+  // });
+
 
   // Dynamically load the external script
   // const script = document.createElement('script');
@@ -43,7 +53,7 @@ onMounted(() => {
   <slot name="header" />
 
   <el-container class="main-container bg-[#F4F2EE] dark:bg-[#000000]">
-    <el-header class="flex flex-wrap md:justify-start md:flex-nowrap z-50 w-full bg-white dark:bg-[#262626]" style="padding-bottom: 5rem">
+    <el-header class="sticky top-0 flex flex-wrap md:justify-start md:flex-nowrap z-50 w-full bg-white dark:bg-[#262626]" style="padding-bottom: 5rem">
       <home-navbar/>
     </el-header>
     <el-main>
