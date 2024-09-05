@@ -81,10 +81,10 @@ watch(() => route().current(), () => {
       <div class="flex items-center gap-x-1 md:gap-x-2 ms-auto py-1 md:ps-6 md:order-3 md:col-span-3">
         <dark-mode-switcher/>
         <template v-if="$page.props.canLogin">
-          <button v-if="!$page.props.auth.user" type="button" @click="visitTo(route('login'))" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-xl border border-transparent bg-lime-400 text-black hover:bg-lime-500 focus:outline-none focus:bg-lime-500 transition disabled:opacity-50 disabled:pointer-events-none">
+          <button v-if="!$page.props.auth.user" type="button" @click="router.visit(route('login'))" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-xl border border-transparent bg-lime-400 text-black hover:bg-lime-500 focus:outline-none focus:bg-lime-500 transition disabled:opacity-50 disabled:pointer-events-none">
             Tizimga kirish
           </button>
-          <button v-else type="button" @click="visitTo(route('dashboard.index'))" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-xl border border-transparent bg-lime-400 text-black hover:bg-lime-500 focus:outline-none focus:bg-lime-500 transition disabled:opacity-50 disabled:pointer-events-none">
+          <button v-else type="button" @click="router.visit(route('dashboard.index'))" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-xl border border-transparent bg-lime-400 text-black hover:bg-lime-500 focus:outline-none focus:bg-lime-500 transition disabled:opacity-50 disabled:pointer-events-none">
             Kabinet
           </button>
         </template>
