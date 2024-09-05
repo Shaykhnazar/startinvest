@@ -85,7 +85,7 @@ class IdeaController extends Controller
     public function show(Request $request, Idea $idea): JsonResponse
     {
         return response()->json([
-            'description' => $idea->description,
+            'idea' => $this->ideaService->getIdeaResource($idea),
         ]);
     }
 }

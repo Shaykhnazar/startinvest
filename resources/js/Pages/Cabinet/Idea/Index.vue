@@ -1,7 +1,7 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref } from 'vue';
 
-import { Head, usePage } from '@inertiajs/vue3';
+import { Head } from '@inertiajs/vue3';
 import IdeaModal from "@/Components/modals/IdeaModal.vue";
 import IdeaCard from '@/Components/IdeaCard.vue'
 import PostNewIdeaSection from '@/Components/PostNewIdeaSection.vue'
@@ -43,20 +43,17 @@ const userStore = useUserStore()
 const submitting = ref(false)
 
 const updateIdeaList = (updatedIdea, remove = false) => {
-  // Assuming the backend returns updated idea data with upvotes, downvotes
-  const index = items.value.findIndex((item) => item.id === updatedIdea.id);
+  const index = items.findIndex(item => item.id === updatedIdea.id);
 
   if (index !== -1 && !remove) {
-    // Update the idea in the local state
-    items.value[index] = updatedIdea;
+    // Use Vue.set or direct assignment for reactivity
+    items[index] = updatedIdea;
   } else if (!remove) {
-    // Add the idea to the local state
-    items.value.unshift(updatedIdea);
+    items.unshift(updatedIdea);
   } else {
-    // Remove the idea from the local state
-    items.value.splice(index, 1);
+    items.splice(index, 1);
   }
-}
+};
 
 const ideaSubmit = async (formEl, ideaData) => {
   if (!formEl) return;
@@ -83,7 +80,7 @@ const ideaEdit = async (ideaData) => {
   }).then((response) => {
     updateIdeaList(response.data.idea)
     showIdeaEditModal(false)
-    success('Fikr muvaffaqiyatli tahrirlandi')
+    success('G\'oya muvaffaqiyatli tahrirlandi')
   }).finally(() => {
     submitting.value = false
   });
@@ -96,7 +93,7 @@ const ideaAdd = async (ideaData) => {
   }).then((response) => {
     updateIdeaList(response.data.idea)
     showIdeaModal(false)
-    success('Fikr muvaffaqiyatli qo\'shildi')
+    success('G\'oya muvaffaqiyatli qo\'shildi')
   }).finally(() => {
     submitting.value = false
   })
@@ -107,7 +104,7 @@ const deleteIdea = async (id) => {
   await api.ideas.delete(id).then((response) => {
     updateIdeaList(response.data.idea, true)
     showIdeaDeleteModal(false)
-    info('Fikr muvaffaqiyatli oʻchirildi')
+    info('G\'oya muvaffaqiyatli o\'chirildi')
   }).finally(() => {
     submitting.value = false
   })
@@ -188,7 +185,7 @@ async function voteSubmit(idea, type) {
   }).then((response) => {
     updateIdeaList(response.data.idea)
     userStore.updateUserVotes(response.data.user_votes)
-    info('Muvaffaqiyatli ovoz berildi')
+    info('Ovoz berildi')
   }).finally(() => {
     submitting.value = false
   });
@@ -260,7 +257,7 @@ async function voteSubmit(idea, type) {
       @submit="commentIdeaHandler"
     />
     <IdeaDeleteModal
-      :is-visible="ideaDeleteModalVisible"
+      v-if="ideaDeleteModalVisible"
       :idea="ideaDeleteModalProps.idea"
       @close="showIdeaDeleteModal(false)"
       @delete-idea-handler="deleteIdea"

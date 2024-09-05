@@ -51,6 +51,11 @@ export function useIdea() {
       ideaForm.id = idea.id;
       ideaForm.title = idea.title;
       ideaForm.description = idea.description;
+    } else {
+      // If no idea, clear the form (could be for a new idea)
+      ideaForm.id = null;
+      ideaForm.title = '';
+      ideaForm.description = '';
     }
     // Show the modal
     ideaEditModalVisible.value = value;

@@ -1,11 +1,9 @@
 <script setup>
 import { Comment, More } from '@element-plus/icons-vue'
-import Popover from '@/Components/Popover.vue'
 import Tooltip from '@/Components/Tooltip.vue'
 import { useUserStore } from '@/stores/UserStore.js'
 import { useIdea } from '@/Composables/useIdea.ts'
 import { ref, defineEmits } from 'vue'
-import api from '@/services/api.js'
 import { Link } from '@inertiajs/vue3'
 
 defineProps({
@@ -33,8 +31,7 @@ const toggleDescription = async (idea) => {
   if (!showIdeaDescByCollapse.value && !ideaDescription.value) {
     isLoadingDescription.value = true
     try {
-      const response = await api.ideas.show(idea.id)
-      ideaDescription.value = response.data.description
+      ideaDescription.value = idea.description
     } catch (error) {
       console.error('G\'oyaning tavsifini olishda xatolik:', error)
     } finally {
@@ -57,7 +54,7 @@ const toggleDescription = async (idea) => {
 
         <Link class="grow block focus:outline-none" :href="route('user.profile', idea.author?.id)">
           <h5 class="group-hover:text-gray-600 group-focus:text-gray-600 text-sm font-semibold text-gray-800 dark:group-hover:text-neutral-400 dark:group-focus:text-neutral-400 dark:text-neutral-200 ">
-            <span class=" hover:underline hover:text-blue-500 dark:hover:text-blue-500 focus:outline-none dark:focus:outline-none focus:text-blue-500 dark:focus:text-blue-500">{{  idea.author?.name  }}</span>
+            <span class="hover:underline hover:text-blue-500 dark:hover:text-blue-500 focus:outline-none dark:focus:outline-none focus:text-blue-500 dark:focus:text-blue-500">{{  idea.author?.name  }}</span>
           </h5>
           <p class="text-sm text-gray-500 dark:text-neutral-500">
             {{ idea.created_at }}
@@ -67,14 +64,14 @@ const toggleDescription = async (idea) => {
           <div class="flex justify-end" v-if="!userStore.isGuest">
             <!-- More Dropdown -->
             <div class="hs-dropdown [--placement:bottom-right] relative inline-flex">
-              <button id="hs-pro-dupc1" type="button" class="size-7 inline-flex justify-center items-center gap-x-2 rounded-lg border border-transparent text-gray-500 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-200 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700" aria-haspopup="menu" aria-expanded="false" aria-label="Dropdown">
+              <button :id="'hs-pro-dupc1'+idea.id" type="button" class="size-7 inline-flex justify-center items-center gap-x-2 rounded-lg border border-transparent text-gray-500 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-200 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700" aria-haspopup="menu" aria-expanded="false" aria-label="Dropdown">
                 <svg class="lucide lucide-ellipsis shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
               </button>
 
-              <div class="hs-dropdown-menu hs-dropdown-open:opacity-100 w-40 transition-[opacity,margin] duration opacity-0 hidden z-10 bg-white rounded-xl shadow-[0_10px_40px_10px_rgba(0,0,0,0.08)] dark:shadow-[0_10px_40px_10px_rgba(0,0,0,0.2)] dark:bg-neutral-900" role="menu" aria-orientation="vertical" aria-labelledby="hs-pro-dupc1">
+              <div class="hs-dropdown-menu hs-dropdown-open:opacity-100 w-40 transition-[opacity,margin] duration opacity-0 hidden z-10 bg-white rounded-xl shadow-[0_10px_40px_10px_rgba(0,0,0,0.08)] dark:shadow-[0_10px_40px_10px_rgba(0,0,0,0.2)] dark:bg-neutral-900" role="menu" aria-orientation="vertical" :aria-labelledby="'hs-pro-dupc1'+idea.id">
                 <div class="p-1">
                   <template v-if="userStore.isAuthorOfIdea(idea)">
-                    <button type="button" @click="$emit('showEditModalHandler', true, idea)" class="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800" data-hs-overlay="#hs-pro-detm">
+                    <button type="button" @click="$emit('showEditModalHandler', true, idea)" class="w-full flex items-center gap-x-3 py-1.5 px-2 rounded-lg text-[13px] font-normal text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800" data-hs-overlay="#hs-modal-idea-edit">
                       <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
                         <path d="m15 5 4 4" />
@@ -120,8 +117,8 @@ const toggleDescription = async (idea) => {
     </div>
     <!-- Title -->
     <div class="grid grid-cols-1 gap-y-2 lg:gap-y-0 lg:gap-x-5">
-      <div class="idea-title flex justify-center items-center gap-x-0.5 dark:hover:bg-neutral-800" @click="toggleDescription(idea)">
-        <p class="text-md text-dark-500 dark:text-neutral-200 hover:underline focus:outline-none dark:focus:outline-none ">
+      <div class="idea-title hover:text-neutral-500 flex justify-center items-center gap-x-0.5 dark:hover:text-neutral-300" @click="toggleDescription(idea)">
+        <p class="text-md text-dark-500 dark:text-neutral-200 hover:underline focus:outline-none dark:focus:outline-none">
           {{ idea.title }}
         </p>
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-ellipsis"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>

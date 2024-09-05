@@ -23,27 +23,6 @@ onMounted(() => {
 
   // Set auth user
   pageProps.auth.user && userStore.setAuthUser(pageProps.auth.user.data)
-
-  // const dropdown = new HSDropdown(document.querySelector('#hs-navbar-hcail'));
-  // const openBtn = document.querySelector('#hs-navbar-hcail-collapse');
-  //
-  // openBtn.addEventListener('click', () => {
-  //   dropdown.close();
-  //   console.log('close')
-  // });
-
-
-  // Dynamically load the external script
-  // const script = document.createElement('script');
-  // script.src = '/vendor/preline/dist/index.js?v=1.0.0';
-  // script.onload = () => {
-  //   console.log('Preline script loaded successfully.');
-  //   // If preline has specific initializations, you can trigger them here
-  // };
-  // script.onerror = () => {
-  //   console.error('Failed to load Preline script.');
-  // };
-  // document.body.appendChild(script);
 })
 </script>
 

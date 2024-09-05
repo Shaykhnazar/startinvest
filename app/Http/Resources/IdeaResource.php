@@ -21,9 +21,7 @@ class IdeaResource extends JsonResource
             'comments_count' => $this->whenCounted('comments'),
             'created_at' => DateFormatForHumans::run($this->created_at),
             'updated_at' => DateFormatForHumans::run($this->updated_at),
-            $this->mergeWhen($request->with_desc, [
-                'description' => $this->description,
-            ]),
+            'description' => $this->description,
         ];
     }
 }
