@@ -43,4 +43,8 @@ return [
         'redirect' => env('GOOGLE_REDIRECT'),
     ],
 
+    'resend' => [
+        'key' => env('RESEND_KEY'),
+    ],
+
 ];
