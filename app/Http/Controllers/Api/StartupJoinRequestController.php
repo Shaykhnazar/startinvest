@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StartupAcceptRequest;
 use App\Http\Requests\StartupSendJoinRequest;
 use App\Models\StartupJoinRequest;
+use App\Notifications\JoinRequestNotification;
 use App\Services\StartupService;
 use App\Models\Startup;
 use Illuminate\Http\JsonResponse;
@@ -26,6 +27,9 @@ class StartupJoinRequestController extends Controller
             'user_id' => $request->user()->id,
             'status' => $request->validated()['status'],
         ]);
+
+        // Notify a startup owner
+        $startup->owner->notify(new JoinRequestNotification($joinRequest, 'A new join request has been sent.'));
 
         return response()->json(['message' => 'Request sent successfully', 'data' => $joinRequest], 201);
     }

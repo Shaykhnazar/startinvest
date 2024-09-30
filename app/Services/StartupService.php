@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Enums\JoinRequestStatusEnum;
 use App\Models\Startup;
 use App\Models\StartupJoinRequest;
+use App\Notifications\AcceptRequestNotification;
 
 class StartupService
 {
@@ -80,10 +81,10 @@ class StartupService
                 }
             }
 
-            // Additional logic for CANCELED and LEAVED if necessary
-            if ($toStatus === JoinRequestStatusEnum::CANCELED->value || $toStatus === JoinRequestStatusEnum::LEAVED->value) {
-                // Implement any additional logic for CANCELED or LEAVED status
-                // e.g., log actions, notify users, etc.
+            // Additional logic for REJECTED and ACCEPTED if necessary
+            if ($toStatus === JoinRequestStatusEnum::REJECTED->value || $toStatus === JoinRequestStatusEnum::ACCEPTED->value) {
+                // Notify the user
+                $joinRequest->user->notify(new AcceptRequestNotification($joinRequest, $toStatus));
             }
         }
 
