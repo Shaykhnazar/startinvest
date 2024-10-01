@@ -3,10 +3,13 @@
 namespace App\Orchid\Resources;
 
 use App\Models\Idea;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Orchid\Crud\Resource;
 use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Fields\TextArea;
+use Orchid\Screen\Fields\SimpleMDE;
+use Orchid\Screen\Fields\Relation;
 use Orchid\Screen\Sight;
 use Orchid\Screen\TD;
 
@@ -29,17 +32,19 @@ class IdeaResource extends Resource
         return [
             Input::make('title')
                 ->title('Title')
-                ->placeholder('Some idea'),
+                ->placeholder('Some idea')
+                ->required(),
 
-            TextArea::make('description')
+            SimpleMDE::make('description')
                 ->title('Description')
-                ->rows(5)
-                ->placeholder('Description of idea'),
+                ->placeholder('Description of idea')
+                ->required(),
 
-            Input::make('author_id')
-                ->value(\Auth::id())
-                ->hidden(),
-
+            // Use Relation to select an author (if necessary)
+            Relation::make('author_id')
+                ->fromModel(User::class, 'name')
+                ->title('Author')
+                ->required(),
         ];
     }
 
@@ -51,20 +56,22 @@ class IdeaResource extends Resource
     public function columns(): array
     {
         return [
-            TD::make('id'),
+            TD::make('id', 'ID'),
 
-            TD::make('title', 'Название'),
+            TD::make('title', 'Title')
+                ->filter(TD::FILTER_TEXT),
 
-            TD::make('description', 'Описание'),
+            TD::make('author.name', 'Author')
+                ->render(function ($idea) {
+                    return $idea->author ? $idea->author->name : 'N/A';
+                }),
 
-            TD::make('author_id', 'Автор'),
-
-            TD::make('created_at', 'Date of creation')
+            TD::make('created_at', 'Date of Creation')
                 ->render(function ($model) {
                     return $model->created_at->toDateTimeString();
                 }),
 
-            TD::make('updated_at', 'Update date')
+            TD::make('updated_at', 'Update Date')
                 ->render(function ($model) {
                     return $model->updated_at->toDateTimeString();
                 }),
@@ -79,11 +86,15 @@ class IdeaResource extends Resource
     public function legend(): array
     {
         return [
-            Sight::make('id'),
-            Sight::make('title'),
-            Sight::make('description'),
-            Sight::make('author_id'),
-            Sight::make('created_at'),
+            Sight::make('id', 'ID'),
+            Sight::make('title', 'Title'),
+            Sight::make('description', 'Project Description')
+                ->render(function ($model) {
+                    return (strip_tags($model->description) === $model->description ? $model->description : strip_tags($model->description) === '') ? 'No description available' : $model->description; // Otherwise, allow rendering HTML
+                }),
+            Sight::make('author.name', 'Author'),
+            Sight::make('created_at', 'Created At'),
+            Sight::make('updated_at', 'Updated At'),
         ];
     }
 
@@ -97,15 +108,18 @@ class IdeaResource extends Resource
         return [];
     }
 
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @param Model $model
+     * @return array
+     */
     public function rules(Model $model): array
     {
         return [
-            'title' => 'required',
+            'title' => 'required|string|max:255',
             'description' => 'required|string|min:10',
-            'author_id' => [
-                'required',
-                'exists:users,id',
-            ],
+            'author_id' => 'required|exists:users,id',
         ];
     }
 }
