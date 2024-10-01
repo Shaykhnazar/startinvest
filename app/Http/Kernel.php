@@ -69,5 +69,6 @@ class Kernel extends HttpKernel
         'me.or.role' => \App\Http\Middleware\MeOrRole::class,
         'public.startup' => \App\Http\Middleware\PublicStartup::class,
         'check.startup.owner' => \App\Http\Middleware\CheckStartupOwner::class,
+        'locale' => \App\Http\Middleware\LocaleMiddleware::class,
     ];
 }
