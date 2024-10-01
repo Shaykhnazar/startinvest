@@ -24,6 +24,9 @@ export const useUserStore = defineStore("UserStore", {
     updateContributedStartups(newContributors) {
       this.authUser.contributedStartups = newContributors
     },
+    updateUserNotifications(newNotifications) {
+      this.authUser.notifications = newNotifications;
+    },
   },
   getters: {
     isGuest: (state) => state.authUser === null,
@@ -44,6 +47,9 @@ export const useUserStore = defineStore("UserStore", {
     },
     getContributedStartups: (state) => () => {
       return state.authUser?.contributedStartups ?? null;
+    },
+    getUnreadNotifications: (state) => {
+      return state.authUser?.notifications.filter(notification => !notification.read_at) ?? [];
     },
   },
   persist: {

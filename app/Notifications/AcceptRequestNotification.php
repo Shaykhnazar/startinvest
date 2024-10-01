@@ -13,11 +13,14 @@ class AcceptRequestNotification extends Notification
 
     public $joinRequest;
     public $toStatus;
+    public $message;
 
-    public function __construct(StartupJoinRequest $joinRequest, $toStatus)
+
+    public function __construct(StartupJoinRequest $joinRequest, $toStatus, $message)
     {
         $this->joinRequest = $joinRequest;
         $this->toStatus = $toStatus;
+        $this->message = $message;
     }
 
     public function via($notifiable)
@@ -33,7 +36,7 @@ class AcceptRequestNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-            'message' => $this->toStatus,
+            'message' => $this->message,
             'joinRequest' => $this->joinRequest->toArray(),
         ];
     }

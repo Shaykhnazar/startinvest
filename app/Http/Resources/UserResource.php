@@ -20,6 +20,7 @@ class UserResource extends JsonResource
             'comments' => CommentResource::collection($this->whenLoaded('comments')),
             'joinRequests' => StartupJoinRequestResource::collection($this->whenLoaded('joinRequests')),
             'contributedStartups' => StartupResource::collection($this->whenLoaded('contributedStartups')),
+            'notifications' => NotificationResource::collection($this->whenLoaded('notifications')),
         ];
     }
 }

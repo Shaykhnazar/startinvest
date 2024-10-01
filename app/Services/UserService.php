@@ -16,7 +16,7 @@ class UserService
         return auth()->user()->load($with)->loadCount($with);
     }
 
-    public static function getAuthUserResource(array $with = ['votes', 'comments', 'favorites', 'joinRequests', 'contributedStartups', 'socialProfiles', 'details']): UserResource
+    public static function getAuthUserResource(array $with = ['votes', 'comments', 'favorites', 'joinRequests', 'contributedStartups', 'socialProfiles', 'details', 'notifications']): UserResource
     {
         return new UserResource(self::getAuthUser($with));
     }

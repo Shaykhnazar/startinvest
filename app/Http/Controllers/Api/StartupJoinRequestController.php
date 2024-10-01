@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Enums\JoinRequestStatusEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StartupAcceptRequest;
 use App\Http\Requests\StartupSendJoinRequest;
@@ -28,8 +29,9 @@ class StartupJoinRequestController extends Controller
             'status' => $request->validated()['status'],
         ]);
 
+        $message = $request->validated()['status'] === JoinRequestStatusEnum::PENDING->value ? 'Jamoaga qabul qilish so\'rovini yubordi' : 'Jamoani tark etish so\'rovini yubordi';
         // Notify a startup owner
-        $startup->owner->notify(new JoinRequestNotification($joinRequest, 'A new join request has been sent.'));
+        $startup->owner->notify(new JoinRequestNotification($joinRequest, $message));
 
         return response()->json(['message' => 'Request sent successfully', 'data' => $joinRequest], 201);
     }

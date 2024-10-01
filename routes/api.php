@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\StartupContributorController;
 use App\Http\Controllers\Api\StartupJoinRequestController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\Cabinet\CabinetStartupController;
+use App\Http\Controllers\NotificationController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -39,7 +40,14 @@ Route::group(['prefix' => 'v1'], function () {
         // Manage contributors
         Route::patch('{startup}/remove-contributor', [StartupContributorController::class, 'remove'])->name('remove-contributor');
     });
-    // CHAT
-    Route::get('/messages/{friend}', [ChatController::class, 'messages'])->middleware(['auth', 'web'])->name('chat.messages');
-    Route::post('/messages/{friend}', [ChatController::class, 'send'])->middleware(['auth', 'web'])->name('chat.send');
+    Route::group(['middleware' => ['auth', 'web']], function () {
+        // CHAT
+        Route::get('/messages/{friend}', [ChatController::class, 'messages'])->name('chat.messages');
+        Route::post('/messages/{friend}', [ChatController::class, 'send'])->name('chat.send');
+
+        // NOTIFICATIONS
+        Route::post('/notifications/mark-all-as-read', [NotificationController::class, 'markAllAsRead'])->name('notifications.markAllAsRead');
+        Route::post('/notifications/{id}/mark-as-read', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
+    });
+
 });

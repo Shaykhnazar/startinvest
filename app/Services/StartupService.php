@@ -83,8 +83,9 @@ class StartupService
 
             // Additional logic for REJECTED and ACCEPTED if necessary
             if ($toStatus === JoinRequestStatusEnum::REJECTED->value || $toStatus === JoinRequestStatusEnum::ACCEPTED->value) {
+                $message = $toStatus === JoinRequestStatusEnum::REJECTED->value ? 'Jamoaga qo\'shilish so\'rovingizni rad qildi!' : 'Jamoaga qo\'shilish so\'rovingizni qabul qildi!';
                 // Notify the user
-                $joinRequest->user->notify(new AcceptRequestNotification($joinRequest, $toStatus));
+                $joinRequest->user->notify(new AcceptRequestNotification($joinRequest, $toStatus, $message));
             }
         }
 

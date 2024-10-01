@@ -20,6 +20,10 @@ export default {
     handleJoinRequest: (startupId, data) => api().patch(`startups/${startupId}/accept-request`, data),
     removeContributor: (startupId, data) => api().patch(`startups/${startupId}/remove-contributor`, data),
   },
+  notifications: {
+    markAllAsRead: () => api().post('notifications/mark-all-as-read'),
+    markAsRead: (id) => api().post(`notifications/${id}/mark-as-read`),
+  },
 }
 
 function api() {

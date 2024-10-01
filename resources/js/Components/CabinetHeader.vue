@@ -3,14 +3,70 @@
 import DropdownLink from '@/Components/DropdownLink.vue';
 import { useUserStore } from '@/stores/UserStore.js'
 import { router, Link } from '@inertiajs/vue3'
-import { reactive } from 'vue'
+import { reactive, ref, computed } from 'vue'
+import api from '@/services/api.js'
+import { useElMessage } from '@/Composables/helpers.js'
 
-const user = reactive(useUserStore().authUser)
+const userStore = useUserStore();
+const user = reactive(userStore.authUser);
+const { success } = useElMessage()
 
+const showNotifications = ref(false);
+
+const toggleNotifications = () => {
+  showNotifications.value = !showNotifications.value;
+};
+
+// Ensure notifications is defined or fallback to an empty array
+const notifications = computed(() => user?.notifications ?? []);
+
+const unreadNotificationsCount = computed(() => {
+  return (notifications.value ?? []).filter(n => !n.read_at).length;
+});
+
+
+const markAllAsRead = () => {
+  api.notifications
+    .markAllAsRead()
+    .then((response) => {
+      success(response.data.message)
+      userStore.updateUserNotifications(
+        notifications.value.map((n) => ({ ...n, read_at: new Date().toISOString() }))
+      );
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+};
+
+const markAsRead = (notificationId) => {
+  api.notifications
+    .markAsRead(notificationId)
+    .then((response) => {
+      success(response.data.message)
+      const updatedNotifications = notifications.value.map((notification) => {
+        if (notification.id === notificationId) {
+          return { ...notification, read_at: new Date().toISOString() };
+        }
+        return notification;
+      });
+
+      userStore.updateUserNotifications(updatedNotifications);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+};
 const logoutHandle = () => {
   useUserStore().$reset()
   router.post(route('logout'))
 }
+const defaultAvatar = 'https://images.unsplash.com/photo-1659482633369-9fe69af50bfb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=3&w=320&h=320&q=80'; // Use your default avatar URL
+
+const isOwnerOfStartup = (notification) => {
+  return user.id === notification.data.joinRequest.startup.owner.id
+}
+
 </script>
 
 <template>
@@ -198,454 +254,227 @@ const logoutHandle = () => {
           <!-- End Help Dropdown -->
 
           <!-- Notifications Button Icon -->
-<!--          <div class="hs-dropdown [&#45;&#45;auto-close:inside] [&#45;&#45;placement:bottom-right] relative inline-flex">-->
-<!--            <div class="hs-tooltip [&#45;&#45;placement:bottom] inline-block">-->
-<!--              <button id="hs-pro-dnnd" type="button" class="hs-tooltip-toggle relative size-[38px] inline-flex justify-center items-center gap-x-2 rounded-full border border-transparent text-gray-500 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700" aria-haspopup="menu" aria-expanded="false" aria-label="Dropdown">-->
-<!--                <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">-->
-<!--                  <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />-->
-<!--                  <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />-->
-<!--                </svg>-->
-<!--                <span class="flex absolute top-0 end-0 z-10 -mt-1.5 -me-1.5">-->
-<!--                  <span class="animate-ping absolute inline-flex size-full rounded-full bg-red-400 opacity-75 dark:bg-red-600"></span>-->
-<!--                  <span class="relative min-w-[18px] min-h-[18px] inline-flex justify-center items-center text-[10px] bg-red-500 text-white rounded-full px-1">-->
-<!--                    2-->
-<!--                  </span>-->
-<!--                </span>-->
-<!--              </button>-->
-<!--              <span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 inline-block absolute invisible z-20 py-1.5 px-2.5 bg-gray-900 text-xs text-white rounded-lg dark:bg-neutral-700" role="tooltip">-->
-<!--                Notifications-->
-<!--              </span>-->
-<!--            </div>-->
-<!--            &lt;!&ndash; End Notifications Button Icon &ndash;&gt;-->
+          <div class="hs-dropdown [--auto-close:inside] [--placement:bottom-right] relative inline-flex">
+            <div class="hs-tooltip [--placement:bottom] inline-block">
+              <button @click="toggleNotifications" id="hs-pro-dnnd" type="button" class="hs-tooltip-toggle relative size-[38px] inline-flex justify-center items-center gap-x-2 rounded-full border border-transparent text-gray-500 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700" aria-haspopup="menu" aria-expanded="false" aria-label="Dropdown">
+                <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
+                  <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
+                </svg>
+                <span v-if="unreadNotificationsCount > 0" class="flex absolute top-0 end-0 z-10 -mt-1.5 -me-1.5">
+                  <span class="animate-ping absolute inline-flex size-full rounded-full bg-red-400 opacity-75 dark:bg-red-600"></span>
+                  <span class="relative min-w-[18px] min-h-[18px] inline-flex justify-center items-center text-[10px] bg-red-500 text-white rounded-full px-1">
+                    {{ unreadNotificationsCount }}
+                  </span>
+                </span>
+              </button>
+              <span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 inline-block absolute invisible z-20 py-1.5 px-2.5 bg-gray-900 text-xs text-white rounded-lg dark:bg-neutral-700" role="tooltip">
+                Bildirishnomalar
+              </span>
+            </div>
+            <!-- End Notifications Button Icon -->
 
-<!--            &lt;!&ndash; Notifications Dropdown &ndash;&gt;-->
-<!--&lt;!&ndash;            <div class="hs-dropdown-menu hs-dropdown-open:opacity-100 w-full sm:w-96 transition-[opacity,margin] duration opacity-0 hidden z-10 bg-white border-t border-gray-200 sm:border-t-0 sm:rounded-lg shadow-md sm:shadow-[0_10px_40px_10px_rgba(0,0,0,0.08)] dark:shadow-[0_10px_40px_10px_rgba(0,0,0,0.2)] dark:bg-neutral-900 dark:border-neutral-700" role="menu" aria-orientation="vertical" aria-labelledby="hs-pro-dnnd">&ndash;&gt;-->
-<!--&lt;!&ndash;              &lt;!&ndash; Header &ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;              <div class="px-5 pt-3 flex justify-between items-center border-b border-gray-200 dark:border-neutral-800">&ndash;&gt;-->
-<!--&lt;!&ndash;                &lt;!&ndash; Nav Tab &ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;                <nav class="flex  gap-x-1" aria-label="Tabs" role="tablist" aria-orientation="horizontal">&ndash;&gt;-->
-<!--&lt;!&ndash;                  <button type="button" class="hs-tab-active:after:bg-gray-800 hs-tab-active:text-gray-800 px-2 py-1.5 mb-2 relative inline-flex justify-center items-center gap-x-2 text-nowrap  hover:bg-gray-100 text-gray-500 hover:text-gray-800 text-sm rounded-lg disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 after:absolute after:-bottom-2 after:inset-x-2.5 after:z-10 after:h-0.5 after:pointer-events-none dark:hs-tab-active:text-neutral-200 dark:hs-tab-active:after:bg-neutral-400 dark:text-neutral-500 dark:hover:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 active " id="hs-pro-tabs-dnn-item-all" aria-selected="true" data-hs-tab="#hs-pro-tabs-dnn-all" aria-controls="hs-pro-tabs-dnn-all" role="tab">&ndash;&gt;-->
-<!--&lt;!&ndash;                    All&ndash;&gt;-->
-<!--&lt;!&ndash;                  </button>&ndash;&gt;-->
-<!--&lt;!&ndash;                  <button type="button" class="hs-tab-active:after:bg-gray-800 hs-tab-active:text-gray-800 px-2 py-1.5 mb-2 relative inline-flex justify-center items-center gap-x-2 text-nowrap  hover:bg-gray-100 text-gray-500 hover:text-gray-800 text-sm rounded-lg disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 after:absolute after:-bottom-2 after:inset-x-2.5 after:z-10 after:h-0.5 after:pointer-events-none dark:hs-tab-active:text-neutral-200 dark:hs-tab-active:after:bg-neutral-400 dark:text-neutral-500 dark:hover:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700  " id="hs-pro-tabs-dnn-item-archived" aria-selected="false" data-hs-tab="#hs-pro-tabs-dnn-archived" aria-controls="hs-pro-tabs-dnn-archived" role="tab">&ndash;&gt;-->
-<!--&lt;!&ndash;                    Archived&ndash;&gt;-->
-<!--&lt;!&ndash;                  </button>&ndash;&gt;-->
-<!--&lt;!&ndash;                </nav>&ndash;&gt;-->
-<!--&lt;!&ndash;                &lt;!&ndash; End Nav Tab &ndash;&gt;&ndash;&gt;-->
+            <!-- Notifications Dropdown -->
+            <div class="hs-dropdown-menu hs-dropdown-open:opacity-100 w-full sm:w-96 transition-[opacity,margin] duration opacity-0 hidden z-10 bg-white border-t border-gray-200 sm:border-t-0 sm:rounded-lg shadow-md sm:shadow-[0_10px_40px_10px_rgba(0,0,0,0.08)] dark:shadow-[0_10px_40px_10px_rgba(0,0,0,0.2)] dark:bg-neutral-900 dark:border-neutral-700" role="menu" aria-orientation="vertical" aria-labelledby="hs-pro-dnnd">
+              <!-- Header -->
+              <div class="px-5 pt-3 flex justify-between items-center border-b border-gray-200 dark:border-neutral-800">
+                <!-- Nav Tab -->
+                <nav class="flex  gap-x-1" aria-label="Tabs" role="tablist" aria-orientation="horizontal">
+                  <button type="button" class="hs-tab-active:after:bg-gray-800 hs-tab-active:text-gray-800 px-2 py-1.5 mb-2 relative inline-flex justify-center items-center gap-x-2 text-nowrap  hover:bg-gray-100 text-gray-500 hover:text-gray-800 text-sm rounded-lg disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 after:absolute after:-bottom-2 after:inset-x-2.5 after:z-10 after:h-0.5 after:pointer-events-none dark:hs-tab-active:text-neutral-200 dark:hs-tab-active:after:bg-neutral-400 dark:text-neutral-500 dark:hover:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 active " id="hs-pro-tabs-dnn-item-all" aria-selected="true" data-hs-tab="#hs-pro-tabs-dnn-all" aria-controls="hs-pro-tabs-dnn-all" role="tab">
+                    Barchasi
+                  </button>
+                  <button type="button" class="hs-tab-active:after:bg-gray-800 hs-tab-active:text-gray-800 px-2 py-1.5 mb-2 relative inline-flex justify-center items-center gap-x-2 text-nowrap  hover:bg-gray-100 text-gray-500 hover:text-gray-800 text-sm rounded-lg disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 after:absolute after:-bottom-2 after:inset-x-2.5 after:z-10 after:h-0.5 after:pointer-events-none dark:hs-tab-active:text-neutral-200 dark:hs-tab-active:after:bg-neutral-400 dark:text-neutral-500 dark:hover:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700  " id="hs-pro-tabs-dnn-item-archived" aria-selected="false" data-hs-tab="#hs-pro-tabs-dnn-archived" aria-controls="hs-pro-tabs-dnn-archived" role="tab">
+                    Arxivdagi
+                  </button>
+                </nav>
+                <!-- End Nav Tab -->
 
-<!--&lt;!&ndash;                &lt;!&ndash; Notifications Button Icon &ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;                <div class="hs-tooltip relative inline-block mb-3">&ndash;&gt;-->
-<!--&lt;!&ndash;                  <a class="hs-tooltip-toggle size-7 inline-flex justify-center items-center gap-x-2 rounded-full border border-transparent text-gray-500 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800" href="../../pro/dashboard/account-profile.html">&ndash;&gt;-->
-<!--&lt;!&ndash;                    <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">&ndash;&gt;-->
-<!--&lt;!&ndash;                      <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" />&ndash;&gt;-->
-<!--&lt;!&ndash;                      <circle cx="12" cy="12" r="3" />&ndash;&gt;-->
-<!--&lt;!&ndash;                    </svg>&ndash;&gt;-->
-<!--&lt;!&ndash;                  </a>&ndash;&gt;-->
-<!--&lt;!&ndash;                  <span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 inline-block absolute invisible z-20 py-1.5 px-2.5 bg-gray-900 text-xs text-white rounded-lg dark:bg-neutral-700" role="tooltip">&ndash;&gt;-->
-<!--&lt;!&ndash;                    Preferences&ndash;&gt;-->
-<!--&lt;!&ndash;                  </span>&ndash;&gt;-->
-<!--&lt;!&ndash;                </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                &lt;!&ndash; End Notifications Button Icon &ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;              </div>&ndash;&gt;-->
-<!--&lt;!&ndash;              &lt;!&ndash; End Header &ndash;&gt;&ndash;&gt;-->
+                <!-- Notifications Button Icon -->
+                <div class="hs-tooltip relative inline-block mb-3">
+                  <Link :href="route('dashboard.my-profile')" class="hs-tooltip-toggle size-7 inline-flex justify-center items-center gap-x-2 rounded-full border border-transparent text-gray-500 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-400 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800">
+                    <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" />
+                      <circle cx="12" cy="12" r="3" />
+                    </svg>
+                  </Link>
+                  <span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 inline-block absolute invisible z-20 py-1.5 px-2.5 bg-gray-900 text-xs text-white rounded-lg dark:bg-neutral-700" role="tooltip">
+                    Sozlash
+                  </span>
+                </div>
+                <!-- End Notifications Button Icon -->
+              </div>
+              <!-- End Header -->
 
-<!--&lt;!&ndash;              &lt;!&ndash; Tab Content &ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;              <div id="hs-pro-tabs-dnn-all" role="tabpanel" aria-labelledby="hs-pro-tabs-dnn-item-all">&ndash;&gt;-->
-<!--&lt;!&ndash;                <div class="h-[480px] overflow-y-auto overflow-hidden [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500">&ndash;&gt;-->
-<!--&lt;!&ndash;                  <ul class="divide-y divide-gray-200 dark:divide-neutral-800">&ndash;&gt;-->
-<!--&lt;!&ndash;                    &lt;!&ndash; List Item &ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;                    <li class="relative group w-full flex gap-x-5 text-start bg-gray-100 dark:bg-neutral-800 p-5">&ndash;&gt;-->
-<!--&lt;!&ndash;                      <div class="relative shrink-0">&ndash;&gt;-->
-<!--&lt;!&ndash;                        <img class="shrink-0 size-[38px] rounded-full" src="https://images.unsplash.com/photo-1659482634023-2c4fda99ac0c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=3&w=320&h=320&q=80" alt="Avatar">&ndash;&gt;-->
-<!--&lt;!&ndash;                        <span class="absolute top-4 -start-3 size-2 bg-blue-600 rounded-full dark:bg-blue-500"></span>&ndash;&gt;-->
-<!--&lt;!&ndash;                      </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                      <div class="grow">&ndash;&gt;-->
-<!--&lt;!&ndash;                        <p class="text-xs text-gray-500 dark:text-neutral-500">&ndash;&gt;-->
-<!--&lt;!&ndash;                          2 hours ago&ndash;&gt;-->
-<!--&lt;!&ndash;                        </p>&ndash;&gt;-->
+              <!-- Tab Content -->
+              <div id="hs-pro-tabs-dnn-all" role="tabpanel" aria-labelledby="hs-pro-tabs-dnn-item-all">
+                <div v-if="notifications.length === 0" class="px-4 py-2 text-gray-600">
+                  Sizda yangi bildirishnomalar yo'q.
+                </div>
+                <div v-else class="h-[480px] overflow-y-auto overflow-hidden [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500">
+                  <ul class="divide-y divide-gray-200 dark:divide-neutral-800">
+                    <template v-for="notification in notifications" :key="notification.id">
+                      <!-- List Item -->
+                      <li :class="{'bg-gray-100 dark:bg-neutral-800' : !notification.read_at }" class="relative group w-full flex gap-x-5 text-start p-5">
+                        <div class="relative shrink-0">
+                          <Link :href="isOwnerOfStartup(notification)
+                            ? route('user.profile', notification.data.joinRequest.user.id)
+                            : route('user.profile', notification.data.joinRequest.startup.owner.id)">
+                            <img
+                              class="shrink-0 size-[38px] rounded-full"
+                              :src="isOwnerOfStartup(notification)
+                              ? (notification.data.joinRequest.user.avatar || defaultAvatar)
+                              : (notification.data.joinRequest.startup.owner.avatar || defaultAvatar)"
+                              alt="Avatar"
+                            >
+                          </Link>
+                          <span class="absolute top-4 -start-3 size-2 bg-blue-600 rounded-full dark:bg-blue-500" v-if="!notification.read_at"></span>
+                        </div>
+                        <div class="grow">
+                          <p class="text-xs text-gray-500 dark:text-neutral-500">
+                            {{ notification.created_at }}
+                          </p>
 
-<!--&lt;!&ndash;                        <span class="block text-sm font-medium text-gray-800 dark:text-neutral-300">&ndash;&gt;-->
-<!--&lt;!&ndash;                          Eilis Warner&ndash;&gt;-->
-<!--&lt;!&ndash;                        </span>&ndash;&gt;-->
-<!--&lt;!&ndash;                        <p class="text-sm text-gray-500 dark:text-neutral-500">&ndash;&gt;-->
-<!--&lt;!&ndash;                          changed an issue from 'in Progress' to 'Review'&ndash;&gt;-->
-<!--&lt;!&ndash;                        </p>&ndash;&gt;-->
-<!--&lt;!&ndash;                      </div>&ndash;&gt;-->
+                          <span class="block text-sm font-medium text-gray-800 dark:text-neutral-300">
+                            <Link :href="isOwnerOfStartup(notification)
+                                ? route('user.profile', notification.data.joinRequest.user.id)
+                                : route('user.profile', notification.data.joinRequest.startup.owner.id)">
+                              {{ isOwnerOfStartup(notification)
+                                ? notification.data.joinRequest.user.name
+                                : notification.data.joinRequest.startup.owner.name }}
+                            </Link>
+                          </span>
 
-<!--&lt;!&ndash;                      <div>&ndash;&gt;-->
-<!--&lt;!&ndash;                        <div class="sm:group-hover:opacity-100 sm:opacity-0 sm:absolute sm:top-5 sm:end-5">&ndash;&gt;-->
-<!--&lt;!&ndash;                          &lt;!&ndash; Segment Button Group &ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;                          <div class="inline-block p-0.5 bg-white border border-gray-200 rounded-lg shadow-sm transition ease-out dark:bg-neutral-800 dark:border-neutral-700">&ndash;&gt;-->
-<!--&lt;!&ndash;                            <div class="flex items-center">&ndash;&gt;-->
-<!--&lt;!&ndash;                              <div class="hs-tooltip relative inline-block">&ndash;&gt;-->
-<!--&lt;!&ndash;                                <button type="button" class="hs-tooltip-toggle size-7 flex shrink-0 justify-center items-center text-gray-500 hover:bg-gray-100 hover:text-gray-800 rounded disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-400 dark:focus:bg-neutral-700">&ndash;&gt;-->
-<!--&lt;!&ndash;                                  <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">&ndash;&gt;-->
-<!--&lt;!&ndash;                                    <polyline points="9 11 12 14 22 4" />&ndash;&gt;-->
-<!--&lt;!&ndash;                                    <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />&ndash;&gt;-->
-<!--&lt;!&ndash;                                  </svg>&ndash;&gt;-->
-<!--&lt;!&ndash;                                  <svg class="shrink-0 size-4 hidden" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">&ndash;&gt;-->
-<!--&lt;!&ndash;                                    <rect width="18" height="18" x="3" y="3" rx="2" />&ndash;&gt;-->
-<!--&lt;!&ndash;                                    <path d="M8 12h8" />&ndash;&gt;-->
-<!--&lt;!&ndash;                                  </svg>&ndash;&gt;-->
-<!--&lt;!&ndash;                                </button>&ndash;&gt;-->
-<!--&lt;!&ndash;                                <span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 inline-block absolute invisible z-20 py-1.5 px-2.5 bg-gray-900 text-xs text-white rounded-lg dark:bg-neutral-700" role="tooltip">&ndash;&gt;-->
-<!--&lt;!&ndash;                                  Mark this notification as read&ndash;&gt;-->
-<!--&lt;!&ndash;                                </span>&ndash;&gt;-->
-<!--&lt;!&ndash;                              </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                              <div class="hs-tooltip relative inline-block">&ndash;&gt;-->
-<!--&lt;!&ndash;                                <button type="button" class="hs-tooltip-toggle size-7 flex shrink-0 justify-center items-center text-gray-500 hover:bg-gray-100 hover:text-gray-800 rounded disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-400 dark:focus:bg-neutral-700">&ndash;&gt;-->
-<!--&lt;!&ndash;                                  <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">&ndash;&gt;-->
-<!--&lt;!&ndash;                                    <rect width="20" height="5" x="2" y="4" rx="2" />&ndash;&gt;-->
-<!--&lt;!&ndash;                                    <path d="M4 9v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9" />&ndash;&gt;-->
-<!--&lt;!&ndash;                                    <path d="M10 13h4" />&ndash;&gt;-->
-<!--&lt;!&ndash;                                  </svg>&ndash;&gt;-->
-<!--&lt;!&ndash;                                </button>&ndash;&gt;-->
-<!--&lt;!&ndash;                                <span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 inline-block absolute invisible z-20 py-1.5 px-2.5 bg-gray-900 text-xs text-white rounded-lg dark:bg-neutral-700" role="tooltip">&ndash;&gt;-->
-<!--&lt;!&ndash;                                  Archive this notification&ndash;&gt;-->
-<!--&lt;!&ndash;                                </span>&ndash;&gt;-->
-<!--&lt;!&ndash;                              </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                            </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                          </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                          &lt;!&ndash; End Segment Button Group &ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;                        </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                      </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                    </li>&ndash;&gt;-->
-<!--&lt;!&ndash;                    &lt;!&ndash; End List Item &ndash;&gt;&ndash;&gt;-->
+                          <p class="text-sm text-gray-500 dark:text-neutral-500">
+                            {{ notification.data.message }}
+                          </p>
 
-<!--&lt;!&ndash;                    &lt;!&ndash; List Item &ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;                    <li class="relative group w-full flex gap-x-5 text-start  p-5">&ndash;&gt;-->
-<!--&lt;!&ndash;                      <div class="relative shrink-0">&ndash;&gt;-->
-<!--&lt;!&ndash;                        <span class="flex shrink-0 justify-center items-center size-[38px] bg-white border border-gray-200 text-gray-500 text-sm font-semibold rounded-full shadow-sm dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400">&ndash;&gt;-->
-<!--&lt;!&ndash;                          C&ndash;&gt;-->
-<!--&lt;!&ndash;                        </span>&ndash;&gt;-->
-<!--&lt;!&ndash;                      </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                      <div class="grow">&ndash;&gt;-->
-<!--&lt;!&ndash;                        <p class="text-xs text-gray-500 dark:text-neutral-500">&ndash;&gt;-->
-<!--&lt;!&ndash;                          3 days ago&ndash;&gt;-->
-<!--&lt;!&ndash;                        </p>&ndash;&gt;-->
+                          <p>
+                            <Link
+                              :href="isOwnerOfStartup(notification)
+                                ? route('dashboard.startups.show', notification.data.joinRequest?.startup_id)
+                                : route('startups.show', notification.data.joinRequest?.startup_id)"
+                              class="inline-flex items-center gap-x-1 text-sm text-blue-600 decoration-2 hover:underline font-medium focus:outline-none focus:underline dark:text-blue-400 dark:hover:text-blue-500"
+                            >
+                              Startupni ko'rish
+                              <svg class="shrink-0 size-4 transition ease-in-out group-hover:translate-x-1 group-focus:translate-x-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="m9 18 6-6-6-6" />
+                              </svg>
+                            </Link>
+                          </p>
+                        </div>
 
-<!--&lt;!&ndash;                        <span class="block text-sm font-medium text-gray-800 dark:text-neutral-300">&ndash;&gt;-->
-<!--&lt;!&ndash;                          Clara Becker&ndash;&gt;-->
-<!--&lt;!&ndash;                        </span>&ndash;&gt;-->
-<!--&lt;!&ndash;                        <p class="text-sm text-gray-500 dark:text-neutral-500">&ndash;&gt;-->
-<!--&lt;!&ndash;                          mentioned you in a comment&ndash;&gt;-->
-<!--&lt;!&ndash;                        </p>&ndash;&gt;-->
-<!--&lt;!&ndash;                        <div class="mt-2">&ndash;&gt;-->
-<!--&lt;!&ndash;                          <blockquote class="ps-3 border-s-4 border-gray-200 text-sm text-gray-500 dark:border-neutral-700 dark:text-neutral-400">&ndash;&gt;-->
-<!--&lt;!&ndash;                            Nice work, love! You really nailed it. Keep it up!&ndash;&gt;-->
-<!--&lt;!&ndash;                          </blockquote>&ndash;&gt;-->
-<!--&lt;!&ndash;                        </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                      </div>&ndash;&gt;-->
+                        <div>
+                          <div class="sm:group-hover:opacity-100 sm:opacity-0 sm:absolute sm:top-5 sm:end-5">
+                            <!-- Segment Button Group -->
+                            <div class="inline-block p-0.5 bg-white border border-gray-200 rounded-lg shadow-sm transition ease-out dark:bg-neutral-800 dark:border-neutral-700">
+                              <div class="flex items-center">
+                                <div class="hs-tooltip relative inline-block">
+                                  <button type="button" @click="markAsRead(notification.id)" class="hs-tooltip-toggle size-7 flex shrink-0 justify-center items-center text-gray-500 hover:bg-gray-100 hover:text-gray-800 rounded disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-400 dark:focus:bg-neutral-700">
+                                    <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                      <polyline points="9 11 12 14 22 4" />
+                                      <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+                                    </svg>
+                                    <svg class="shrink-0 size-4 hidden" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                      <rect width="18" height="18" x="3" y="3" rx="2" />
+                                      <path d="M8 12h8" />
+                                    </svg>
+                                  </button>
+                                  <span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 inline-block absolute invisible z-20 py-1.5 px-2.5 bg-gray-900 text-xs text-white rounded-lg dark:bg-neutral-700" role="tooltip">
+                                  Ushbu bildirishnomani o'qilgan deb belgilang
+                                </span>
+                                </div>
+                                <!--                              <div class="hs-tooltip relative inline-block">-->
+                                <!--                                <button type="button" class="hs-tooltip-toggle size-7 flex shrink-0 justify-center items-center text-gray-500 hover:bg-gray-100 hover:text-gray-800 rounded disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-400 dark:focus:bg-neutral-700">-->
+                                <!--                                  <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">-->
+                                <!--                                    <rect width="20" height="5" x="2" y="4" rx="2" />-->
+                                <!--                                    <path d="M4 9v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9" />-->
+                                <!--                                    <path d="M10 13h4" />-->
+                                <!--                                  </svg>-->
+                                <!--                                </button>-->
+                                <!--                                <span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 inline-block absolute invisible z-20 py-1.5 px-2.5 bg-gray-900 text-xs text-white rounded-lg dark:bg-neutral-700" role="tooltip">-->
+                                <!--                                  Archive this notification-->
+                                <!--                                </span>-->
+                                <!--                              </div>-->
+                              </div>
+                            </div>
+                            <!-- End Segment Button Group -->
+                          </div>
+                        </div>
+                      </li>
+                      <!-- End List Item -->
+                    </template>
+                  </ul>
+                  <!-- End List Group -->
+                </div>
 
-<!--&lt;!&ndash;                      <div>&ndash;&gt;-->
-<!--&lt;!&ndash;                        <div class="sm:group-hover:opacity-100 sm:opacity-0 sm:absolute sm:top-5 sm:end-5">&ndash;&gt;-->
-<!--&lt;!&ndash;                          &lt;!&ndash; Segment Button Group &ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;                          <div class="inline-block p-0.5 bg-white border border-gray-200 rounded-lg shadow-sm transition ease-out dark:bg-neutral-800 dark:border-neutral-700">&ndash;&gt;-->
-<!--&lt;!&ndash;                            <div class="flex items-center">&ndash;&gt;-->
-<!--&lt;!&ndash;                              <div class="hs-tooltip relative inline-block">&ndash;&gt;-->
-<!--&lt;!&ndash;                                <button type="button" class="hs-tooltip-toggle size-7 flex shrink-0 justify-center items-center text-gray-500 hover:bg-gray-100 hover:text-gray-800 rounded disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-400 dark:focus:bg-neutral-700">&ndash;&gt;-->
-<!--&lt;!&ndash;                                  <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">&ndash;&gt;-->
-<!--&lt;!&ndash;                                    <polyline points="9 11 12 14 22 4" />&ndash;&gt;-->
-<!--&lt;!&ndash;                                    <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />&ndash;&gt;-->
-<!--&lt;!&ndash;                                  </svg>&ndash;&gt;-->
-<!--&lt;!&ndash;                                  <svg class="shrink-0 size-4 hidden" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">&ndash;&gt;-->
-<!--&lt;!&ndash;                                    <rect width="18" height="18" x="3" y="3" rx="2" />&ndash;&gt;-->
-<!--&lt;!&ndash;                                    <path d="M8 12h8" />&ndash;&gt;-->
-<!--&lt;!&ndash;                                  </svg>&ndash;&gt;-->
-<!--&lt;!&ndash;                                </button>&ndash;&gt;-->
-<!--&lt;!&ndash;                                <span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 inline-block absolute invisible z-20 py-1.5 px-2.5 bg-gray-900 text-xs text-white rounded-lg dark:bg-neutral-700" role="tooltip">&ndash;&gt;-->
-<!--&lt;!&ndash;                                  Mark this notification as read&ndash;&gt;-->
-<!--&lt;!&ndash;                                </span>&ndash;&gt;-->
-<!--&lt;!&ndash;                              </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                              <div class="hs-tooltip relative inline-block">&ndash;&gt;-->
-<!--&lt;!&ndash;                                <button type="button" class="hs-tooltip-toggle size-7 flex shrink-0 justify-center items-center text-gray-500 hover:bg-gray-100 hover:text-gray-800 rounded disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-400 dark:focus:bg-neutral-700">&ndash;&gt;-->
-<!--&lt;!&ndash;                                  <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">&ndash;&gt;-->
-<!--&lt;!&ndash;                                    <rect width="20" height="5" x="2" y="4" rx="2" />&ndash;&gt;-->
-<!--&lt;!&ndash;                                    <path d="M4 9v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9" />&ndash;&gt;-->
-<!--&lt;!&ndash;                                    <path d="M10 13h4" />&ndash;&gt;-->
-<!--&lt;!&ndash;                                  </svg>&ndash;&gt;-->
-<!--&lt;!&ndash;                                </button>&ndash;&gt;-->
-<!--&lt;!&ndash;                                <span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 inline-block absolute invisible z-20 py-1.5 px-2.5 bg-gray-900 text-xs text-white rounded-lg dark:bg-neutral-700" role="tooltip">&ndash;&gt;-->
-<!--&lt;!&ndash;                                  Archive this notification&ndash;&gt;-->
-<!--&lt;!&ndash;                                </span>&ndash;&gt;-->
-<!--&lt;!&ndash;                              </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                            </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                          </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                          &lt;!&ndash; End Segment Button Group &ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;                        </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                      </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                    </li>&ndash;&gt;-->
-<!--&lt;!&ndash;                    &lt;!&ndash; End List Item &ndash;&gt;&ndash;&gt;-->
+                <!-- Footer -->
+                <div class="text-center border-t border-gray-200 dark:border-neutral-800">
+                  <a @click="markAllAsRead" class="p-4 flex justify-center items-center gap-x-2 text-sm text-gray-500 font-medium sm:rounded-b-lg hover:text-blue-600 focus:outline-none focus:text-blue-600 dark:text-neutral-400 dark:hover:text-neutral-300 dark:focus:text-neutral-300" href="#">
+                    <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M18 6 7 17l-5-5" />
+                      <path d="m22 10-7.5 7.5L13 16" />
+                    </svg>
+                    Barcha bildirishnomalarni o'qilgan deb belgilash
+                  </a>
+                </div>
+                <!-- End Footer -->
+              </div>
+              <!-- End Tab Content -->
 
-<!--&lt;!&ndash;                    &lt;!&ndash; List Item &ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;                    <li class="relative group w-full flex gap-x-5 text-start  p-5">&ndash;&gt;-->
-<!--&lt;!&ndash;                      <div class="relative shrink-0">&ndash;&gt;-->
-<!--&lt;!&ndash;                        <span class="flex shrink-0 justify-center items-center size-[38px] bg-white border border-gray-200 text-gray-500 text-sm font-semibold rounded-full shadow-sm dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400">&ndash;&gt;-->
-<!--&lt;!&ndash;                          P&ndash;&gt;-->
-<!--&lt;!&ndash;                        </span>&ndash;&gt;-->
-<!--&lt;!&ndash;                      </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                      <div class="grow">&ndash;&gt;-->
-<!--&lt;!&ndash;                        <p class="text-xs text-gray-500 dark:text-neutral-500">&ndash;&gt;-->
-<!--&lt;!&ndash;                          5 Jan 2023&ndash;&gt;-->
-<!--&lt;!&ndash;                        </p>&ndash;&gt;-->
+              <!-- Tab Content -->
+              <div id="hs-pro-tabs-dnn-archived" class="hidden" role="tabpanel" aria-labelledby="hs-pro-tabs-dnn-item-archived">
+                <!-- Empty State -->
+                <div class="p-5 min-h-[533px] flex flex-col justify-center items-center text-center">
+                  <svg class="w-48 mx-auto mb-4" width="178" height="90" viewBox="0 0 178 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="27" y="50.5" width="124" height="39" rx="7.5" fill="currentColor" class="fill-white dark:fill-neutral-800" />
+                    <rect x="27" y="50.5" width="124" height="39" rx="7.5" stroke="currentColor" class="stroke-gray-50 dark:stroke-neutral-700/10" />
+                    <rect x="34.5" y="58" width="24" height="24" rx="4" fill="currentColor" class="fill-gray-50 dark:fill-neutral-700/30" />
+                    <rect x="66.5" y="61" width="60" height="6" rx="3" fill="currentColor" class="fill-gray-50 dark:fill-neutral-700/30" />
+                    <rect x="66.5" y="73" width="77" height="6" rx="3" fill="currentColor" class="fill-gray-50 dark:fill-neutral-700/30" />
+                    <rect x="19.5" y="28.5" width="139" height="39" rx="7.5" fill="currentColor" class="fill-white dark:fill-neutral-800" />
+                    <rect x="19.5" y="28.5" width="139" height="39" rx="7.5" stroke="currentColor" class="stroke-gray-100 dark:stroke-neutral-700/30" />
+                    <rect x="27" y="36" width="24" height="24" rx="4" fill="currentColor" class="fill-gray-100 dark:fill-neutral-700/70" />
+                    <rect x="59" y="39" width="60" height="6" rx="3" fill="currentColor" class="fill-gray-100 dark:fill-neutral-700/70" />
+                    <rect x="59" y="51" width="92" height="6" rx="3" fill="currentColor" class="fill-gray-100 dark:fill-neutral-700/70" />
+                    <g filter="url(#filter15)">
+                      <rect x="12" y="6" width="154" height="40" rx="8" fill="currentColor" class="fill-white dark:fill-neutral-800" shape-rendering="crispEdges" />
+                      <rect x="12.5" y="6.5" width="153" height="39" rx="7.5" stroke="currentColor" class="stroke-gray-100 dark:stroke-neutral-700/60" shape-rendering="crispEdges" />
+                      <rect x="20" y="14" width="24" height="24" rx="4" fill="currentColor" class="fill-gray-200 dark:fill-neutral-700 " />
+                      <rect x="52" y="17" width="60" height="6" rx="3" fill="currentColor" class="fill-gray-200 dark:fill-neutral-700" />
+                      <rect x="52" y="29" width="106" height="6" rx="3" fill="currentColor" class="fill-gray-200 dark:fill-neutral-700" />
+                    </g>
+                    <defs>
+                      <filter id="filter15" x="0" y="0" width="178" height="64" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                        <feFlood flood-opacity="0" result="BackgroundImageFix" />
+                        <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
+                        <feOffset dy="6" />
+                        <feGaussianBlur stdDeviation="6" />
+                        <feComposite in2="hardAlpha" operator="out" />
+                        <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.03 0" />
+                        <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_1187_14810" />
+                        <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_1187_14810" result="shape" />
+                      </filter>
+                    </defs>
+                  </svg>
 
-<!--&lt;!&ndash;                        <span class="block text-sm font-medium text-gray-800 dark:text-neutral-300">&ndash;&gt;-->
-<!--&lt;!&ndash;                          New Update on Preline&ndash;&gt;-->
-<!--&lt;!&ndash;                        </span>&ndash;&gt;-->
-<!--&lt;!&ndash;                        <p class="text-sm text-gray-500 dark:text-neutral-500">&ndash;&gt;-->
-<!--&lt;!&ndash;                          Add yourself to our new “Hire Page”. Let visitors know you’re open to freelance or full-time work.&ndash;&gt;-->
-<!--&lt;!&ndash;                        </p>&ndash;&gt;-->
-<!--&lt;!&ndash;                        <a class="mt-2 p-1.5 inline-flex items-center border border-gray-200 rounded-xl hover:bg-gray-50 hover:shadow-sm focus:outline-none focus:bg-gray-100 dark:border-neutral-700 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800" href="#">&ndash;&gt;-->
-<!--&lt;!&ndash;                          <img class="w-[70px] h-[62px] object-cover rounded-lg" src="https://images.unsplash.com/photo-1670272505340-d906d8d77d03?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80" alt="Avatar">&ndash;&gt;-->
-<!--&lt;!&ndash;                          <div class="grow py-2.5 px-4">&ndash;&gt;-->
-<!--&lt;!&ndash;                            <p class="text-sm font-medium text-gray-800 dark:text-neutral-300">&ndash;&gt;-->
-<!--&lt;!&ndash;                              Get hired!&ndash;&gt;-->
-<!--&lt;!&ndash;                            </p>&ndash;&gt;-->
-<!--&lt;!&ndash;                            <p class="inline-flex items-center gap-x-1 text-sm text-gray-500 dark:text-neutral-500">&ndash;&gt;-->
-<!--&lt;!&ndash;                              Get started&ndash;&gt;-->
-<!--&lt;!&ndash;                              <svg class="shrink-0 size-4 transition ease-in-out group-hover:translate-x-1 group-focus:translate-x-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">&ndash;&gt;-->
-<!--&lt;!&ndash;                                <path d="m9 18 6-6-6-6" />&ndash;&gt;-->
-<!--&lt;!&ndash;                              </svg>&ndash;&gt;-->
-<!--&lt;!&ndash;                            </p>&ndash;&gt;-->
-<!--&lt;!&ndash;                          </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                        </a>&ndash;&gt;-->
-<!--&lt;!&ndash;                      </div>&ndash;&gt;-->
+                  <div class="max-w-sm mx-auto">
+                    <p class="mt-2 font-medium text-gray-800 dark:text-neutral-200">
+                      Arxivlangan bildirishnomalar yo'q
+                    </p>
+                    <p class="mb-5 text-sm text-gray-500 dark:text-neutral-500">
+                      Bu yerda hozircha maʼlumot yoʻq. Yangilanish bo'lganda sizni xabardor qilamiz.
+                    </p>
+                  </div>
 
-<!--&lt;!&ndash;                      <div>&ndash;&gt;-->
-<!--&lt;!&ndash;                        <div class="sm:group-hover:opacity-100 sm:opacity-0 sm:absolute sm:top-5 sm:end-5">&ndash;&gt;-->
-<!--&lt;!&ndash;                          &lt;!&ndash; Segment Button Group &ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;                          <div class="inline-block p-0.5 bg-white border border-gray-200 rounded-lg shadow-sm transition ease-out dark:bg-neutral-800 dark:border-neutral-700">&ndash;&gt;-->
-<!--&lt;!&ndash;                            <div class="flex items-center">&ndash;&gt;-->
-<!--&lt;!&ndash;                              <div class="hs-tooltip relative inline-block">&ndash;&gt;-->
-<!--&lt;!&ndash;                                <button type="button" class="hs-tooltip-toggle size-7 flex shrink-0 justify-center items-center text-gray-500 hover:bg-gray-100 hover:text-gray-800 rounded disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-400 dark:focus:bg-neutral-700">&ndash;&gt;-->
-<!--&lt;!&ndash;                                  <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">&ndash;&gt;-->
-<!--&lt;!&ndash;                                    <polyline points="9 11 12 14 22 4" />&ndash;&gt;-->
-<!--&lt;!&ndash;                                    <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />&ndash;&gt;-->
-<!--&lt;!&ndash;                                  </svg>&ndash;&gt;-->
-<!--&lt;!&ndash;                                  <svg class="shrink-0 size-4 hidden" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">&ndash;&gt;-->
-<!--&lt;!&ndash;                                    <rect width="18" height="18" x="3" y="3" rx="2" />&ndash;&gt;-->
-<!--&lt;!&ndash;                                    <path d="M8 12h8" />&ndash;&gt;-->
-<!--&lt;!&ndash;                                  </svg>&ndash;&gt;-->
-<!--&lt;!&ndash;                                </button>&ndash;&gt;-->
-<!--&lt;!&ndash;                                <span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 inline-block absolute invisible z-20 py-1.5 px-2.5 bg-gray-900 text-xs text-white rounded-lg dark:bg-neutral-700" role="tooltip">&ndash;&gt;-->
-<!--&lt;!&ndash;                                  Mark this notification as read&ndash;&gt;-->
-<!--&lt;!&ndash;                                </span>&ndash;&gt;-->
-<!--&lt;!&ndash;                              </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                              <div class="hs-tooltip relative inline-block">&ndash;&gt;-->
-<!--&lt;!&ndash;                                <button type="button" class="hs-tooltip-toggle size-7 flex shrink-0 justify-center items-center text-gray-500 hover:bg-gray-100 hover:text-gray-800 rounded disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-400 dark:focus:bg-neutral-700">&ndash;&gt;-->
-<!--&lt;!&ndash;                                  <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">&ndash;&gt;-->
-<!--&lt;!&ndash;                                    <rect width="20" height="5" x="2" y="4" rx="2" />&ndash;&gt;-->
-<!--&lt;!&ndash;                                    <path d="M4 9v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9" />&ndash;&gt;-->
-<!--&lt;!&ndash;                                    <path d="M10 13h4" />&ndash;&gt;-->
-<!--&lt;!&ndash;                                  </svg>&ndash;&gt;-->
-<!--&lt;!&ndash;                                </button>&ndash;&gt;-->
-<!--&lt;!&ndash;                                <span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 inline-block absolute invisible z-20 py-1.5 px-2.5 bg-gray-900 text-xs text-white rounded-lg dark:bg-neutral-700" role="tooltip">&ndash;&gt;-->
-<!--&lt;!&ndash;                                  Archive this notification&ndash;&gt;-->
-<!--&lt;!&ndash;                                </span>&ndash;&gt;-->
-<!--&lt;!&ndash;                              </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                            </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                          </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                          &lt;!&ndash; End Segment Button Group &ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;                        </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                      </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                    </li>&ndash;&gt;-->
-<!--&lt;!&ndash;                    &lt;!&ndash; End List Item &ndash;&gt;&ndash;&gt;-->
-
-<!--&lt;!&ndash;                    &lt;!&ndash; List Item &ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;                    <li class="relative group w-full flex gap-x-5 text-start  p-5">&ndash;&gt;-->
-<!--&lt;!&ndash;                      <div class="relative shrink-0">&ndash;&gt;-->
-<!--&lt;!&ndash;                        <span class="flex shrink-0 justify-center items-center size-[38px] bg-white border border-gray-200 text-gray-500 text-sm font-semibold rounded-full shadow-sm dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400">&ndash;&gt;-->
-<!--&lt;!&ndash;                          P&ndash;&gt;-->
-<!--&lt;!&ndash;                        </span>&ndash;&gt;-->
-<!--&lt;!&ndash;                      </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                      <div class="grow">&ndash;&gt;-->
-<!--&lt;!&ndash;                        <p class="text-xs text-gray-500 dark:text-neutral-500">&ndash;&gt;-->
-<!--&lt;!&ndash;                          5 Jan 2023&ndash;&gt;-->
-<!--&lt;!&ndash;                        </p>&ndash;&gt;-->
-
-<!--&lt;!&ndash;                        <span class="block text-sm font-medium text-gray-800 dark:text-neutral-300">&ndash;&gt;-->
-<!--&lt;!&ndash;                          We’re updating our Privacy Policy as of 10th January 2023.content&ndash;&gt;-->
-<!--&lt;!&ndash;                        </span>&ndash;&gt;-->
-<!--&lt;!&ndash;                        <p>&ndash;&gt;-->
-<!--&lt;!&ndash;                          <a class="inline-flex items-center gap-x-1 text-sm text-blue-600 decoration-2 hover:underline font-medium focus:outline-none focus:underline dark:text-blue-400 dark:hover:text-blue-500" href="#">&ndash;&gt;-->
-<!--&lt;!&ndash;                            Learn more&ndash;&gt;-->
-<!--&lt;!&ndash;                            <svg class="shrink-0 size-4 transition ease-in-out group-hover:translate-x-1 group-focus:translate-x-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">&ndash;&gt;-->
-<!--&lt;!&ndash;                              <path d="m9 18 6-6-6-6" />&ndash;&gt;-->
-<!--&lt;!&ndash;                            </svg>&ndash;&gt;-->
-<!--&lt;!&ndash;                          </a>&ndash;&gt;-->
-<!--&lt;!&ndash;                        </p>&ndash;&gt;-->
-<!--&lt;!&ndash;                      </div>&ndash;&gt;-->
-
-<!--&lt;!&ndash;                      <div>&ndash;&gt;-->
-<!--&lt;!&ndash;                        <div class="sm:group-hover:opacity-100 sm:opacity-0 sm:absolute sm:top-5 sm:end-5">&ndash;&gt;-->
-<!--&lt;!&ndash;                          &lt;!&ndash; Segment Button Group &ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;                          <div class="inline-block p-0.5 bg-white border border-gray-200 rounded-lg shadow-sm transition ease-out dark:bg-neutral-800 dark:border-neutral-700">&ndash;&gt;-->
-<!--&lt;!&ndash;                            <div class="flex items-center">&ndash;&gt;-->
-<!--&lt;!&ndash;                              <div class="hs-tooltip relative inline-block">&ndash;&gt;-->
-<!--&lt;!&ndash;                                <button type="button" class="hs-tooltip-toggle size-7 flex shrink-0 justify-center items-center text-gray-500 hover:bg-gray-100 hover:text-gray-800 rounded disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-400 dark:focus:bg-neutral-700">&ndash;&gt;-->
-<!--&lt;!&ndash;                                  <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">&ndash;&gt;-->
-<!--&lt;!&ndash;                                    <polyline points="9 11 12 14 22 4" />&ndash;&gt;-->
-<!--&lt;!&ndash;                                    <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />&ndash;&gt;-->
-<!--&lt;!&ndash;                                  </svg>&ndash;&gt;-->
-<!--&lt;!&ndash;                                  <svg class="shrink-0 size-4 hidden" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">&ndash;&gt;-->
-<!--&lt;!&ndash;                                    <rect width="18" height="18" x="3" y="3" rx="2" />&ndash;&gt;-->
-<!--&lt;!&ndash;                                    <path d="M8 12h8" />&ndash;&gt;-->
-<!--&lt;!&ndash;                                  </svg>&ndash;&gt;-->
-<!--&lt;!&ndash;                                </button>&ndash;&gt;-->
-<!--&lt;!&ndash;                                <span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 inline-block absolute invisible z-20 py-1.5 px-2.5 bg-gray-900 text-xs text-white rounded-lg dark:bg-neutral-700" role="tooltip">&ndash;&gt;-->
-<!--&lt;!&ndash;                                  Mark this notification as read&ndash;&gt;-->
-<!--&lt;!&ndash;                                </span>&ndash;&gt;-->
-<!--&lt;!&ndash;                              </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                              <div class="hs-tooltip relative inline-block">&ndash;&gt;-->
-<!--&lt;!&ndash;                                <button type="button" class="hs-tooltip-toggle size-7 flex shrink-0 justify-center items-center text-gray-500 hover:bg-gray-100 hover:text-gray-800 rounded disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-400 dark:focus:bg-neutral-700">&ndash;&gt;-->
-<!--&lt;!&ndash;                                  <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">&ndash;&gt;-->
-<!--&lt;!&ndash;                                    <rect width="20" height="5" x="2" y="4" rx="2" />&ndash;&gt;-->
-<!--&lt;!&ndash;                                    <path d="M4 9v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9" />&ndash;&gt;-->
-<!--&lt;!&ndash;                                    <path d="M10 13h4" />&ndash;&gt;-->
-<!--&lt;!&ndash;                                  </svg>&ndash;&gt;-->
-<!--&lt;!&ndash;                                </button>&ndash;&gt;-->
-<!--&lt;!&ndash;                                <span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 inline-block absolute invisible z-20 py-1.5 px-2.5 bg-gray-900 text-xs text-white rounded-lg dark:bg-neutral-700" role="tooltip">&ndash;&gt;-->
-<!--&lt;!&ndash;                                  Archive this notification&ndash;&gt;-->
-<!--&lt;!&ndash;                                </span>&ndash;&gt;-->
-<!--&lt;!&ndash;                              </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                            </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                          </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                          &lt;!&ndash; End Segment Button Group &ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;                        </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                      </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                    </li>&ndash;&gt;-->
-<!--&lt;!&ndash;                    &lt;!&ndash; End List Item &ndash;&gt;&ndash;&gt;-->
-
-<!--&lt;!&ndash;                    &lt;!&ndash; List Item &ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;                    <li class="relative group w-full flex gap-x-5 text-start bg-gray-100 dark:bg-neutral-800 p-5">&ndash;&gt;-->
-<!--&lt;!&ndash;                      <div class="relative shrink-0">&ndash;&gt;-->
-<!--&lt;!&ndash;                        <img class="shrink-0 size-[38px] rounded-full" src="https://images.unsplash.com/photo-1614880353165-e56fac2ea9a8?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=3&w=320&h=320&q=80" alt="Avatar">&ndash;&gt;-->
-<!--&lt;!&ndash;                        <span class="absolute top-4 -start-3 size-2 bg-blue-600 rounded-full dark:bg-blue-500"></span>&ndash;&gt;-->
-<!--&lt;!&ndash;                      </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                      <div class="grow">&ndash;&gt;-->
-<!--&lt;!&ndash;                        <p class="text-xs text-gray-500 dark:text-neutral-500">&ndash;&gt;-->
-<!--&lt;!&ndash;                          31 Dec 2022&ndash;&gt;-->
-<!--&lt;!&ndash;                        </p>&ndash;&gt;-->
-
-<!--&lt;!&ndash;                        <span class="block text-sm font-medium text-gray-800 dark:text-neutral-300">&ndash;&gt;-->
-<!--&lt;!&ndash;                          Rubia Walter&ndash;&gt;-->
-<!--&lt;!&ndash;                        </span>&ndash;&gt;-->
-<!--&lt;!&ndash;                        <p class="text-sm text-gray-500 dark:text-neutral-500">&ndash;&gt;-->
-<!--&lt;!&ndash;                          Joined the Slack group HS Team&ndash;&gt;-->
-<!--&lt;!&ndash;                        </p>&ndash;&gt;-->
-<!--&lt;!&ndash;                      </div>&ndash;&gt;-->
-
-<!--&lt;!&ndash;                      <div>&ndash;&gt;-->
-<!--&lt;!&ndash;                        <div class="sm:group-hover:opacity-100 sm:opacity-0 sm:absolute sm:top-5 sm:end-5">&ndash;&gt;-->
-<!--&lt;!&ndash;                          &lt;!&ndash; Segment Button Group &ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;                          <div class="inline-block p-0.5 bg-white border border-gray-200 rounded-lg shadow-sm transition ease-out dark:bg-neutral-800 dark:border-neutral-700">&ndash;&gt;-->
-<!--&lt;!&ndash;                            <div class="flex items-center">&ndash;&gt;-->
-<!--&lt;!&ndash;                              <div class="hs-tooltip relative inline-block">&ndash;&gt;-->
-<!--&lt;!&ndash;                                <button type="button" class="hs-tooltip-toggle size-7 flex shrink-0 justify-center items-center text-gray-500 hover:bg-gray-100 hover:text-gray-800 rounded disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-400 dark:focus:bg-neutral-700">&ndash;&gt;-->
-<!--&lt;!&ndash;                                  <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">&ndash;&gt;-->
-<!--&lt;!&ndash;                                    <polyline points="9 11 12 14 22 4" />&ndash;&gt;-->
-<!--&lt;!&ndash;                                    <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />&ndash;&gt;-->
-<!--&lt;!&ndash;                                  </svg>&ndash;&gt;-->
-<!--&lt;!&ndash;                                  <svg class="shrink-0 size-4 hidden" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">&ndash;&gt;-->
-<!--&lt;!&ndash;                                    <rect width="18" height="18" x="3" y="3" rx="2" />&ndash;&gt;-->
-<!--&lt;!&ndash;                                    <path d="M8 12h8" />&ndash;&gt;-->
-<!--&lt;!&ndash;                                  </svg>&ndash;&gt;-->
-<!--&lt;!&ndash;                                </button>&ndash;&gt;-->
-<!--&lt;!&ndash;                                <span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 inline-block absolute invisible z-20 py-1.5 px-2.5 bg-gray-900 text-xs text-white rounded-lg dark:bg-neutral-700" role="tooltip">&ndash;&gt;-->
-<!--&lt;!&ndash;                                  Mark this notification as read&ndash;&gt;-->
-<!--&lt;!&ndash;                                </span>&ndash;&gt;-->
-<!--&lt;!&ndash;                              </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                              <div class="hs-tooltip relative inline-block">&ndash;&gt;-->
-<!--&lt;!&ndash;                                <button type="button" class="hs-tooltip-toggle size-7 flex shrink-0 justify-center items-center text-gray-500 hover:bg-gray-100 hover:text-gray-800 rounded disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-400 dark:focus:bg-neutral-700">&ndash;&gt;-->
-<!--&lt;!&ndash;                                  <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">&ndash;&gt;-->
-<!--&lt;!&ndash;                                    <rect width="20" height="5" x="2" y="4" rx="2" />&ndash;&gt;-->
-<!--&lt;!&ndash;                                    <path d="M4 9v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9" />&ndash;&gt;-->
-<!--&lt;!&ndash;                                    <path d="M10 13h4" />&ndash;&gt;-->
-<!--&lt;!&ndash;                                  </svg>&ndash;&gt;-->
-<!--&lt;!&ndash;                                </button>&ndash;&gt;-->
-<!--&lt;!&ndash;                                <span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 inline-block absolute invisible z-20 py-1.5 px-2.5 bg-gray-900 text-xs text-white rounded-lg dark:bg-neutral-700" role="tooltip">&ndash;&gt;-->
-<!--&lt;!&ndash;                                  Archive this notification&ndash;&gt;-->
-<!--&lt;!&ndash;                                </span>&ndash;&gt;-->
-<!--&lt;!&ndash;                              </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                            </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                          </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                          &lt;!&ndash; End Segment Button Group &ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;                        </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                      </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                    </li>&ndash;&gt;-->
-<!--&lt;!&ndash;                    &lt;!&ndash; End List Item &ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;                  </ul>&ndash;&gt;-->
-<!--&lt;!&ndash;                  &lt;!&ndash; End List Group &ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;                </div>&ndash;&gt;-->
-
-<!--&lt;!&ndash;                &lt;!&ndash; Footer &ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;                <div class="text-center border-t border-gray-200 dark:border-neutral-800">&ndash;&gt;-->
-<!--&lt;!&ndash;                  <a class="p-4 flex justify-center items-center gap-x-2 text-sm text-gray-500 font-medium sm:rounded-b-lg hover:text-blue-600 focus:outline-none focus:text-blue-600 dark:text-neutral-400 dark:hover:text-neutral-300 dark:focus:text-neutral-300" href="../../docs/index.html">&ndash;&gt;-->
-<!--&lt;!&ndash;                    <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">&ndash;&gt;-->
-<!--&lt;!&ndash;                      <path d="M18 6 7 17l-5-5" />&ndash;&gt;-->
-<!--&lt;!&ndash;                      <path d="m22 10-7.5 7.5L13 16" />&ndash;&gt;-->
-<!--&lt;!&ndash;                    </svg>&ndash;&gt;-->
-<!--&lt;!&ndash;                    Mark all as read&ndash;&gt;-->
-<!--&lt;!&ndash;                  </a>&ndash;&gt;-->
-<!--&lt;!&ndash;                </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                &lt;!&ndash; End Footer &ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;              </div>&ndash;&gt;-->
-<!--&lt;!&ndash;              &lt;!&ndash; End Tab Content &ndash;&gt;&ndash;&gt;-->
-
-<!--&lt;!&ndash;              &lt;!&ndash; Tab Content &ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;              <div id="hs-pro-tabs-dnn-archived" class="hidden" role="tabpanel" aria-labelledby="hs-pro-tabs-dnn-item-archived">&ndash;&gt;-->
-<!--&lt;!&ndash;                &lt;!&ndash; Empty State &ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;                <div class="p-5 min-h-[533px] flex flex-col justify-center items-center text-center">&ndash;&gt;-->
-<!--&lt;!&ndash;                  <svg class="w-48 mx-auto mb-4" width="178" height="90" viewBox="0 0 178 90" fill="none" xmlns="http://www.w3.org/2000/svg">&ndash;&gt;-->
-<!--&lt;!&ndash;                    <rect x="27" y="50.5" width="124" height="39" rx="7.5" fill="currentColor" class="fill-white dark:fill-neutral-800" />&ndash;&gt;-->
-<!--&lt;!&ndash;                    <rect x="27" y="50.5" width="124" height="39" rx="7.5" stroke="currentColor" class="stroke-gray-50 dark:stroke-neutral-700/10" />&ndash;&gt;-->
-<!--&lt;!&ndash;                    <rect x="34.5" y="58" width="24" height="24" rx="4" fill="currentColor" class="fill-gray-50 dark:fill-neutral-700/30" />&ndash;&gt;-->
-<!--&lt;!&ndash;                    <rect x="66.5" y="61" width="60" height="6" rx="3" fill="currentColor" class="fill-gray-50 dark:fill-neutral-700/30" />&ndash;&gt;-->
-<!--&lt;!&ndash;                    <rect x="66.5" y="73" width="77" height="6" rx="3" fill="currentColor" class="fill-gray-50 dark:fill-neutral-700/30" />&ndash;&gt;-->
-<!--&lt;!&ndash;                    <rect x="19.5" y="28.5" width="139" height="39" rx="7.5" fill="currentColor" class="fill-white dark:fill-neutral-800" />&ndash;&gt;-->
-<!--&lt;!&ndash;                    <rect x="19.5" y="28.5" width="139" height="39" rx="7.5" stroke="currentColor" class="stroke-gray-100 dark:stroke-neutral-700/30" />&ndash;&gt;-->
-<!--&lt;!&ndash;                    <rect x="27" y="36" width="24" height="24" rx="4" fill="currentColor" class="fill-gray-100 dark:fill-neutral-700/70" />&ndash;&gt;-->
-<!--&lt;!&ndash;                    <rect x="59" y="39" width="60" height="6" rx="3" fill="currentColor" class="fill-gray-100 dark:fill-neutral-700/70" />&ndash;&gt;-->
-<!--&lt;!&ndash;                    <rect x="59" y="51" width="92" height="6" rx="3" fill="currentColor" class="fill-gray-100 dark:fill-neutral-700/70" />&ndash;&gt;-->
-<!--&lt;!&ndash;                    <g filter="url(#filter15)">&ndash;&gt;-->
-<!--&lt;!&ndash;                      <rect x="12" y="6" width="154" height="40" rx="8" fill="currentColor" class="fill-white dark:fill-neutral-800" shape-rendering="crispEdges" />&ndash;&gt;-->
-<!--&lt;!&ndash;                      <rect x="12.5" y="6.5" width="153" height="39" rx="7.5" stroke="currentColor" class="stroke-gray-100 dark:stroke-neutral-700/60" shape-rendering="crispEdges" />&ndash;&gt;-->
-<!--&lt;!&ndash;                      <rect x="20" y="14" width="24" height="24" rx="4" fill="currentColor" class="fill-gray-200 dark:fill-neutral-700 " />&ndash;&gt;-->
-<!--&lt;!&ndash;                      <rect x="52" y="17" width="60" height="6" rx="3" fill="currentColor" class="fill-gray-200 dark:fill-neutral-700" />&ndash;&gt;-->
-<!--&lt;!&ndash;                      <rect x="52" y="29" width="106" height="6" rx="3" fill="currentColor" class="fill-gray-200 dark:fill-neutral-700" />&ndash;&gt;-->
-<!--&lt;!&ndash;                    </g>&ndash;&gt;-->
-<!--&lt;!&ndash;                    <defs>&ndash;&gt;-->
-<!--&lt;!&ndash;                      <filter id="filter15" x="0" y="0" width="178" height="64" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">&ndash;&gt;-->
-<!--&lt;!&ndash;                        <feFlood flood-opacity="0" result="BackgroundImageFix" />&ndash;&gt;-->
-<!--&lt;!&ndash;                        <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />&ndash;&gt;-->
-<!--&lt;!&ndash;                        <feOffset dy="6" />&ndash;&gt;-->
-<!--&lt;!&ndash;                        <feGaussianBlur stdDeviation="6" />&ndash;&gt;-->
-<!--&lt;!&ndash;                        <feComposite in2="hardAlpha" operator="out" />&ndash;&gt;-->
-<!--&lt;!&ndash;                        <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.03 0" />&ndash;&gt;-->
-<!--&lt;!&ndash;                        <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_1187_14810" />&ndash;&gt;-->
-<!--&lt;!&ndash;                        <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_1187_14810" result="shape" />&ndash;&gt;-->
-<!--&lt;!&ndash;                      </filter>&ndash;&gt;-->
-<!--&lt;!&ndash;                    </defs>&ndash;&gt;-->
-<!--&lt;!&ndash;                  </svg>&ndash;&gt;-->
-
-<!--&lt;!&ndash;                  <div class="max-w-sm mx-auto">&ndash;&gt;-->
-<!--&lt;!&ndash;                    <p class="mt-2 font-medium text-gray-800 dark:text-neutral-200">&ndash;&gt;-->
-<!--&lt;!&ndash;                      No archived notifications&ndash;&gt;-->
-<!--&lt;!&ndash;                    </p>&ndash;&gt;-->
-<!--&lt;!&ndash;                    <p class="mb-5 text-sm text-gray-500 dark:text-neutral-500">&ndash;&gt;-->
-<!--&lt;!&ndash;                      No data here yet. We will notify you when there's an update.&ndash;&gt;-->
-<!--&lt;!&ndash;                    </p>&ndash;&gt;-->
-<!--&lt;!&ndash;                  </div>&ndash;&gt;-->
-
-<!--&lt;!&ndash;                  <a class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700" href="#">&ndash;&gt;-->
-<!--&lt;!&ndash;                    Notifications settings&ndash;&gt;-->
-<!--&lt;!&ndash;                  </a>&ndash;&gt;-->
-<!--&lt;!&ndash;                </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                &lt;!&ndash; End Empty State &ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;              </div>&ndash;&gt;-->
-<!--&lt;!&ndash;              &lt;!&ndash; End Tab Content &ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;            </div>&ndash;&gt;-->
-<!--          </div>-->
+                  <a class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700" href="#">
+                    Bildirishnomalar sozlamalari
+                  </a>
+                </div>
+                <!-- End Empty State -->
+              </div>
+              <!-- End Tab Content -->
+            </div>
+          </div>
           <!-- End Notifications Dropdown -->
 
           <!-- Activity Button Icon -->
@@ -1052,7 +881,7 @@ const logoutHandle = () => {
             <div class="hs-dropdown-menu hs-dropdown-open:opacity-100 w-60 transition-[opacity,margin] duration opacity-0 hidden z-20 bg-white rounded-xl shadow-[0_10px_40px_10px_rgba(0,0,0,0.08)] dark:shadow-[0_10px_40px_10px_rgba(0,0,0,0.2)] dark:bg-neutral-900" role="menu" aria-orientation="vertical" aria-labelledby="hs-dnad">
               <div class="p-1 border-b border-gray-200 dark:border-neutral-800">
                 <Link class="py-2 px-3 flex items-center gap-x-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800" :href="route('dashboard.my-profile')">
-                  <img class="shrink-0 size-8 rounded-full" src="https://images.unsplash.com/photo-1659482633369-9fe69af50bfb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=3&w=320&h=320&q=80" alt="Avatar">
+                  <img class="shrink-0 size-8 rounded-full" :src="defaultAvatar" alt="Avatar">
 
                   <div class="grow">
                     <span class="text-sm font-semibold text-gray-800 dark:text-neutral-300">
