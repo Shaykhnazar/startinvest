@@ -13,7 +13,14 @@ class CabinetController extends Controller
 {
     public function dashboard()
     {
-        return Inertia::render('Cabinet/Dashboard');
+        $startups = Startup::with('industries', 'contributors:id,name,email')
+            ->where('owner_id', auth()->user()->id)
+            ->latest()
+            ->paginate(10);
+
+        return Inertia::render('Cabinet/Dashboard', [
+            'startups' => StartupResource::collection($startups),
+        ]);
     }
 
     public function myProfile()
