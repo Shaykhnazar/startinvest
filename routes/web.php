@@ -11,6 +11,7 @@ use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StartupController;
 use Illuminate\Support\Facades\Route;
+use Telegram\Bot\Laravel\Facades\Telegram;
 
 /*
 |--------------------------------------------------------------------------
@@ -85,3 +86,8 @@ Route::group([
 
 });
 
+
+Route::get('setwebhook', function () {
+    Telegram::setWebhook(['url' => config('telegram.bots.mybot.webhook_url')]);
+    dd('Webhook has been set.');
+});

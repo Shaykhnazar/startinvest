@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\StartupJoinRequestController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\Cabinet\CabinetStartupController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\TelegramBotController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -50,4 +51,5 @@ Route::group(['prefix' => 'v1'], function () {
         Route::post('/notifications/{id}/mark-as-read', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
     });
 
+    Route::post('/telegram/webhook', [TelegramBotController::class, 'handle'])->name('telegram.webhook');
 });
