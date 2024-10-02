@@ -4,6 +4,8 @@ namespace App\Observers;
 
 use App\Jobs\PublishStartupToSocialMedia;
 use App\Models\Startup;
+use App\Models\User;
+use App\Notifications\NewStartupNotification;
 
 class StartupObserver
 {
@@ -12,7 +14,13 @@ class StartupObserver
      */
     public function created(Startup $startup): void
     {
-        //
+        // Find the admin user (assuming admin role has an ID of 1)
+        $admin = User::where('email', env('APP_ADMIN_MAIL'))->first();
+
+        // Send the notification to the admin
+        if ($admin) {
+            $admin->notify(new NewStartupNotification($startup));
+        }
     }
 
     /**
