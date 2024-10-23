@@ -25,6 +25,7 @@
         "orchid/platform": "^14.16",
         "resend/resend-php": "^0.13.0",
         "socialiteproviders/google": "^4.1",
+        "socialiteproviders/linkedin": "^4.2",
         "tightenco/ziggy": "^1.0"
     },
     "require-dev": {

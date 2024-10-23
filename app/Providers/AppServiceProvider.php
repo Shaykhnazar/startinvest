@@ -8,7 +8,10 @@ use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
+use SocialiteProviders\LinkedIn\Provider;
+use SocialiteProviders\Manager\SocialiteWasCalled;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -46,5 +49,8 @@ class AppServiceProvider extends ServiceProvider
 
         Startup::observe(StartupObserver::class);
 
+        Event::listen(function (SocialiteWasCalled $event) {
+            $event->extendSocialite('linkedin', Provider::class);
+        });
     }
 }
