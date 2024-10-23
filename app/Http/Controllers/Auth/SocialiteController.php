@@ -15,11 +15,15 @@ class SocialiteController extends Controller
 {
     public function redirectToProvider($provider)
     {
+        if ($provider == 'linkedin') $provider = 'linkedin-openid';
+
         return Socialite::driver($provider)->redirect();
     }
 
     public function handleProviderCallback(Request $request, $provider)
     {
+        if ($provider == 'linkedin') $provider = 'linkedin-openid';
+
         $socialUser = Socialite::driver($provider)->user();
 
         $user = $this->findOrCreateUser($socialUser, $provider);
