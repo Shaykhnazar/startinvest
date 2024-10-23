@@ -24,20 +24,17 @@ class LinkedInPublisher extends BaseSocialMediaPublisher
         try {
             $companyId = config('services.linkedin.company_id');
             $response = Http::withToken($this->linkedInAccessToken)
-                ->post('https://api.linkedin.com/v2/ugcPosts', [
+                ->post('https://api.linkedin.com/rest/posts', [
                     'author' => "urn:li:organization:$companyId",
-                    'lifecycleState' => 'PUBLISHED',
-                    'specificContent' => [
-                        'com.linkedin.ugc.ShareContent' => [
-                            'shareCommentary' => [
-                                'text' => $this->startup->title
-                            ],
-                            'shareMediaCategory' => 'NONE' // Or you can attach images with MEDIA category
-                        ],
+                    'commentary' => $this->startup->title,
+                    'visibility' => 'PUBLIC',
+                    'distribution' => [
+                        'feedDistribution' => 'MAIN_FEED',
+                        'targetEntities' => [],
+                        'thirdPartyDistributionChannels' => [],
                     ],
-                    'visibility' => [
-                        'com.linkedin.ugc.MemberNetworkVisibility' => 'PUBLIC'
-                    ]
+                    'lifecycleState' => 'PUBLISHED',
+                    'isReshareDisabledByAuthor' => false,
                 ]);
 
             if ($response->successful()) {
