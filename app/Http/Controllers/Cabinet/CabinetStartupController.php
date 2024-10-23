@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Cabinet;
 
+use App\Enums\SocialMediaEnum;
 use App\Enums\StartupStatusEnum;
 use App\Enums\StartupTypeEnum;
 use App\Http\Controllers\Controller;
@@ -12,6 +13,8 @@ use App\Http\Resources\StartupResource;
 use App\Http\Resources\StartupStatusResource;
 use App\Models\Startup;
 use App\Services\CacheService;
+use App\Services\StartupService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 
@@ -120,5 +123,29 @@ class CabinetStartupController extends Controller
         $startup->restore();
 
         return redirect()->route('dashboard.startups')->with('success', 'Startup muvaffaqiyatli tiklandi!');
+    }
+
+    /**
+     * Publish startup to a specific platform.
+     *
+     * @param Startup $startup
+     * @param  string  $platform
+     * @return JsonResponse
+     */
+    public function publishOnMedia(Startup $startup, string $platform): JsonResponse
+    {
+        $platformEnum = SocialMediaEnum::tryFrom($platform);
+
+        if (!$platformEnum) {
+            return response()->json(['error' => 'Invalid platform'], 400);
+        }
+
+        try {
+            StartupService::publishOnMedia($startup, $platform);
+
+            return response()->json(['message' => ucfirst($platform) . ' published successfully']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to publish: ' . $e->getMessage()], 500);
+        }
     }
 }

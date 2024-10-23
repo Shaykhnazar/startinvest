@@ -8,6 +8,7 @@
         "php": "^8.2",
         "aws/aws-sdk-php": "^3.322",
         "erusev/parsedown": "^1.7",
+        "facebook/graph-sdk": "^5.1",
         "guzzlehttp/guzzle": "^7.2",
         "inertiajs/inertia-laravel": "^1.0",
         "irazasyed/telegram-bot-sdk": "^3.14",

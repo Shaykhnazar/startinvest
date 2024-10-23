@@ -2,10 +2,13 @@
 
 namespace App\Services;
 
+use App\Console\Commands\PublishStartupCommand;
 use App\Enums\JoinRequestStatusEnum;
 use App\Models\Startup;
 use App\Models\StartupJoinRequest;
 use App\Notifications\AcceptRequestNotification;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Log;
 
 class StartupService
 {
@@ -90,6 +93,27 @@ class StartupService
         }
 
         return $joinRequestIsDeleted; // Return false if no special action like deletion was performed
+    }
+
+    /**
+     * Helper function to run the publish command for a specific platform.
+     *
+     * @param Startup $startup
+     * @param string $platform
+     */
+    public static function publishOnMedia(Startup $startup, string $platform): void
+    {
+        // Use Artisan command to publish the startup to the specified platform
+        try {
+            Artisan::call(PublishStartupCommand::class, [
+                'startupId' => $startup->id,
+                'platform' => $platform
+            ]);
+
+            Log::info("Published startup {$startup->title} to {$platform}");
+        } catch (\Exception $e) {
+            Log::error("Failed to publish startup to {$platform}: " . $e->getMessage());
+        }
     }
 
 }

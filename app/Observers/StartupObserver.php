@@ -2,9 +2,10 @@
 
 namespace App\Observers;
 
-use App\Jobs\PublishStartupToSocialMedia;
+use App\Jobs\PublishStartupToSocialMediaJob;
 use App\Jobs\SendStartupNotificationJob;
 use App\Models\Startup;
+use App\Models\StartupPublication;
 
 class StartupObserver
 {
@@ -15,6 +16,15 @@ class StartupObserver
     {
         // Dispatch the job to send the notification
         SendStartupNotificationJob::dispatch($startup);
+
+        // Create the startup publication record
+        StartupPublication::create([
+            'startup_id' => $startup->id,
+            'telegram' => false,
+            'linkedin' => false,
+            'instagram' => false,
+            'reddit' => false,
+        ]);
     }
 
     /**
@@ -24,7 +34,7 @@ class StartupObserver
     {
         if ($startup->isDirty('verified') && $startup->verified && $startup->public()) {
             // Dispatch a job to publish to social media
-            PublishStartupToSocialMedia::dispatch($startup);
+            PublishStartupToSocialMediaJob::dispatch($startup);
         }
     }
 

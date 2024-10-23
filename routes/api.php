@@ -40,6 +40,8 @@ Route::group(['prefix' => 'v1'], function () {
         Route::get('/{startup}/join-requests', [StartupJoinRequestController::class, 'listRequests'])->name('join-requests');
         // Manage contributors
         Route::patch('{startup}/remove-contributor', [StartupContributorController::class, 'remove'])->name('remove-contributor');
+        // Publish to social media
+        Route::put('/{startup}/publish-on-media/{platform}', [StartupContributorController::class, 'publishOnMedia'])->name('publish');
     });
     Route::group(['middleware' => ['auth', 'web']], function () {
         // CHAT

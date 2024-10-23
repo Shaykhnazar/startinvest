@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Orchid\Attachment\Attachable;
@@ -70,6 +71,14 @@ class Startup extends Model
     public function status()
     {
         return $this->belongsTo(StartupStatus::class, 'status_id');
+    }
+
+    /**
+     * Get the publication status of the startup.
+     */
+    public function publication(): HasOne
+    {
+        return $this->hasOne(StartupPublication::class);
     }
 
     public function scopePublic(Builder $builder): Builder

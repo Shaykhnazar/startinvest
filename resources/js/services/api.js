@@ -19,6 +19,7 @@ export default {
     sendRequest: (startupId, data) => api().post(`startups/${startupId}/send-request`, data),
     handleJoinRequest: (startupId, data) => api().patch(`startups/${startupId}/accept-request`, data),
     removeContributor: (startupId, data) => api().patch(`startups/${startupId}/remove-contributor`, data),
+    publishOnMedia: (startupId, platform) => api().put(`startups/${startupId}/publish-on-media/${platform}`),
   },
   notifications: {
     markAllAsRead: () => api().post('notifications/mark-all-as-read'),

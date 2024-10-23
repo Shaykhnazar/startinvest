@@ -47,4 +47,14 @@ return [
         'key' => env('RESEND_KEY'),
     ],
 
+    'linkedin' => [
+        'client_id' => env('LINKEDIN_CLIENT_ID'),
+        'client_secret' => env('LINKEDIN_CLIENT_SECRET'),
+        'redirect' => env('LINKEDIN_REDIRECT'),
+        'access_token' => env('LINKEDIN_ACCESS_TOKEN'),
+    ],
+
+    'telegram' => [
+        'token' => env('TELEGRAM_BOT_TOKEN'),
+    ],
 ];

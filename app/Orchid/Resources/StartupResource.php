@@ -3,7 +3,7 @@
 namespace App\Orchid\Resources;
 
 use App\Enums\StartupTypeEnum;
-use App\Jobs\PublishStartupToSocialMedia;
+use App\Jobs\PublishStartupToSocialMediaJob;
 use App\Models\Industry;
 use App\Models\Startup;
 use App\Models\User;
@@ -292,29 +292,4 @@ class StartupResource extends Resource
     {
         return $this->model->verified ?? false;
     }
-
-
-    /**
-     * Verify the startup and dispatch the social media publishing job.
-     *
-     * @param Request $request
-     * @return void
-     */
-//    public function verify(Request $request)
-//    {
-//        $startup = Startup::findOrFail($request->get('startup_id'));
-//
-//        if ($startup->verified) {
-//            Toast::warning('This startup is already verified.');
-//            return;
-//        }
-//
-//        $startup->verified = true;
-//        $startup->save();
-//
-//        // Dispatch the job to publish to social media
-////        PublishStartupToSocialMedia::dispatch($startup);
-//
-//        Toast::info('Startup has been verified.');
-//    }
 }
