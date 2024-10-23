@@ -25,7 +25,7 @@ class LinkedInPublisher extends BaseSocialMediaPublisher
             $companyId = config('services.linkedin.company_id');
 
             $message = "📢 Navbatdagi startup loyiha:\n";
-            $message .= "🚀 *{$this->startup->title}*\n\n";
+            $message .= "🚀 {$this->startup->title}\n\n";
             $url = route('startups.show', $this->startup->id);
 
             $response = Http::withToken($this->linkedInAccessToken)
