@@ -24,7 +24,7 @@ class LinkedInPublisher extends BaseSocialMediaPublisher
         try {
             $companyId = config('services.linkedin.company_id');
             $response = Http::withToken($this->linkedInAccessToken)
-                ->post('https://api.linkedin.com/rest/posts', [
+                ->post('https://api.linkedin.com/v2/posts', [
                     'author' => "urn:li:organization:$companyId",
                     'commentary' => $this->startup->title,
                     'visibility' => 'PUBLIC',
