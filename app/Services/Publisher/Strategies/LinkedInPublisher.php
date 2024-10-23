@@ -24,7 +24,7 @@ class LinkedInPublisher extends BaseSocialMediaPublisher
         try {
             $response = Http::withToken($this->linkedInAccessToken)
                 ->post('https://api.linkedin.com/v2/ugcPosts', [
-                    'author' => 'urn:li:company:'.config('services.linkedin.company_id'),
+                    'author' => 'urn:li:member:'.config('services.linkedin.member_id'),
                     'lifecycleState' => 'PUBLISHED',
                     'specificContent' => [
                         'com.linkedin.ugc.ShareContent' => [
