@@ -23,10 +23,15 @@ class LinkedInPublisher extends BaseSocialMediaPublisher
     {
         try {
             $companyId = config('services.linkedin.company_id');
+
+            $message = "📢 Navbatdagi startup loyiha:\n";
+            $message .= "🚀 *{$this->startup->title}*\n\n";
+            $url = route('startups.show', $this->startup->id);
+
             $response = Http::withToken($this->linkedInAccessToken)
                 ->post('https://api.linkedin.com/v2/posts', [
                     'author' => "urn:li:organization:$companyId",
-                    'commentary' => $this->startup->title,
+                    'commentary' => $message."🔗 Platformada batafsil tanishish: $url",
                     'visibility' => 'PUBLIC',
                     'distribution' => [
                         'feedDistribution' => 'MAIN_FEED',
