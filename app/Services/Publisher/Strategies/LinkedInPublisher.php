@@ -31,7 +31,7 @@ class LinkedInPublisher extends BaseSocialMediaPublisher
             $response = Http::withToken($this->linkedInAccessToken)
                 ->post('https://api.linkedin.com/v2/posts', [
                     'author' => "urn:li:organization:$companyId",
-                    'commentary' => $message."🔗 Platformada batafsil tanishish: $url",
+                    'commentary' => $message."🔗 Platformada batafsil [tanishish]($url)",
                     'visibility' => 'PUBLIC',
                     'distribution' => [
                         'feedDistribution' => 'MAIN_FEED',
