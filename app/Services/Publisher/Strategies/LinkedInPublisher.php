@@ -24,12 +24,12 @@ class LinkedInPublisher extends BaseSocialMediaPublisher
         try {
             $response = Http::withToken($this->linkedInAccessToken)
                 ->post('https://api.linkedin.com/v2/ugcPosts', [
-                    'author' => 'urn:li:person:YOUR_PERSON_URN', // Replace with your LinkedIn user/person URN
+                    'author' => 'urn:li:company:'.config('services.linkedin.company_id'),
                     'lifecycleState' => 'PUBLISHED',
                     'specificContent' => [
                         'com.linkedin.ugc.ShareContent' => [
                             'shareCommentary' => [
-                                'text' => $this->startup->title // Text content for the LinkedIn post
+                                'text' => $this->startup->title
                             ],
                             'shareMediaCategory' => 'NONE' // Or you can attach images with MEDIA category
                         ],
