@@ -340,58 +340,6 @@ const publishToPlatform = async (platform) => {
                   </div>
                   <!-- End Grid -->
 
-                  <!-- Grid -->
-                  <div>
-                    <!-- Content -->
-                    <div class="grid gap-y-5">
-                      <!-- Join Requests Section -->
-                      <div class="flex flex-col bg-white border border-gray-200 rounded-xl shadow-sm xl:shadow-none dark:bg-neutral-800 dark:border-neutral-700">
-                        <!-- Header -->
-                        <div class="p-5 pb-0 flex justify-between items-center gap-2">
-                          <h2 class="inline-block font-semibold text-gray-800 dark:text-neutral-200">
-                            Ijtimoiy tarmoqlarda e'lon qilinganligi
-                          </h2>
-
-                        </div>
-                        <!-- End Header -->
-
-                        <!-- Body -->
-                        <div class="p-5">
-                          <div class="mt-5">
-                            <!-- List Group -->
-                            <div class="grid gap-y-5">
-                              <el-table :data="startup.contributors" stripe>
-                                <el-table-column prop="name" label="Foydalanuvchi" />
-                                <el-table-column prop="email" label="E-Pochta" />
-                                <!--                  <el-table-column prop="decision_at" label="After the last change time" />-->
-                                <el-table-column label="Amallar">
-                                  <template #default="scope">
-                                    <el-button
-                                      type="danger"
-                                      @click="handleManageStartup(startup.id, scope.row.id, null, null, false)"
-                                      round
-                                    >Chetlatish ❌</el-button>
-                                    <!-- Chat with User Button -->
-                                    <el-button
-                                      type="primary"
-                                      @click="goToChat(scope.row.id)"
-                                      round
-                                    >Chat 💬</el-button>
-                                  </template>
-                                </el-table-column>
-                              </el-table>
-                            </div>
-                            <!-- End List Group -->
-                          </div>
-
-                        </div>
-                        <!-- End Body -->
-                      </div>
-                      <!-- End Join Requests Section  -->
-                    </div>
-                    <!-- End Content -->
-                  </div>
-                  <!-- End Grid -->
                 </div>
                 <!-- End Contribution sections -->
               </div>

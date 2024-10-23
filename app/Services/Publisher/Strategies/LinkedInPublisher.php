@@ -43,6 +43,7 @@ class LinkedInPublisher extends BaseSocialMediaPublisher
                 ]);
 
             if ($response->successful()) {
+                // I want to store link to the published post into the database
                 Log::info('Startup successfully published to LinkedIn: ' . $this->startup->title);
             } else {
                 Log::error('Failed to publish startup to LinkedIn: ' . $response->body());
