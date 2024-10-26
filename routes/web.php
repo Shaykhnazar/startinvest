@@ -32,6 +32,8 @@ Route::group([
 
     Route::get('/', [HomeController::class, 'index'])->name('home');
     Route::get('/about-us', [HomeController::class, 'aboutUs'])->name('about-us');
+    Route::get('/privacy-policy', [HomeController::class, 'privacyPolicy'])->name('privacyPolicy');
+    Route::get('/user-agreement', [HomeController::class, 'userAgreement'])->name('userAgreement');
     Route::get('/investors', [InvestorController::class, 'index'])->name('investors');
     Route::get('/chat', [ChatController::class, 'all'])->middleware(['auth'])->name('chat');
     Route::get('/chat/{friend}', [ChatController::class, 'personal'])->middleware(['auth'])->name('chat.cabinet');
