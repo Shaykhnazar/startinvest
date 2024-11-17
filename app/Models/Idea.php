@@ -10,10 +10,13 @@ use Illuminate\Support\Facades\Cache;
 use Orchid\Attachment\Attachable;
 use Orchid\Filters\Filterable;
 use Orchid\Screen\AsSource;
+use Spatie\Translatable\HasTranslations;
 
 class Idea extends Model
 {
-    use AsSource, Filterable, Attachable;
+    use AsSource, Filterable, Attachable, HasTranslations;
+
+    public $translatable = ['title', 'description'];
 
     protected $fillable = [
         'title',

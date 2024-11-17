@@ -19,7 +19,7 @@ const goToChat = (userId) => {
 <template>
   <App>
     <template #header>
-      <Head title="Startups" />
+      <Head :title="$t('site.startup.show.title')" />
     </template>
 
     <el-container>
@@ -32,7 +32,7 @@ const goToChat = (userId) => {
               <div class="space-y-5 lg:space-y-8">
                 <Link class="inline-flex items-center gap-x-1.5 text-sm text-gray-600 decoration-2 hover:underline focus:outline-none focus:underline dark:text-blue-500" :href="route('startups.index')">
                   <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-                  Startuplar
+                  {{ $t('site.startup.show.back_to_startups') }}
                 </Link>
 
                 <h2 class="text-3xl font-bold lg:text-5xl dark:text-white">{{ startup.title }}</h2>
@@ -40,33 +40,39 @@ const goToChat = (userId) => {
                 <div class="flex items-center gap-x-5">
                   <Popover>
                     <template #reference>
-                      <p class="text-xs sm:text-sm text-gray-800 dark:text-neutral-200"><el-avatar :size="20" :src="startup.owner.avatar" class="mr-2 icon-pointer"/> {{ startup.owner.name }} tomonidan</p>
+                      <p class="text-xs sm:text-sm text-gray-800 dark:text-neutral-200"><el-avatar :size="20" :src="startup.owner.avatar" class="mr-2 icon-pointer"/>
+                        {{ $t('site.startup.show.posted_by') }} {{ startup.owner.name }}
+                      </p>
                     </template>
                     <p class="text-xs sm:text-sm text-gray-800 dark:text-neutral-200"><el-avatar :size="20" :src="startup.owner.avatar" class="mr-2 icon-pointer"/> {{ startup.owner.name }}</p>
                   </Popover>
-                  <p class="text-xs sm:text-sm text-gray-800 dark:text-neutral-200">{{ formatFriendlyDate(startup.start_date) }} da boshlangan</p>
+                  <p class="text-xs sm:text-sm text-gray-800 dark:text-neutral-200">{{ formatFriendlyDate(startup.start_date) }} {{ $t('site.startup.show.started_on') }}</p>
                 </div>
 
                 <p class="text-lg text-gray-800 dark:text-neutral-200" v-html="startup.description"></p>
 
                 <div class="space-y-3">
-                  <h4 class="text-2xl font-semibold dark:text-white">Holati: <el-tag type="primary" round>{{ startup.status.label }}</el-tag></h4>
-                  <p class="text-lg text-gray-800 dark:text-neutral-200"> MVP versiya mavjudmi?:
+                  <h4 class="text-2xl font-semibold dark:text-white">{{ $t('site.startup.show.status') }}: <el-tag type="primary" round>{{ startup.status.label }}</el-tag></h4>
+                  <p class="text-lg text-gray-800 dark:text-neutral-200"> {{ $t('site.startup.show.has_mvp') }}:
                     <span v-if="startup.has_mvp">
-                      <el-tag type="success">Ha</el-tag>
+                      <el-tag type="success">{{ $t('site.startup.show.yes') }}</el-tag>
                     </span>
                         <span v-else>
-                      <el-tag type="info">Yo'q</el-tag>
+                      <el-tag type="info">{{ $t('site.startup.show.no') }}</el-tag>
                     </span>
                   </p>
                 </div>
 
                 <ul class="list-disc list-outside space-y-5 ps-5 text-lg text-gray-800 dark:text-neutral-200">
 <!--                  <li class="ps-2">Location: {{ startup.location }}</li>-->
-                  <li class="ps-2" v-if="startup.contributors_count && startup.contributors_count > 0">Jamoa hajmi: {{ startup.contributors_count }}</li>
+                  <li class="ps-2" v-if="startup.contributors_count && startup.contributors_count > 0">
+                    {{ $t('site.startup.show.team_size') }}: {{ startup.contributors_count }}
+                  </li>
                 </ul>
 
-                <p class="text-lg text-gray-800 dark:text-neutral-200">Agar siz bizning startapimizga qo'shilishni istasangiz, asoschi bilan to'g'ridan-to'g'ri bog'laning yoki platformamiz orqali murojaat qiling.</p>
+                <p class="text-lg text-gray-800 dark:text-neutral-200">
+                  {{ $t('site.startup.show.contact_message') }}
+                </p>
 
                 <div class="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-y-5 lg:gap-y-0">
                   <!-- Badges/Tags -->

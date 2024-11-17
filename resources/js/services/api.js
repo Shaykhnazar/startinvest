@@ -25,6 +25,9 @@ export default {
     markAllAsRead: () => api().post('notifications/mark-all-as-read'),
     markAsRead: (id) => api().post(`notifications/${id}/mark-as-read`),
   },
+  // language: {
+  //   switch: (locale) => api().post('language-switch', { locale }),
+  // },
 }
 
 function api() {

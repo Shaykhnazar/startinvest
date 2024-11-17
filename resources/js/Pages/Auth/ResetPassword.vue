@@ -32,7 +32,7 @@ const submit = () => {
 </script>
 
 <template>
-  <Head title="Parolni tiklash" />
+  <Head :title="$t('pages.password_reset.title')" />
 
   <!-- ========== MAIN CONTENT ========== -->
   <main class="flex min-h-full">
@@ -45,10 +45,10 @@ const submit = () => {
         <!-- Title -->
         <div>
           <h1 class="text-xl sm:text-2xl font-semibold text-gray-800 dark:text-neutral-200">
-            Parolingizni tiklang
+            {{ $t('pages.password_reset.heading') }}
           </h1>
           <p class="mt-1 text-sm text-gray-500 dark:text-neutral-500">
-            Hisobingizga bog'langan elektron pochta manzilini kiriting. Biz sizga parolingizni tiklash uchun havolani yuboramiz.
+            {{ $t('pages.password_reset.hero_text') }}
           </p>
         </div>
         <!-- End Title -->
@@ -57,7 +57,7 @@ const submit = () => {
           <div class="space-y-5">
             <div>
               <label for="hs-pro-dale" class="block mb-2 text-sm font-medium text-gray-800 dark:text-white">
-                Elektron pochta
+                {{ $t('pages.password_reset.email_label') }}
               </label>
 
               <input type="email"
@@ -74,7 +74,7 @@ const submit = () => {
 
             <div>
               <label for="password" class="block mb-2 text-sm font-medium text-gray-800 dark:text-white">
-                Yangi parol
+                {{ $t('pages.password_reset.new_password_label') }}
               </label>
               <TextInput
                 id="password"
@@ -89,7 +89,7 @@ const submit = () => {
 
             <div>
               <label for="password_confirmation" class="block mb-2 text-sm font-medium text-gray-800 dark:text-white">
-                Parolni tasdiqlash
+                {{ $t('pages.password_reset.confirm_password_label') }}
               </label>
               <TextInput
                 id="password_confirmation"
@@ -102,16 +102,16 @@ const submit = () => {
               <InputError class="mt-2" :message="form.errors.password_confirmation" />
             </div>
 
-            <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-              Parolni tiklash
+            <PrimaryButton :disabled="form.processing">
+              {{ $t('pages.password_reset.submit_button') }}
             </PrimaryButton>
           </div>
         </form>
 
         <p class="text-sm text-gray-500 dark:text-neutral-500">
-          Parolingizni unutmadingizmi?
+          {{ $t('pages.password_reset.forgot_password_text') }}
           <a class="inline-flex items-center gap-x-1 text-sm text-blue-600 decoration-2 hover:underline font-medium focus:outline-none focus:underline dark:text-blue-500" href="#">
-            Tizimga kirish
+            {{ $t('pages.password_reset.login_link') }}
             <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
           </a>
         </p>

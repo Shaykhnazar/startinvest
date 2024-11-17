@@ -196,7 +196,7 @@ async function voteSubmit(idea, type) {
 </script>
 
 <template>
-  <Head title="G'oyalarim"/>
+  <Head :title="$t('cabinet.ideas.title')" />
 
   <CabinetLayout>
     <el-backtop :right="50" :bottom="50" />
@@ -206,6 +206,7 @@ async function voteSubmit(idea, type) {
         <!-- NEW IDEA -->
         <PostNewIdeaSection
           @show-modal="showIdeaModal"
+          :title="$t('cabinet.ideas.new_idea')"
         />
 
         <!-- IDEA LIST -->
@@ -232,8 +233,8 @@ async function voteSubmit(idea, type) {
       v-if="ideaModalVisible"
       :idea-form="ideaForm"
       :submitting="submitting"
-      title="Yangi g'oya"
-      submit-button-text="Ulashish"
+      :title="$t('cabinet.ideas.new_idea')"
+      :submit-button-text="$t('cabinet.ideas.submit_button_share')"
       @close="showIdeaModal(false)"
       @submit="ideaSubmit"
       @reset="resetForm"
@@ -242,8 +243,8 @@ async function voteSubmit(idea, type) {
       v-if="ideaEditModalVisible"
       :idea-form="ideaForm"
       :submitting="submitting"
-      title="Go'yani tahrirlash"
-      submit-button-text="Saqlash"
+      :title="$t('cabinet.ideas.edit_idea')"
+      :submit-button-text="$t('cabinet.ideas.submit_button_save')"
       @close="showIdeaEditModal(false)"
       @submit="ideaSubmit"
       @reset="resetForm"
@@ -252,13 +253,15 @@ async function voteSubmit(idea, type) {
       v-if="ideaCommentModalVisible"
       :idea-comment-form="ideaCommentForm"
       :submitting="submitting"
-      submit-button-text="Ulashish"
+      :submit-button-text="$t('cabinet.ideas.submit_button_share')"
       @close="showIdeaCommentModal(false)"
       @submit="commentIdeaHandler"
     />
     <IdeaDeleteModal
       v-if="ideaDeleteModalVisible"
       :idea="ideaDeleteModalProps.idea"
+      :title="$t('cabinet.ideas.delete_idea')"
+      :submit-button-text="$t('cabinet.ideas.submit_button_delete')"
       @close="showIdeaDeleteModal(false)"
       @delete-idea-handler="deleteIdea"
     />

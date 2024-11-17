@@ -4,10 +4,10 @@ import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
 import { Head, Link, useForm, usePage } from '@inertiajs/vue3';
-import AuthProviderButtons from '@/Components/AuthProviderButtons.vue'
-import {useUserStore} from '@/stores/UserStore.js'
-import ApplicationLogo from '@/Components/ApplicationLogo.vue'
-import AuthSidebar from '@/Components/AuthSidebar.vue'
+import AuthProviderButtons from '@/Components/AuthProviderButtons.vue';
+import { useUserStore } from '@/stores/UserStore.js';
+import AuthSidebar from '@/Components/AuthSidebar.vue';
+import { trans } from 'laravel-vue-i18n';
 
 const form = useForm({
   name: '',
@@ -21,18 +21,15 @@ const userStore = useUserStore();
 const submit = () => {
   form.post(route('register'), {
     onFinish: () => {
-      form.reset('password', 'password_confirmation')
-      usePage().props.auth.user && userStore.setAuthUser(usePage().props.auth.user.data)
+      form.reset('password', 'password_confirmation');
+      usePage().props.auth.user && userStore.setAuthUser(usePage().props.auth.user.data);
     },
   });
 };
-
-const heroText = 'Startup loyihaga asos soling, jamoa yig\'ing va StartInvest bilan investitsiyalarni jalb qiling.'
-
 </script>
 
 <template>
-  <Head title="Register"/>
+  <Head :title="$t('pages.register.title')"/>
 
   <!-- ========== MAIN CONTENT ========== -->
   <main class="flex min-h-full">
@@ -46,10 +43,10 @@ const heroText = 'Startup loyihaga asos soling, jamoa yig\'ing va StartInvest bi
         <!-- Title -->
         <div>
           <h1 class="text-xl sm:text-2xl font-semibold text-gray-800 dark:text-neutral-200">
-            Ro'yxatdan o'ting
+            {{ $t('pages.register.heading') }}
           </h1>
           <p class="mt-1 text-sm text-gray-500 dark:text-neutral-500">
-            {{ heroText }}
+            {{ $t('pages.register.hero_text') }}
           </p>
         </div>
         <!-- End Title -->
@@ -58,58 +55,64 @@ const heroText = 'Startup loyihaga asos soling, jamoa yig\'ing va StartInvest bi
         <AuthProviderButtons :form="form"/>
         <!-- End Button Group -->
 
-        <div class="flex items-center text-xs text-gray-400 uppercase before:flex-1 before:border-t before:border-gray-200 before:me-6 after:flex-1 after:border-t after:border-gray-200 after:ms-6 dark:text-neutral-500 dark:before:border-neutral-700 dark:after:border-neutral-700">Yoki</div>
+        <div
+          class="flex items-center text-xs text-gray-400 uppercase before:flex-1 before:border-t before:border-gray-200 before:me-6 after:flex-1 after:border-t after:border-gray-200 after:ms-6 dark:text-neutral-500 dark:before:border-neutral-700 dark:after:border-neutral-700">
+          {{ $t('pages.register.or') }}
+        </div>
 
         <form @submit.prevent="submit">
           <div class="space-y-5">
             <div>
               <label for="hs-pro-dalfn" class="block mb-2 text-sm font-medium text-gray-800 dark:text-white">
-                Ism
+                {{ $t('pages.register.name_label') }}
               </label>
 
               <input
                 type="text"
                 id="hs-pro-dalfn"
                 class="py-2.5 px-3 block w-full border-gray-200 rounded-lg text-sm placeholder:text-gray-400 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-transparent dark:border-neutral-700 dark:text-neutral-300 dark:placeholder:text-white/60 dark:focus:ring-neutral-600"
-                placeholder="John Doe"
+                :placeholder="$t('pages.register.name_placeholder')"
                 v-model="form.name"
                 required
                 autofocus
                 autocomplete="name"
-              >
+              />
               <InputError class="mt-2" :message="form.errors.name"/>
             </div>
 
             <div>
               <label for="hs-pro-dale" class="block mb-2 text-sm font-medium text-gray-800 dark:text-white">
-                Elekton Pochta
+                {{ $t('pages.register.email_label') }}
               </label>
 
-              <input type="email" id="hs-pro-dale" class="py-2.5 px-3 block w-full border-gray-200 rounded-lg text-sm placeholder:text-gray-400 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-transparent dark:border-neutral-700 dark:text-neutral-300 dark:placeholder:text-white/60 dark:focus:ring-neutral-600"
-                 placeholder="you@email.com"
-                 v-model="form.email"
-                 required
-                 autocomplete="username"
-              >
+              <input
+                type="email"
+                id="hs-pro-dale"
+                class="py-2.5 px-3 block w-full border-gray-200 rounded-lg text-sm placeholder:text-gray-400 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-transparent dark:border-neutral-700 dark:text-neutral-300 dark:placeholder:text-white/60 dark:focus:ring-neutral-600"
+                :placeholder="$t('pages.register.email_placeholder')"
+                v-model="form.email"
+                required
+                autocomplete="username"
+              />
               <InputError class="mt-2" :message="form.errors.email"/>
             </div>
 
             <div data-hs-toggle-password-group class="space-y-3">
-              <!-- Input -->
               <div>
                 <label for="hs-pro-dappnp" class="block mb-2 text-sm font-medium text-gray-800 dark:text-white">
-                  Parol
+                  {{ $t('pages.register.password_label') }}
                 </label>
 
                 <div class="relative">
-                  <input id="hs-pro-dappnp"
-                         type="password"
-                         class="py-2.5 px-3 block w-full border-gray-200 rounded-lg text-sm placeholder:text-gray-400 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-transparent dark:border-neutral-700 dark:text-neutral-300 dark:placeholder:text-white/60 dark:focus:ring-neutral-600"
-                         placeholder="********"
-                         v-model="form.password"
-                         required
-                         autocomplete="new-password"
-                  >
+                  <input
+                    id="hs-pro-dappnp"
+                    type="password"
+                    class="py-2.5 px-3 block w-full border-gray-200 rounded-lg text-sm placeholder:text-gray-400 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-transparent dark:border-neutral-700 dark:text-neutral-300 dark:placeholder:text-white/60 dark:focus:ring-neutral-600"
+                    :placeholder="$t('pages.register.password_placeholder')"
+                    v-model="form.password"
+                    required
+                    autocomplete="new-password"
+                  />
                   <button type="button" data-hs-toggle-password='{
                         "target": ["#hs-pro-dappnp", "#hs-pro-dapprnp"]
                       }' class="absolute inset-y-0 end-0 flex items-center z-20 px-3 cursor-pointer text-gray-400 rounded-e-md focus:outline-none focus:text-blue-600 dark:text-neutral-600 dark:focus:text-blue-500">
@@ -125,16 +128,17 @@ const heroText = 'Startup loyihaga asos soling, jamoa yig\'ing va StartInvest bi
                 </div>
                 <InputError class="mt-2" :message="form.errors.password"/>
               </div>
-              <!-- End Input -->
 
-              <!-- Input -->
               <div class="relative">
-                <input id="hs-pro-dapprnp" type="password" class="py-2.5 px-3 block w-full border-gray-200 rounded-lg text-sm placeholder:text-gray-400 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-transparent dark:border-neutral-700 dark:text-neutral-300 dark:placeholder:text-white/60 dark:focus:ring-neutral-600"
-                       placeholder="********"
-                       v-model="form.password_confirmation"
-                       required
-                       autocomplete="new-password"
-                >
+                <input
+                  id="hs-pro-dapprnp"
+                  type="password"
+                  class="py-2.5 px-3 block w-full border-gray-200 rounded-lg text-sm placeholder:text-gray-400 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-transparent dark:border-neutral-700 dark:text-neutral-300 dark:placeholder:text-white/60 dark:focus:ring-neutral-600"
+                  :placeholder="$t('pages.register.password_confirm_placeholder')"
+                  v-model="form.password_confirmation"
+                  required
+                  autocomplete="new-password"
+                />
                 <button type="button" data-hs-toggle-password='{
                       "target": ["#hs-pro-dappnp", "#hs-pro-dapprnp"]
                     }' class="absolute inset-y-0 end-0 flex items-center z-20 px-3 cursor-pointer text-gray-400 rounded-e-md focus:outline-none focus:text-blue-600 dark:text-neutral-600 dark:focus:text-blue-500">
@@ -148,40 +152,27 @@ const heroText = 'Startup loyihaga asos soling, jamoa yig\'ing va StartInvest bi
                   </svg>
                 </button>
               </div>
-              <!-- End Input -->
               <InputError class="mt-2" :message="form.errors.password_confirmation"/>
             </div>
 
-<!--            <div>-->
-<!--              <label for="hs-pro-dappcn" class="block mb-2 text-sm font-medium text-gray-800 dark:text-white">-->
-<!--                Company name-->
-<!--              </label>-->
-
-<!--              <input type="text" id="hs-pro-dappcn" class="py-2.5 px-3 block w-full border-gray-200 rounded-lg text-sm placeholder:text-gray-400 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-transparent dark:border-neutral-700 dark:text-neutral-300 dark:placeholder:text-white/60 dark:focus:ring-neutral-600" placeholder="e.g. Preline">-->
-<!--            </div>-->
-
-<!--            TODO: Add page terms and conditions -->
-<!--            <div class="flex gap-x-2">-->
-<!--              <input type="checkbox" class="shrink-0 border-gray-200 size-3.5 mt-[3px] rounded text-blue-600 focus:ring-offset-0 dark:bg-neutral-800 dark:checked:bg-blue-500 dark:border-neutral-700" id="hs-pro-dsftac">-->
-<!--              <label for="hs-pro-dsftac" class="text-sm text-gray-800 ms-1.5 dark:text-neutral-200">-->
-<!--                Men -->
-<!--                <a class="inline-flex items-center gap-x-1.5 font-medium text-blue-600 hover:text-blue-700 decoration-2 hover:underline dark:text-blue-500 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-neutral-600" href="#">-->
-<!--                  Foydalanish Shartlarini-->
-<!--                </a> qabul qilaman-->
-<!--              </label>-->
-<!--            </div>-->
-
-            <button type="submit" class="py-2.5 px-3 w-full inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-neutral-600">
-              Ro'yxatdan o'tish
+            <button
+              type="submit"
+              class="py-2.5 px-3 w-full inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-neutral-600"
+            >
+              {{ $t('pages.register.submit_button') }}
             </button>
           </div>
         </form>
 
         <p class="text-sm text-gray-500 dark:text-neutral-500">
-          Akkauntingiz bormi?
-          <Link :href="route('login')" class="inline-flex items-center gap-x-1 text-sm text-blue-600 decoration-2 hover:underline font-medium focus:outline-none focus:underline dark:text-blue-500">
-            Kirish
-            <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+          {{ $t('pages.register.already_have_account') }}
+          <Link :href="route('login')"
+                class="inline-flex items-center gap-x-1 text-sm text-blue-600 decoration-2 hover:underline font-medium focus:outline-none focus:underline dark:text-blue-500">
+            {{ $t('pages.register.login_link') }}
+            <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m9 18 6-6-6-6"/>
+            </svg>
           </Link>
         </p>
       </div>

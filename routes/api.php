@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\StartupContributorController;
 use App\Http\Controllers\Api\StartupJoinRequestController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\Cabinet\CabinetStartupController;
+use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\TelegramBotController;
 use Illuminate\Support\Facades\Route;
@@ -22,6 +23,8 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::group(['prefix' => 'v1'], function () {
+//    Route::post('language-switch', [LanguageController::class, 'switchLanguage'])->name('language.switch')->middleware('web');
+
     Route::get('ideas/{idea}', [IdeaController::class, 'show'])->name('ideas.show');
 
     Route::group(['prefix' => 'ideas', 'as' => 'ideas.', 'middleware' => ['auth', 'web']], function () {

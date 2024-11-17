@@ -8,7 +8,7 @@ import { Head, Link } from '@inertiajs/vue3';
 <template>
   <App>
     <template #header>
-      <Head title="Biz haqimizda"/>
+      <Head :title="$t('site.about_us.title')" />
     </template>
 
     <el-container>
@@ -20,10 +20,12 @@ import { Head, Link } from '@inertiajs/vue3';
               <div class="space-y-5 lg:space-y-8">
                 <Link class="inline-flex items-center gap-x-1.5 text-sm text-gray-600 decoration-2 hover:underline focus:outline-none focus:underline dark:text-blue-500" :href="route('home')">
                   <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-                  Asosiy sahifa
+                  {{ $t('site.about_us.home') }}
                 </Link>
 
-                <h2 class="text-3xl font-bold lg:text-5xl dark:text-white">Startinvest.uz haqida</h2>
+                <h2 class="text-3xl font-bold lg:text-5xl dark:text-white">
+                  {{ $t('site.about_us.about_text') }}
+                </h2>
 
                 <div class="text-lg text-gray-700 dark:text-neutral-400 dark:hover:text-neutral-200">
                   <p class="leading-relaxed mb-4">

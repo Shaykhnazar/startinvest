@@ -79,7 +79,7 @@ const onCancel = () => {
 </script>
 
 <template>
-  <Head :title="'Tahrirlash: ' + startup.title"/>
+  <Head :title="`${$t('cabinet.startup_edit.title')}: ` + startup.title"/>
 
   <CabinetLayout>
     <div class="p-2 sm:p-5 sm:py-0 md:pt-5 space-y-5">
@@ -90,7 +90,7 @@ const onCancel = () => {
           <li class="flex items-center">
 
             <a class="py-0.5 px-1.5 flex items-center gap-x-1 text-sm rounded-md gray=='true'){text-gray-600 hover:bg-gray-100 focus:bg-gray-100} focus:outline-none dark:text-neutral-400 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800" href="#">
-              Dashboard
+              {{ $t('cabinet.startup_edit.breadcrumb_dashboard') }}
             </a>
             <svg class="shrink-0 overflow-visible size-4  text-gray-400 dark:text-neutral-600" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
               <path d="M6 13L10 3" stroke="currentColor" stroke-linecap="round"></path>
@@ -99,14 +99,14 @@ const onCancel = () => {
           <li class="flex items-center">
 
             <a class="py-0.5 px-1.5 flex items-center gap-x-1 text-sm rounded-md gray=='true'){text-gray-600 hover:bg-gray-100 focus:bg-gray-100} focus:outline-none dark:text-neutral-400 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800" href="#">
-              Loyihalarim
+              {{ $t('cabinet.startup_edit.breadcrumb_my_projects') }}
             </a>
             <svg class="shrink-0 overflow-visible size-4  text-gray-400 dark:text-neutral-600" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
               <path d="M6 13L10 3" stroke="currentColor" stroke-linecap="round"></path>
             </svg>
           </li>
           <li class="ps-1.5 flex items-center font-semibold text-gray-800 dark:text-neutral-200 text-sm">
-            Startupni Tahrirlash 🚀
+            {{ $t('cabinet.startup_edit.breadcrumb_edit_project') }}
           </li>
         </ol>
         <!-- End Breadcrumb -->
@@ -117,11 +117,11 @@ const onCancel = () => {
 
           <div class="grow">
             <h1 class="font-semibold text-xl text-gray-800 dark:text-neutral-200">
-              Startupni Tahrirlash
+              {{ $t('cabinet.startup_edit.header_description') }}
             </h1>
 
             <p class="text-sm text-gray-500 dark:text-neutral-500">
-              Startupni tahrirlash
+              {{ $t('cabinet.startup_edit.header_description') }}
             </p>
           </div>
         </div>
@@ -140,15 +140,13 @@ const onCancel = () => {
                 <!-- Grid -->
                 <div class="grid sm:grid-cols-12 gap-y-1.5 sm:gap-y-0 sm:gap-x-5">
                   <div class="sm:col-span-3">
-                    <BaseFormInputLabel
-                      title="Sarlavha"
-                    />
+                    <BaseFormInputLabel :title="$t('cabinet.startup_edit.fields.title')" />
                   </div>
                   <!-- End Col -->
 
                   <div class="sm:col-span-9">
                     <el-form-item prop="title" required>
-                      <BaseFormTextInput v-model="form.title" placeholder="Startinvest.uz - startup loyihalarni qo'llab quvvatlash uchun onlayn platforma"/>
+                      <BaseFormTextInput v-model="form.title" :placeholder="$t('cabinet.startup_edit.fields.title_placeholder')" />
                     </el-form-item>
                   </div>
                   <!-- End Col -->
@@ -157,9 +155,7 @@ const onCancel = () => {
                 <!-- Grid -->
                 <div class="grid sm:grid-cols-12 gap-y-1.5 sm:gap-y-0 sm:gap-x-5">
                   <div class="sm:col-span-3">
-                    <BaseFormInputLabel
-                      title="Batafsil"
-                    />
+                    <BaseFormInputLabel :title="$t('cabinet.startup_add.fields.description')" />
                   </div>
                   <!-- End Col -->
 
@@ -175,15 +171,13 @@ const onCancel = () => {
                 <!-- Grid -->
                 <div class="grid sm:grid-cols-12 gap-y-1.5 sm:gap-y-0 sm:gap-x-5">
                   <div class="sm:col-span-3">
-                    <BaseFormInputLabel
-                      title="Qo'shimcha Ma'lumotlar"
-                    />
+                    <BaseFormInputLabel :title="$t('cabinet.startup_add.fields.additional_information')" />
                   </div>
                   <!-- End Col -->
 
                   <div class="sm:col-span-9">
                     <el-form-item prop="title">
-                      <BaseFormTextInput v-model="form.additional_information" placeholder="Loyiha websayti va shunga o'xshash ma'lumotlar"/>
+                      <BaseFormTextInput v-model="form.additional_information" :placeholder="$t('cabinet.startup_add.fields.additional_information_placeholder')" />
                     </el-form-item>
                   </div>
                   <!-- End Col -->
@@ -193,9 +187,7 @@ const onCancel = () => {
                 <!-- Grid -->
                 <div class="grid sm:grid-cols-12 gap-y-1.5 sm:gap-y-0 sm:gap-x-5">
                   <div class="sm:col-span-3">
-                    <BaseFormInputLabel
-                      title="Boshlanish Sanasi"
-                    />
+                    <BaseFormInputLabel :title="$t('cabinet.startup_add.fields.start_date')" />
                   </div>
                   <!-- End Col -->
 
@@ -211,9 +203,7 @@ const onCancel = () => {
                 <!-- Grid -->
                 <div class="grid sm:grid-cols-12 gap-y-1.5 sm:gap-y-0 sm:gap-x-5">
                   <div class="sm:col-span-3">
-                    <BaseFormInputLabel
-                      title="Turi"
-                    />
+                    <BaseFormInputLabel :title="$t('cabinet.startup_add.fields.type')" />
                   </div>
                   <!-- End Col -->
 
@@ -233,9 +223,7 @@ const onCancel = () => {
                 <!-- Grid -->
                 <div class="grid sm:grid-cols-12 gap-y-1.5 sm:gap-y-0 sm:gap-x-5">
                   <div class="sm:col-span-3">
-                    <BaseFormInputLabel
-                      title="Holati"
-                    />
+                    <BaseFormInputLabel :title="$t('cabinet.startup_add.fields.status')" />
                   </div>
                   <!-- End Col -->
 
@@ -255,15 +243,13 @@ const onCancel = () => {
                 <!-- Grid -->
                 <div class="grid sm:grid-cols-12 gap-y-1.5 sm:gap-y-0 sm:gap-x-5">
                   <div class="sm:col-span-3">
-                    <BaseFormInputLabel
-                      title="Sanoat tarmoqlari"
-                    />
+                    <BaseFormInputLabel :title="$t('cabinet.startup_add.fields.industries')" />
                   </div>
                   <!-- End Col -->
 
                   <div class="sm:col-span-9">
                     <el-form-item required>
-                      <el-select v-model="form.industry_ids" multiple placeholder="Tanlash">
+                      <el-select v-model="form.industry_ids" multiple placeholder="Choose">
                         <el-option v-for="industry in industries" :key="industry.id" :value="industry.id" :label="industry.title">{{
                             industry.title
                           }}
@@ -278,9 +264,7 @@ const onCancel = () => {
                 <!-- Grid -->
                 <div class="grid sm:grid-cols-12 gap-y-1.5 sm:gap-y-0 sm:gap-x-5">
                   <div class="sm:col-span-3">
-                    <BaseFormInputLabel
-                      title="MVP versiya ishlab chiqilganmi?"
-                    />
+                    <BaseFormInputLabel :title="$t('cabinet.startup_add.fields.has_mvp')" />
                   </div>
                   <!-- End Col -->
 
@@ -292,7 +276,7 @@ const onCancel = () => {
                                id="hs-basic-with-description-unchecked"
                                class="relative w-[3.25rem] h-7 p-px bg-gray-100 border-transparent text-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:ring-blue-600 disabled:opacity-50 disabled:pointer-events-none checked:bg-none checked:text-blue-600 checked:border-blue-600 focus:checked:border-blue-600 dark:bg-neutral-800 dark:border-neutral-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-600 before:inline-block before:size-6 before:bg-white checked:before:bg-blue-200 before:translate-x-0 checked:before:translate-x-full before:rounded-full before:shadow before:transform before:ring-0 before:transition before:ease-in-out before:duration-200 dark:before:bg-neutral-400 dark:checked:before:bg-blue-200"
                         >
-                        <label for="hs-basic-with-description-unchecked" class="text-sm text-gray-500 ms-3 dark:text-neutral-400">{{ form.has_mvp ? 'Ha' : 'Yo\'q' }}</label>
+                        <label for="hs-basic-with-description-unchecked" class="text-sm text-gray-500 ms-3 dark:text-neutral-400">{{ form.has_mvp ? $t('cabinet.startup_add.fields.yes') : $t('cabinet.startup_add.fields.no') }}</label>
                       </div>
                     </el-form-item>
                   </div>
@@ -306,12 +290,12 @@ const onCancel = () => {
             <div class="p-6 pt-0 flex justify-end gap-x-2">
               <div class="w-full flex justify-end items-center gap-x-2">
                 <button type="button" @click="onCancel"  class="py-2 px-3 inline-flex justify-center items-center text-start bg-white border border-gray-200 text-gray-800 text-sm font-medium rounded-lg shadow-sm align-middle hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700">
-                  Bekor qilish
+                  {{ $t('cabinet.startup_edit.buttons.cancel') }}
                 </button>
 
                 <button type="button" @click="submitForm" :disabled="!form.title" class="py-2 px-3 inline-flex justify-center items-center gap-x-2 text-start bg-blue-600 border border-blue-600 text-white text-sm font-medium rounded-lg shadow-sm align-middle hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-1 focus:ring-blue-300 dark:focus:ring-blue-500">
                   <svg class="hidden sm:block shrink-0 size-3 lucide lucide-pencil" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg>
-                  Yangilash
+                  {{ $t('cabinet.startup_edit.buttons.update') }}
                 </button>
               </div>
             </div>

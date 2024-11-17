@@ -123,10 +123,10 @@ const publishToPlatform = async (platform) => {
             <!-- Nav Tab -->
             <nav class="p-1 inline-flex bg-gray-100 rounded-xl dark:bg-neutral-900/50" aria-label="Tabs" role="tablist" aria-orientation="horizontal">
 <!--              <button type="button" class="hs-tab-active:bg-white hs-tab-active:shadow-sm hs-tab-active:focus:bg-gray-50 hs-tab-active:focus:text-gray-800 py-2 px-3 inline-flex justify-center items-center gap-x-2  text-sm font-medium text-gray-800 rounded-lg disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:text-gray-500 dark:text-neutral-200 dark:focus:text-neutral-500 dark:hs-tab-active:bg-neutral-700 dark:hs-tab-active:focus:bg-neutral-800 dark:hs-tab-active:focus:text-neutral-200 active " id="hs-pro-tabs-dupt-item-open" aria-selected="true" data-hs-tab="#hs-pro-tabs-dupt-open" aria-controls="hs-pro-tabs-dupt-open" role="tab">-->
-<!--                Hammasi-->
+<!--                {{ $t('cabinet.startup_show.tabs.all') }} -->
 <!--              </button>-->
 <!--              <button type="button" class="hs-tab-active:bg-white hs-tab-active:shadow-sm hs-tab-active:focus:bg-gray-50 hs-tab-active:focus:text-gray-800 py-2 px-3 inline-flex justify-center items-center gap-x-2  text-sm font-medium text-gray-800 rounded-lg disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:text-gray-500 dark:text-neutral-200 dark:focus:text-neutral-500 dark:hs-tab-active:bg-neutral-700 dark:hs-tab-active:focus:bg-neutral-800 dark:hs-tab-active:focus:text-neutral-200  " id="hs-pro-tabs-dupt-item-archived" aria-selected="false" data-hs-tab="#hs-pro-tabs-dupt-archived" aria-controls="hs-pro-tabs-dupt-archived" role="tab">-->
-<!--                Arxiv-->
+<!--                {{ $t('cabinet.startup_show.tabs.archive') }} -->
 <!--              </button>-->
             </nav>
             <!-- End Nav Tab -->
@@ -139,27 +139,27 @@ const publishToPlatform = async (platform) => {
                       :class="{'bg-violet-600 hover:bg-violet-700 focus:ring-violet-500': startup.typeOriginal === 'public', 'bg-green-600 hover:bg-green-700 focus:ring-green-500': startup.typeOriginal !== 'public'}"
                       class="py-2 px-3 inline-flex items-center gap-x-1.5 text-sm font-medium rounded-lg border border-transparent text-white disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 "
               >
-                {{ startup.typeOriginal === 'public' ? '🔒 Maxfiy Qilish' : '📢 E\'lon Qilish' }}
+                {{ startup.typeOriginal === 'public' ? $t('cabinet.startup_show.actions.make_private') : $t('cabinet.startup_show.actions.publish') }}
               </button>
               <button type="button"
                       v-if="!startup.trashed"
                       @click="archiveStartup(startup.id)"
                       class="py-2 px-3 inline-flex items-center gap-x-1.5 text-sm font-medium rounded-lg border border-transparent bg-gray-600 text-white hover:bg-gray-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-gray-500"
               >
-                🚧 Arxivlash
+                {{ $t('cabinet.startup_show.actions.archive') }}
               </button>
               <button type="button"
                       v-if="startup.trashed"
                       @click="restoreStartup(startup.id)"
                       class="py-2 px-3 inline-flex items-center gap-x-1.5 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
-                🔄 Tiklash
+                {{ $t('cabinet.startup_show.actions.restore') }}
               </button>
               <el-popconfirm
-                confirm-button-text="Ha"
-                cancel-button-text="Yo'q"
+                :confirm-button-text="$t('cabinet.common.yes')"
+                :cancel-button-text="$t('cabinet.common.no')"
                 icon-color="#626AEF"
-                title="O'chirishni tasdiqlaysizmi?"
+                :title="$t('cabinet.startup_show.actions.confirm_delete')"
                 @confirm="deleteStartup(startup.id)"
                 @cancel="cancelEvent"
               >
@@ -167,7 +167,7 @@ const publishToPlatform = async (platform) => {
                   <button type="button"
                     class="py-2 px-3 inline-flex items-center gap-x-1.5 text-sm font-medium rounded-lg border border-transparent bg-red-600 text-white hover:bg-red-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-red-500"
                   >
-                    🗑️ O'chirish
+                    {{ $t('cabinet.startup_show.actions.delete') }}
                   </button>
                 </template>
               </el-popconfirm>
@@ -176,7 +176,7 @@ const publishToPlatform = async (platform) => {
                       @click="editStartup(startup.id)"
                       class="py-2 px-3 inline-flex items-center gap-x-1.5 text-sm font-medium rounded-lg border border-transparent bg-yellow-600 text-white hover:bg-yellow-700 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-yellow-500"
               >
-                ✏️ Tahrirlash
+                {{ $t('cabinet.startup_show.actions.edit') }}
               </button>
               <!-- End Button -->
             </div>
@@ -219,7 +219,7 @@ const publishToPlatform = async (platform) => {
                         <!-- Header -->
                         <div class="p-5 pb-0 flex justify-between items-center gap-2">
                           <h2 class="inline-block font-semibold text-gray-800 dark:text-neutral-200">
-                            Jamoaga qo'shilish so'rovlari
+                            {{ $t('cabinet.startup_show.join_requests.title') }}
                           </h2>
 
                           <!-- Form Group -->
@@ -248,29 +248,29 @@ const publishToPlatform = async (platform) => {
                             <!-- List Group -->
                             <div class="grid gap-y-5">
                               <el-table :data="startup.joinRequests" stripe>
-                                <el-table-column prop="user.name" label="Foydalanuvchi" />
-                                <el-table-column prop="status" label="So'rov holati" :formatter="formatJoinRequestStatus"/>
-                                <el-table-column prop="decision_at" label="Oxirgi o'zgartirish vaqtidan keyin" />
-                                <el-table-column label="Amallar">
+                                <el-table-column prop="user.name" :label="$t('cabinet.startup_show.join_requests.user')" />
+                                <el-table-column prop="status" :label="$t('cabinet.startup_show.join_requests.status')" :formatter="formatJoinRequestStatus"/>
+                                <el-table-column prop="decision_at" :label="$t('cabinet.startup_show.join_requests.last_change')" />
+                                <el-table-column :label="$t('cabinet.startup_show.actions.label')">
                                   <template #default="scope">
                                     <el-button
                                       type="success"
                                       @click="handleManageStartup(scope.row.id, null, scope.row.status, JOIN_REQUEST_STATUSES.ACCEPTED.value)"
                                       v-if="scope.row.status !== JOIN_REQUEST_STATUSES.ACCEPTED.value"
                                       round
-                                    >Qabul qilish ✅</el-button>
+                                    >{{ $t('cabinet.startup_show.join_requests.accept') }}</el-button>
                                     <el-button
                                       type="danger"
                                       @click="handleManageStartup(scope.row.id, null, scope.row.status, JOIN_REQUEST_STATUSES.REJECTED.value)"
                                       v-if="scope.row.status !== JOIN_REQUEST_STATUSES.REJECTED.value"
                                       round
-                                    >Rad etish ⛔</el-button>
+                                    >{{ $t('cabinet.startup_show.join_requests.reject') }}</el-button>
                                     <!-- Chat with User Button -->
                                     <el-button
                                       type="primary"
                                       @click="goToChat(scope.row.user_id)"
                                       round
-                                    >Chat 💬</el-button>
+                                    >{{ $t('cabinet.startup_show.join_requests.chat') }}</el-button>
                                   </template>
                                 </el-table-column>
                               </el-table>
@@ -296,7 +296,7 @@ const publishToPlatform = async (platform) => {
                         <!-- Header -->
                         <div class="p-5 pb-0 flex justify-between items-center gap-2">
                           <h2 class="inline-block font-semibold text-gray-800 dark:text-neutral-200">
-                            Ishtirokchilar
+                            {{ $t('cabinet.startup_show.contributors.title') }}
                           </h2>
 
                         </div>
@@ -308,22 +308,22 @@ const publishToPlatform = async (platform) => {
                             <!-- List Group -->
                             <div class="grid gap-y-5">
                               <el-table :data="startup.contributors" stripe>
-                                <el-table-column prop="name" label="Foydalanuvchi" />
-                                <el-table-column prop="email" label="E-Pochta" />
+                                <el-table-column :label="$t('cabinet.startup_show.contributors.user')" prop="name" />
+                                <el-table-column :label="$t('cabinet.startup_show.contributors.email')" prop="email" />
                                 <!--                  <el-table-column prop="decision_at" label="After the last change time" />-->
-                                <el-table-column label="Amallar">
+                                <el-table-column :label="$t('cabinet.startup_show.actions.label')">
                                   <template #default="scope">
                                     <el-button
                                       type="danger"
                                       @click="handleManageStartup(startup.id, scope.row.id, null, null, false)"
                                       round
-                                    >Chetlatish ❌</el-button>
+                                    >{{ $t('cabinet.startup_show.contributors.remove') }}</el-button>
                                     <!-- Chat with User Button -->
                                     <el-button
                                       type="primary"
                                       @click="goToChat(scope.row.id)"
                                       round
-                                    >Chat 💬</el-button>
+                                    >{{ $t('cabinet.startup_show.join_requests.chat') }}</el-button>
                                   </template>
                                 </el-table-column>
                               </el-table>

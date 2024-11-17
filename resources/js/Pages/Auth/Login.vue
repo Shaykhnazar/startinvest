@@ -3,8 +3,9 @@ import Checkbox from '@/Components/Checkbox.vue';
 import InputError from '@/Components/InputError.vue';
 import { Head, Link, router, useForm, usePage } from '@inertiajs/vue3';
 import AuthProviderButtons from '@/Components/AuthProviderButtons.vue';
-import { useUserStore } from '@/stores/UserStore.js'
-import AuthSidebar from '@/Components/AuthSidebar.vue'
+import { useUserStore } from '@/stores/UserStore.js';
+import AuthSidebar from '@/Components/AuthSidebar.vue';
+import { trans } from 'laravel-vue-i18n';
 
 defineProps({
   canResetPassword: {
@@ -26,26 +27,25 @@ const userStore = useUserStore();
 const submit = () => {
   form.post(route('login'), {
     onFinish: () => {
-      form.reset('password')
-      usePage().props.auth.user && userStore.setAuthUser(usePage().props.auth.user.data)
+      form.reset('password');
+      usePage().props.auth.user && userStore.setAuthUser(usePage().props.auth.user.data);
     },
   });
 };
 
 const registerRedirect = () => {
-  router.get(route('register'))
-}
+  router.get(route('register'));
+};
 
-const heroText = 'Startup loyihaga asos soling, jamoa yig\'ing va StartInvest bilan investitsiyalarni jalb qiling.'
 </script>
 
 <template>
-  <Head title="Log in"/>
+  <Head :title="$t('pages.login.title')" />
 
   <!-- ========== MAIN CONTENT ========== -->
   <main class="flex min-h-full">
     <!-- Sidebar -->
-    <AuthSidebar/>
+    <AuthSidebar />
     <!-- End Sidebar -->
 
     <!-- Content -->
@@ -54,47 +54,54 @@ const heroText = 'Startup loyihaga asos soling, jamoa yig\'ing va StartInvest bi
         <!-- Title -->
         <div>
           <h1 class="text-xl sm:text-2xl font-semibold text-gray-800 dark:text-neutral-200">
-            Hisobingizga kiring
+            {{ $t('pages.login.heading') }}
           </h1>
           <p class="mt-1 text-sm text-gray-500 dark:text-neutral-500">
-            {{ heroText }}
+            {{ $t('pages.login.hero_text') }}
           </p>
         </div>
         <!-- End Title -->
 
         <!-- Button Group -->
-        <AuthProviderButtons :form="form"/>
+        <AuthProviderButtons :form="form" />
         <!-- End Button Group -->
 
-        <div class="flex items-center text-xs text-gray-400 uppercase before:flex-1 before:border-t before:border-gray-200 before:me-6 after:flex-1 after:border-t after:border-gray-200 after:ms-6 dark:text-neutral-500 dark:before:border-neutral-700 dark:after:border-neutral-700">Yoki</div>
+        <div class="flex items-center text-xs text-gray-400 uppercase before:flex-1 before:border-t before:border-gray-200 before:me-6 after:flex-1 after:border-t after:border-gray-200 after:ms-6 dark:text-neutral-500 dark:before:border-neutral-700 dark:after:border-neutral-700">
+          {{ $t('pages.login.or') }}
+        </div>
 
         <form @submit.prevent="submit">
           <div class="space-y-5">
             <div>
               <label for="hs-pro-dale" class="block mb-2 text-sm font-medium text-gray-800 dark:text-white">
-                Elektron Pochta
+                {{ $t('pages.login.email_label') }}
               </label>
 
-              <input type="email"
-                     id="hs-pro-dale"
-                     v-model="form.email"
-                     class="py-2.5 px-3 block w-full border-gray-200 rounded-lg text-sm placeholder:text-gray-400 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-transparent dark:border-neutral-700 dark:text-neutral-300 dark:placeholder:text-white/60 dark:focus:ring-neutral-600"
-                     placeholder="you@email.com"
-                     required
-                     autofocus
-                     autocomplete="username"
-              >
-              <InputError class="mt-2" :message="form.errors.email"/>
+              <input
+                type="email"
+                id="hs-pro-dale"
+                v-model="form.email"
+                class="py-2.5 px-3 block w-full border-gray-200 rounded-lg text-sm placeholder:text-gray-400 focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-transparent dark:border-neutral-700 dark:text-neutral-300 dark:placeholder:text-white/60 dark:focus:ring-neutral-600"
+                :placeholder="$t('pages.login.email_placeholder')"
+                required
+                autofocus
+                autocomplete="username"
+              />
+              <InputError class="mt-2" :message="form.errors.email" />
             </div>
 
             <div>
               <div class="flex justify-between items-center mb-2">
                 <label for="hs-pro-dalp" class="block text-sm font-medium text-gray-800 dark:text-white">
-                  Parol
+                  {{ $t('pages.login.password_label') }}
                 </label>
 
-                <Link v-if="canResetPassword" :href="route('password.request')" class="inline-flex items-center gap-x-1.5 text-xs text-gray-600 hover:text-gray-700 decoration-2 hover:underline focus:outline-none focus:underline dark:text-neutral-500 dark:hover:text-neutral-600">
-                  Men parolimni unutdim
+                <Link
+                  v-if="canResetPassword"
+                  :href="route('password.request')"
+                  class="inline-flex items-center gap-x-1.5 text-xs text-gray-600 hover:text-gray-700 decoration-2 hover:underline focus:outline-none focus:underline dark:text-neutral-500 dark:hover:text-neutral-600"
+                >
+                  {{ $t('pages.login.forgot_password') }}
                 </Link>
               </div>
 
@@ -124,23 +131,32 @@ const heroText = 'Startup loyihaga asos soling, jamoa yig\'ing va StartInvest bi
             </div>
 
             <div class="flex gap-x-2">
-              <Checkbox name="remember" v-model:checked="form.remember" id="hs-pro-dsftac"/>
+              <Checkbox name="remember" v-model:checked="form.remember" id="hs-pro-dsftac" />
               <label for="hs-pro-dsftac" class="text-sm text-gray-800 ms-1.5 dark:text-neutral-200">
-                Meni eslab qol
+                {{ $t('pages.login.remember_me') }}
               </label>
             </div>
 
-            <button type="submit" :disabled="form.processing" class="py-2.5 px-3 w-full inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-neutral-600">
-              Kirish
+            <button
+              type="submit"
+              :disabled="form.processing"
+              class="py-2.5 px-3 w-full inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-neutral-600"
+            >
+              {{ $t('pages.login.submit_button') }}
             </button>
           </div>
         </form>
 
         <p class="text-sm text-gray-500 dark:text-neutral-500">
-          Hali akkauntingiz yo'qmi?
-          <Link :href="route('register')" class="inline-flex items-center gap-x-1 text-sm text-blue-600 decoration-2 hover:underline font-medium focus:outline-none focus:underline dark:text-blue-500">
-            Ro'yxatdan o'tish
-            <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+          {{ $t('pages.login.no_account') }}
+          <Link
+            :href="route('register')"
+            class="inline-flex items-center gap-x-1 text-sm text-blue-600 decoration-2 hover:underline font-medium focus:outline-none focus:underline dark:text-blue-500"
+          >
+            {{ $t('pages.login.register_link') }}
+            <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m9 18 6-6-6-6" />
+            </svg>
           </Link>
         </p>
       </div>

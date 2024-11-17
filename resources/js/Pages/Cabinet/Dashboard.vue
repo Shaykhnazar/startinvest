@@ -14,19 +14,19 @@ const { formatFriendlyDate } = useFormatFriendlyDate()
 <template>
   <CabinetLayout>
     <template #header>
-      <Head title="Kabinet"/>
+      <Head :title="$t('cabinet.dashboard.breadcrumbs.dashboard')"/>
     </template>
 
       <!-- Breadcrumb -->
       <ol class="md:hidden py-3 px-2 sm:px-5 flex items-center whitespace-nowrap">
         <li class="flex items-center text-sm text-stone-600 dark:text-neutral-500">
-          Dashboard
+          {{ $t('cabinet.dashboard.breadcrumbs.dashboard') }}
           <svg class="shrink-0 overflow-visible size-4 ms-1.5 text-stone-400 dark:text-neutral-600" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path d="M6 13L10 3" stroke="currentColor" stroke-linecap="round"></path>
           </svg>
         </li>
         <li class="ps-1.5 flex items-center font-semibold text-stone-800 dark:text-neutral-200 text-sm">
-          Overview
+          {{ $t('cabinet.dashboard.breadcrumbs.overview') }}
         </li>
       </ol>
       <!-- End Breadcrumb -->
@@ -38,7 +38,7 @@ const { formatFriendlyDate } = useFormatFriendlyDate()
           <!-- Header -->
           <div class="flex justify-between items-center gap-x-5">
             <h2 class="inline-block font-semibold text-gray-800 dark:text-neutral-200">
-              Startup
+              {{ $t('cabinet.dashboard.startup') }}
             </h2>
 
             <div class="flex justify-end items-center gap-x-2">
@@ -48,7 +48,7 @@ const { formatFriendlyDate } = useFormatFriendlyDate()
                   <path d="M5 12h14" />
                   <path d="M12 5v14" />
                 </svg>
-                Startup qo'shish
+                {{ $t('cabinet.dashboard.add_startup') }}
               </button>
               <!-- End Button -->
             </div>
@@ -265,7 +265,7 @@ const { formatFriendlyDate } = useFormatFriendlyDate()
                     <!-- Sort Dropdown -->
                     <div class="hs-dropdown relative inline-flex w-full cursor-pointer">
                       <button id="hs-pro-dutnms" type="button" class="px-5 py-2.5 text-start w-full flex items-center gap-x-1 text-sm text-nowrap font-normal text-gray-500 focus:outline-none focus:bg-gray-100 dark:text-neutral-500 dark:focus:bg-neutral-700" aria-haspopup="menu" aria-expanded="false" aria-label="Dropdown">
-                        Sarlavha
+                        {{ $t('cabinet.dashboard.title') }}
                         <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                           <path d="m7 15 5 5 5-5" />
                           <path d="m7 9 5-5 5 5" />
@@ -326,7 +326,7 @@ const { formatFriendlyDate } = useFormatFriendlyDate()
                     <!-- Sort Dropdown -->
                     <div class="hs-dropdown relative inline-flex w-full cursor-pointer">
                       <button id="hs-pro-duttgs" type="button" class="px-5 py-2.5 text-start w-full flex items-center gap-x-1 text-sm text-nowrap font-normal text-gray-500 focus:outline-none focus:bg-gray-100 dark:text-neutral-500 dark:focus:bg-neutral-700" aria-haspopup="menu" aria-expanded="false" aria-label="Dropdown">
-                        Sanoat tarmoqlari
+                        {{ $t('cabinet.dashboard.industry') }}
                         <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                           <path d="m7 15 5 5 5-5" />
                           <path d="m7 9 5-5 5 5" />
@@ -340,7 +340,7 @@ const { formatFriendlyDate } = useFormatFriendlyDate()
                     <!-- Sort Dropdown -->
                     <div class="hs-dropdown relative inline-flex w-full cursor-pointer">
                       <button id="hs-pro-dutass" type="button" class="px-5 py-2.5 text-start w-full flex items-center gap-x-1 text-sm text-nowrap font-normal text-gray-500 focus:outline-none focus:bg-gray-100 dark:text-neutral-500 dark:focus:bg-neutral-700" aria-haspopup="menu" aria-expanded="false" aria-label="Dropdown">
-                        Ishtirokchilar
+                        {{ $t('cabinet.dashboard.participants') }}
                         <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                           <path d="m7 15 5 5 5-5" />
                           <path d="m7 9 5-5 5 5" />
@@ -354,7 +354,7 @@ const { formatFriendlyDate } = useFormatFriendlyDate()
                     <!-- Sort Dropdown -->
                     <div class="hs-dropdown relative inline-flex w-full cursor-pointer">
                       <button id="hs-pro-dutprs" type="button" class="px-5 py-2.5 text-start w-full flex items-center gap-x-1 text-sm text-nowrap font-normal text-gray-500 focus:outline-none focus:bg-gray-100 dark:text-neutral-500 dark:focus:bg-neutral-700" aria-haspopup="menu" aria-expanded="false" aria-label="Dropdown">
-                        MVP versiyasi mavjud
+                        {{ $t('cabinet.dashboard.mvp_available') }}
                         <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                           <path d="m7 15 5 5 5-5" />
                           <path d="m7 9 5-5 5 5" />
@@ -370,7 +370,7 @@ const { formatFriendlyDate } = useFormatFriendlyDate()
                     <!-- Sort Dropdown -->
                     <div class="hs-dropdown relative inline-flex w-full cursor-pointer">
                       <button id="hs-pro-dutdds" type="button" class="px-5 py-2.5 text-start w-full flex items-center gap-x-1 text-sm text-nowrap font-normal text-gray-500 focus:outline-none focus:bg-gray-100 dark:text-neutral-500 dark:focus:bg-neutral-700" aria-haspopup="menu" aria-expanded="false" aria-label="Dropdown">
-                        Boshlanish Sanasi
+                        {{ $t('cabinet.dashboard.start_date') }}
                         <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                           <path d="m7 15 5 5 5-5" />
                           <path d="m7 9 5-5 5 5" />
@@ -385,7 +385,7 @@ const { formatFriendlyDate } = useFormatFriendlyDate()
                     <!-- Sort Dropdown -->
                     <div class="hs-dropdown relative inline-flex w-full cursor-pointer">
                       <button id="hs-pro-dutrts" type="button" class="px-5 py-2.5 text-start w-full flex items-center gap-x-1 text-sm text-nowrap font-normal text-gray-500 focus:outline-none focus:bg-gray-100 dark:text-neutral-500 dark:focus:bg-neutral-700" aria-haspopup="menu" aria-expanded="false" aria-label="Dropdown">
-                        Turi
+                        {{ $t('cabinet.dashboard.type') }}
                         <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                           <path d="m7 15 5 5 5-5" />
                           <path d="m7 9 5-5 5 5" />
@@ -413,7 +413,7 @@ const { formatFriendlyDate } = useFormatFriendlyDate()
                           {{ startup.title }}
                         </Link>
                       </p>
-                      <p class="text-sm text-gray-500 dark:text-neutral-500">Holati: {{ startup.status.label }}</p>
+                      <p class="text-sm text-gray-500 dark:text-neutral-500">{{ $t('cabinet.dashboard.status') }}: {{ startup.status.label }}</p>
                     </div>
                   </td>
                   <td class="size-px whitespace-nowrap">
@@ -428,7 +428,7 @@ const { formatFriendlyDate } = useFormatFriendlyDate()
                   <td class="size-px whitespace-nowrap">
                     <div class="px-5 py-2">
                       <div class="flex items-center -space-x-2">
-                        <span v-if="startup.contributors.length === 0" class="text-sm text-gray-600 dark:text-neutral-400">Mavjud emas</span>
+                        <span v-if="startup.contributors.length === 0" class="text-sm text-gray-600 dark:text-neutral-400">{{ $t('cabinet.dashboard.not_available') }}</span>
                         <div class="hs-tooltip hover:z-10" v-for="user in startup.contributors" :key="user.id">
                           <img class="shrink-0 size-7 rounded-full" src="https://images.unsplash.com/photo-1659482633369-9fe69af50bfb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2.5&w=320&h=320&q=80" alt="Avatar">
                           <span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 transition-opacity hidden invisible z-10 py-1 px-2 bg-gray-900 text-xs font-medium text-white rounded-lg shadow-sm dark:bg-neutral-700" role="tooltip">
@@ -450,8 +450,8 @@ const { formatFriendlyDate } = useFormatFriendlyDate()
                     <div class="px-5 py-2">
                       <div class="flex items-center gap-x-3">
                         <span class="text-sm text-gray-500 dark:text-neutral-500">
-                          <span v-if="startup.has_mvp" class="m-1 p-2 inline-block bg-green-100 text-green-800 text-xs rounded-md dark:bg-green-100 dark:text-green-700">Ha</span>
-                          <span v-else class="m-1 p-2 inline-block bg-gray-100 text-gray-800 text-xs rounded-md dark:bg-neutral-700 dark:text-neutral-200">Yo'q</span>
+                          <span v-if="startup.has_mvp" class="m-1 p-2 inline-block bg-green-100 text-green-800 text-xs rounded-md dark:bg-green-100 dark:text-green-700">{{ $t('common.yes') }}</span>
+                          <span v-else class="m-1 p-2 inline-block bg-gray-100 text-gray-800 text-xs rounded-md dark:bg-neutral-700 dark:text-neutral-200">{{ $t('common.no') }}</span>
                         </span>
                       </div>
                     </div>

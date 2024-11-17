@@ -11,6 +11,10 @@ class LanguageController extends Controller
         $locale = $request->input('locale');
         // Store the locale in session
         $request->session()->put('locale', $locale);
+        // Check if the request is an Inertia request
+        if ($request->inertia()) {
+            return redirect()->back();
+        }
 
         return response()->json(['status' => 'success']);
     }

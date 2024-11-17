@@ -20,19 +20,19 @@ defineProps({
 <template>
   <CabinetLayout>
     <template #header>
-      <Head title="Profilni tahrirlash"/>
+      <Head :title="$t('cabinet.profile_edit.title')" />
     </template>
 
     <!-- Breadcrumb -->
     <ol class="md:hidden pt-3 pb-1 sm:pb-3 px-2 sm:px-5 flex items-center whitespace-nowrap">
       <li class="flex items-center text-sm text-gray-600 dark:text-neutral-500">
-        Account
+        {{ $t('cabinet.profile_edit.breadcrumb_account') }}
         <svg class="shrink-0 overflow-visible size-4 ms-1.5 text-gray-400 dark:text-neutral-600" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <path d="M6 13L10 3" stroke="currentColor" stroke-linecap="round"></path>
         </svg>
       </li>
       <li class="ps-1.5 flex items-center font-semibold text-gray-800 dark:text-neutral-200 text-sm">
-        Profile
+        {{ $t('cabinet.profile_edit.breadcrumb_profile') }}
       </li>
     </ol>
     <!-- End Breadcrumb -->
@@ -41,10 +41,10 @@ defineProps({
       <!-- Account Nav -->
       <div class="w-full flex flex-row whitespace-nowrap overflow-x-auto overflow-y-hidden pb-1 [&::-webkit-scrollbar]:h-1 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500">
         <a class="py-2 px-3 inline-flex items-center gap-x-2 text-sm whitespace-nowrap border border-transparent text-gray-800 hover:text-gray-500 rounded-lg disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:text-gray-500 dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400 bg-white !border-gray-200 focus:text-gray-800 shadow-sm dark:bg-neutral-800 dark:!border-neutral-700 dark:focus:text-neutral-200 " href="#">
-          Profil
+          {{ $t('cabinet.profile_edit.profile') }}
         </a>
         <a class="py-2 px-3 inline-flex items-center gap-x-2 text-sm whitespace-nowrap border border-transparent text-gray-800 hover:text-gray-500 rounded-lg disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:text-gray-500 dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400  " href="#">
-          Bildirishnomalar
+          {{ $t('cabinet.profile_edit.notifications') }}
         </a>
 <!--        <a class="py-2 px-3 inline-flex items-center gap-x-2 text-sm whitespace-nowrap border border-transparent text-gray-800 hover:text-gray-500 rounded-lg disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:text-gray-500 dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400  " href="#">-->
 <!--          Integrations-->
@@ -69,10 +69,10 @@ defineProps({
         <!-- Title -->
         <div class="mb-4 xl:mb-8">
           <h1 class="text-lg font-semibold text-gray-800 dark:text-neutral-200">
-            Profil
+            {{ $t('cabinet.profile_edit.profile') }}
           </h1>
           <p class="text-sm text-gray-500 dark:text-neutral-500">
-            Ismingiz, parolingiz va hisobingiz sozlamalarini boshqaring.
+            {{ $t('cabinet.profile_edit.profile_description') }}
           </p>
         </div>
         <!-- End Title -->
@@ -84,7 +84,7 @@ defineProps({
           <div class="grid sm:grid-cols-12 gap-y-1.5 sm:gap-y-0 sm:gap-x-5">
             <div class="sm:col-span-4 xl:col-span-3 2xl:col-span-2">
               <label class="sm:mt-2.5 inline-block text-sm text-gray-500 dark:text-neutral-500">
-                Avatar
+                {{ $t('cabinet.profile_edit.avatar_label') }}
               </label>
             </div>
             <!-- End Col -->
@@ -108,13 +108,13 @@ defineProps({
                         <polyline points="17 8 12 3 7 8" />
                         <line x1="12" x2="12" y1="3" y2="15" />
                       </svg>
-                      Rasm yuklash
+                      {{ $t('cabinet.profile_edit.upload_image_button') }}
                     </button><button type="button" class="py-2 px-3 inline-flex items-center gap-x-2 text-xs font-medium rounded-lg border border-gray-200 bg-white text-red-500 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-red-500 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700" disabled>
-                    O`chirish
+                    {{ $t('cabinet.profile_edit.delete_image_button') }}
                   </button>
                   </div>
                   <p class="mt-2 text-xs text-gray-500 dark:text-neutral-500">
-                    1 MB gacha bo'lgan rasmni tanlang.
+                    {{ $t('cabinet.profile_edit.avatar_note') }}
                   </p>
                 </div>
               </div>
@@ -175,14 +175,14 @@ defineProps({
         <!-- Social Accounts -->
         <div class="py-6 sm:py-8 space-y-5 border-t border-gray-200 first:border-t-0 dark:border-neutral-700">
           <h2 class="font-semibold text-gray-800 dark:text-neutral-200">
-            Ijtimoiy tarmoqlardagi akkauntlaringiz
+            {{ $t('cabinet.profile_edit.social_accounts_title') }}
           </h2>
 
           <!-- Grid -->
           <div class="grid sm:grid-cols-12 gap-y-1.5 sm:gap-y-0 sm:gap-x-5">
             <div class="sm:col-span-4 xl:col-span-3 2xl:col-span-2">
               <label for="hs-pro-dapsaurl" class="sm:mt-2.5 inline-block text-sm text-gray-500 dark:text-neutral-500">
-                Havola
+                {{ $t('cabinet.profile_edit.social_link_label') }}
               </label>
             </div>
             <!-- End Col -->
@@ -206,7 +206,7 @@ defineProps({
                       <path d="M5 12h14" />
                       <path d="M12 5v14" />
                     </svg>
-                    Havolani qo'shish
+                    {{ $t('cabinet.profile_edit.add_link_button') }}
                   </button>
                 </p>
                 <!-- End Add Link -->

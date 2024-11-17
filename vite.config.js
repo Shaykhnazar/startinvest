@@ -10,6 +10,7 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 import laravel from 'laravel-vite-plugin';
 import svgLoader from 'vite-svg-loader'
 import fs from 'fs';
+import i18n from 'laravel-vue-i18n/vite';
 
 const env = loadEnv('all', process.cwd());
 
@@ -37,7 +38,8 @@ export default defineConfig({
     Components({
       resolvers: [ElementPlusResolver()],
     }),
-    svgLoader()
+    svgLoader(),
+    i18n()
   ],
   resolve: {
     alias: {

@@ -14,6 +14,7 @@ import IdeaCommentModal from '@/Components/modals/IdeaCommentModal.vue'
 import { useInfiniteScroll } from '@/Composables/useInfiniteScroll.js'
 import { VOTE_TYPES } from '@/services/const.js'
 import IdeaDeleteModal from '@/Components/modals/IdeaDeleteModal.vue'
+import { wTrans } from 'laravel-vue-i18n';
 
 const props = defineProps({
   ideas: {
@@ -78,7 +79,7 @@ const ideaEdit = async (ideaData) => {
   }).then((response) => {
     updateIdeaList(response.data.idea)
     showIdeaEditModal(false)
-    success('G\'oya muvaffaqiyatli tahrirlandi')
+    success(wTrans('site.idea.actions.idea_edited_success'))
   }).finally(() => {
     submitting.value = false
   });
@@ -91,7 +92,7 @@ const ideaAdd = async (ideaData) => {
   }).then((response) => {
     updateIdeaList(response.data.idea)
     showIdeaModal(false)
-    success('G\'oya muvaffaqiyatli qo\'shildi')
+    success(wTrans('site.idea.actions.idea_added_success'))
   }).finally(() => {
     submitting.value = false
   })
@@ -102,7 +103,7 @@ const deleteIdea = async (id) => {
   await api.ideas.delete(id).then((response) => {
     updateIdeaList(response.data.idea, true)
     showIdeaDeleteModal(false)
-    info('G\'oya muvaffaqiyatli o\'chirildi')
+    info(wTrans('site.idea.actions.idea_deleted_success'))
   }).finally(() => {
     submitting.value = false
   })
@@ -122,17 +123,16 @@ async function voteDown(idea) {
 
 async function favoriteIdeaHandler(idea) {
   if (userStore.isGuest) {
-    info('G\'oyalarni saqlash uchun tizimga kiring')
+    info(wTrans('site.idea.actions.login_to_save_idea'))
   } else if (!submitting.value) {
     submitting.value = true
     await api.ideas.favorite(idea.id).then((response) => {
       updateIdeaList(response.data.idea)
       userStore.updateUserFavorites(response.data.user_favorites)
       if (userStore.hasFavoritedIdea(idea)) {
-        success('G\'oya muvaffaqiyatli saqlandi')
+        success(wTrans('site.idea.actions.idea_saved_success'))
       } else {
-        info('G\'oya sizning sevimlilar ro\'yxatingizdan o\'chirildi'
-        )
+        info(wTrans('site.idea.actions.idea_unsaved'))
       }
     }).finally(() => {
       submitting.value = false
@@ -142,7 +142,7 @@ async function favoriteIdeaHandler(idea) {
 
 async function commentIdeaHandler(formEl, ideaCommentFormData) {
   if (userStore.isGuest) {
-    info('Iltimos, sharh qoldirish uchun tizimga kiring');
+    info(wTrans('site.idea.actions.login_to_comment'));
   } else if (!submitting.value) {
     if (!formEl) return;
     await formEl.validate(async (valid, fields) => {
@@ -169,7 +169,7 @@ function sendIdeaHandler(idea) {
 
 function votePreCheck() {
   if (userStore.isGuest) {
-    info('Ovoz berish uchun tizimga kiring')
+    info(wTrans('site.idea.actions.login_to_vote'))
     return false
   }
   return true
@@ -182,7 +182,7 @@ async function voteSubmit(idea, type) {
   }).then((response) => {
     updateIdeaList(response.data.idea)
     userStore.updateUserVotes(response.data.user_votes)
-    info('Ovoz berildi')
+    info(wTrans('site.idea.actions.idea_vote_success'))
   }).finally(() => {
     submitting.value = false
   });
@@ -191,7 +191,7 @@ async function voteSubmit(idea, type) {
 <template>
   <App>
     <template #header>
-      <Head title="G'oyalar"/>
+      <Head :title="$t('site.idea.title')"/>
     </template>
     <el-backtop :right="50" :bottom="50" :visibility-height="300" />
 
@@ -231,8 +231,8 @@ async function voteSubmit(idea, type) {
       v-if="ideaModalVisible"
       :idea-form="ideaForm"
       :submitting="submitting"
-      title="Yangi g'oya"
-      submit-button-text="Ulashish"
+      :title="$t('site.idea.modals.new_idea_title')"
+      :submit-button-text="$t('site.idea.modals.submit_share_button')"
       @close="showIdeaModal(false)"
       @submit="ideaSubmit"
       @reset="resetForm"
@@ -241,8 +241,7 @@ async function voteSubmit(idea, type) {
       v-if="ideaEditModalVisible"
       :idea-form="ideaForm"
       :submitting="submitting"
-      title="G'oyani tahrirlash"
-      submit-button-text="Saqlash"
+      :submit-button-text="$t('site.idea.modals.submit_save_button')"
       @close="showIdeaEditModal(false)"
       @submit="ideaSubmit"
       @reset="resetForm"
@@ -251,7 +250,7 @@ async function voteSubmit(idea, type) {
       v-if="ideaCommentModalVisible"
       :idea-comment-form="ideaCommentForm"
       :submitting="submitting"
-      submit-button-text="Ulashish"
+      :submit-button-text="$t('site.idea.modals.submit_share_button')"
       @close="showIdeaCommentModal(false)"
       @submit="commentIdeaHandler"
     />

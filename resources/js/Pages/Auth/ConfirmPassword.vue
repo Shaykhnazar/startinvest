@@ -19,15 +19,15 @@ const submit = () => {
 
 <template>
   <GuestLayout>
-    <Head title="Parolni tasdiqlang" />
+    <Head :title="$t('pages.password.confirm.title')" />
 
     <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
-      Bu dasturning xavfsiz hududi. Davom etishdan oldin, iltimos, parolingizni tasdiqlang.
+      {{ $t('pages.password.confirm.message') }}
     </div>
 
     <form @submit.prevent="submit">
       <div>
-        <InputLabel for="password" value="Parol" />
+        <InputLabel for="password" :value="$t('pages.password.confirm.label')" />
         <TextInput
           id="password"
           type="password"
@@ -41,8 +41,8 @@ const submit = () => {
       </div>
 
       <div class="flex justify-end mt-4">
+          {{ $t('pages.password.confirm.button') }}
         <PrimaryButton class="ms-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-          Tasdiqlash
         </PrimaryButton>
       </div>
     </form>
