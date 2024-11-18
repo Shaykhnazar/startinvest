@@ -93,7 +93,7 @@ const isOwnerOfStartup = (notification) => {
                 <path d="m21 21-4.3-4.3" />
               </svg>
             </div>
-            <input type="text" class="py-2 ps-10 pe-16 block w-full bg-white border-gray-200 rounded-lg text-sm focus:outline-none focus:border-gray-200 focus:ring-0 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder:text-neutral-400 dark:focus:ring-neutral-600" placeholder="Izlash" data-hs-overlay="#hs-pro-dnsm">
+            <input type="text" class="py-2 ps-10 pe-16 block w-full bg-white border-gray-200 rounded-lg text-sm focus:outline-none focus:border-gray-200 focus:ring-0 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder:text-neutral-400 dark:focus:ring-neutral-600" :placeholder="$t('cabinet.header.search')" data-hs-overlay="#hs-pro-dnsm">
             <div class="hidden absolute inset-y-0 end-0 flex items-center pointer-events-none z-20 pe-1">
               <button type="button" class="inline-flex shrink-0 justify-center items-center size-6 rounded-full text-gray-500 hover:text-blue-600 focus:outline-none focus:text-blue-600 dark:text-neutral-500 dark:hover:text-blue-500 dark:focus:text-blue-500" aria-label="Close">
                 <span class="sr-only">Close</span>
@@ -269,7 +269,7 @@ const isOwnerOfStartup = (notification) => {
                 </span>
               </button>
               <span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 inline-block absolute invisible z-20 py-1.5 px-2.5 bg-gray-900 text-xs text-white rounded-lg dark:bg-neutral-700" role="tooltip">
-                Bildirishnomalar
+                {{ $t('cabinet.aside.chat') }}
               </span>
             </div>
             <!-- End Notifications Button Icon -->
@@ -281,10 +281,10 @@ const isOwnerOfStartup = (notification) => {
                 <!-- Nav Tab -->
                 <nav class="flex  gap-x-1" aria-label="Tabs" role="tablist" aria-orientation="horizontal">
                   <button type="button" class="hs-tab-active:after:bg-gray-800 hs-tab-active:text-gray-800 px-2 py-1.5 mb-2 relative inline-flex justify-center items-center gap-x-2 text-nowrap  hover:bg-gray-100 text-gray-500 hover:text-gray-800 text-sm rounded-lg disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 after:absolute after:-bottom-2 after:inset-x-2.5 after:z-10 after:h-0.5 after:pointer-events-none dark:hs-tab-active:text-neutral-200 dark:hs-tab-active:after:bg-neutral-400 dark:text-neutral-500 dark:hover:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 active " id="hs-pro-tabs-dnn-item-all" aria-selected="true" data-hs-tab="#hs-pro-tabs-dnn-all" aria-controls="hs-pro-tabs-dnn-all" role="tab">
-                    Barchasi
+                    {{ $t('cabinet.startup_show.tabs.all') }}
                   </button>
                   <button type="button" class="hs-tab-active:after:bg-gray-800 hs-tab-active:text-gray-800 px-2 py-1.5 mb-2 relative inline-flex justify-center items-center gap-x-2 text-nowrap  hover:bg-gray-100 text-gray-500 hover:text-gray-800 text-sm rounded-lg disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 after:absolute after:-bottom-2 after:inset-x-2.5 after:z-10 after:h-0.5 after:pointer-events-none dark:hs-tab-active:text-neutral-200 dark:hs-tab-active:after:bg-neutral-400 dark:text-neutral-500 dark:hover:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700  " id="hs-pro-tabs-dnn-item-archived" aria-selected="false" data-hs-tab="#hs-pro-tabs-dnn-archived" aria-controls="hs-pro-tabs-dnn-archived" role="tab">
-                    Arxivdagi
+                    {{ $t('cabinet.startup_show.tabs.archive') }}
                   </button>
                 </nav>
                 <!-- End Nav Tab -->
@@ -298,7 +298,7 @@ const isOwnerOfStartup = (notification) => {
                     </svg>
                   </Link>
                   <span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 inline-block absolute invisible z-20 py-1.5 px-2.5 bg-gray-900 text-xs text-white rounded-lg dark:bg-neutral-700" role="tooltip">
-                    Sozlash
+                    {{ $t('cabinet.header.settings') }}
                   </span>
                 </div>
                 <!-- End Notifications Button Icon -->
@@ -308,7 +308,7 @@ const isOwnerOfStartup = (notification) => {
               <!-- Tab Content -->
               <div id="hs-pro-tabs-dnn-all" role="tabpanel" aria-labelledby="hs-pro-tabs-dnn-item-all">
                 <div v-if="notifications.length === 0" class="px-4 py-2 text-gray-600">
-                  Sizda yangi bildirishnomalar yo'q.
+                  {{ $t('cabinet.header.no_new_notifications') }}
                 </div>
                 <div v-else class="h-[480px] overflow-y-auto overflow-hidden [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-neutral-700 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500">
                   <ul class="divide-y divide-gray-200 dark:divide-neutral-800">
@@ -355,7 +355,7 @@ const isOwnerOfStartup = (notification) => {
                                 : route('startups.show', notification.data.joinRequest?.startup_id)"
                               class="inline-flex items-center gap-x-1 text-sm text-blue-600 decoration-2 hover:underline font-medium focus:outline-none focus:underline dark:text-blue-400 dark:hover:text-blue-500"
                             >
-                              Startupni ko'rish
+                              {{ $t('cabinet.header.view_startup') }}
                               <svg class="shrink-0 size-4 transition ease-in-out group-hover:translate-x-1 group-focus:translate-x-1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="m9 18 6-6-6-6" />
                               </svg>
@@ -380,7 +380,7 @@ const isOwnerOfStartup = (notification) => {
                                     </svg>
                                   </button>
                                   <span class="hs-tooltip-content hs-tooltip-shown:opacity-100 hs-tooltip-shown:visible opacity-0 inline-block absolute invisible z-20 py-1.5 px-2.5 bg-gray-900 text-xs text-white rounded-lg dark:bg-neutral-700" role="tooltip">
-                                  Ushbu bildirishnomani o'qilgan deb belgilang
+                                  {{ $t('cabinet.header.mark_notification_as_read') }}
                                 </span>
                                 </div>
                                 <!--                              <div class="hs-tooltip relative inline-block">-->
@@ -414,7 +414,7 @@ const isOwnerOfStartup = (notification) => {
                       <path d="M18 6 7 17l-5-5" />
                       <path d="m22 10-7.5 7.5L13 16" />
                     </svg>
-                    Barcha bildirishnomalarni o'qilgan deb belgilash
+                    {{ $t('cabinet.header.mark_all_as_read') }}
                   </a>
                 </div>
                 <!-- End Footer -->
@@ -459,15 +459,15 @@ const isOwnerOfStartup = (notification) => {
 
                   <div class="max-w-sm mx-auto">
                     <p class="mt-2 font-medium text-gray-800 dark:text-neutral-200">
-                      Arxivlangan bildirishnomalar yo'q
+                      {{ $t('cabinet.header.no_archived_notifications') }}
                     </p>
                     <p class="mb-5 text-sm text-gray-500 dark:text-neutral-500">
-                      Bu yerda hozircha maʼlumot yoʻq. Yangilanish bo'lganda sizni xabardor qilamiz.
+                      {{ $t('cabinet.header.no_data_yet') }}
                     </p>
                   </div>
 
                   <a class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-50 dark:bg-neutral-800 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700" href="#">
-                    Bildirishnomalar sozlamalari
+                    {{ $t('cabinet.header.notification_settings') }}
                   </a>
                 </div>
                 <!-- End Empty State -->
@@ -913,7 +913,7 @@ const isOwnerOfStartup = (notification) => {
                     <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
                     <circle cx="12" cy="7" r="4" />
                   </svg>
-                  Akkaunt
+                  {{ $t('cabinet.aside.account.title') }}
                 </DropdownLink>
               </div>
               <div class="px-4 py-3.5 border-y border-gray-200 dark:border-neutral-800">
@@ -941,7 +941,7 @@ const isOwnerOfStartup = (notification) => {
 <!--                  Manage team-->
 <!--                </a>-->
                 <button type="button" @click="logoutHandle" class="flex items-center gap-x-3 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800">
-                  Chiqish
+                  {{ $t('cabinet.header.logout') }}
                 </button>
               </div>
 <!--              <div class="p-1 border-t border-gray-200 dark:border-neutral-800">-->

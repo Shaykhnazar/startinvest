@@ -14,13 +14,13 @@
 
           <div class="grow">
             <h3 class="text-xl font-semibold text-gray-800 group-hover:text-gray-600 dark:text-neutral-300 dark:group-hover:text-white">
-              Go'yalarni amalga oshirishni kechiktirmang
+              {{ $t('site.home.blocks.blog.0.title') }}
             </h3>
             <p class="mt-3 text-gray-600 dark:text-neutral-400 dark:hover:text-neutral-200">
-              Unikal g'oya izlab toping yoki sizda shunday go'ya bor lekin uni amalga oshirishga xoxish yoki imkoniyat yo'q bo'lsa uni biz bilan bo'lishing
+              {{ $t('site.home.blocks.blog.0.description') }}
             </p>
             <p class="mt-4 inline-flex items-center gap-x-1 text-sm text-blue-600 decoration-2 group-hover:underline group-focus:underline font-medium dark:text-blue-500">
-              Batafsil
+              {{ $t('site.home.blocks.blog.0.button') }}
               <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="m9 18 6-6-6-6"/>
@@ -43,13 +43,13 @@
 
           <div class="grow">
             <h3 class="text-xl font-semibold text-gray-800 group-hover:text-gray-600 dark:text-neutral-300 dark:group-hover:text-white">
-              Startup loyihalarni birgalikda takomillashtiring
+              {{ $t('site.home.blocks.blog.1.title') }}
             </h3>
             <p class="mt-3 text-gray-600 dark:text-neutral-400 dark:hover:text-neutral-200">
-              Startup loyihangiz bor lekin uni qanday kengaytirib keyingi bosqichga olib chiqishni o'ylayabsizmi? Bizningcha buni amalga oshirishda yaxshi jamoa to'plashingiz zarur!
+              {{ $t('site.home.blocks.blog.1.description') }}
             </p>
             <p class="mt-4 inline-flex items-center gap-x-1 text-sm text-blue-600 decoration-2 group-hover:underline group-focus:underline font-medium dark:text-blue-500">
-              Batafsil
+              {{ $t('site.home.blocks.blog.1.button') }}
               <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="m9 18 6-6-6-6"/>
@@ -72,13 +72,13 @@
 
           <div class="grow">
             <h3 class="text-xl font-semibold text-gray-800 group-hover:text-gray-600 dark:text-neutral-300 dark:group-hover:text-white">
-              Startup loyihada ishtirok eting
+              {{ $t('site.home.blocks.blog.2.title') }}
             </h3>
             <p class="mt-3 text-gray-600 dark:text-neutral-400 dark:hover:text-neutral-200">
-              O'z ko'nikmala va tajribangizni turli xil startuplarda ishtirok etish orqali rivojlantirish imkoniyati sizda mavjud!
+              {{ $t('site.home.blocks.blog.2.description') }}
             </p>
             <p class="mt-4 inline-flex items-center gap-x-1 text-sm text-blue-600 decoration-2 group-hover:underline group-focus:underline font-medium dark:text-blue-500">
-              Batafsil
+              {{ $t('site.home.blocks.blog.2.button') }}
               <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="m9 18 6-6-6-6"/>
@@ -101,13 +101,13 @@
 
           <div class="grow">
             <h3 class="text-xl font-semibold text-gray-800 group-hover:text-gray-600 dark:text-neutral-300 dark:group-hover:text-white">
-              Investitsiya kiriting
+              {{ $t('site.home.blocks.blog.3.title') }}
             </h3>
             <p class="mt-3 text-gray-600 dark:text-neutral-400 dark:hover:text-neutral-200">
-              Agarda siz investor bo'lsangiz, u holda kelajagi porloq deb hisoblagan startupga investorlik qilish imkoniyatiga ega bo'lasiz!
+              {{ $t('site.home.blocks.blog.3.description') }}
             </p>
             <p class="mt-4 inline-flex items-center gap-x-1 text-sm text-blue-600 decoration-2 group-hover:underline group-focus:underline font-medium dark:text-blue-500">
-              Batafsil
+              {{ $t('site.home.blocks.blog.3.button') }}
               <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="m9 18 6-6-6-6"/>

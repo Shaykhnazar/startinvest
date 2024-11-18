@@ -40,7 +40,7 @@ const user = reactive(useUserStore().authUser)
                   <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
                   <polyline points="9 22 9 12 15 12 15 22" />
                 </svg>
-                Kabinet
+                {{ $t('cabinet.aside.cabinet') }}
               </Link>
             </li>
             <!-- End Link -->
@@ -49,7 +49,7 @@ const user = reactive(useUserStore().authUser)
             <li class="hs-accordion px-5  " id="ideas-accordion">
               <button type="button" class="hs-accordion-toggle hs-accordion-active:bg-gray-100 w-full text-start flex gap-x-3 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:hs-accordion-active:bg-neutral-700 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700" aria-expanded="false" aria-controls="ideas-accordion-sub">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-lightbulb  mt-0.5 size-4"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>
-                G'oyalarim
+                {{ $t('cabinet.aside.ideas.title') }}
 
                 <svg class="hs-accordion-active:-rotate-180 shrink-0 mt-1 size-3.5 ms-auto transition" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="m6 9 6 6 6-6" />
@@ -60,7 +60,7 @@ const user = reactive(useUserStore().authUser)
                 <ul class="hs-accordion-group ps-7 mt-1.5 space-y-1.5 relative before:absolute before:top-0 before:start-[18px] before:w-0.5 before:h-full before:bg-gray-100 dark:before:bg-neutral-700" data-hs-accordion-always-open>
                   <li>
                     <Link :href="route('dashboard.ideas')" class="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700">
-                      Ko'rish
+                      {{ $t('cabinet.aside.ideas.view') }}
                     </Link>
                   </li>
 <!--                  <li>-->
@@ -77,7 +77,7 @@ const user = reactive(useUserStore().authUser)
             <li class="hs-accordion px-5" id="startups-accordion">
               <button type="button" class="hs-accordion-toggle hs-accordion-active:bg-gray-100 w-full text-start flex gap-x-3 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none dark:hs-accordion-active:bg-neutral-700 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700" aria-expanded="false" aria-controls="startups-accordion-sub">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-rocket  mt-0.5 size-4"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>
-                Loyihalarim
+                {{ $t('cabinet.aside.projects.title') }}
 
                 <svg class="hs-accordion-active:-rotate-180 shrink-0 mt-1 size-3.5 ms-auto transition" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="m6 9 6 6 6-6" />
@@ -88,12 +88,12 @@ const user = reactive(useUserStore().authUser)
                 <ul class="hs-accordion-group ps-7 mt-1.5 space-y-1.5 relative before:absolute before:top-0 before:start-[18px] before:w-0.5 before:h-full before:bg-gray-100 dark:before:bg-neutral-700" data-hs-accordion-always-open>
                   <li>
                     <Link :href="route('dashboard.startups')" :active="route().current('dashboard.startups')" class="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  ">
-                      Ko'rish
+                      {{ $t('cabinet.aside.ideas.view') }}
                     </Link>
                   </li>
                   <li>
                     <Link :href="route('dashboard.startups.add')" :active="route().current('dashboard.startups.add')" class="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  ">
-                      Yaratish
+                      {{ $t('cabinet.aside.projects.create') }}
                     </Link>
                   </li>
                 </ul>
@@ -109,7 +109,7 @@ const user = reactive(useUserStore().authUser)
                   <circle cx="12" cy="10" r="3" />
                   <path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662" />
                 </svg>
-                Foydalanuvchi profili
+                {{ $t('cabinet.aside.user_profile.title') }}
 
                 <svg class="hs-accordion-active:-rotate-180 shrink-0 mt-1 size-3.5 ms-auto transition" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="m6 9 6 6 6-6" />
@@ -120,12 +120,12 @@ const user = reactive(useUserStore().authUser)
                 <ul class="hs-accordion-group ps-7 mt-1.5 space-y-1.5 relative before:absolute before:top-0 before:start-[18px] before:w-0.5 before:h-full before:bg-gray-100 dark:before:bg-neutral-700" data-hs-accordion-always-open>
                   <li>
                     <Link :href="route('dashboard.my-profile')" :active="route().current('dashboard.my-profile')" class="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  ">
-                      Umumiy profil
+                      {{ $t('cabinet.aside.user_profile.general') }}
                     </Link>
                   </li>
                   <li>
                     <Link :href="route('dashboard.startup-teams')" :active="route().current('dashboard.startup-teams')" class="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  ">
-                      Startuplar
+                      {{ $t('cabinet.aside.user_profile.startups') }}
                     </Link>
                   </li>
 <!--                  <li>-->
@@ -164,7 +164,7 @@ const user = reactive(useUserStore().authUser)
                   <path d="m14.3 16.6 1-.4" />
                   <path d="m20.7 13.8 1-.4" />
                 </svg>
-                Akkaunt
+                {{ $t('cabinet.aside.account.title') }}
 
                 <svg class="hs-accordion-active:-rotate-180 shrink-0 mt-1 size-3.5 ms-auto transition" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="m6 9 6 6 6-6" />
@@ -175,12 +175,12 @@ const user = reactive(useUserStore().authUser)
                 <ul class="hs-accordion-group ps-7 mt-1.5 space-y-1.5 relative before:absolute before:top-0 before:start-[18px] before:w-0.5 before:h-full before:bg-gray-100 dark:before:bg-neutral-700" data-hs-accordion-always-open>
                   <li>
                     <Link class="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  " :href="route('dashboard.profile.edit', user?.id)">
-                      Profil
+                      {{ $t('cabinet.aside.account.profile') }}
                     </Link>
                   </li>
                   <li>
                     <Link class="flex gap-x-4 py-2 px-3 text-sm text-gray-800 rounded-lg hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:hover:bg-neutral-700 dark:text-neutral-300 dark:focus:bg-neutral-700  " href="#">
-                      Bildirishnomalar
+                      {{ $t('cabinet.aside.account.notifications') }}
                     </Link>
                   </li>
 <!--                  <li>-->
@@ -264,7 +264,7 @@ const user = reactive(useUserStore().authUser)
             <!-- Divider -->
             <li class="pt-5 px-8 mt-5 border-t border-gray-200 first:border-transparent first:pt-0 dark:border-neutral-700 dark:first:border-transparent">
               <span class="block text-xs uppercase text-gray-500 dark:text-neutral-500">
-                Ilovalar (yaqin kunlarda...)
+                {{ $t('cabinet.aside.apps') }}
               </span>
             </li>
             <!-- End Divider -->
@@ -277,7 +277,7 @@ const user = reactive(useUserStore().authUser)
                     <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
                   </svg>
                 </span>
-                Chat
+                {{ $t('cabinet.aside.chat') }}
               </Link>
             </li>
             <!-- End Link -->

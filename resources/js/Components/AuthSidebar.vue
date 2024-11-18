@@ -46,7 +46,7 @@ import {Link} from '@inertiajs/vue3'
     <!-- Body -->
     <div>
           <span class="text-2xl font-medium text-gray-800 dark:text-white">
-            Startupingizni boshqarishning eng oddiy usuli
+            {{ $t('site.auth.sidebar.manage_startup') }}
           </span>
 
       <!--        <img class="dark:hidden" src="#" alt="Charts Mockups">-->

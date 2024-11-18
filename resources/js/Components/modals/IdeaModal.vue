@@ -122,7 +122,7 @@ watch(() => props.ideaForm, (newIdeaForm) => {
   <el-dialog v-model="visible" @close="handleClose" fullscreen class="bg-white border border-gray-200 shadow-sm rounded-xl text-black dark:text-neutral-400 dark:bg-neutral-800 dark:border-neutral-700">
     <div class="space-y-4">
       <h3 class="text-lg font-medium text-gray-800 dark:text-neutral-200">
-        {{ title }}
+        {{ $t('site.idea.form_title') }}
       </h3>
       <el-form
         ref="formRefComputed"
@@ -137,14 +137,14 @@ watch(() => props.ideaForm, (newIdeaForm) => {
             <div class="grid sm:grid-cols-12 gap-y-1.5 sm:gap-y-0 sm:gap-x-5">
               <div class="sm:col-span-3">
                 <BaseFormInputLabel
-                  title="Sarlavha"
+                  :title="$t('site.idea.title_label')"
                 />
               </div>
               <!-- End Col -->
 
               <div class="sm:col-span-9">
                 <el-form-item prop="title" required>
-                  <BaseFormTextInput v-model="ideaForm.title" placeholder="G'oyaning qisqacha sarlavhasi"/>
+                  <BaseFormTextInput v-model="ideaForm.title" :placeholder="$t('site.idea.title_placeholder')"/>
                 </el-form-item>
               </div>
               <!-- End Col -->
@@ -154,7 +154,7 @@ watch(() => props.ideaForm, (newIdeaForm) => {
             <div class="grid sm:grid-cols-12 gap-y-1.5 sm:gap-y-0 sm:gap-x-5">
               <div class="sm:col-span-3">
                 <BaseFormInputLabel
-                  title="G'oyangizni tasvirlang"
+                  :title="$t('site.idea.description_label')"
                 />
               </div>
               <!-- End Col -->
@@ -175,7 +175,7 @@ watch(() => props.ideaForm, (newIdeaForm) => {
       <div class="pt-0 flex justify-end gap-x-2">
         <div class="w-full flex justify-end items-center gap-x-2">
           <button type="button" @click="$emit('reset', formRefComputed)" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700" data-hs-overlay="#hs-modal-idea-new">
-            Qayta tiklash
+            {{ $t('site.idea.reset_button') }}
           </button>
           <button type="button" @click="$emit('submit', formRefComputed, beforeSubmit(ideaForm))" :disabled="!ideaForm.title || submitting" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">
             {{ submitButtonText }}

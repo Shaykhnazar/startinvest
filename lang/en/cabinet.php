@@ -179,4 +179,39 @@ return [
             "request_fail" => "An error occurred while processing the request",
         ],
     ],
+    "aside" => [
+        "cabinet" => "Cabinet",
+        "ideas" => [
+            "title" => "My Ideas",
+            "view" => "View",
+        ],
+        "projects" => [
+            "title" => "My Projects",
+            "create" => "Create",
+        ],
+        "user_profile" => [
+            "title" => "User Profile",
+            "general" => "General Profile",
+            "startups" => "Startups",
+        ],
+        "account" => [
+            "title" => "Account",
+            "profile" => "Profile",
+            "notifications" => "Notifications",
+        ],
+        "apps" => "Applications (coming soon...)",
+        "chat" => "Chat",
+    ],
+    'header' => [
+        'settings' => 'Settings',
+        'search' => 'Search',
+        'no_new_notifications' => 'You have no new notifications.',
+        'view_startup' => 'View Startup',
+        'mark_notification_as_read' => 'Mark this notification as read',
+        'mark_all_as_read' => 'Mark all notifications as read',
+        'no_archived_notifications' => 'No archived notifications',
+        'no_data_yet' => 'There\'s no information here yet. We\'ll notify you when there\'s an update.',
+        'notification_settings' => 'Notifications Settings',
+        'logout' => 'Logout',
+    ],
 ];

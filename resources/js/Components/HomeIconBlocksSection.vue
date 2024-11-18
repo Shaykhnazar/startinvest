@@ -1,42 +1,43 @@
 <script setup>
 import { ref } from 'vue'
 import CardItem from '@/Components/HomeIconCard.vue'
+import { wTrans } from 'laravel-vue-i18n'; // Import wTrans for translation
 
 const cardItems = ref([
   {
     id: 1,
     icon: 'lucide-lightbulb',
-    title: 'G\'oya',
-    short: 'Biz sizning ajoyib g\'oyangizni muvaffaqiyatga aylantirishga yordam bera olamiz',
-    route: 'ideas.index'
+    title: wTrans('site.home.blocks.cards.0.title'),
+    short: wTrans('site.home.blocks.cards.0.short'),
+    route: 'ideas.index',
   },
   {
     id: 2,
     icon: 'lucide-users',
-    title: 'Jamoa',
-    short: 'Sizga kerakli mutahhasislardan o\'z jamoangizni tashkil etishda ko\'maklashamiz',
-    route: 'startups.index'
+    title: wTrans('site.home.blocks.cards.1.title'),
+    short: wTrans('site.home.blocks.cards.1.short'),
+    route: 'startups.index',
   },
   {
     id: 3,
     icon: 'lucide-flag',
-    title: 'Startup',
-    short: 'Loyihangizga asos soling va MVP versiyada uni ishlab chiqing',
-    route: 'startups.index'
+    title: wTrans('site.home.blocks.cards.2.title'),
+    short: wTrans('site.home.blocks.cards.2.short'),
+    route: 'startups.index',
   },
   {
     id: 4,
     icon: 'lucide-banknote',
-    title: 'Investitsiya',
-    short: 'Eng yaxshi deb hisoblagan startup loyihani izlab toping va uni moliyalashtiring',
-    route: 'startups.index'
+    title: wTrans('site.home.blocks.cards.3.title'),
+    short: wTrans('site.home.blocks.cards.3.short'),
+    route: 'startups.index',
   },
   {
     id: 5,
     icon: 'lucide-circle-check',
-    title: 'Natija',
-    short: 'Loyihani muvaffaqiyatli ishga tushiring va keyingi bosqichga olib chiqing',
-    route: 'startups.index'
+    title: wTrans('site.home.blocks.cards.4.title'),
+    short: wTrans('site.home.blocks.cards.4.short'),
+    route: 'startups.index',
   },
 ])
 </script>
@@ -60,11 +61,10 @@ const cardItems = ref([
     <div class="mt-5 lg:mt-16 grid lg:grid-cols-3 gap-8 lg:gap-12">
       <div class="lg:col-span-1">
         <h2 class="font-bold text-2xl md:text-3xl text-gray-800 dark:text-neutral-200">
-          Platformaning asosiy afzalliklari
+          {{ $t('site.home.blocks.features_title') }}
         </h2>
         <p class="mt-2 md:mt-4 text-gray-600 dark:text-neutral-400 dark:hover:text-neutral-200">
-          Bu kabi platforma ko'plab yosh tadbirkorlar va startupchilar uchun juda foydalidir, chunki u ularning g'oyalarini haqiqatga aylantirishda zarur bo'lgan resurslar va bilimlarni bir joyga jamlash va undan foydalanish imkonini beradi.
-          Shuningdek, ushbu platforma sizni barcha yordam va maslahatlar bilan ta'minlash orqali loyihalarni yanada tezroq va samarali amalga oshirishlariga yordam beradi.
+          {{ $t('site.home.blocks.features_description') }}
         </p>
       </div>
       <!-- End Col -->
@@ -84,10 +84,10 @@ const cardItems = ref([
             </svg>
             <div class="grow">
               <h3 class="text-lg font-semibold text-gray-800 dark:text-white">
-                Innovatsion g'oyalar jamlangan
+                {{ $t(`site.home.blocks.features.0.title`) }}
               </h3>
               <p class="mt-1 text-gray-600 dark:text-neutral-400 dark:hover:text-neutral-200">
-                G'oyalar va resurslarni samarali birlashtirish imkoniyati.
+                {{ $t(`site.home.blocks.features.0.short`) }}
               </p>
             </div>
           </div>
@@ -104,10 +104,10 @@ const cardItems = ref([
             </svg>
             <div class="grow">
               <h3 class="text-lg font-semibold text-gray-800 dark:text-white">
-                Oddiy va hamyonbop
+                {{ $t(`site.home.blocks.features.1.title`) }}
               </h3>
               <p class="mt-1 text-gray-600 dark:text-neutral-400 dark:hover:text-neutral-200">
-                Reklama qilish uchun ijtimoiy-tarmoqlardan va saytdan foydalanish imkoniyati
+                {{ $t(`site.home.blocks.features.1.short`) }}
               </p>
             </div>
           </div>
@@ -125,10 +125,10 @@ const cardItems = ref([
             </svg>
             <div class="grow">
               <h3 class="text-lg font-semibold text-gray-800 dark:text-white">
-                Jamoa uchun mo'ljallangan
+                {{ $t(`site.home.blocks.features.2.title`) }}
               </h3>
               <p class="mt-1 text-gray-600 dark:text-neutral-400 dark:hover:text-neutral-200">
-                Loyihangizni platforma ichida boshqarish imkoniyati
+                {{ $t(`site.home.blocks.features.2.short`) }}
               </p>
             </div>
           </div>
@@ -145,10 +145,10 @@ const cardItems = ref([
             </svg>
             <div class="grow">
               <h3 class="text-lg font-semibold text-gray-800 dark:text-white">
-                Hamjamiyat
+                {{ $t(`site.home.blocks.features.3.title`) }}
               </h3>
               <p class="mt-1 text-gray-600 dark:text-neutral-400 dark:hover:text-neutral-200">
-                Turli soha vakillari va biznes egalarining o'zaro hamkorlik qilishi uchun yaratilgan muhit
+                {{ $t(`site.home.blocks.features.3.short`) }}
               </p>
             </div>
           </div>

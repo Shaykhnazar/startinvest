@@ -179,4 +179,39 @@ return [
             "request_fail" => "So'rovni qayta ishlashda xato yuz berdi",
         ],
     ],
+    "aside" => [
+        "cabinet" => "Kabinet",
+        "ideas" => [
+            "title" => "G'oyalarim",
+            "view" => "Ko'rish",
+        ],
+        "projects" => [
+            "title" => "Loyihalarim",
+            "create" => "Yaratish",
+        ],
+        "user_profile" => [
+            "title" => "Foydalanuvchi profili",
+            "general" => "Umumiy profil",
+            "startups" => "Startuplar",
+        ],
+        "account" => [
+            "title" => "Akkaunt",
+            "profile" => "Profil",
+            "notifications" => "Bildirishnomalar",
+        ],
+        "apps" => "Ilovalar (yaqin kunlarda...)",
+        "chat" => "Chat",
+    ],
+    'header' => [
+        'settings' => 'Sozlash',
+        'search' => 'Izlash',
+        'no_new_notifications' => 'Sizda yangi bildirishnomalar yo\'q.',
+        'view_startup' => 'Startupni ko\'rish',
+        'mark_notification_as_read' => 'Ushbu bildirishnomani o\'qilgan deb belgilang',
+        'mark_all_as_read' => 'Barcha bildirishnomalarni o\'qilgan deb belgilash',
+        'no_archived_notifications' => 'Arxivlangan bildirishnomalar yo\'q',
+        'no_data_yet' => 'Bu yerda hozircha maʼlumot yoʻq. Yangilanish bo\'lganda sizni xabardor qilamiz.',
+        'notification_settings' => 'Bildirishnomalar sozlamalari',
+        'logout' => 'Chiqish',
+    ],
 ];

@@ -26,19 +26,19 @@ watch(() => props.idea, (newIdea) => {
     <!-- Body -->
     <div class="p-4">
       <h3 id="hs-pro-dtlam-label" class="text-lg font-medium text-gray-800 dark:text-neutral-200">
-        Ishonchingiz komilmi?
+        {{ $t('site.idea.delete.confirmation_title') }}
       </h3>
       <p class="mt-1 text-gray-500 dark:text-neutral-500">
-        Haqiqatan ham bu go'yani oʻchirib tashlamoqchimisiz?
+        {{ $t('site.idea.delete.confirmation_message') }}
       </p>
 
       <!-- Button Group -->
       <div class="mt-4 flex flex-wrap gap-x-3 gap-y-3">
         <button type="button" @click="$emit('close', true)" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-700 dark:focus:bg-neutral-700">
-          Yo'q
+          {{ $t('site.idea.delete.no_button') }}
         </button>
         <button type="button" @click="$emit('deleteIdeaHandler', idea.id)" class="py-2 px-3 inline-flex items-center gap-x-2 text-xs font-medium rounded-lg border border-transparent bg-red-500 text-white hover:bg-red-600 disabled:opacity-50 disabled:pointer-events-none">
-          Ha
+          {{ $t('site.idea.delete.yes_button') }}
         </button>
       </div>
       <!-- End Button Group -->

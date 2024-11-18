@@ -15,9 +15,114 @@ return [
     ],
     "home" => [
         "title" => "Home",
+        "carousel" => [
+            "items" => [
+                [
+                    "title" => "Startup",
+                    "short" => "Find your next team members and enhance your skills!",
+                ],
+                [
+                    "title" => "Idea",
+                    "short" => "Share your ideas!",
+                ],
+                [
+                    "title" => "Investment",
+                    "short" => "Find the startup project you believe in and fund it!",
+                ],
+            ],
+            "buttons" => [
+                "previous" => "Previous",
+                "next" => "Next",
+                "learn_more" => "Learn More",
+            ],
+        ],
+        "blocks" => [
+            "cards" => [
+                [
+                    "title" => "Idea",
+                    "short" => "We can help turn your great idea into a success",
+                ],
+                [
+                    "title" => "Team",
+                    "short" => "We'll help you form your team from the right specialists",
+                ],
+                [
+                    "title" => "Startup",
+                    "short" => "Establish your project and develop its MVP version",
+                ],
+                [
+                    "title" => "Investment",
+                    "short" => "Find the best startup project and fund it",
+                ],
+                [
+                    "title" => "Result",
+                    "short" => "Successfully launch the project and move to the next phase",
+                ],
+            ],
+            "features" => [
+                [
+                    "title" => "Collection of Innovative Ideas",
+                    "short" => "The ability to effectively combine ideas and resources.",
+                ],
+                [
+                    "title" => "Simple and Affordable",
+                    "short" => "Use social networks and the site for advertising.",
+                ],
+                [
+                    "title" => "Designed for Teams",
+                    "short" => "Ability to manage your project within the platform.",
+                ],
+                [
+                    "title" => "Community",
+                    "short" => "An environment created for collaboration between various professionals and business owners.",
+                ],
+            ],
+            "features_title" => "Main Advantages of the Platform",
+            "features_description" => "This kind of platform is very useful for many young entrepreneurs and startup founders as it brings together the resources and knowledge needed to turn their ideas into reality. Moreover, this platform helps them implement projects faster and more efficiently by providing all necessary support and guidance.",
+            "blog" => [
+                [
+                    "title" => "Don't delay implementing your ideas",
+                    "description" => "Find a unique idea or if you already have an idea but lack the desire or resources to execute it, share it with us.",
+                    "button" => "Learn More",
+                ],
+                [
+                    "title" => "Improve startup projects together",
+                    "description" => "Do you have a startup project but are wondering how to expand it to the next level? We believe that gathering a good team is key to achieving this!",
+                    "button" => "Learn More",
+                ],
+                [
+                    "title" => "Join a startup project",
+                    "description" => "You have the opportunity to enhance your skills and experience by participating in various startup projects!",
+                    "button" => "Learn More",
+                ],
+                [
+                    "title" => "Invest in a startup",
+                    "description" => "If you are an investor, you can invest in a startup that you believe has a bright future!",
+                    "button" => "Learn More",
+                ],
+            ],
+        ],
+        "footer" => [
+            "sections" => "Sections",
+            "contact" => "Contact",
+            "about_us" => "About Us",
+            "ideas" => "Ideas",
+            "startups" => "Startups",
+            "chat" => "Chat",
+            "contact_us" => "Contact Us",
+            "support" => "Support",
+            "terms_of_use" => "Terms of Use",
+            "privacy_policy" => "Privacy Policy",
+            "system_status" => "System Status",
+        ],
     ],
     "idea" => [
         "title" => "Ideas",
+        "form_title" => "Create New Idea",
+        "title_label" => "Title",
+        "title_placeholder" => "Enter a short title for the idea",
+        "description_label" => "Describe Your Idea",
+        "reset_button" => "Reset",
         "modals" => [
             "new_idea_title" => "New Idea",
             "edit_idea_title" => "Edit Idea",
@@ -35,6 +140,21 @@ return [
             "login_to_save_idea" => "Log in to save ideas",
             "login_to_comment" => "Please log in to leave a comment",
             "login_to_vote" => "Log in to vote",
+        ],
+        "comment" => [
+            "title" => "Idea Comments",
+            "placeholder" => "Write a comment...",
+            "submit_button" => "Submit",
+            "validation" => [
+                "required" => "Please enter a comment",
+                "length" => "Length must be between 3 and 255 characters",
+            ],
+        ],
+        "delete" => [
+            "confirmation_title" => "Are you sure?",
+            "confirmation_message" => "Are you sure you want to delete this idea?",
+            "yes_button" => "Yes",
+            "no_button" => "No",
         ],
     ],
     "startup" => [
@@ -71,6 +191,11 @@ return [
             "contact" => "Contact",
             "industries" => "Industries",
             "view_profile" => "View Profile",
+        ],
+    ],
+    "auth" => [
+        "sidebar" => [
+            "manage_startup" => "The simplest way to manage your startup",
         ],
     ],
 ];

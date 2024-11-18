@@ -1,10 +1,10 @@
 <script setup>
 import {Link} from '@inertiajs/vue3'
 import { onMounted, ref } from 'vue'
+import { wTrans } from 'laravel-vue-i18n';
 
 const ASSETS_BASE_URL = 'https://startinvestuz-190827817.imgix.net'
 const ASSETS_FORMAT_PARAMS = '?q=80&w=1920&auto=format&fit=crop'
-
 
 onMounted(() => {
   // console.log(ASSETS_URL)
@@ -14,25 +14,25 @@ const carouselItems = ref([
   {
     id: 1,
     image_url: `https://startinvestuz-190827817.imgix.net/carousel_2.jpg?q=80&w=1920&auto=format&fit=crop`,
-    title: 'Startup',
-    short: 'Keyingi jamoa a\'zolaringizni toping va mahoratingizni oshiring!',
+    title: wTrans("site.home.carousel.items.0.title"),
+    short: wTrans("site.home.carousel.items.0.short"),
     route: 'startups.index'
   },
   {
     id: 2,
     image_url: `https://startinvestuz-190827817.imgix.net/carousel_1.jpg?q=80&w=1920&auto=format&fit=crop`,
-    title: 'G\'oya',
-    short: 'G\'oyalaringiz bilan o\'rtoqlashing!',
+    title: wTrans("site.home.carousel.items.1.title"),
+    short: wTrans("site.home.carousel.items.1.short"),
     route: 'ideas.index'
   },
   {
     id: 3,
     image_url: `https://startinvestuz-190827817.imgix.net/carousel_3.jpg?q=80&w=1920&auto=format&fit=crop`,
-    title: 'Investitsiya',
-    short: 'Eng yaxshi deb hisoblagan startup loyihani izlab toping va uni moliyalashtiring!',
+    title: wTrans("site.home.carousel.items.2.title"),
+    short: wTrans("site.home.carousel.items.2.short"),
     route: 'startups.index'
   },
-])
+]);
 </script>
 
 <template>
@@ -57,7 +57,7 @@ const carouselItems = ref([
                 <span class="block text-white text-xl md:text-3xl">{{ item.short }}</span>
                 <div class="mt-5">
                   <Link :href="route(item.route)" class="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-xl bg-white border border-transparent text-black hover:bg-gray-100 focus:outline-none focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none">
-                    Batafsil
+                    {{ $t("site.home.carousel.buttons.learn_more") }}
                   </Link>
                 </div>
               </div>
@@ -74,11 +74,11 @@ const carouselItems = ref([
           <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"></path>
         </svg>
       </span>
-        <span class="sr-only">Oldingi</span>
+        <span class="sr-only">{{ $t("site.home.carousel.buttons.previous") }}</span>
       </button>
 
       <button type="button" class="hs-carousel-next hs-carousel:disabled:opacity-50 disabled:pointer-events-none absolute inset-y-0 end-0 inline-flex justify-center items-center w-12 h-full text-white hover:bg-white/20 rounded-e-2xl focus:outline-none focus:bg-white/20">
-        <span class="sr-only">Keyingi</span>
+        <span class="sr-only">{{ $t("site.home.carousel.buttons.next") }}</span>
         <span class="text-2xl" aria-hidden="true">
         <svg class="shrink-0 size-3.5 md:size-4" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
           <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"></path>
