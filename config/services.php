@@ -58,4 +58,11 @@ return [
     'telegram' => [
         'token' => env('TELEGRAM_BOT_TOKEN'),
     ],
+
+    'translation' => [
+        'default' => env('TRANSLATION_SERVICE', 'google'),
+        'google' => [
+            'key' => env('GOOGLE_TRANSLATE_KEY'),
+        ],
+    ],
 ];

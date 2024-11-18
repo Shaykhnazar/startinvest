@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Http\Resources\IdeaResource;
 use App\Models\Idea;
+use App\Services\Translation\TranslationServiceFactory;
 use Illuminate\Support\Facades\Cache;
 
 class IdeaService
@@ -65,4 +66,29 @@ class IdeaService
         Cache::forget('idea_' . $ideaId . '_upvotes');
         Cache::forget('idea_' . $ideaId . '_downvotes');
     }
+
+    /**
+     * @param array $data
+     * @return array
+     * @throws \Exception
+     */
+    public function getTranslations(array $data): array
+    {
+        $translationService = TranslationServiceFactory::create();
+
+        // Translate title and description to desired languages
+        $translations = [];
+
+        foreach (['en' => 'en', 'ru' => 'ru', 'uz_Latn' => 'uz'] as $storeAs => $locale) {
+            // Translate title
+            $translations['title'][$storeAs] = $translationService->translate($data['title'], $locale);
+
+            // Translate description (if provided)
+            if (!empty($data['description'])) {
+                $translations['description'][$storeAs] = $translationService->translate($data['description'], $locale);
+            }
+        }
+        return $translations;
+    }
+
 }

@@ -12,6 +12,7 @@ use App\Http\Resources\FavoriteResource;
 use App\Http\Resources\VoteResource;
 use App\Models\Idea;
 use App\Services\IdeaService;
+use App\Services\Translation\TranslationServiceFactory;
 use App\Services\UserService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -21,10 +22,17 @@ class IdeaController extends Controller
 
     public function __construct(protected IdeaService $ideaService) {}
 
+    /**
+     * @throws \Exception
+     */
     public function store(IdeaStoreRequest $request): JsonResponse
     {
+        $translations = $this->ideaService->getTranslations($request->validated());
+
+        // Create the idea with translations
         $idea = Idea::create([
-            ...$request->validated(),
+            'title' => $translations['title'],
+            'description' => $translations['description'] ?? null,
             'author_id' => auth()->user()->id,
         ]);
 
@@ -33,9 +41,16 @@ class IdeaController extends Controller
         ]);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function update(IdeaUpdateRequest $request, Idea $idea): JsonResponse
     {
-        $idea->update($request->validated());
+        $translations = $this->ideaService->getTranslations($request->validated());
+
+        $idea->setTranslations('title', $translations['title'])
+            ->setTranslations('description', $translations['description'] ?? null);
+        $idea->save();
 
         return response()->json([
             'idea' => $this->ideaService->getIdeaResource($idea),
@@ -88,4 +103,5 @@ class IdeaController extends Controller
             'idea' => $this->ideaService->getIdeaResource($idea),
         ]);
     }
+
 }
