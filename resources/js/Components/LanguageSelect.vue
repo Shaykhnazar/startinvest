@@ -47,6 +47,8 @@ const changeLanguage = async (event) => {
         window.HSStaticMethods.autoInit();
       }, 100)
       console.log(`Language switched to ${selectedLanguage} on the backend`);
+      // Reload the whole page after the language has been switched
+      location.reload();
     },
     onError: (error) => {
       console.error('Error switching language:', error);
