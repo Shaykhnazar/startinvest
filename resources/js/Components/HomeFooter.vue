@@ -42,7 +42,7 @@ import ApplicationLogo from '@/Components/ApplicationLogo.vue'
 <!--       End Col-->
 
       <div>
-        <h4 class="text-xs font-semibold text-gray-900 uppercase dark:text-neutral-100">Aloqa</h4>
+        <h4 class="text-xs font-semibold text-gray-900 uppercase dark:text-neutral-100">{{ $t('site.home.footer.contact') }}</h4>
 
         <div class="mt-3 grid space-y-3 text-sm">
           <p>

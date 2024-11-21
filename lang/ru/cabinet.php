@@ -177,6 +177,8 @@ return [
             "publish_fail" => "Не удалось опубликовать на {platform}",
             "request_success" => "Запрос успешно обработан",
             "request_fail" => "Произошла ошибка при обработке запроса",
+            'confirm_change_status' => 'Вы хотите изменить статус запроса на {status}?',
+            'confirm_remove_contributor' => 'Вы хотите удалить этого участника из текущего стартапа?',
         ],
     ],
     "aside" => [

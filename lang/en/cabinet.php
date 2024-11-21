@@ -177,6 +177,8 @@ return [
             "publish_fail" => "Failed to publish on {platform}",
             "request_success" => "Request processed successfully",
             "request_fail" => "An error occurred while processing the request",
+            'confirm_change_status' => 'Do you want to change the request status to {status}?',
+            'confirm_remove_contributor' => 'Do you want to remove this contributor from the current startup?',
         ],
     ],
     "aside" => [

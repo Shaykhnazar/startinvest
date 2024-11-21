@@ -6,27 +6,27 @@ export const VOTE_TYPES = {
 export const JOIN_REQUEST_STATUSES = {
   PENDING: {
     value: 'PENDING',
-    toShow: 'Jamoaga qo\'shilmoqchi',
+    toShow: 'site.startup.requests.statuses.pending',
     color: 'blue',
   },
   CANCELED: {
     value: 'CANCELED',
-    toShow: 'Bekor qilish',
+    toShow: 'site.startup.requests.statuses.canceled',
     color: 'red',
   },
   ACCEPTED: {
     value: 'ACCEPTED',
-    toShow: 'Qabul qilish',
+    toShow: 'site.startup.requests.statuses.accepted',
     color: 'green',
   },
   REJECTED: {
     value: 'REJECTED',
-    toShow: 'Rad qilish',
+    toShow: 'site.startup.requests.statuses.rejected',
     color: 'red',
   },
   LEAVED: {
     value: 'LEAVED',
-    toShow: 'Jamoni tark etmoqchi',
+    toShow: 'site.startup.requests.statuses.leaved',
     color: 'gray',
   },
 };

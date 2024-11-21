@@ -177,6 +177,8 @@ return [
             "publish_fail" => "{platform} platformasida e'lon qilish muvaffaqiyatsiz",
             "request_success" => "So'rov muvaffaqiyatli bajarildi",
             "request_fail" => "So'rovni qayta ishlashda xato yuz berdi",
+            'confirm_change_status' => "So'rov holatini {status} ga o'zgartirmoqchimisiz?",
+            'confirm_remove_contributor' => "Ushbu ishtirokchini hozirgi startupdan chetlatmoqchimisiz?",
         ],
     ],
     "aside" => [

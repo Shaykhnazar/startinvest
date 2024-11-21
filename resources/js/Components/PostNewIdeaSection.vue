@@ -6,7 +6,7 @@
           <img class="size-10 rounded-full" src="https://images.unsplash.com/photo-1659482633369-9fe69af50bfb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2.5&w=320&h=320&q=80" alt="Avatar">
         </Link>
         <div @click="$emit('showModal')" class="new-idea-text inline-flex justify-start items-center border w-4/5 rounded-full border-gray-700 dark:border-neutral-100 dark:text-neutral-300 hover:bg-[#F3F3F3] dark:hover:bg-[#2B2F32]">
-          <span class="py-2 px-4">Yangi G'oya...</span>
+          <span class="py-2 px-4">{{ $t('site.idea.form_title') }}...</span>
         </div>
       </div>
       <!-- End Col -->

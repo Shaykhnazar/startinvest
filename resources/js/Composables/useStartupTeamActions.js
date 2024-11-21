@@ -4,12 +4,14 @@ import api from '@/services/api.js';
 import { useElMessage } from '@/Composables/helpers.js';
 import { usePage } from '@inertiajs/vue3';
 import { JOIN_REQUEST_STATUSES } from '@/services/const.js';
+import { wTrans } from 'laravel-vue-i18n'
 
 export function useStartupTeamActions(startup) {
   const { success, info, warning } = useElMessage();
   const userStore = useUserStore();
 
-  const showConfirmationDialog = (callback, confirmText) => {
+  const showConfirmationDialog = (callback, confirmTextKey) => {
+    const confirmText = t(confirmTextKey);
     if (window.confirm(confirmText)) {
       callback();
     }
@@ -18,11 +20,20 @@ export function useStartupTeamActions(startup) {
   const handleJoinRequest = (startupId) => {
     if (joinPreCheck()) {
       if (userStore.hasPendingJoinRequest(startupId)) {
-        showConfirmationDialog(() => cancelJoining(startupId), "So'rovni bekor qilmoqchimisiz?");
+        showConfirmationDialog(
+          () => cancelJoining(startupId),
+          wTrans('site.startup.requests.cancel_request_confirmation')
+        );
       } else if (userStore.isContributor(startupId)) {
-        showConfirmationDialog(() => leaveTeam(startupId), "Jamoani tark etmoqchimisiz?");
+        showConfirmationDialog(
+          () => leaveTeam(startupId),
+          wTrans('site.startup.requests.leave_team_confirmation')
+        );
       } else {
-        showConfirmationDialog(() => sendJoinRequest(startupId), "Jamoaga qo'shilish uchun so'rov yuborishni xohlaysizmi?");
+        showConfirmationDialog(
+          () => sendJoinRequest(startupId),
+          wTrans('site.startup.requests.send_join_request_confirmation')
+        );
       }
     }
   };
@@ -32,11 +43,11 @@ export function useStartupTeamActions(startup) {
       await api.startups.sendRequest(startupId, {
         status: JOIN_REQUEST_STATUSES.PENDING.value,
       });
-      success("Jamoaga qo'shilish so'rovi muvaffaqiyatli yuborildi!");
+      success(wTrans('site.startup.requests.join_request_success'));
       refreshJoinRequests();
     } catch (error) {
-      console.error("Jamoaga qo'shilish so'rovini yuborishda xato:", error);
-      info("Jamoaga qo'shilish so'rovini yuborishda xatolik");
+      console.error("Error sending join request:", error);
+      info(wTrans('site.startup.requests.join_request_error'));
     }
   };
 
@@ -48,10 +59,11 @@ export function useStartupTeamActions(startup) {
         fromStatus: request?.status,
         toStatus: JOIN_REQUEST_STATUSES.CANCELED.value,
       });
-      warning("Jamoaga qo'shilish so'rovi bekor qilindi!");
+      warning(wTrans('site.startup.requests.cancel_join_request_success'));
       refreshJoinRequests();
     } catch (error) {
-      console.error("Error cancel joining:", error);
+      console.error("Error canceling join request:", error);
+      info(wTrans('site.startup.requests.join_request_error'));
     }
   };
 
@@ -60,15 +72,19 @@ export function useStartupTeamActions(startup) {
       await api.startups.sendRequest(startupId, {
         status: JOIN_REQUEST_STATUSES.LEAVED.value,
       });
-      success("Jamoani tark etish so'rovi jo'natildi!");
+      success(wTrans('site.startup.requests.leave_team_request_success'));
       refreshJoinRequests();
     } catch (error) {
       console.error("Error leaving team:", error);
+      info(wTrans('site.startup.requests.join_request_error'));
     }
   };
 
   const refreshJoinRequests = () => {
-    userStore.updateUserJoinRequests(usePage().props.auth.user.data.joinRequests);
+    const pageProps = usePage().props;
+    if (pageProps.auth && pageProps.auth.user && pageProps.auth.user.data) {
+      userStore.updateUserJoinRequests(pageProps.auth.user.data.joinRequests);
+    }
   };
 
   const buttonText = computed(() => {
@@ -76,19 +92,19 @@ export function useStartupTeamActions(startup) {
     const isContributor = userStore.isContributor(startup.id);
 
     if (userStore.isGuest) {
-      return "Jamoaga qo'shilish";
+      return wTrans('site.startup.requests.button.join');
     } else if (hasPendingRequest) {
-      return "So'rovni bekor qilish ❌";
+      return wTrans('site.startup.requests.button.cancel_request');
     } else if (isContributor) {
-      return "Jamoani tark etish";
+      return wTrans('site.startup.requests.button.leave_team');
     } else {
-      return "Jamoaga qo'shilish";
+      return wTrans('site.startup.requests.button.join');
     }
   });
 
   function joinPreCheck() {
     if (userStore.isGuest) {
-      info("Iltimos, so'rov yuborish uchun tizimga kiring");
+      info(wTrans('site.startup.requests.login_required'));
       return false;
     }
     return true;

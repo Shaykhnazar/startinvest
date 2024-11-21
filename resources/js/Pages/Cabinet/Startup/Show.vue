@@ -7,7 +7,7 @@ import { JOIN_REQUEST_STATUSES } from '@/services/const.js'
 import api from '@/services/api.js'
 import { useElMessage } from '@/Composables/helpers.js'
 import MyStartupCardGrid from '@/Components/MyStartupCardGrid.vue'
-
+import { wTrans } from 'laravel-vue-i18n'
 const { info, success } = useElMessage();
 
 
@@ -39,20 +39,25 @@ const archiveStartup = (id) => {
 const restoreStartup = (id) => {
   router.visit(route('dashboard.startups.restore', { id }), { method: 'put' })
 }
-const showConfirmationDialog = (callback, confirmText) => {
-  // console.log('Opening confirmation dialog...');
+const showConfirmationDialog = (callback, confirmTextKey, params = {}) => {
+  const confirmText = wTrans(confirmTextKey, params);
   if (window.confirm(confirmText)) {
     callback();
   }
-}
+};
 
 const handleManageStartup = (startupId, contributorId, fromStatus = null, toStatus = null, handleRequest = true) => {
   if (handleRequest) {
     // Cancel the pending request
-    showConfirmationDialog(() => handleJoinRequest(startupId, fromStatus, toStatus), `So'rov holatini ${JOIN_REQUEST_STATUSES[toStatus].toShow} ga o'zgartirmoqchimisiz?`);
+    showConfirmationDialog(() => handleJoinRequest(startupId, fromStatus, toStatus),
+      'cabinet.startup_show.messages.confirm_change_status',
+      { status: t(JOIN_REQUEST_STATUSES[toStatus].toShow) }
+    )
   } else {
     // Prompt user to send a join request
-    showConfirmationDialog(() => removeContributorHandle(startupId, contributorId), `Ushbu ishtirokchini hozirgi startupdan chetlatmoqchimisiz?`);
+    showConfirmationDialog(() => removeContributorHandle(startupId, contributorId),
+      'cabinet.startup_show.messages.confirm_remove_contributor'
+    )
   }
 }
 
@@ -64,10 +69,10 @@ const handleJoinRequest = async (requestId, fromStatus, toStatus) => {
       fromStatus: fromStatus,
       toStatus: toStatus
     })
-    success('So\'rov muvaffaqiyatli bajarildi')
+    success(wTrans('cabinet.startup_show.messages.request_success'))
   } catch (error) {
     console.error('Qo\'shilish so\'rovini bajarishda xato yuz berdi', error)
-    info('Qo\'shilish so\'rovini bajarishda xato yuz berdi')
+    info(wTrans('cabinet.startup_show.messages.request_fail'))
   }
 }
 
@@ -77,10 +82,10 @@ const removeContributorHandle = async (startupId, contributorId) => {
     await api.startups.removeContributor(startupId, {
       contributorId: contributorId,
     })
-    success('So\'rov muvaffaqiyatli bajarildi')
+    success(wTrans('cabinet.startup_show.messages.request_success'))
   } catch (error) {
     console.error('Qo\'shilish so\'rovini bajarishda xato yuz berdi', error)
-    info('Qo\'shilish so\'rovini bajarishda xato yuz berdi')
+    info(wTrans('cabinet.startup_show.messages.request_fail'))
   }
 }
 
@@ -96,7 +101,7 @@ const cancelEvent = () => {
 }
 
 const formatJoinRequestStatus = (row) => {
-  return JOIN_REQUEST_STATUSES[row.status].toShow
+  return wTrans(JOIN_REQUEST_STATUSES[row.status].toShow)
 }
 
 const publishToPlatform = async (platform) => {

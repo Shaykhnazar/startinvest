@@ -30,7 +30,7 @@ const { formatFriendlyDate } = useFormatFriendlyDate()
     <div class="flex justify-between items-center gap-x-2">
       <Link :href="route('startups.show', startup.id)" class="inline-flex items-center gap-x-1 text-gray-800 decoration-2 hover:underline font-medium hover:text-blue-600 focus:outline-none focus:underline focus:text-blue-600 dark:text-neutral-200 dark:hover:text-blue-500 dark:focus:outline-none dark:focus:text-blue-500">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-view"><path d="M21 17v2a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-2"/><path d="M21 7V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v2"/><circle cx="12" cy="12" r="1"/><path d="M18.944 12.33a1 1 0 0 0 0-.66 7.5 7.5 0 0 0-13.888 0 1 1 0 0 0 0 .66 7.5 7.5 0 0 0 13.888 0"/></svg>
-        Saytda ko'rinishi
+        {{ $t('site.startup.card.view_on_site') }}
       </Link>
 
     </div>
@@ -40,31 +40,31 @@ const { formatFriendlyDate } = useFormatFriendlyDate()
     </p>
 
     <p class="text-sm mt-4 text-dark-500 dark:text-neutral-300" v-if="showPage">
-      📖 Tavsif: <span v-html="startup.description"></span>
+      📖 {{ $t('site.startup.card.description') }} <span v-html="startup.description"></span>
     </p>
 
     <p class="text-sm mt-4 text-dark-500 dark:text-neutral-300">
-      📝 Eslatma: {{ startup.additional_information }}
+      📝 {{ $t('site.startup.card.note') }} {{ startup.additional_information }}
     </p>
 
     <p class="text-sm mt-1 text-dark-500 dark:text-neutral-300">
-      📅 Boshlanish Sanasi: {{ formatFriendlyDate(startup.start_date) }}
+      📅 {{ $t('site.startup.card.start_date') }} {{ formatFriendlyDate(startup.start_date) }}
     </p>
 
     <p class="text-sm mt-1 text-dark-500 dark:text-neutral-300">
-      📢 Turi:
+      📢 {{ $t('site.startup.card.type') }}
       <span class="p-2 inline-block bg-blue-100 text-blue-800 text-xs rounded-md dark:bg-blue-100 dark:text-blue-700">{{ startup.type }}</span>
     </p>
 
     <p class="text-sm mt-1 text-dark-500 dark:text-neutral-300">
-      MVP versiyasi mavjud:
-      <span v-if="startup.has_mvp" class="m-1 p-2 inline-block bg-green-100 text-green-800 text-xs rounded-md dark:bg-green-100 dark:text-green-700">Ha</span>
-      <span v-else class="m-1 p-2 inline-block bg-gray-100 text-gray-800 text-xs rounded-md dark:bg-neutral-700 dark:text-neutral-200">Yo'q</span>
+      {{ $t('site.startup.card.has_mvp') }}
+      <span v-if="startup.has_mvp" class="m-1 p-2 inline-block bg-green-100 text-green-800 text-xs rounded-md dark:bg-green-100 dark:text-green-700">{{ $t('site.startup.card.yes') }}</span>
+      <span v-else class="m-1 p-2 inline-block bg-gray-100 text-gray-800 text-xs rounded-md dark:bg-neutral-700 dark:text-neutral-200">{{ $t('site.startup.card.no') }}</span>
     </p>
 
     <!-- Badge Group -->
     <div class="mt-1 -mx-1 text-sm text-dark-500 dark:text-neutral-300">
-      🔍 Sanoat tarmoqlari:
+      🔍 {{ $t('site.startup.card.industries') }}
       <template v-for="industry in startup.industries" :key="industry.id">
         <span class="m-1 p-2 inline-block bg-gray-100 text-gray-800 text-xs rounded-md dark:bg-neutral-700 dark:text-neutral-200">{{ industry.title }}</span>
       </template>
@@ -74,7 +74,7 @@ const { formatFriendlyDate } = useFormatFriendlyDate()
     <!-- Avatar Group -->
     <div class="mt-2 flex items-center gap-x-3">
       <h4 class="text-sm text-dark-500 dark:text-neutral-200">
-        Holati: <span class="m-1 p-2 inline-block bg-gray-100 text-gray-800 text-xs rounded-md dark:bg-neutral-700 dark:text-neutral-200">{{ startup.status.label }}</span>
+        {{ $t('site.startup.card.status') }} <span class="m-1 p-2 inline-block bg-gray-100 text-gray-800 text-xs rounded-md dark:bg-neutral-700 dark:text-neutral-200">{{ startup.status.label }}</span>
       </h4>
 <!--      <h4 class="text-xs uppercase text-gray-500 dark:text-neutral-200">-->
 <!--        Members:-->
@@ -105,7 +105,7 @@ const { formatFriendlyDate } = useFormatFriendlyDate()
               class="py-2 px-3 w-full inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-gray-50 text-gray-800 shadow-sm hover:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:bg-gray-100 dark:bg-neutral-700 dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-500 dark:focus:bg-neutral-500"
               data-hs-overlay="#hs-pro-dtlam"
       >
-        Batafsil
+        {{ $t('site.startup.card.details') }}
       </button>
     </div>
   </div>
