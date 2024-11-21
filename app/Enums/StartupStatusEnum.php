@@ -25,14 +25,7 @@ enum StartupStatusEnum: string
 
     public function label(): string
     {
-        return match($this) {
-            self::ON_START => 'boshlanish fazasida',
-            self::TEAM_BUILDING => 'jamoa tuzish bosqichida',
-            self::PROGRESSING => 'ishlab chiqilyapti',
-            self::RELEASE => '1-versiya tayyor',
-            self::TESTING => 'sinov fazasida',
-            self::ON_PRODUCTION => 'ishlab chiqilgan',
-        };
+        return __('site.enums.startup_status.' . strtolower($this->value));
     }
 
     public static function options(): array

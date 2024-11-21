@@ -29,13 +29,7 @@ enum JoinRequestStatusEnum: string
 
     public function label(): string
     {
-        return match($this) {
-            self::PENDING => 'Jamoaga qo\'shilmoqchi',
-            self::CANCELED => 'So\'rov bekor qilindi',
-            self::ACCEPTED => 'Qabul qilish',
-            self::REJECTED => 'Rad etish',
-            self::LEAVED => 'Jamoani tark etmoqchi',
-        };
+        return __('site.enums.join_request_status.' . strtolower($this->value));
     }
 
     public static function options(): array

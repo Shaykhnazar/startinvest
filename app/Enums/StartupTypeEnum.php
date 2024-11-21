@@ -9,10 +9,7 @@ enum StartupTypeEnum: string
 
     public function label(): string
     {
-        return match($this) {
-            self::PRIVATE => 'keng jamoatchilik uchun yopiq',
-            self::PUBLIC => 'barcha ko\'rishi mumkin',
-        };
+        return __('site.enums.startup_type.' . strtolower($this->value));
     }
 
     public static function options(): array

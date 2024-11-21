@@ -198,4 +198,25 @@ return [
             "manage_startup" => "Startupingizni boshqarishning eng oddiy usuli",
         ],
     ],
+    "enums" => [
+        'join_request_status' => [
+            'pending' => 'Jamoaga qo\'shilmoqchi',
+            'canceled' => 'So\'rov bekor qilindi',
+            'accepted' => 'Qabul qilingan',
+            'rejected' => 'Rad etilgan',
+            'leaved' => 'Jamoani tark etmoqchi',
+        ],
+        'startup_status' => [
+            'on_start' => 'Boshlanish fazasida',
+            'team_building' => 'Jamoa tuzish bosqichida',
+            'progressing' => 'Ishlab chiqilyapti',
+            'release' => '1-versiya tayyor',
+            'testing' => 'Sinov fazasida',
+            'on_production' => 'Ishlab chiqilgan',
+        ],
+        'startup_type' => [
+            'private' => 'Keng jamoatchilik uchun yopiq',
+            'public' => 'Barcha ko\'rishi mumkin',
+        ],
+    ]
 ];

@@ -450,8 +450,8 @@ const { formatFriendlyDate } = useFormatFriendlyDate()
                     <div class="px-5 py-2">
                       <div class="flex items-center gap-x-3">
                         <span class="text-sm text-gray-500 dark:text-neutral-500">
-                          <span v-if="startup.has_mvp" class="m-1 p-2 inline-block bg-green-100 text-green-800 text-xs rounded-md dark:bg-green-100 dark:text-green-700">{{ $t('common.yes') }}</span>
-                          <span v-else class="m-1 p-2 inline-block bg-gray-100 text-gray-800 text-xs rounded-md dark:bg-neutral-700 dark:text-neutral-200">{{ $t('common.no') }}</span>
+                          <span v-if="startup.has_mvp" class="m-1 p-2 inline-block bg-green-100 text-green-800 text-xs rounded-md dark:bg-green-100 dark:text-green-700">{{ $t('pages.common.yes') }}</span>
+                          <span v-else class="m-1 p-2 inline-block bg-gray-100 text-gray-800 text-xs rounded-md dark:bg-neutral-700 dark:text-neutral-200">{{ $t('pages.common.no') }}</span>
                         </span>
                       </div>
                     </div>

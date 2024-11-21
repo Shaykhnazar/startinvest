@@ -198,4 +198,25 @@ return [
             "manage_startup" => "The simplest way to manage your startup",
         ],
     ],
+    "enums" => [
+        'join_request_status' => [
+            'pending' => 'Want to join the team',
+            'canceled' => 'Request canceled',
+            'accepted' => 'Accepted',
+            'rejected' => 'Rejected',
+            'leaved' => 'Want to leave the team',
+        ],
+        'startup_status' => [
+            'on_start' => 'At the Start Phase',
+            'team_building' => 'Team Building Phase',
+            'progressing' => 'In Progress',
+            'release' => 'Version 1.0 Ready',
+            'testing' => 'In Testing Phase',
+            'on_production' => 'Released to Production',
+        ],
+        'startup_type' => [
+            'private' => 'Private - Closed to the Public',
+            'public' => 'Public - Open for Everyone to View',
+        ],
+    ],
 ];
