@@ -7,6 +7,7 @@ use App\Enums\JoinRequestStatusEnum;
 use App\Models\Startup;
 use App\Models\StartupJoinRequest;
 use App\Notifications\AcceptRequestNotification;
+use App\Services\Translation\TranslationServiceFactory;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Log;
 
@@ -116,4 +117,26 @@ class StartupService
         }
     }
 
+    /**
+     * @throws \Exception
+     */
+    public function getTranslations(array $data): array
+    {
+        $translationService = TranslationServiceFactory::create();
+
+        // Translate fields to desired languages
+        $translations = [];
+        foreach (['en' => 'en', 'ru' => 'ru', 'uz_Latn' => 'uz'] as $storeAs => $locale) {
+            $translations['title'][$storeAs] = $translationService->translate($data['title'], $locale);
+
+            if (!empty($data['description'])) {
+                $translations['description'][$storeAs] = $translationService->translate($data['description'], $locale);
+            }
+
+            if (!empty($data['additional_information'])) {
+                $translations['additional_information'][$storeAs] = $translationService->translate($data['additional_information'], $locale);
+            }
+        }
+        return $translations;
+    }
 }

@@ -20,6 +20,8 @@ use Illuminate\Support\Arr;
 
 class CabinetStartupController extends Controller
 {
+    public function __construct(protected StartupService $startupService){}
+
     public function index()
     {
         $startupsCommonQuery = Startup::with('industries')
@@ -51,12 +53,26 @@ class CabinetStartupController extends Controller
         ]);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function store(CabinetStartupRequest $request)
     {
         $data = $request->validated();
         $data['owner_id'] = auth()->user()->id;
 
-        $startup = Startup::create(Arr::except($data, 'industry_ids'));
+        // Get translations for the fields
+        $translations = $this->startupService->getTranslations($data);
+
+        // Create the startup with translated data
+        $startup = Startup::create(array_merge(
+            Arr::except($data, ['industry_ids']),
+            [
+                'title' => $translations['title'],
+                'description' => $translations['description'] ?? null,
+                'additional_information' => $translations['additional_information'] ?? null,
+            ]
+        ));
 
         if ($request->has('industry_ids')) {
             $startup->industries()->sync($request->input('industry_ids'));
@@ -83,9 +99,20 @@ class CabinetStartupController extends Controller
         ]);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function update(CabinetStartupRequest $request, Startup $startup)
     {
         $data = $request->validated();
+
+        // Get translations for the fields
+        $translations = $this->startupService->getTranslations($data);
+
+        // Update the startup with translated data
+        $startup->setTranslations('title', $translations['title'])
+            ->setTranslations('description', $translations['description'] ?? null)
+            ->setTranslations('additional_information', $translations['additional_information'] ?? null);
 
         $startup->update(Arr::except($data, 'industry_ids'));
 

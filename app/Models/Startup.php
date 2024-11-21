@@ -14,10 +14,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Orchid\Attachment\Attachable;
 use Orchid\Filters\Filterable;
 use Orchid\Screen\AsSource;
+use Spatie\Translatable\HasTranslations;
 
 class Startup extends Model
 {
-    use AsSource, Filterable, Attachable, SoftDeletes;
+    use AsSource, Filterable, Attachable, SoftDeletes, HasTranslations;
+
+    public $translatable = ['title', 'description', 'additional_information'];
 
     protected $fillable = [
         'title',
