@@ -35,4 +35,30 @@ enum StartupStatusEnum: string
             'label' => $status->label(),
         ], self::cases());
     }
+
+
+    /**
+     * Get the label for a specific locale.
+     */
+    public function labelForLocale(string $locale): string
+    {
+        return __(
+            'site.enums.startup_status.' . strtolower($this->value),
+            [],
+            $locale
+        );
+    }
+
+    /**
+     * Get all labels keyed by locale.
+     */
+    public function allLabels(): array
+    {
+        $locales = config('app.supported_locales', ['en', 'ru', 'uz_Latn']);
+        $labels = [];
+        foreach ($locales as $locale) {
+            $labels[$locale] = $this->labelForLocale($locale);
+        }
+        return $labels;
+    }
 }

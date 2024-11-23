@@ -15,15 +15,33 @@ class StartupStatusSeeder extends Seeder
     public function run(): void
     {
         foreach (StartupStatusEnum::cases() as $status) {
+            // Generate labels for all supported locales
+            $localizedLabels = $this->getLocalizedLabels($status);
+
             StartupStatus::query()->updateOrCreate([
                 'name' => $status->value,
             ], [
                 'name' => $status->value,
-                'label' => $status->label(),
+                'label' => $localizedLabels,
             ]);
         }
 
         // Optionally, delete any statuses not in the enum
         StartupStatus::query()->whereNotIn('name', StartupStatusEnum::values())->delete();
+    }
+
+    /**
+     * Get localized labels for all supported locales.
+     */
+    private function getLocalizedLabels(StartupStatusEnum $status): array
+    {
+        $locales = config('app.supported_locales', ['en', 'ru', 'uz_Latn']);
+        $localizedLabels = [];
+
+        foreach ($locales as $locale) {
+            $localizedLabels[$locale] = $status->labelForLocale($locale);
+        }
+
+        return $localizedLabels;
     }
 }

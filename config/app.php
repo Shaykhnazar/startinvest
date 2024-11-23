@@ -195,4 +195,6 @@ return [
      */
     'test_mode' => env('APP_TEST_MODE', false),
 
+    'supported_locales' => ['en', 'ru', 'uz_Latn'],
+
 ];
