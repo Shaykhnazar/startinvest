@@ -71,57 +71,26 @@ class InstagramScraperService
         // Update selectors as Instagram's HTML structure can change
         // These CSS selectors are based on the current structure and may need updates in the future
 
-//        // For posts
-//        $postsElement = $dom->findOne('main > header > section:nth-child(3) > ul > li:nth-child(1) > div > span > span');
-//        $posts = $postsElement ? $this->parseCount($postsElement->plaintext) : null;
-//
-//        if ($posts === null) {
-//            Log::error("Failed to find posts for URL: $profileUrl");
-//        }
-//
-//        // For followers
-//        $followersElement = $dom->findOne('main > header > section:nth-child(3) > ul > li:nth-child(2) > div > span > span');
-//        $followers = $followersElement ? $this->parseCount($followersElement->plaintext) : null;
-//
-//        if ($followers === null) {
-//            Log::error("Failed to find followers for URL: $profileUrl");
-//        }
-//
-//        // For following
-//        $followingElement = $dom->findOne('main > header > section:nth-child(3) > ul > li:nth-child(3) > div > span > span');
-//        $following = $followingElement ? $this->parseCount($followingElement->plaintext) : null;
-//
-//        if ($following === null) {
-//            Log::error("Failed to find following for URL: $profileUrl");
-//        }
+        $headerElements = $dom->findMulti('main header > section > ul > li > div > span > span');
+        // For posts
+        $posts = $headerElements ? $this->parseCount($headerElements[0]->plaintext) : null;
 
-        // Find the <script> tag containing 'window._sharedData'
-        $scriptTags = $dom->find('script');
-        $sharedData = null;
-
-        foreach ($scriptTags as $script) {
-            if (str_contains($script->plaintext, 'window._sharedData')) {
-                $jsonText = substr($script->plaintext, strpos($script->plaintext, '{'));
-                $jsonText = rtrim($jsonText, ';');
-                $sharedData = json_decode($jsonText, true);
-                break;
-            }
+        if ($posts === null) {
+            Log::error("Failed to find posts for URL: $profileUrl");
         }
 
-        if (!$sharedData || !isset($sharedData['entry_data']['ProfilePage'][0]['graphql']['user'])) {
-            Log::error("Failed to find shared data for URL: $profileUrl");
-            return null;
+        // For followers
+        $followers = $headerElements ? $this->parseCount($headerElements[1]->plaintext) : null;
+
+        if ($followers === null) {
+            Log::error("Failed to find followers for URL: $profileUrl");
         }
 
-        $userData = $sharedData['entry_data']['ProfilePage'][0]['graphql']['user'];
+        // For following
+        $following = $headerElements ? $this->parseCount($headerElements[2]->plaintext) : null;
 
-        $followers = $userData['edge_followed_by']['count'] ?? null;
-        $following = $userData['edge_follow']['count'] ?? null;
-        $posts = $userData['edge_owner_to_timeline_media']['count'] ?? null;
-
-        if ($followers === null || $following === null || $posts === null) {
-            Log::error("Incomplete data for URL: $profileUrl");
-            return null;
+        if ($following === null) {
+            Log::error("Failed to find following for URL: $profileUrl");
         }
 
         return [
