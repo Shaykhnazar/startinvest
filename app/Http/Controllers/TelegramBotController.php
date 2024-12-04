@@ -15,4 +15,12 @@ class TelegramBotController extends Controller
         Log::info('update', [$update]);
 
     }
+
+    public function handleInstaTrack(Request $request)
+    {
+        $update = Telegram::bot('instaProfileTrackerBot')->getWebhookUpdate();
+
+        Log::info('update', [$update]);
+
+    }
 }

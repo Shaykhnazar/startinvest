@@ -57,4 +57,5 @@ Route::group(['prefix' => 'v1'], function () {
     });
 
     Route::post('/telegram/webhook', [TelegramBotController::class, 'handle'])->name('telegram.webhook');
+    Route::post('/telegram-insta-track/webhook', [TelegramBotController::class, 'handleInstaTrack'])->name('telegram.webhook');
 });

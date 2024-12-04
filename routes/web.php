@@ -93,3 +93,8 @@ Route::get('setwebhook', function () {
     Telegram::setWebhook(['url' => config('telegram.bots.mybot.webhook_url')]);
     dd('Webhook has been set.');
 });
+
+Route::get('setwebhook-insta-track', function () {
+    Telegram::setWebhook(['url' => config('telegram.bots.instaProfileTrackerBot.webhook_url')]);
+    dd('Webhook has been set to instaProfileTrackerBot.');
+});
