@@ -12,7 +12,7 @@ class TelegramBotController extends Controller
     {
         $update = Telegram::getWebhookUpdate();
 
-        Log::info('update', [$update]);
+//        Log::info('update', [$update]);
 
     }
 
@@ -20,7 +20,7 @@ class TelegramBotController extends Controller
     {
         $update = Telegram::bot('instaProfileTrackerBot')->getWebhookUpdate();
 
-        Log::info('update', [$update]);
+//        Log::info('update', [$update]);
 
     }
 }
