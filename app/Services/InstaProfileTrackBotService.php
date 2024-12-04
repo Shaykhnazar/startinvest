@@ -35,7 +35,7 @@ class InstaProfileTrackBotService
         }
 
         // Check if the Instagram profile exists
-        $profileData = $this->instagramScraperService->getProfileData($username);
+        $profileData = $this->instagramScraperService->fetchProfileStats($username);
         if (!$profileData) {
             return "❌ Unable to fetch data for @{$username}. Please ensure the username is correct and accessible.";
         }
