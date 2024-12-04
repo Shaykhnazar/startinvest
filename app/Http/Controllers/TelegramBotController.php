@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Subscription;
 use App\Services\InstaProfileTrackBotService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -40,6 +41,18 @@ class TelegramBotController extends Controller
                 $this->sendMessage($chatId, $response);
             } elseif (str_starts_with($text, '/help')) {
                 $this->sendMessage($chatId, "📚 <b>Help - Instagram Profile Tracker Bot</b>\n\nHere are the commands you can use:\n\n/start - Welcome message and instructions\n/help - Display this help message\n/subscribe @username - Start tracking an Instagram profile\n/unsubscribe @username - Stop tracking an Instagram profile");
+            } elseif (str_starts_with($text, '/list')) {
+                $subscriptions = Subscription::where('chat_id', $chatId)->get();
+
+                if ($subscriptions->isEmpty()) {
+                    $this->sendMessage($chatId, "📄 You have no active subscriptions.");
+                } else {
+                    $message = "📄 <b>Your Active Subscriptions:</b>\n\n";
+                    foreach ($subscriptions as $subscription) {
+                        $message .= "- @{$subscription->profile_username}\n";
+                    }
+                    $this->sendMessage($chatId, $message);
+                }
             } else {
                 $this->sendMessage($chatId, "❓ Sorry, I didn't understand that command. Use /help to see available commands.");
             }
