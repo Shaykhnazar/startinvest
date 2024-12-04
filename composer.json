@@ -28,7 +28,8 @@
         "socialiteproviders/linkedin": "^4.2",
         "spatie/laravel-translatable": "^6.8",
         "stichoza/google-translate-php": "^5.2",
-        "tightenco/ziggy": "^1.0"
+        "tightenco/ziggy": "^1.0",
+        "voku/simple_html_dom": "^4.8"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.9",

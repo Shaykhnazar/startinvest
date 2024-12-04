@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Models\Startup;
 use App\Observers\StartupObserver;
+use App\Services\InstagramScraperService;
+use App\Services\InstaProfileTrackBotService;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -20,7 +22,17 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        // Bind InstagramScraperService as a singleton
+        $this->app->singleton(InstagramScraperService::class, function ($app) {
+            return new InstagramScraperService();
+        });
+
+        // Bind InstaProfileTrackBotService with dependency injection
+        $this->app->singleton(InstaProfileTrackBotService::class, function ($app) {
+            return new InstaProfileTrackBotService(
+                $app->make(InstagramScraperService::class)
+            );
+        });
     }
 
     /**
