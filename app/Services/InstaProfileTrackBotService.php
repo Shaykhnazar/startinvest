@@ -5,11 +5,13 @@ namespace App\Services;
 use App\Models\Subscription;
 use Illuminate\Support\Facades\Log;
 use Telegram\Bot\Exceptions\TelegramSDKException;
-use Telegram\Bot\Laravel\Facades\Telegram;
 
 class InstaProfileTrackBotService
 {
-    public function __construct(protected InstagramScraperService $instagramScraperService) {}
+    public function __construct(
+        protected InstagramScraperService $instagramScraperService,
+        protected TelegramServiceInterface $telegramService
+    ) {}
 
     /**
      * Subscribe a user to an Instagram profile.
@@ -87,91 +89,41 @@ class InstaProfileTrackBotService
         $subscriptions = Subscription::where('status', 'active')->get();
 
         foreach ($subscriptions as $subscription) {
-            $username = $subscription->profile_username;
-            $chatId = $subscription->chat_id;
+            $stats = $this->instagramScraperService->fetchProfileStats($subscription->profile_username);
 
-            // Fetch current profile data
-            $currentData = $this->instagramScraperService->fetchProfileStats($username);
-
-            if (!$currentData) {
-                Log::error("Failed to fetch data for @{$username}");
+            if (!$stats) {
+                Log::error("Failed to fetch stats for @{$subscription->profile_username}");
                 continue;
             }
 
             $changes = [];
 
-            // Detect changes in followers
-            if ($subscription->last_known_followers !== null && $subscription->last_known_followers != $currentData['followers']) {
-                $changes['followers'] = [
-                    'old' => $subscription->last_known_followers,
-                    'new' => $currentData['followers'],
-                ];
+            if ($stats['followers'] !== $subscription->last_known_followers) {
+                $changes[] = "👥 Followers: {$subscription->last_known_followers} → {$stats['followers']}";
+                $subscription->last_known_followers = $stats['followers'];
             }
 
-            // Detect changes in following
-            if ($subscription->last_known_following !== null && $subscription->last_known_following != $currentData['following']) {
-                $changes['following'] = [
-                    'old' => $subscription->last_known_following,
-                    'new' => $currentData['following'],
-                ];
+            if ($stats['following'] !== $subscription->last_known_following) {
+                $changes[] = "➡️ Following: {$subscription->last_known_following} → {$stats['following']}";
+                $subscription->last_known_following = $stats['following'];
             }
 
-            // Detect changes in posts
-            if ($subscription->last_known_posts !== null && $subscription->last_known_posts != $currentData['posts']) {
-                $changes['posts'] = [
-                    'old' => $subscription->last_known_posts,
-                    'new' => $currentData['posts'],
-                ];
+            if ($stats['posts'] !== $subscription->last_known_posts) {
+                $changes[] = "📝 Posts: {$subscription->last_known_posts} → {$stats['posts']}";
+                $subscription->last_known_posts = $stats['posts'];
             }
 
             if (!empty($changes)) {
-                // Update the subscription with new data
-                $subscription->update([
-                    'last_known_followers' => $currentData['followers'],
-                    'last_known_following' => $currentData['following'],
-                    'last_known_posts' => $currentData['posts'],
+                $subscription->save();
+
+                $message = "📈 <b>Profile Update Detected for @{$subscription->profile_username}</b>\n\n" . implode("\n", $changes);
+                $this->telegramService->sendMessage([
+                    'chat_id' => $subscription->chat_id,
+                    'text' => $message,
+                    'parse_mode' => 'HTML',
                 ]);
-
-                // Send notification to the user
-                $this->sendNotification($chatId, $username, $changes);
             }
         }
-    }
-
-    /**
-     * Send a notification message to the user via Telegram.
-     *
-     * @param int $chatId Telegram chat ID
-     * @param string $username Instagram username
-     * @param array $changes Detected changes
-     * @return void
-     * @throws TelegramSDKException
-     */
-    protected function sendNotification(int $chatId, string $username, array $changes): void
-    {
-        $text = "📢 <b>Profile Update Detected for @{$username}</b>\n\n";
-
-        foreach ($changes as $key => $change) {
-            $emoji = '';
-            switch ($key) {
-                case 'followers':
-                    $emoji = '👥';
-                    break;
-                case 'following':
-                    $emoji = '➡️';
-                    break;
-                case 'posts':
-                    $emoji = '📝';
-                    break;
-            }
-            $text .= "{$emoji} <b>" . ucfirst($key) . ":</b> {$change['old']} ➔ {$change['new']}\n";
-        }
-
-        Telegram::bot('instaProfileTrackerBot')->sendMessage([
-            'chat_id' => $chatId,
-            'text' => $text,
-            'parse_mode' => 'HTML',
-        ]);
     }
 
     /**
