@@ -5,6 +5,7 @@ namespace Tests\Unit;
 use App\Models\Subscription;
 use App\Services\InstaProfileTrackBotService;
 use App\Services\InstagramScraperService;
+use App\Services\TelegramServiceInterface;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Mockery;
 use Tests\TestCase;
@@ -15,6 +16,7 @@ class InstaProfileTrackBotServiceTest extends TestCase
     use RefreshDatabase;
 
     protected $instagramScraperServiceMock;
+    protected $telegramServiceMock;
     protected $instaProfileTrackBotService;
 
     protected function setUp(): void
@@ -24,6 +26,10 @@ class InstaProfileTrackBotServiceTest extends TestCase
         // Mock the InstagramScraperService
         $this->instagramScraperServiceMock = Mockery::mock(InstagramScraperService::class);
         $this->app->instance(InstagramScraperService::class, $this->instagramScraperServiceMock);
+
+        // Mock the TelegramServiceInterface
+        $this->telegramServiceMock = Mockery::mock(TelegramServiceInterface::class);
+        $this->app->instance(TelegramServiceInterface::class, $this->telegramServiceMock);
 
         // Instantiate the service with the mocked InstagramScraperService
         $this->instaProfileTrackBotService = $this->app->make(InstaProfileTrackBotService::class);
@@ -187,7 +193,7 @@ class InstaProfileTrackBotServiceTest extends TestCase
         Telegram::shouldReceive('sendMessage')
             ->withArgs(function ($args) use ($chatId, $username) {
                 return $args['chat_id'] === $chatId &&
-                    strpos($args['text'], "Profile Update Detected for @{$username}") !== false;
+                    str_contains($args['text'], "Profile Update Detected for @{$username}");
             })
             ->once();
 

@@ -6,6 +6,8 @@ use App\Models\Startup;
 use App\Observers\StartupObserver;
 use App\Services\InstagramScraperService;
 use App\Services\InstaProfileTrackBotService;
+use App\Services\TelegramService;
+use App\Services\TelegramServiceInterface;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -30,9 +32,13 @@ class AppServiceProvider extends ServiceProvider
         // Bind InstaProfileTrackBotService with dependency injection
         $this->app->singleton(InstaProfileTrackBotService::class, function ($app) {
             return new InstaProfileTrackBotService(
-                $app->make(InstagramScraperService::class)
+                $app->make(InstagramScraperService::class),
+                $app->make(TelegramServiceInterface::class)
             );
         });
+
+        $this->app->bind(TelegramServiceInterface::class, TelegramService::class);
+
     }
 
     /**

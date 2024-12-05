@@ -71,33 +71,48 @@ class InstagramScraperService
         // Update selectors as Instagram's HTML structure can change
         // These CSS selectors are based on the current structure and may need updates in the future
 
-        $headerElements = $dom->findMulti('main header > section > ul > li > div > span > span');
-        // For posts
-        $posts = $headerElements ? $this->parseCount($headerElements[0]->plaintext) : null;
+        // Find all list items that contain the statistics
+        $headerElements = $dom->findMulti('main header > section > ul > li');
 
-        if ($posts === null) {
-            Log::error("Failed to find posts for URL: $profileUrl");
-        }
+        Log::error('headerElements', [$headerElements]);
 
-        // For followers
-        $followers = $headerElements ? $this->parseCount($headerElements[1]->plaintext) : null;
-
-        if ($followers === null) {
-            Log::error("Failed to find followers for URL: $profileUrl");
-        }
-
-        // For following
-        $following = $headerElements ? $this->parseCount($headerElements[2]->plaintext) : null;
-
-        if ($following === null) {
-            Log::error("Failed to find following for URL: $profileUrl");
-        }
-
-        return [
-            'followers' => $followers,
-            'following' => $following,
-            'posts' => $posts,
+        $stats = [
+            'posts' => null,
+            'followers' => null,
+            'following' => null,
         ];
+
+        foreach ($headerElements as $element) {
+            // Attempt to find the count and label within the element
+            $countElement = $element->findOne('div > span > span');
+            $labelElement = $element->findOne('span');
+
+            if (!$countElement || !$labelElement) {
+                continue;
+            }
+
+            $label = strtolower(trim($labelElement->plaintext));
+            $count = $this->parseCount($countElement->plaintext);
+
+            if (str_contains($label, 'post')) {
+                $stats['posts'] = $count;
+            } elseif (str_contains($label, 'follower')) {
+                $stats['followers'] = $count;
+            } elseif (str_contains($label, 'following')) {
+                $stats['following'] = $count;
+            }
+        }
+
+        // Log the extracted stats
+        Log::info("Extracted stats for @{$username}: ", $stats);
+
+        // Check if all stats were found
+        if ($stats['posts'] === null || $stats['followers'] === null || $stats['following'] === null) {
+            Log::error("Failed to extract some stats for URL: $profileUrl");
+            return null;
+        }
+
+        return $stats;
     }
 
     /**
