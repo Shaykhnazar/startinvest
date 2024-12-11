@@ -3,46 +3,31 @@
 
 <div class="p-6 bg-white shadow-md rounded-md">
 
-  <h3 class="text-2xl font-semibold mb-4">🚀 Startinvest.uz haqida</h3>
+  <h3 class="text-2xl font-semibold mb-4">🚀 About Startinvest.uz</h3>
   <p class="text-gray-700 leading-relaxed mb-4">
-    🚀 Startinvest.uz - bu Startuplarni rivojlantirish, investitsiya jalb qilish uchun online platforma!<br>
+    🚀 Startinvest.uz is an online platform for developing startups and attracting investment!<br>
 
-    Sizda agarda go’ya yoki startup qurish va uni moliyalashtirish istagi bor bo’lsa ushbu platforma orqali uni amalga oshirishingiz mumkin!
-    Agarda siz investor bo'lsangiz, u holda bizning platformadagi kelajagi porloq deb hisoblangan startuplarga investorlik qilish imkoniyatiga ega bo'lasiz!
+    If you have a desire to build a startup and finance it, you can do it through this platform!
+    If you are an investor, then you will have the opportunity to invest in startups that are considered to have a bright future on our platform!
   </p>
 
   <div class="mb-6">
-    <h3 class="text-xl font-semibold mb-2">Platformaning asosiy maqsadi va afzalliklari ❔:</h3>
+    <h3 class="text-xl font-semibold mb-2">The main purpose and advantages of the platform ❔:</h3>
     <p class="text-gray-700 leading-relaxed" style="text-indent: 20px">
-      Agarda sizda MVP formatidagi startup loyihangiz bo’lsa uni moliyalashtirish uchun bizning platformadan foydalangan holda investitsiya jalb qilishingiz mumkin bo’ladi.
-      Bizdagi investorlar sizning go’yangizni kuzatishi va agarda ularga maq’ul kelsa ularga investitsiya qilishi mumkin.
-      Agarda sizda faqatgina go’ya yoki amaliyot o’tash istagi bo’lsa unda siz o’zingizni qiziqtirgan g’oya ustida jamoa to’plashingiz va uni MVP versiyada tayyorlab bizning platformada e’lon qilish orqali loyihangizga investorlarni jalb qilishingiz mumkin.
+      If you have a startup project in MVP format, you can use our platform to attract investment to finance it.
+    Our investors can follow your idea and invest in it if they like it.
+    If you only want to do a demo or internship, you can gather a team around an idea that interests you and attract investors to your project by preparing it in MVP version and publishing it     on our platform.
     </p>
   </div>
 
   <div class="mb-6">
-    <h3 class="text-xl font-semibold mb-2">Plaftormadagi foydalanuvchi rollari 🕵️:</h3>
+    <h3 class="text-xl font-semibold mb-2">User roles on the platform 🕵️:</h3>
     <p class="text-gray-700 leading-relaxed">
       <ul class="list-disc list-inside text-gray-700 leading-relaxed mb-4">
-        <li>Oddiy go’ya egasi - shunchaki hayoliga kelgan go’yani ulashadigan oddiy foydalanuvchilar (sababi ular shu go’yani o’zlari amalga oshirishga imkoniyati va salohiyati bo’lmasligi lekin uni kimdir amalga oshirishini hohlovchi kimsalar)</li>
-        <li>dasturchilar, Loyiha menedjerlari(PM), Jamoa yetakchilari(Team lead)…</li>
-        <li>Investorlar - kompaniyalar, tadbirkorlar, katta/o'rta/kichik biznes egalari</li>
+        <li>Ordinary idea owners are ordinary users who simply share an idea that comes to their mind (because they do not have the opportunity and potential to implement this idea themselves, but want someone to implement it)</li>
+        <li>Programmers, Project Managers (PM), Team Leaders (Team Lead)…</li>
+        <li>Investors - companies, entrepreneurs, large/medium/small business owners</li>
       </ul>
-    </p>
-  </div>
-
-  <div>
-    <h3 class="text-xl font-semibold mb-2">ChatGPT qanday fikrda 😎:</h3>
-    <p class="text-gray-700 leading-relaxed">
-      Platformaning asosiy afzalliklari orasida:
-    </p>
-    <ul class="list-disc list-inside text-gray-700 leading-relaxed mb-4">
-      <li>G'oyalar va resurslarni samarali birlashtirish imkoniyati.</li>
-      <li>Innovatsion loyihalarni moliyalashtirish va ularni rivojlantirishda yordam berish.</li>
-      <li>Turli soha mutaxassislarini bir joyda to'plash orqali yangi hamkorlik va tarmoqlarni yaratish.</li>
-    </ul>
-    <p class="text-gray-700 leading-relaxed">
-      Bu kabi platforma ko'plab yosh tadbirkorlar va startupchilar uchun juda foydali bo'lishi mumkin, chunki u ularning g'oyalarini haqiqatga aylantirishda zarur bo'lgan resurslar va bilimlarga kirish imkonini beradi. Shuningdek, bu kabi platforma moliyaviy yordam va maslahatlar bilan ta'minlash orqali ularning loyihalarini yanada tezroq va samarali amalga oshirishlariga yordam beradi.
     </p>
   </div>
 </div>
