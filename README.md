@@ -62,3 +62,19 @@ npm run dev
 npm run build
 ```
 
+# Running Tests
+
+## Run all tests
+Execute the entire test suite:
+
+```bash
+php artisan test
+```
+
+## Run a specific test file
+To run tests from a specific file, provide the path:
+
+```bash
+php artisan test --filter InstaProfileTrackBotServiceTest
+```
+

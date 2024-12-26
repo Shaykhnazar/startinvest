@@ -63,6 +63,8 @@ class InstagramScraperService
         // Parse the HTML content
         $dom = HtmlDomParser::str_get_html($htmlContent);
 
+//        Log::info($dom);
+
         if ($dom === false) {
             Log::error("Failed to parse HTML content for URL: $profileUrl");
             return null;
