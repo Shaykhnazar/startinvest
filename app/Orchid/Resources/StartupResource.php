@@ -7,6 +7,7 @@ use App\Jobs\PublishStartupToSocialMediaJob;
 use App\Models\Industry;
 use App\Models\Startup;
 use App\Models\User;
+use App\Orchid\Actions\PublishToSocialMediaAction;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -14,7 +15,6 @@ use Illuminate\Validation\Rule;
 use Orchid\Crud\Action;
 use Orchid\Crud\Resource;
 use Orchid\Crud\ResourceRequest;
-use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Fields\Select;
 use Orchid\Screen\Fields\SimpleMDE;
 use Orchid\Screen\Fields\Relation;
@@ -46,30 +46,56 @@ class StartupResource extends Resource
     public function fields(): array
     {
         return [
-            Input::make('title')
-                ->required()
-                ->title('Project Title')
-                ->placeholder('Enter project title'),
+            Input::make('title.en')
+                ->title(__('Project Title (English)'))
+                ->placeholder(__('Enter project title in English'))
+                ->required(),
+
+            Input::make('title.ru')
+                ->title(__('Project Title (Russian)'))
+                ->placeholder(__('Enter project title in Russian')),
+
+            Input::make('title.uz_Latn')
+                ->title(__('Project Title (Uzbek - Latin)'))
+                ->placeholder(__('Enter project title in Uzbek (Latin)')),
+
+            SimpleMDE::make('description.en')
+                ->title(__('Project Description (English)'))
+                ->placeholder(__('Enter project description in English')),
+
+            SimpleMDE::make('description.ru')
+                ->title(__('Project Description (Russian)'))
+                ->placeholder(__('Enter project description in Russian')),
+
+            SimpleMDE::make('description.uz_Latn')
+                ->title(__('Project Description (Uzbek - Latin)'))
+                ->placeholder(__('Enter project description in Uzbek (Latin)')),
+
+            TextArea::make('additional_information.en')
+                ->title(__('Additional Information (English)'))
+                ->rows(5)
+                ->placeholder(__('Enter additional information in English')),
+
+            TextArea::make('additional_information.ru')
+                ->title(__('Additional Information (Russian)'))
+                ->rows(5)
+                ->placeholder(__('Enter additional information in Russian')),
+
+            TextArea::make('additional_information.uz_Latn')
+                ->title(__('Additional Information (Uzbek - Latin)'))
+                ->rows(5)
+                ->placeholder(__('Enter additional information in Uzbek (Latin)')),
 
             SimpleMDE::make('description')
                 ->title('Project Description')
-//                ->required()
                 ->value(function ($value, $model) {
                     $converter = new HtmlConverter();
-
-//                    dd($model);
-//                    dd($value);
                     if ($value) {
                         return $converter->convert($value);
                     }
                     return '';
                 })
                 ->placeholder('Enter project description'),
-
-            TextArea::make('additional_information')
-                ->title('Additional Information')
-                ->rows(5)
-                ->placeholder('Enter additional information'),
 
             DateTimer::make('start_date')
                 ->title('Start Date')
@@ -137,8 +163,10 @@ class StartupResource extends Resource
         return [
             TD::make('id', 'ID'),
 
-            TD::make('title', 'Title')
-                ->filter(TD::FILTER_TEXT),
+            TD::make('title', __('Title'))
+                ->render(function (Startup $model) {
+                    return $model->getTranslation('title', app()->getLocale());
+                }),
 
 
             TD::make('verified', 'Verified')
@@ -196,17 +224,19 @@ class StartupResource extends Resource
     public function legend(): array
     {
         return [
-            Sight::make('title', 'Project'),
-            Sight::make('description', 'Project Description')
-                ->render(function ($model) {
-                    return (strip_tags($model->description) === $model->description ? $model->description : strip_tags($model->description) === '') ? 'No description available' : $model->description; // Otherwise, allow rendering HTML
-                }),
-            Sight::make('additional_information', 'Additional Information'),
+            Sight::make('title', 'Project')->render(function ($model) {
+                return $model->title ?? 'No title available';
+            }),
+            Sight::make('description', 'Project Description')->render(function ($model) {
+                return strip_tags($model->description) == $model->description ? $model->description : 'No description available'; // Otherwise, allow rendering HTML
+            }),
+            Sight::make('additional_information', 'Additional Information')->render(function ($model) {
+                return $model->additional_information ?? 'No additional information available';
+            }),
             Sight::make('start_date', 'Start Date'),
-            Sight::make('owner_id', 'Project Owner')
-                ->render(function ($model) {
-                    return $model->owner ? $model->owner->name : 'N/A';
-                }),
+            Sight::make('owner_id', 'Project Owner')->render(function ($model) {
+                return $model->owner ? $model->owner->name : 'N/A';
+            }),
             Sight::make('type', 'Type'),
             Sight::make('has_mvp', 'Has MVP')->render(function ($model) {
                 return $model->has_mvp ? 'Yes' : 'No';
@@ -214,15 +244,12 @@ class StartupResource extends Resource
             Sight::make('status', 'Status')->render(function ($model) {
                 return $model->status->label ?? 'No status';
             }),
-            Sight::make('industries', 'Industries')
-                ->render(function ($model) {
-                    return $model->industries->pluck('title')->implode(', ');
-                }),
-
-            Sight::make('verified', 'Verified')
-                ->render(function ($model) {
-                    return $model->verified ? 'Yes' : 'No';
-                }),
+            Sight::make('industries', 'Industries')->render(function ($model) {
+                return $model->industries->pluck('title')->implode(', ');
+            }),
+            Sight::make('verified', 'Verified')->render(function ($model) {
+                return $model->verified ? 'Yes' : 'No';
+            }),
         ];
     }
 
@@ -235,9 +262,15 @@ class StartupResource extends Resource
     public function rules(Model $model): array
     {
         return [
-            'title' => 'required|string|max:255',
-            'description' => 'required|string',
-            'additional_information' => 'nullable|string',
+            'title.en' => 'required|string|max:255',
+            'title.ru' => 'nullable|string|max:255',
+            'title.uz_Latn' => 'nullable|string|max:255',
+            'description.en' => 'required|string',
+            'description.ru' => 'nullable|string',
+            'description.uz_Latn' => 'nullable|string',
+            'additional_information.en' => 'nullable|string',
+            'additional_information.ru' => 'nullable|string',
+            'additional_information.uz_Latn' => 'nullable|string',
             'start_date' => 'required|date',
             'owner_id' => 'required|exists:users,id',
             'has_mvp' => 'required|boolean',
@@ -292,4 +325,17 @@ class StartupResource extends Resource
     {
         return $this->model->verified ?? false;
     }
+
+    /**
+     * Actions for the resource.
+     *
+     * @return array
+     */
+    public function actions(): array
+    {
+        return [
+            PublishToSocialMediaAction::class
+        ];
+    }
+
 }
