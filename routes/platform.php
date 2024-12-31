@@ -2,6 +2,11 @@
 
 declare(strict_types=1);
 
+use App\Orchid\Screens\Blog\CategoryListScreen;
+use App\Orchid\Screens\Blog\CategoryEditScreen;
+use App\Orchid\Screens\Blog\PostDetailScreen;
+use App\Orchid\Screens\Blog\PostEditScreen;
+use App\Orchid\Screens\Blog\PostListScreen;
 use App\Orchid\Screens\Examples\ExampleActionsScreen;
 use App\Orchid\Screens\Examples\ExampleCardsScreen;
 use App\Orchid\Screens\Examples\ExampleChartsScreen;
@@ -102,3 +107,23 @@ Route::screen('/examples/charts', ExampleChartsScreen::class)->name('platform.ex
 Route::screen('/examples/cards', ExampleCardsScreen::class)->name('platform.example.cards');
 
 //Route::screen('idea', Idea::class, 'platform.screens.idea');
+
+// Blog routes
+Route::screen('blog/posts', PostListScreen::class)
+    ->name('platform.blog.posts');
+
+Route::screen('blog/posts/create', PostEditScreen::class)
+    ->name('platform.blog.posts.create');
+
+Route::screen('blog/posts/{post}/edit', PostEditScreen::class)
+    ->name('platform.blog.posts.edit');
+
+Route::screen('blog/posts/{post}/view', PostDetailScreen::class)
+    ->name('platform.blog.posts.view');
+
+
+Route::screen('blog/categories', CategoryListScreen::class)
+    ->name('platform.blog.categories');
+
+Route::screen('blog/categories/{category?}', CategoryEditScreen::class)
+    ->name('platform.blog.categories.edit');
