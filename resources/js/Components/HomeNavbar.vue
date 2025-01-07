@@ -38,11 +38,13 @@ const menuItems = reactive([
   //   route: 'investors',
   //   disabled: true
   // },
-  // {
-  //   name: 'Blog',
-  //   route: 'blog',
-  //   disabled: true
-  // },
+  {
+    name: wTrans('site.navbar.blog'),
+    route: 'blog.index',
+    svg: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5a2.5 2.5 0 00-2.5-2.5H15M9 11l3 3m0 0l3-3m-3 3V8" />
+    </svg>`
+  },
   {
     name: wTrans('site.navbar.about_us'),
     route: 'about-us',

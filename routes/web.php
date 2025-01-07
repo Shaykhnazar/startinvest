@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\Cabinet\CabinetController;
 use App\Http\Controllers\Cabinet\CabinetIdeaController;
 use App\Http\Controllers\Cabinet\CabinetStartupController;
@@ -37,6 +38,12 @@ Route::group([
     Route::get('/investors', [InvestorController::class, 'index'])->name('investors');
     Route::get('/chat', [ChatController::class, 'all'])->middleware(['auth'])->name('chat');
     Route::get('/chat/{friend}', [ChatController::class, 'personal'])->middleware(['auth'])->name('chat.cabinet');
+
+    Route::prefix('blog')->name('blog.')->group(function () {
+        Route::get('/', [BlogController::class, 'index'])->name('index');
+        Route::get('/category/{category:slug}', [BlogController::class, 'category'])->name('category');
+        Route::get('/{post:slug}', [BlogController::class, 'show'])->name('show');
+    });
 
     // Authenticated and Verified Routes
     Route::middleware(['auth', 'verified'])->prefix('dashboard')->name('dashboard.')->group(function () {

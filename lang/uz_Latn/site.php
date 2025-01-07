@@ -7,6 +7,7 @@ return [
         "login" => "Kirish",
         "dashboard" => "Boshqaruv Paneli",
         "contact" => "Aloqa",
+        "blog" => "Blog",
     ],
     "about_us" => [
         "title" => "Biz Haqimizda",
@@ -230,6 +231,13 @@ return [
                 'leave_team' => "Jamoani tark etish",
             ],
         ],
+    ],
+    "blog" => [
+        "title" => "Blog",
+        "posts" => "Maqolalar",
+        "related_posts" => "O'xshash maqolalar",
+        "post" => "Maqola",
+        "categories" => "Kategoriyalar",
     ],
     "auth" => [
         "sidebar" => [

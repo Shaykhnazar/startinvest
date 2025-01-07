@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 use Orchid\Filters\Filterable;
 use Orchid\Screen\AsSource;
 
@@ -24,7 +25,6 @@ class BlogPost extends Model
 
     protected $casts = [
         'published_at' => 'datetime',
-        'featured_image' => 'json'
     ];
 
     protected $allowedSorts = [
@@ -43,5 +43,14 @@ class BlogPost extends Model
     public function category()
     {
         return $this->belongsTo(BlogCategory::class, 'category_id');
+    }
+
+    public function getFeaturedImageUrlAttribute()
+    {
+        if (!$this->featured_image) {
+            return null;
+        }
+
+        return Storage::disk('public')->url($this->featured_image);
     }
 }

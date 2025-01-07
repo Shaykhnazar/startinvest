@@ -4,6 +4,9 @@ namespace App\Orchid\Screens\Blog;
 
 use App\Models\BlogPost;
 use App\Models\BlogCategory;
+use Carbon\Carbon;
+use League\HTMLToMarkdown\HtmlConverter;
+use Orchid\Screen\Fields\Cropper;
 use Orchid\Screen\Screen;
 use Orchid\Screen\Fields\Input;
 use Orchid\Screen\Fields\TextArea;
@@ -65,14 +68,13 @@ class PostEditScreen extends Screen
 
                         SimpleMDE::make('post.content')
                             ->title('Content')
-                            ->value(function ($value, $model) {
-                                if ($model && $model['post']->content) {
-                                    return $model['post']->content;
-                                }
-                                return $value ?? '';
-                            })
-                            ->placeholder('Enter post content')
-                            ->required(),
+//                            ->value(function ($value, $model) {
+//                                if ($model && $model['post']->content) {
+//                                    return $model['post']->content;
+//                                }
+//                                return $value ?? '';
+//                            })
+                            ->placeholder('Enter post content'),
 
                         TextArea::make('post.excerpt')
                             ->title('Excerpt')
@@ -92,13 +94,14 @@ class PostEditScreen extends Screen
 
                         DateTimer::make('post.published_at')
                             ->title('Publish date')
-                            ->format('Y-m-d H:i:s'),
+                            ->format('Y-m-d H:i:s')
+                            ->help('Leave empty to automatically set when publishing'),
 
-                        Upload::make('post.featured_image')
-                            ->title('Featured Image')
-                            ->maxFiles(1)
-                            ->maxFileSize(2)
-                            ->acceptedFiles('image/*'),
+                        Cropper::make('post.featured_image')
+                            ->title('Post Image')
+                            ->width(1000)
+                            ->height(500)
+                            ->required(),
                     ])
                 ]
             ])
@@ -114,21 +117,36 @@ class PostEditScreen extends Screen
             'post.category_id' => 'nullable|exists:blog_categories,id',
             'post.status' => 'required|in:draft,published',
             'post.published_at' => 'nullable|date',
-            'post.featured_image' => 'nullable|array'
+            'post.featured_image' => 'required|string',
         ]);
 
         // Extract validated data
         $data = $validated['post'];
 
+//        dd($data);
         // Handle featured image
-        if (isset($data['featured_image']) && is_array($data['featured_image'])) {
-            $data['featured_image'] = json_encode($data['featured_image']);
+        if (isset($data['featured_image'])) {
+            // Remove domain if present and keep only the path after /storage/
+            if (preg_match('/\/storage\/(.*)/', $data['featured_image'], $matches)) {
+                $data['featured_image'] = $matches[1];
+            }
         }
 
         // Convert Markdown back to HTML
         if (isset($data['content'])) {
             $parsedown = new \Parsedown();
             $data['content'] = $parsedown->parse($data['content']);
+        }
+
+        // Handle published_at date
+        if ($data['status'] === 'published') {
+            // If status is published and no published_at date is set, set it to now
+            if (empty($data['published_at']) && (!$post->exists || $post->status !== 'published')) {
+                $data['published_at'] = Carbon::now();
+            }
+        } else {
+            // If status is draft, clear the published_at date
+            $data['published_at'] = null;
         }
 
         // Fill the model with validated data

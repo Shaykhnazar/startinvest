@@ -21,8 +21,9 @@ import ApplicationLogo from '@/Components/ApplicationLogo.vue'
         <div class="mt-3 grid space-y-3 text-sm">
           <p><a class="inline-flex gap-x-2 text-gray-600 hover:text-gray-800 focus:outline-none focus:text-gray-800 dark:text-neutral-400 dark:hover:text-neutral-200 dark:focus:text-neutral-200" :href="route('ideas.index')">{{ $t('site.home.footer.ideas') }}</a></p>
           <p><a class="inline-flex gap-x-2 text-gray-600 hover:text-gray-800 focus:outline-none focus:text-gray-800 dark:text-neutral-400 dark:hover:text-neutral-200 dark:focus:text-neutral-200" :href="route('startups.index')">{{ $t('site.home.footer.startups') }}</a></p>
-          <p><a class="inline-flex gap-x-2 text-gray-600 hover:text-gray-800 focus:outline-none focus:text-gray-800 dark:text-neutral-400 dark:hover:text-neutral-200 dark:focus:text-neutral-200" :href="route('chat')">{{ $t('site.home.footer.chat') }}</a></p>
+          <p><a class="inline-flex gap-x-2 text-gray-600 hover:text-gray-800 focus:outline-none focus:text-gray-800 dark:text-neutral-400 dark:hover:text-neutral-200 dark:focus:text-neutral-200" :href="route('blog.index')">{{ $t('site.navbar.blog') }}</a></p>
           <p><a class="inline-flex gap-x-2 text-gray-600 hover:text-gray-800 focus:outline-none focus:text-gray-800 dark:text-neutral-400 dark:hover:text-neutral-200 dark:focus:text-neutral-200" :href="route('about-us')">{{ $t('site.home.footer.about_us') }}</a></p>
+          <p><a class="inline-flex gap-x-2 text-gray-600 hover:text-gray-800 focus:outline-none focus:text-gray-800 dark:text-neutral-400 dark:hover:text-neutral-200 dark:focus:text-neutral-200" :href="route('chat')">{{ $t('site.home.footer.chat') }}</a></p>
         </div>
       </div>
 <!--       End Col -->

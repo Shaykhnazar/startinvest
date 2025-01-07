@@ -7,6 +7,7 @@ return [
         "login" => "Вход",
         "dashboard" => "Панель управления",
         "contact" => "Контакт",
+        "blog" => "Блог",
     ],
     "about_us" => [
         "title" => "О нас",
@@ -230,6 +231,13 @@ return [
                 'leave_team' => 'Покинуть команду',
             ],
         ],
+    ],
+    "blog" => [
+        "title" => "Блог",
+        "posts" => "Публикации",
+        "related_posts" => "Связанные публикации",
+        "post" => "Публикация",
+        "categories" => "Категории",
     ],
     "auth" => [
         "sidebar" => [

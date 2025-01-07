@@ -83,10 +83,7 @@ class PostDetailScreen extends Screen
                 Sight::make('featured_image', 'Featured Image')
                     ->render(function ($post) {
                         if (!empty($post->featured_image)) {
-                            $images = json_decode($post->featured_image, true);
-                            if (isset($images[0])) {
-                                return "<img src='{$images[0]}' class='img-fluid' style='max-width: 300px;' />";
-                            }
+                            return "<img src='{$post->featured_image}' class='img-fluid' style='max-width: 300px;' />";
                         }
                         return 'No image';
                     }),

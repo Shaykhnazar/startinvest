@@ -7,6 +7,7 @@ return [
         "login" => "Log In",
         "dashboard" => "Dashboard",
         "contact" => "Contact",
+        "blog" => "Blog",
     ],
     "about_us" => [
         "title" => "About Us",
@@ -230,6 +231,13 @@ return [
                 'leave_team' => 'Leave Team',
             ],
         ],
+    ],
+    "blog" => [
+        "title" => "Blog",
+        "posts" => "Posts",
+        "related_posts" => "Related Posts",
+        "post" => "Post",
+        "categories" => "Categories",
     ],
     "auth" => [
         "sidebar" => [

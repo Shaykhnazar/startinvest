@@ -64,12 +64,7 @@ class PostListScreen extends Screen
                     }),
                 TD::make('featured_image')
                     ->render(function (BlogPost $post) {
-                        // If featured_image is array/json, display first image or placeholder
-                        if (!empty($post->featured_image)) {
-                            $images = json_decode($post->featured_image, true);
-                            return isset($images[0]) ? 'Image uploaded' : '-';
-                        }
-                        return '-';
+                        return $post->featured_image ?? '-';
                     }),
                 TD::make('published_at', 'Published')
                     ->sort()
