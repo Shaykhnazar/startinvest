@@ -1,7 +1,7 @@
 <template>
   <App>
     <template #header>
-      <Head :title="$t('site.startup.title')" />
+      <Head :title="$t('site.blog.posts')" />
     </template>
     <div class="container mx-auto px-4 py-8">
       <div class="flex flex-wrap -mx-4">

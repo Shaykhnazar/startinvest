@@ -99,8 +99,8 @@ class PostEditScreen extends Screen
 
                         Cropper::make('post.featured_image')
                             ->title('Post Image')
-                            ->width(1000)
-                            ->height(500)
+                            ->maxWidth(1024)
+                            ->maxHeight(1024)
                             ->required(),
                     ])
                 ]

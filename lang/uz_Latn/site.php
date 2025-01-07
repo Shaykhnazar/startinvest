@@ -233,7 +233,7 @@ return [
         ],
     ],
     "blog" => [
-        "title" => "Blog",
+        "title" => "Maqolalar",
         "posts" => "Maqolalar",
         "related_posts" => "O'xshash maqolalar",
         "post" => "Maqola",
