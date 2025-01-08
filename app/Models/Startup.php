@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\StartupTypeEnum;
+use App\Traits\Viewable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
@@ -18,7 +19,7 @@ use Spatie\Translatable\HasTranslations;
 
 class Startup extends Model
 {
-    use AsSource, Filterable, Attachable, SoftDeletes, HasTranslations;
+    use AsSource, Filterable, Attachable, SoftDeletes, HasTranslations, Viewable;
 
     public $translatable = ['title', 'description', 'additional_information'];
 

@@ -22,13 +22,18 @@ class BlogPostResource extends JsonResource
             'featured_image' => $this->when($this->featured_image, "/storage/$this->featured_image"),
             'status' => $this->status,
             'published_at' => $this->published_at?->format('F j, Y'),
-            'created_at' => $this->created_at?->format('F j, Y'),
-            'updated_at' => $this->updated_at?->format('F j, Y'),
+            'views_count' => $this->viewsCount(),
+            'unique_views_count' => $this->uniqueViewsCount(),
             'category' => $this->whenLoaded('category', function () {
                 return new BlogCategoryResource($this->category);
             }),
             $this->mergeWhen(in_array($request->route()->getName(), ['blog.edit', 'blog.show']), [
-                'content' => $this->content
+                'content' => $this->content,
+                'author' => new UserResource($this->author),
+                'upvotes' => $this->upvotes,
+                'downvotes' => $this->downvotes,
+                'comments' => CommentResource::collection($this->whenLoaded('comments')),
+                'comments_count' => $this->whenCounted('comments'),
             ])
         ];
     }

@@ -1,51 +1,76 @@
-<div class="markdown-content">
-    {!! $content !!}
+<div class="markdown-content prose max-w-none">
+    {!! Str::markdown($content) !!}
 </div>
 
 <style>
     .markdown-content {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-        line-height: 1.6;
-        padding: 1rem;
-        background: #fff;
-        border-radius: 4px;
+        max-width: 100%;
+        overflow-wrap: break-word;
     }
 
-    .markdown-content h1,
-    .markdown-content h2,
-    .markdown-content h3,
-    .markdown-content h4,
-    .markdown-content h5,
-    .markdown-content h6 {
-        margin-top: 24px;
-        margin-bottom: 16px;
-        font-weight: 600;
-        line-height: 1.25;
+    .markdown-content h1 {
+        font-size: 2em;
+        font-weight: bold;
+        margin-top: 1em;
+        margin-bottom: 0.5em;
+    }
+
+    .markdown-content h2 {
+        font-size: 1.5em;
+        font-weight: bold;
+        margin-top: 1em;
+        margin-bottom: 0.5em;
+    }
+
+    .markdown-content h3 {
+        font-size: 1.17em;
+        font-weight: bold;
+        margin-top: 1em;
+        margin-bottom: 0.5em;
     }
 
     .markdown-content p {
-        margin-bottom: 16px;
+        margin-bottom: 1em;
+        line-height: 1.6;
     }
 
-    .markdown-content img {
-        max-width: 100%;
-        height: auto;
+    .markdown-content ul, .markdown-content ol {
+        margin-left: 2em;
+        margin-bottom: 1em;
     }
 
-    .markdown-content code {
-        padding: .2em .4em;
-        margin: 0;
-        font-size: 85%;
-        background-color: rgba(27,31,35,.05);
-        border-radius: 3px;
+    .markdown-content ul {
+        list-style-type: disc;
     }
 
-    .markdown-content pre {
-        padding: 16px;
-        overflow: auto;
-        font-size: 85%;
-        line-height: 1.45;
-        background-color: #f6f8fa;
-        border-radius: 3px;
+    .markdown-content ol {
+        list-style-type: decimal;
+    }
+
+    .markdown-content li {
+        margin-bottom: 0.5em;
+    }
+
+    .markdown-content em {
+        font-style: italic;
+    }
+
+    .markdown-content strong {
+        font-weight: bold;
+    }
+
+    .markdown-content hr {
+        margin: 2em 0;
+        border: 0;
+        border-top: 1px solid #eaeaea;
+    }
+
+    .markdown-content a {
+        color: #3490dc;
+        text-decoration: underline;
+    }
+
+    .markdown-content a:hover {
+        color: #2779bd;
     }
 </style>

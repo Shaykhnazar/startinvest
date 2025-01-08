@@ -60,8 +60,17 @@ class PostDetailScreen extends Screen
 
                 Sight::make('content', 'Content')
                     ->render(function ($post) {
+                        // Fix heading spacing
+                        $content = preg_replace('/^(#{1,6}.*?)$/m', "\n$1\n", $post->content);
+
+                        // Fix list spacing
+                        $content = preg_replace('/^([*-])/m', "\n$1", $content);
+
+                        // Remove extra blank lines
+                        $content = preg_replace('/\n{3,}/', "\n\n", $content);
+
                         return view('partials.markdown-content', [
-                            'content' => $post->content
+                            'content' => trim($content)
                         ]);
                     }),
 

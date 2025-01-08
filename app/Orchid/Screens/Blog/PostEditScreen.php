@@ -133,10 +133,10 @@ class PostEditScreen extends Screen
         }
 
         // Convert Markdown back to HTML
-        if (isset($data['content'])) {
-            $parsedown = new \Parsedown();
-            $data['content'] = $parsedown->parse($data['content']);
-        }
+//        if (isset($data['content'])) {
+//            $parsedown = new \Parsedown();
+//            $data['content'] = $parsedown->parse($data['content']);
+//        }
 
         // Handle published_at date
         if ($data['status'] === 'published') {

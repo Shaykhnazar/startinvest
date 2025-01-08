@@ -13,13 +13,36 @@ export default {
 
     theme: {
         extend: {
-            fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
-            },
+          fontFamily: {
+            sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+          },
+          typography: {
+            DEFAULT: {
+              css: {
+                maxWidth: 'none',
+                h1: {
+                  marginTop: '2rem',
+                  marginBottom: '1rem',
+                },
+                h2: {
+                  marginTop: '1.5rem',
+                  marginBottom: '0.75rem',
+                },
+                h3: {
+                  marginTop: '1.25rem',
+                  marginBottom: '0.75rem',
+                }
+              }
+            }
+          }
         },
     },
 
     darkMode: 'class',
 
-    plugins: [forms, require('preline/plugin')],
+    plugins: [
+      forms,
+      require('preline/plugin'),
+      require('@tailwindcss/typography')
+    ],
 };

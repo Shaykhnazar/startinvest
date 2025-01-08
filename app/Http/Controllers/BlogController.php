@@ -55,6 +55,8 @@ class BlogController extends Controller
             abort(404);
         }
 
+        // Add view
+        $post->addView();
         $post->load('category');
 
         // Get related posts from same category

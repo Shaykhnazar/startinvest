@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\BlogPostController;
 use App\Http\Controllers\Api\IdeaController;
 use App\Http\Controllers\Api\StartupContributorController;
 use App\Http\Controllers\Api\StartupJoinRequestController;
@@ -26,6 +27,20 @@ Route::group(['prefix' => 'v1'], function () {
 //    Route::post('language-switch', [LanguageController::class, 'switchLanguage'])->name('language.switch')->middleware('web');
 
     Route::get('ideas/{idea}', [IdeaController::class, 'show'])->name('ideas.show');
+    // Blog public routes
+    Route::group(['prefix' => 'blog', 'as' => 'blog.', 'middleware' => ['web']], function () {
+        Route::get('posts/{post}/comments', [BlogPostController::class, 'comments'])->name('posts.comments');
+    });
+
+    // Blog authenticated routes
+    Route::group(['prefix' => 'blog', 'as' => 'blog.', 'middleware' => ['auth', 'web']], function () {
+        Route::post('posts/{post}/react', [BlogPostController::class, 'react'])->name('posts.react');
+
+        Route::post('posts/{post}/comments', [BlogPostController::class, 'storeComment'])->name('posts.comments.store');
+
+        Route::delete('posts/{post}/comments/{comment}', [BlogPostController::class, 'destroyComment'])
+            ->name('posts.comments.destroy');
+    });
 
     Route::group(['prefix' => 'ideas', 'as' => 'ideas.', 'middleware' => ['auth', 'web']], function () {
         Route::post('/add', [IdeaController::class, 'store'])->name('add');

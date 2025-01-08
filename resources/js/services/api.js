@@ -21,6 +21,14 @@ export default {
     removeContributor: (startupId, data) => api().patch(`startups/${startupId}/remove-contributor`, data),
     publishOnMedia: (startupId, platform) => api().put(`startups/${startupId}/publish-on-media/${platform}`),
   },
+  blog: {
+    posts: {
+      vote: (postId, data) => api().post(`blog/posts/${postId}/react`, data),
+      getComments: (postId, page = 1) => api().get(`blog/posts/${postId}/comments`, { params: { page } }),
+      addComment: (postId, data) => api().post(`blog/posts/${postId}/comments`, data),
+      deleteComment: (postId, commentId) => api().delete(`blog/posts/${postId}/comments/${commentId}`),
+    }
+  },
   notifications: {
     markAllAsRead: () => api().post('notifications/mark-all-as-read'),
     markAsRead: (id) => api().post(`notifications/${id}/mark-as-read`),

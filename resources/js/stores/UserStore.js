@@ -51,6 +51,31 @@ export const useUserStore = defineStore("UserStore", {
     getUnreadNotifications: (state) => {
       return state.authUser?.notifications.filter(notification => !notification.read_at) ?? [];
     },
+    // Blog related getters
+    hasVotedPost: (state) => (post) =>
+      state.authUser?.votes.some(vote =>
+        vote.voteable_id === post.id &&
+        vote.voteable_type === 'App\\Models\\BlogPost'
+      ),
+
+    hasUpvotedPost: (state) => (post) =>
+      state.authUser?.votes.some(vote =>
+        vote.voteable_id === post.id &&
+        vote.voteable_type === 'App\\Models\\BlogPost' &&
+        vote.type === VOTE_TYPES.UP
+      ),
+
+    hasDownvotedPost: (state) => (post) =>
+      state.authUser?.votes.some(vote =>
+        vote.voteable_id === post.id &&
+        vote.voteable_type === 'App\\Models\\BlogPost' &&
+        vote.type === VOTE_TYPES.DOWN
+      ),
+
+    canDeleteComment: (state) => (comment) =>
+      state.authUser && (
+        state.authUser.id === comment.author.id
+      ),
   },
   persist: {
     storage: sessionStorage,
