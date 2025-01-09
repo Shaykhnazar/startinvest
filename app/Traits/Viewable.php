@@ -23,14 +23,18 @@ trait Viewable
         $userAgent = request()->userAgent();
         $userId = Auth::id();
 
-        // Check if the user/ip has already viewed this item today
-        $existingView = $this->views()
-            ->where(function ($query) use ($ip, $userId) {
-                $query->where('ip_address', $ip)
-                    ->orWhere('user_id', $userId);
-            })
-//            ->whereDate('created_at', today())
-            ->exists();
+        $query = $this->views();
+
+        // Different logic for authenticated and guest users
+        if ($userId) {
+            // For authenticated users, check only user_id
+            $existingView = $query->where('user_id', $userId)->exists();
+        } else {
+            // For guests, check IP address
+            $existingView = $query->where('ip_address', $ip)
+                ->whereNull('user_id')
+                ->exists();
+        }
 
         if (!$existingView) {
             $this->views()->create([
