@@ -109,12 +109,14 @@ class CabinetStartupController extends Controller
         // Get translations for the fields
         $translations = $this->startupService->getTranslations($data);
 
-        // Update the startup with translated data
-        $startup->setTranslations('title', $translations['title'])
-            ->setTranslations('description', $translations['description'] ?? null)
-            ->setTranslations('additional_information', $translations['additional_information'] ?? null);
-
-        $startup->update(Arr::except($data, 'industry_ids'));
+        $startup->update(array_merge(
+            Arr::except($data, ['industry_ids']),
+            [
+                'title' => $translations['title'],
+                'description' => $translations['description'] ?? null,
+                'additional_information' => $translations['additional_information'] ?? null,
+            ]
+        ));
 
         if ($request->has('industry_ids')) {
             $startup->industries()->sync($request->input('industry_ids'));
