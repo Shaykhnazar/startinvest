@@ -65,13 +65,6 @@ const submitForm = () => {
   })
 }
 
-const contentChanged = () => {
-  if (editorRef.value === 'undefined') {
-    form.description = null
-  } else {
-    form.description = editorRef.value
-  }
-}
 const onCancel = () => {
   window.history.back()
 }
@@ -160,7 +153,12 @@ const onCancel = () => {
 
                   <div class="sm:col-span-9">
                     <el-form-item prop="description" :class="!locked ? 'required-field' : ''">
-                      <text-editor ref="editorRef" :content="form.description" :editable="!locked" @onChange="contentChanged"/>
+                      <MarkdownEditor
+                        ref="editorRef"
+                        v-model="form.description"
+                        placeholder="Write your content here..."
+                        unique-id="startup-form-description"
+                      />
                     </el-form-item>
                   </div>
                   <!-- End Col -->

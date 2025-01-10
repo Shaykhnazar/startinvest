@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useIdea } from '@/Composables/useIdea.ts'
-import {ref, reactive, watch} from 'vue';
+import {ref, reactive, watch, defineEmits} from 'vue';
 import type { FormInstance } from 'element-plus'
 import MarkdownEditor from "@/Components/MarkdownEditor.vue";
 import BaseFormInputLabel from "@/Components/BaseFormInputLabel.vue";
@@ -32,13 +32,6 @@ const editorRef = ref(null)
 const formRefComputed = ref<FormInstance>();
 const ideaForm = reactive(props.ideaForm || {});
 
-const contentChanged = () => {
-  if (editorRef.value === 'undefined') {
-    ideaForm.description = null
-  } else {
-    ideaForm.description = editorRef.value
-  }
-}
 function beforeSubmit(ideaForm) {
   // ideaForm.description = editorRef.value.getContentAsHTML()
   return ideaForm
@@ -113,8 +106,8 @@ watch(() => props.ideaForm, (newIdeaForm) => {
                   <MarkdownEditor
                     ref="editorRef"
                     v-model="ideaForm.description"
-                    placeholder="Write your blog post content here..."
-                    @change="contentChanged"
+                    placeholder="Write your content here..."
+                    unique-id="idea-form-description"
                   />
                 </el-form-item>
               </div>

@@ -59,14 +59,6 @@ const submitForm = () => {
   })).post('/dashboard/startups/add')
 }
 
-const contentChanged = () => {
-  if (editorRef.value === 'undefined') {
-    form.description = null
-  } else {
-    form.description = editorRef.value
-  }
-}
-
 
 const onCancel = () => {
   window.history.back()
@@ -157,9 +149,9 @@ const onCancel = () => {
                     <el-form-item prop="description"  :class="['editor-container', !locked ? 'required-field' : '']">
                       <MarkdownEditor
                         ref="editorRef"
-                        v-model="ideaForm.description"
-                        placeholder="Write your blog post content here..."
-                        @change="contentChanged"
+                        v-model="form.description"
+                        placeholder="Write your content here..."
+                        unique-id="startup-form-description"
                       />
                     </el-form-item>
                   </div>

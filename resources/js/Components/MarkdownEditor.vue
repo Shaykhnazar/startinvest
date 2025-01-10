@@ -5,7 +5,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount, watch } from 'vue'
+import { ref, onMounted, onBeforeUnmount, watch , defineEmits} from 'vue'
 import EasyMDE from 'easymde'
 import 'easymde/dist/easymde.min.css'
 
@@ -21,10 +21,14 @@ const props = defineProps({
   autosave: {
     type: Boolean,
     default: true
+  },
+  uniqueId: {
+    type: String,
+    default: 'editor-content'
   }
 })
 
-const emit = defineEmits(['update:modelValue', 'change'])
+const emit = defineEmits(['update:modelValue'])
 const editor = ref(null)
 let easyMDE = null
 
@@ -37,7 +41,7 @@ onMounted(() => {
     status: ['lines', 'words'],
     autosave: props.autosave ? {
       enabled: true,
-      uniqueId: 'editor-content',
+      uniqueId: props.uniqueId,
       delay: 1000,
     } : undefined,
     toolbar: [
@@ -74,7 +78,6 @@ onMounted(() => {
   easyMDE.codemirror.on('change', () => {
     const value = easyMDE.value()
     emit('update:modelValue', value)
-    emit('change', value)
   })
 })
 
