@@ -3,8 +3,9 @@ import { Comment, More } from '@element-plus/icons-vue'
 import Tooltip from '@/Components/Tooltip.vue'
 import { useUserStore } from '@/stores/UserStore.js'
 import { useIdea } from '@/Composables/useIdea.ts'
-import { ref, defineEmits } from 'vue'
+import { ref, defineEmits, computed } from 'vue'
 import { Link } from '@inertiajs/vue3'
+import { marked } from 'marked'
 
 defineProps({
   idea: Object,
@@ -31,7 +32,7 @@ const toggleDescription = async (idea) => {
   if (!showIdeaDescByCollapse.value && !ideaDescription.value) {
     isLoadingDescription.value = true
     try {
-      ideaDescription.value = idea.description
+      ideaDescription.value = marked(idea.description)
     } catch (error) {
       console.error('G\'oyaning tavsifini olishda xatolik:', error)
     } finally {
@@ -40,6 +41,14 @@ const toggleDescription = async (idea) => {
   }
   showIdeaDescByCollapse.value = !showIdeaDescByCollapse.value
 }
+
+// Configure marked options
+marked.setOptions({
+  breaks: true,
+  gfm: true,
+  headerIds: true,
+  mangle: false
+})
 </script>
 
 <template>

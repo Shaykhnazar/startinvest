@@ -3,6 +3,8 @@ import { Head, usePage, Link } from '@inertiajs/vue3';
 import { useFormatFriendlyDate } from '@/Composables/helpers';
 import App from '@/Layouts/App.vue'
 import Popover from '@/Components/Popover.vue'
+import { marked } from 'marked'
+import { computed } from 'vue'
 
 const page = usePage();
 const startup = page.props.startup.data;
@@ -14,6 +16,20 @@ const goToChat = (userId) => {
   const windowFeatures = "width=600,height=400,scrollbars=yes,resizable=yes";
   window.open(url, '_blank', windowFeatures);
 };
+
+// Configure marked options
+marked.setOptions({
+  breaks: true,
+  gfm: true,
+  headerIds: true,
+  mangle: false
+})
+
+// Convert markdown to HTML
+const renderedContent = computed(() => {
+  if (!startup.description) return ''
+  return marked(startup.description)
+})
 </script>
 
 <template>
@@ -49,7 +65,7 @@ const goToChat = (userId) => {
                   <p class="text-xs sm:text-sm text-gray-800 dark:text-neutral-200">{{ formatFriendlyDate(startup.start_date) }} {{ $t('site.startup.show.started_on') }}</p>
                 </div>
 
-                <p class="text-lg text-gray-800 dark:text-neutral-200" v-html="startup.description"></p>
+                <p class="text-lg text-gray-800 dark:text-neutral-200" v-html="renderedContent"></p>
 
                 <div class="space-y-3">
                   <h4 class="text-2xl font-semibold dark:text-white">{{ $t('site.startup.show.status') }}: <el-tag type="primary" round>{{ startup.status.label }}</el-tag></h4>

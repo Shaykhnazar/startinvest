@@ -1,8 +1,9 @@
 <script setup>
 import { Link, router } from '@inertiajs/vue3'
-import { reactive } from 'vue'
+import { reactive, computed } from 'vue'
 import { useUserStore } from '@/stores/UserStore.js'
 import { useFormatFriendlyDate } from '@/Composables/helpers.js'
+import { marked } from 'marked'
 
 const props = defineProps({
   startup: Object,
@@ -17,7 +18,19 @@ const viewStartup = (id) => {
 }
 
 const { formatFriendlyDate } = useFormatFriendlyDate()
+// Configure marked options
+marked.setOptions({
+  breaks: true,
+  gfm: true,
+  headerIds: true,
+  mangle: false
+})
 
+// Convert markdown to HTML
+const renderedContent = computed(() => {
+  if (!props.startup.description) return ''
+  return marked(props.startup.description)
+})
 </script>
 
 <template>
@@ -40,7 +53,7 @@ const { formatFriendlyDate } = useFormatFriendlyDate()
     </p>
 
     <p class="text-sm mt-4 text-dark-500 dark:text-neutral-300" v-if="showPage">
-      📖 {{ $t('site.startup.card.description') }} <span v-html="startup.description"></span>
+      📖 {{ $t('site.startup.card.description') }} <span v-html="renderedContent"></span>
     </p>
 
     <p class="text-sm mt-4 text-dark-500 dark:text-neutral-300">

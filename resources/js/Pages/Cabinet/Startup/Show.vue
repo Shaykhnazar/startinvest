@@ -2,12 +2,13 @@
 import { Head, router, usePage } from '@inertiajs/vue3'
 import CabinetLayout from '@/Layouts/CabinetLayout.vue'
 import { useFormatFriendlyDate } from '@/Composables/helpers'
-import { onMounted } from 'vue'
+import { computed, onMounted } from 'vue'
 import { JOIN_REQUEST_STATUSES } from '@/services/const.js'
 import api from '@/services/api.js'
 import { useElMessage } from '@/Composables/helpers.js'
 import MyStartupCardGrid from '@/Components/MyStartupCardGrid.vue'
 import { wTrans } from 'laravel-vue-i18n'
+import { marked } from 'marked'
 const { info, success } = useElMessage();
 
 
@@ -114,6 +115,20 @@ const publishToPlatform = async (platform) => {
     info(`Failed to publish on ${platform}`);
   }
 };
+
+// Configure marked options
+marked.setOptions({
+  breaks: true,
+  gfm: true,
+  headerIds: true,
+  mangle: false
+})
+
+// Convert markdown to HTML
+const renderedContent = computed(() => {
+  if (!startup.description) return ''
+  return marked(startup.description)
+})
 </script>
 
 <template>

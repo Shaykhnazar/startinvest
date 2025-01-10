@@ -1,7 +1,7 @@
 <script setup>
 import { Head, useForm, usePage } from '@inertiajs/vue3'
 import { ref } from 'vue'
-import TextEditor from '@/Components/tiptap/TextEditor.vue'
+import MarkdownEditor from "@/Components/MarkdownEditor.vue";
 import CabinetLayout from '@/Layouts/CabinetLayout.vue'
 import { useElMessage } from '@/Composables/helpers'
 import BaseFormInputLabel from '@/Components/BaseFormInputLabel.vue'
@@ -57,7 +57,7 @@ const editorRef = ref(null) // Add a ref for the text editor
 const submitForm = () => {
   form.transform((data) => ({
     ...data,
-    description: editorRef.value.getContentAsHTML(),
+    // description: editorRef.value.getContentAsHTML(),
   })).put(route('dashboard.startups.update', { id: startup.id }), {
     onSuccess: () => {
       success('Startup muvaffaqiyatli yangilandi!')
@@ -66,11 +66,10 @@ const submitForm = () => {
 }
 
 const contentChanged = () => {
-  if (editorRef.value.getContent().content.length === 1 &&
-    typeof editorRef.value.getContent().content[0].content === 'undefined') {
+  if (editorRef.value === 'undefined') {
     form.description = null
   } else {
-    form.description = editorRef.value.getContent()
+    form.description = editorRef.value
   }
 }
 const onCancel = () => {

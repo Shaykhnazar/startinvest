@@ -1,7 +1,7 @@
 <script setup>
 import { Head, useForm, usePage } from '@inertiajs/vue3'
 import { ref } from 'vue'
-import TextEditor from '@/Components/tiptap/TextEditor.vue'
+import MarkdownEditor from "@/Components/MarkdownEditor.vue";
 import CabinetLayout from '@/Layouts/CabinetLayout.vue'
 import BaseFormInputLabel from '@/Components/BaseFormInputLabel.vue'
 import BaseFormTextInput from '@/Components/BaseFormTextInput.vue'
@@ -55,16 +55,15 @@ const submitForm = () => {
 
   form.transform((data) => ({
     ...data,
-    description: editorRef.value.getContentAsHTML(),
+    // description: editorRef.value.getContentAsHTML(),
   })).post('/dashboard/startups/add')
 }
 
 const contentChanged = () => {
-  if (editorRef.value.getContent().content.length === 1 &&
-    typeof editorRef.value.getContent().content[0].content === 'undefined') {
+  if (editorRef.value === 'undefined') {
     form.description = null
   } else {
-    form.description = editorRef.value.getContent()
+    form.description = editorRef.value
   }
 }
 
@@ -155,8 +154,13 @@ const onCancel = () => {
                   <!-- End Col -->
 
                   <div class="sm:col-span-9">
-                    <el-form-item prop="description" :class="!locked ? 'required-field' : ''">
-                      <text-editor ref="editorRef" :content="form.description" :editable="!locked" @onChange="contentChanged"/>
+                    <el-form-item prop="description"  :class="['editor-container', !locked ? 'required-field' : '']">
+                      <MarkdownEditor
+                        ref="editorRef"
+                        v-model="ideaForm.description"
+                        placeholder="Write your blog post content here..."
+                        @change="contentChanged"
+                      />
                     </el-form-item>
                   </div>
                   <!-- End Col -->
@@ -309,4 +313,27 @@ const onCancel = () => {
 .common-layout {
   padding: 50px;
 }
+.editor-container {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+@media (max-width: 768px) {
+  .editor-container {
+    width: calc(100% + 2rem);
+    margin-left: -1rem;
+    margin-right: -1rem;
+  }
+
+  :deep(.el-form-item__content) {
+    margin-left: 0 !important;
+  }
+}
+
+/* Remove conflicting element-plus styles */
+:deep(.el-form-item__content) {
+  line-height: normal;
+}
+
 </style>
