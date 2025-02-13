@@ -13,7 +13,7 @@ class LinkedInPublisher extends BaseSocialMediaPublisher
     {
         parent::__construct($startup);
         // Retrieve the access token from your config or database
-        $this->linkedInAccessToken = config('services.linkedin.access_token');
+        $this->linkedInAccessToken = config('services.linkedin-openid.access_token');
     }
 
     /**
@@ -22,7 +22,7 @@ class LinkedInPublisher extends BaseSocialMediaPublisher
     public function publish(): void
     {
         try {
-            $companyId = config('services.linkedin.company_id');
+            $companyId = config('services.linkedin-openid.company_id');
 
             $message = "📢 Navbatdagi startup loyiha:\n";
             $message .= "🚀 {$this->startup->title}\n\n";

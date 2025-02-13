@@ -15,12 +15,24 @@ class SocialiteController extends Controller
 {
     public function redirectToProvider($provider)
     {
+        if ($provider == 'linkedin-openid') {
+            return Socialite::driver($provider)->scopes(['openid', 'profile', 'email', 'w_member_social'])->redirect();
+        }
+
         return Socialite::driver($provider)->redirect();
     }
 
     public function handleProviderCallback(Request $request, $provider)
     {
         $socialUser = Socialite::driver($provider)->user();
+
+        // Add debugging to see what we're getting back
+        \Log::info('LinkedIn User Data:', [
+            'email' => $socialUser->getEmail(),
+            'name' => $socialUser->getName(),
+            'id' => $socialUser->getId(),
+            'token' => $socialUser->token,
+        ]);
 
         $user = $this->findOrCreateUser($socialUser, $provider);
 
@@ -34,6 +46,7 @@ class SocialiteController extends Controller
         $user = User::where('email', $socialUser->getEmail())->first();
 
         $name = $socialUser->getNickname() ?? $socialUser->getName();
+        $avatar = $user->getAvatar();
 
         if (!$user) {
             $user = User::create([
@@ -41,6 +54,12 @@ class SocialiteController extends Controller
                 'email' => $socialUser->getEmail(),
                 'password' => Hash::make(Str::random(7)),
             ]);
+
+            if ($avatar) {
+                $user->details()->create([
+                    'avatar' => $avatar
+                ]);
+            }
         }
 
         $this->attachSocialsToUser($user, $socialUser, $provider);
