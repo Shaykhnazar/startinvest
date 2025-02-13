@@ -46,7 +46,7 @@ class SocialiteController extends Controller
         $user = User::where('email', $socialUser->getEmail())->first();
 
         $name = $socialUser->getNickname() ?? $socialUser->getName();
-        $avatar = $user->getAvatar();
+//        $avatar = $user->getAvatar();
 
         if (!$user) {
             $user = User::create([
@@ -55,11 +55,11 @@ class SocialiteController extends Controller
                 'password' => Hash::make(Str::random(7)),
             ]);
 
-            if ($avatar) {
-                $user->details()->create([
-                    'avatar' => $avatar
-                ]);
-            }
+//            if ($avatar) {
+//                $user->details()->create([
+//                    'avatar' => $avatar
+//                ]);
+//            }
         }
 
         $this->attachSocialsToUser($user, $socialUser, $provider);
