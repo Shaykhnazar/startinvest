@@ -1,0 +1,1 @@
+import{h as t,A as s,o as a,f as r,b as o,t as n}from"./app-CnNuEMmT.js";const c={class:"text-sm text-red-600 dark:text-red-400"},l={__name:"InputError",props:{message:{type:String}},setup(e){return(i,m)=>t((a(),r("div",null,[o("span",c,n(e.message),1)],512)),[[s,e.message]])}};export{l as _};
