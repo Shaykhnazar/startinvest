@@ -24,21 +24,26 @@ class SocialiteController extends Controller
 
     public function handleProviderCallback(Request $request, $provider)
     {
-        $socialUser = Socialite::driver($provider)->user();
+        try {
+            $socialUser = Socialite::driver($provider)->user();
 
-        // Add debugging to see what we're getting back
-        \Log::info('LinkedIn User Data:', [
-            'email' => $socialUser->getEmail(),
-            'name' => $socialUser->getName(),
-            'id' => $socialUser->getId(),
-            'token' => $socialUser->token,
-        ]);
+            // Add debugging to see what we're getting back
+            \Log::info('LinkedIn User Data:', [
+                'email' => $socialUser->getEmail(),
+                'name' => $socialUser->getName(),
+                'id' => $socialUser->getId(),
+                'token' => $socialUser->token,
+            ]);
 
-        $user = $this->findOrCreateUser($socialUser, $provider);
+            $user = $this->findOrCreateUser($socialUser, $provider);
+            Auth::login($user);
+            return redirect()->route('home');
 
-        Auth::login($user);
-
-        return redirect()->route('home');
+        } catch (\Exception $e) {
+            \Log::error('Socialite Error: ' . $e->getMessage());
+            return redirect()->route('login')
+                ->with('error', 'Authentication failed. Please try again.');
+        }
     }
 
     private function findOrCreateUser($socialUser, $provider)
@@ -46,7 +51,9 @@ class SocialiteController extends Controller
         $user = User::where('email', $socialUser->getEmail())->first();
 
         $name = $socialUser->getNickname() ?? $socialUser->getName();
-//        $avatar = $user->getAvatar();
+//        $avatar = $provider == 'linkedin-openid' ?
+//            $socialUser->avatar_original :
+//            $socialUser->getAvatar();
 
         if (!$user) {
             $user = User::create([
@@ -69,17 +76,21 @@ class SocialiteController extends Controller
 
     private function attachSocialsToUser($user, $socialUser, $provider)
     {
-        $socials = Social::where('provider', $provider)
-            ->where('user_id', $user->id)
-            ->first();
+        try {
+            $socials = Social::where('provider', $provider)
+                ->where('user_id', $user->id)
+                ->first();
 
-        if (!$socials) {
-            $user->socials()->create([
-                'provider_id' => $socialUser->getId(),
-                'provider' => $provider,
-                'provider_token' => $socialUser->token,
-                'provider_refresh_token' => $socialUser->refreshToken,
-            ]);
+            if (!$socials) {
+                $user->socials()->create([
+                    'provider_id' => $socialUser->getId(),
+                    'provider' => $provider,
+                    'provider_token' => $socialUser->token,
+                    'provider_refresh_token' => $socialUser->refreshToken ?? null, // Make refresh token optional
+                ]);
+            }
+        } catch (\Exception $e) {
+            \Log::error('Social attachment error: ' . $e->getMessage());
         }
     }
 }
