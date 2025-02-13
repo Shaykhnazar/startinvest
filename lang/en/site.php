@@ -8,6 +8,8 @@ return [
         "dashboard" => "Dashboard",
         "contact" => "Contact",
         "blog" => "Blog",
+        "language" => "Language",
+        "theme" => "Theme Mode"
     ],
     "about_us" => [
         "title" => "About Us",

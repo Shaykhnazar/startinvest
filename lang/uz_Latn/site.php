@@ -5,9 +5,11 @@ return [
         "startups" => "Startaplar",
         "about_us" => "Biz Haqimizda",
         "login" => "Kirish",
-        "dashboard" => "Boshqaruv Paneli",
+        "dashboard" => "Kabinet",
         "contact" => "Aloqa",
         "blog" => "Blog",
+        "language" => "Til",
+        "theme" => "Mavzu"
     ],
     "about_us" => [
         "title" => "Biz Haqimizda",

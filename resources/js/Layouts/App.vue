@@ -32,7 +32,7 @@ onMounted(() => {
   <slot name="header" />
 
   <el-container class="main-container bg-[#F4F2EE] dark:bg-[#000000]">
-    <el-header class="sticky top-0 flex flex-wrap md:justify-start md:flex-nowrap z-50 w-full bg-white dark:bg-[#262626]" style="padding-bottom: 5rem">
+    <el-header class="sticky top-0 z-50 w-full bg-white dark:bg-[#262626] p-0" height="64">
       <home-navbar/>
     </el-header>
     <el-main>
@@ -50,5 +50,10 @@ onMounted(() => {
   flex-direction: column;
   min-height: 100vh; /* Ensures the container takes at least the full viewport height */
   padding-bottom: 0;
+}
+:deep(.el-header) {
+  height: var(--el-header-height) !important;
+  padding: 0;
+  box-sizing: border-box;
 }
 </style>

@@ -8,6 +8,8 @@ return [
         "dashboard" => "Панель управления",
         "contact" => "Контакт",
         "blog" => "Блог",
+        "language" => "Язык",
+        "theme" => "Тема"
     ],
     "about_us" => [
         "title" => "О нас",
