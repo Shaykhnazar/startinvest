@@ -17,14 +17,20 @@ class ProfileUpdateDetailsRequest extends FormRequest
     {
         return [
             // Additional fields for user details
-            'avatar' => ['nullable', 'string'], // Assuming a URL or a file path
-            'cover_photo' => ['nullable', 'string'], // Assuming a URL or a file path
-            'resume' => ['nullable', 'string'], // Assuming a URL or a file path
+            'avatar' => ['nullable', 'image', 'max:2048'],
+            'cover_photo' => ['nullable', 'image', 'max:2048'],
+            'resume' => ['nullable', 'file', 'mimes:pdf,doc,docx', 'max:5120'],
             'bio' => ['nullable', 'string', 'max:1000'],
             'skills' => ['nullable', 'array'],
-            'skills.*' => ['string', 'max:255'], // Validation for each skill if it's an array of strings
-            'experience' => ['nullable', 'string', 'max:1000'],
-            'education' => ['nullable', 'string', 'max:1000'],
+            'skills.*' => ['string', 'max:50'],
+            'experience' => ['nullable', 'array'],
+            'experience.*.company' => ['required', 'string'],
+            'experience.*.position' => ['required', 'string'],
+            'experience.*.period' => ['required', 'array'],
+            'education' => ['nullable', 'array'],
+            'education.*.institution' => ['required', 'string'],
+            'education.*.degree' => ['required', 'string'],
+            'education.*.period' => ['required', 'array'],
             'organization' => ['nullable', 'string', 'max:255'],
 
             // Validation for social profiles if they are part of the request

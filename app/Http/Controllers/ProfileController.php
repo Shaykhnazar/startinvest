@@ -62,19 +62,31 @@ class ProfileController extends Controller
     public function updateDetails(ProfileUpdateDetailsRequest $request): RedirectResponse
     {
         $user = $request->user();
+        $data = $request->validated();
 
-        // Update user detail
-        $userDetail = $user->details ?? new UserDetail(['user_id' => $user->id]);
-        $userDetail->fill($request->only([
-            'avatar', 'cover_photo', 'resume', 'bio', 'skills',
-            'experience', 'education', 'organization'
-        ]));
-        $userDetail->save();
+        // Handle file uploads
+        if ($request->hasFile('avatar')) {
+            $data['avatar'] = $request->file('avatar')->store('avatars', 'public');
+        }
+
+        if ($request->hasFile('cover_photo')) {
+            $data['cover_photo'] = $request->file('cover_photo')->store('cover_photos', 'public');
+        }
+
+        if ($request->hasFile('resume')) {
+            $data['resume'] = $request->file('resume')->store('resumes', 'public');
+        }
+
+        // Update or create user details
+        $user->details()->updateOrCreate(
+            ['user_id' => $user->id],
+            $data
+        );
 
         // Update or create social profiles
         $socialProfilesData = $request->input('social_profiles', []);
         foreach ($socialProfilesData as $profileData) {
-            $socialProfile = $user->socialProfiles()->updateOrCreate(
+            $user->socialProfiles()->updateOrCreate(
                 ['social_profile_type' => $profileData['social_profile_type']],
                 ['url' => $profileData['url']]
             );
