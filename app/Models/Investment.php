@@ -19,10 +19,12 @@ class Investment extends Model
         'startup_id',
         'investor_id',
         'investment_stage_id',
+        'investment_round_id',
         'amount',
         'equity_percentage',
         'status',
         'invested_at',
+        'confirmed_at',
         'expected_return',
         'actual_return',
         'exit_date',
@@ -35,9 +37,10 @@ class Investment extends Model
 
     protected $casts = [
         'invested_at' => 'datetime',
+        'confirmed_at' => 'datetime',
         'exit_date' => 'datetime',
         'amount' => 'decimal:2',
-        'equity_percentage' => 'decimal:2',
+        'equity_percentage' => 'decimal:4',
         'expected_return' => 'decimal:2',
         'actual_return' => 'decimal:2',
         'documents' => 'array',
@@ -60,6 +63,16 @@ class Investment extends Model
     public function investmentStage(): BelongsTo
     {
         return $this->belongsTo(InvestmentStage::class);
+    }
+
+    public function investmentRound(): BelongsTo
+    {
+        return $this->belongsTo(InvestmentRound::class);
+    }
+
+    public function portfolioTracking(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(PortfolioTracking::class);
     }
 
     public function investmentDocuments(): HasMany

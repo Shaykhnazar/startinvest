@@ -85,6 +85,16 @@ class Startup extends Model
         return $this->hasOne(StartupPublication::class);
     }
 
+    public function investments(): HasMany
+    {
+        return $this->hasMany(Investment::class);
+    }
+
+    public function investmentRounds(): HasMany
+    {
+        return $this->hasMany(InvestmentRound::class);
+    }
+
     public function scopePublic(Builder $builder): Builder
     {
         return $builder->where('type', StartupTypeEnum::PUBLIC);
