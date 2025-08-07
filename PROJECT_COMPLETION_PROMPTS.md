@@ -590,3 +590,53 @@ Execute Prompts 11-13 (Enhanced Features and Deployment)
 5. **Add specific business rules** that may be unique to your platform
 
 Each prompt is designed to be comprehensive and self-contained, providing Claude Code with enough context to implement robust, production-ready features that integrate seamlessly with the existing codebase.
+
+---
+
+## 🤖 AUTOMATED EXECUTION WITH CLAUDE CODE
+
+### Quick Start Guide
+
+1. **Setup Automation** (Run once):
+   ```bash
+   chmod +x development-scripts/*.sh
+   ./development-scripts/setup-automation.sh
+   ```
+
+2. **Copy-Paste Ready Prompts**: Each phase in `EXECUTION_ROADMAP.md` contains ready-to-use prompts with automated commit instructions.
+
+3. **Execute Systematically**: Follow the roadmap phases in order, each prompt will automatically:
+   - Implement the required functionality
+   - Run tests to verify implementation
+   - Create descriptive git commits
+   - Push changes to the feature branch
+
+### Automated Commit Format
+
+All prompts include these automated commit instructions:
+
+```bash
+AUTOMATED COMMIT INSTRUCTIONS:
+After completing implementation:
+1. Run `git status` and `php artisan test`
+2. Add files: `git add .`
+3. Create commit with formatted message
+4. Push: `git push origin feature/automated-completion`
+```
+
+### Execution Order
+
+Follow this strict order for optimal results:
+
+**Phase 1**: Investment System Core (CRITICAL - Must fix first!)
+**Phase 2**: Investor Profile System  
+**Phase 3**: Financial Tracking System
+**Phase 4**: Analytics and Search
+**Phase 5**: Security and Payments
+**Phase 6**: Testing and Deployment
+
+### Complete Automation
+
+The `EXECUTION_ROADMAP.md` file contains **12 copy-paste ready prompts** that will systematically complete the entire Startinvest.uz platform with automated git commits after each step.
+
+🎯 **Result**: A fully functional investment platform with comprehensive features, proper testing, and production-ready deployment configuration.

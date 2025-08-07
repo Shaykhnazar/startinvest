@@ -1,0 +1,17 @@
+# [type]: [brief description]
+
+# [detailed description of changes]
+# - [bullet point 1]
+# - [bullet point 2]
+# - [bullet point 3]
+
+# Workflow automatically setup by us
+
+# Types:
+# feat: new feature
+# fix: bug fix
+# docs: documentation changes
+# style: formatting, missing semicolons, etc.
+# refactor: code refactoring
+# test: adding tests
+# chore: maintenance tasks
