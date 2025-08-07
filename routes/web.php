@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AnalyticsController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\Cabinet\CabinetController;
 use App\Http\Controllers\Cabinet\CabinetIdeaController;
@@ -7,9 +8,11 @@ use App\Http\Controllers\Cabinet\CabinetStartupController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\IdeaController;
+use App\Http\Controllers\InvestmentRoundController;
 use App\Http\Controllers\InvestorController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\StartupController;
 use Illuminate\Support\Facades\Route;
 use Telegram\Bot\Laravel\Facades\Telegram;
@@ -38,6 +41,42 @@ Route::group([
     Route::get('/investors', [InvestorController::class, 'index'])->name('investors');
     Route::get('/chat', [ChatController::class, 'all'])->middleware(['auth'])->name('chat');
     Route::get('/chat/{friend}', [ChatController::class, 'personal'])->middleware(['auth'])->name('chat.cabinet');
+
+    // Search Routes
+    Route::prefix('search')->name('search.')->group(function () {
+        Route::get('/', [SearchController::class, 'index'])->name('index');
+        Route::get('/startups', [SearchController::class, 'startups'])->name('startups');
+        Route::get('/investors', [SearchController::class, 'investors'])->name('investors');
+        Route::get('/investment-rounds', [SearchController::class, 'investmentRounds'])->name('investment-rounds');
+        Route::get('/suggestions', [SearchController::class, 'suggestions'])->name('suggestions');
+        Route::get('/advanced', [SearchController::class, 'advanced'])->name('advanced');
+        Route::get('/filter-options', [SearchController::class, 'filterOptions'])->name('filter-options');
+        
+        Route::middleware('auth')->group(function () {
+            Route::post('/save', [SearchController::class, 'saveSearch'])->name('save');
+            Route::get('/recent', [SearchController::class, 'recentSearches'])->name('recent');
+        });
+    });
+
+    // Analytics Routes (Admin/Authorized users only)
+    Route::middleware(['auth', 'verified'])->prefix('analytics')->name('analytics.')->group(function () {
+        Route::get('/', [AnalyticsController::class, 'dashboard'])->name('dashboard');
+        Route::get('/investments', [AnalyticsController::class, 'investments'])->name('investments');
+        Route::get('/investors', [AnalyticsController::class, 'investors'])->name('investors');
+        Route::get('/startups', [AnalyticsController::class, 'startups'])->name('startups');
+        Route::get('/custom', [AnalyticsController::class, 'custom'])->name('custom');
+        Route::get('/export', [AnalyticsController::class, 'export'])->name('export');
+    });
+
+    // Investment Rounds Routes
+    Route::prefix('investment-rounds')->name('investment-rounds.')->group(function () {
+        Route::get('/', [InvestmentRoundController::class, 'index'])->name('index');
+        Route::get('/{investmentRound}', [InvestmentRoundController::class, 'show'])->name('show');
+        
+        Route::middleware(['auth', 'verified'])->group(function () {
+            Route::post('/{investmentRound}/invest', [InvestmentRoundController::class, 'invest'])->name('invest');
+        });
+    });
 
     Route::prefix('blog')->name('blog.')->group(function () {
         Route::get('/', [BlogController::class, 'index'])->name('index');
