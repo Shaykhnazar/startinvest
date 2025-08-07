@@ -48,7 +48,7 @@ export default defineConfig({
   },
   server: {
     host: true,
-    port: env.VITE_ASSET_PORT,
+    port: 8080,
     strictPort: true,
     hmr: {
       host: env.VITE_ASSET_HOST,
