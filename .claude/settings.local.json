@@ -3,7 +3,8 @@
     "allow": [
       "Bash(php artisan make:migration:*)",
       "Bash(php artisan test:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(mkdir:*)"
     ],
     "deny": []
   }
