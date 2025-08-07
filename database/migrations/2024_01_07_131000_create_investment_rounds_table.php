@@ -10,62 +10,30 @@ return new class extends Migration
     {
         Schema::create('investment_rounds', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('startup_id')->constrained()->onDelete('cascade');
-            $table->foreignId('stage_id')->nullable()->constrained('investment_stages')->onDelete('set null');
-            
-            // Basic round information
-            $table->string('name');
-            $table->string('round_type')->nullable(); // seed, series_a, series_b, etc.
-            $table->decimal('target_amount', 15, 2);
-            $table->decimal('raised_amount', 15, 2)->default(0);
-            $table->decimal('min_investment', 15, 2)->nullable();
-            $table->decimal('max_investment', 15, 2)->nullable();
-            
-            // Valuation and shares
-            $table->decimal('price_per_share', 15, 4)->nullable();
-            $table->decimal('pre_money_valuation', 15, 2)->nullable();
-            $table->decimal('post_money_valuation', 15, 2)->nullable();
-            $table->bigInteger('total_shares')->nullable();
-            $table->bigInteger('shares_offered')->nullable();
-            
-            // Timeline
-            $table->datetime('deadline')->nullable();
-            $table->enum('status', ['draft', 'active', 'open', 'closed', 'successful', 'failed', 'cancelled'])->default('draft');
-            
-            // Details
+            $table->foreignId('startup_id')->constrained('startups')->onDelete('cascade');
+            $table->string('round_name'); // Seed, Series A, Series B, etc.
+            $table->string('round_type')->index(); // seed, series_a, series_b, bridge, etc.
+            $table->decimal('target_amount', 15, 2); // Target funding amount
+            $table->decimal('raised_amount', 15, 2)->default(0); // Amount raised so far
+            $table->decimal('pre_valuation', 15, 2)->nullable(); // Pre-money valuation
+            $table->decimal('post_valuation', 15, 2)->nullable(); // Post-money valuation
+            $table->integer('investors_count')->default(0); // Number of investors
+            $table->string('status')->default('planning')->index(); // planning, active, closed, cancelled
+            $table->date('start_date')->nullable()->index();
+            $table->date('target_close_date')->nullable();
+            $table->date('actual_close_date')->nullable()->index();
             $table->text('description')->nullable();
-            $table->text('terms_summary')->nullable();
-            $table->json('use_of_funds')->nullable();
-            $table->json('investor_perks')->nullable();
-            $table->json('required_documents')->nullable();
-            $table->json('risk_factors')->nullable();
-            
-            // Legal and compliance
-            $table->string('legal_structure')->nullable();
-            $table->string('securities_type')->nullable();
-            $table->decimal('minimum_commitment', 15, 2)->nullable();
-            $table->boolean('is_accredited_only')->default(false);
-            $table->json('geographical_restrictions')->nullable();
-            
-            // Important dates
-            $table->datetime('launched_at')->nullable();
-            $table->datetime('closed_at')->nullable();
-            
-            // Platform fees
-            $table->decimal('success_fee_percentage', 5, 2)->nullable();
-            $table->decimal('platform_fee', 15, 2)->nullable();
-            
-            // Additional notes
-            $table->text('notes')->nullable();
-            
+            $table->json('terms')->nullable(); // Store terms and conditions
+            $table->string('lead_investor')->nullable(); // Lead investor name
+            $table->decimal('minimum_investment', 10, 2)->nullable();
+            $table->boolean('is_public')->default(false); // Whether round is publicly visible
+
             $table->timestamps();
             $table->softDeletes();
-            
+
             $table->index(['startup_id', 'status']);
-            $table->index('status');
-            $table->index('round_type');
-            $table->index(['deadline', 'status']);
-            $table->index('launched_at');
+            $table->index(['round_type', 'status']);
+            $table->index(['start_date', 'target_close_date']);
         });
     }
 
